@@ -1,0 +1,77 @@
+#!/usr/bin/python
+
+# Part of the Aurai set of modules, providing a limited set of administration commands
+# to the Training Wheels application.
+#
+# Usage:
+#
+# path='/path/to/file'
+#   Returns the file contents from /path/to/file.
+#
+# path='/path/to/file' action='append' text='some text'
+#   Appends 'some text' to the file '/path/to/file' and returns the result.
+#
+# path='/path/to/file' action='overwrite' text='some text'
+#   Overwrite the file at '/path/to/file' with the text 'some text', returns the result.
+
+import sys
+import json
+import shlex
+
+#================================
+# Helper functions.
+
+def exit_json(rc=0, **kwargs):
+    print json.dumps(kwargs)
+    sys.exit(rc)
+
+def fail_json(**kwargs):
+    kwargs['failed'] = True
+    exit_json(rc=1, **kwargs)
+
+#================================
+# Process the arguments, creating named variables to hold them all.
+
+args_file = sys.argv[1]
+args_data = file(args_file).read()
+arguments = shlex.split(args_data)
+
+if not len(arguments):
+    fail_json(msg='the module requires arguments -a')
+
+params = {}
+for arg in arguments:
+    (k, v) = arg.split("=")
+    params[k] = v
+
+action = params.get('action', None)
+path = params.get('path', None)
+text = params.get('text', None)
+
+#================================
+# Main procedures.
+
+if path is None:
+    fail_json(msg='a path= argument containing file path must be provided')
+
+if action == 'overwrite' or action == 'append':
+    if text is None:
+        fail_json(msg='when overwriting or appending, you must provide a text= argument')
+
+try:
+    if action == 'append':
+        file = open(path, 'a+')
+        file.write("\n" + text + "\n")
+    elif action == 'overwrite':
+        file = open(path, 'w+')
+        file.write(text)
+    else:
+        file = open(path, 'r')
+    file.flush()
+    file.seek(0)
+    file_contents = file.read()
+    file.close()
+    exit_json(contents=file_contents)
+
+except IOError as e:
+    fail_json(msg='file IO error')
