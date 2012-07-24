@@ -89,7 +89,7 @@ def main():
         if res:
             module.fail_json(msg="chown error %s: %s" % (name, msg))
 
-    module.exit_json(changed=True,msg="rsync successfull")
+    module.exit_json(changed=True,msg="rsync successful")
 
 
 # this is magic, see lib/ansible/module_common.py
