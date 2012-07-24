@@ -1,0 +1,97 @@
+#!/usr/bin/python
+
+# (c) 2012, Mark Theunissen <mark.theunissen@gmail.com>
+# Sponsored by Four Kitchens http://fourkitchens.com.
+#
+# This file is part of the Aurai application, providing commands
+# for use in Training Wheels.
+#
+# Aurai is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Aurai is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Aurai.  If not, see <http://www.gnu.org/licenses/>.
+
+#
+# Usage:
+#
+# source_user=bob target_user=alice dir=webroot
+#   Use rsync to sync the webroot folder from bob's home to alice's home.
+#
+
+import pwd
+
+# ===========================================
+# Support methods.
+#
+
+def user_exists(user):
+    try:
+        if pwd.getpwnam(user):
+            return True
+    except KeyError:
+        return False
+
+def dir_exists(path):
+    if os.path.lexists(path):
+        if not os.path.islink(path) and not os.path.isfile(path):
+            return True
+    return False
+
+def shell_exec(cmd):
+    call = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = call.communicate()
+    if call.returncode == 0:
+        return 0, ''
+    else:
+        return call.returncode, out+err
+
+# ===========================================
+# Module execution.
+#
+
+def main():
+    module = AnsibleModule(
+        argument_spec = dict(
+            dir=dict(required=True),
+            source_user=dict(required=True),
+            target_user=dict(required=True)
+        )
+    )
+    dir = module.params["dir"]
+    source_user = module.params["source_user"]
+    target_user = module.params["target_user"]
+
+    if source_user == target_user:
+        module.fail_json(msg="source user and target user cannot be the same")
+
+    if not user_exists(source_user) or not user_exists(target_user):
+        module.fail_json(msg="the user does not exist in the system")
+
+    source = "/home/%s/%s/" % (source_user,dir)
+    target = "/home/%s/%s/" % (target_user,dir)
+
+    if not dir_exists(source):
+        module.fail_json(msg="the source directory does not exist")
+
+    res,msg = shell_exec(["/usr/bin/rsync","-a","--delete",source,target])
+    if res:
+        module.fail_json(msg="rsync error %s: %s" % (name, msg))
+    else:
+        res,msg = shell_exec(["/bin/chown","-R",target_user + ":", target])
+        if res:
+            module.fail_json(msg="chown error %s: %s" % (name, msg))
+
+    module.exit_json(changed=True,msg="rsync successfull")
+
+
+# this is magic, see lib/ansible/module_common.py
+#<<INCLUDE_ANSIBLE_MODULE_COMMON>>
+main()

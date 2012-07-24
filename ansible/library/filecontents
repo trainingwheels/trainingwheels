@@ -35,13 +35,17 @@ def main():
     module = AnsibleModule(
         argument_spec = dict(
             path=dict(required=True),
-            action=dict(default="get", choices=["get","append","overwrite"]),
+            action=dict(default="get", choices=["get","append","overwrite","replace"]),
             text=dict(default=None),
+            old=dict(default=None),
+            new=dict(default=None)
         )
     )
     action = module.params["action"]
     path = module.params["path"]
     text = module.params["text"]
+    old = module.params["old"]
+    new = module.params["new"]
 
     if action == "overwrite" or action == "append":
         if text is None:
@@ -56,6 +60,15 @@ def main():
             file.write(text)
         elif action == "get":
             file = open(path, 'r')
+        elif action == "replace":
+            if old is None or new is None:
+                module.fail_json(msg='replace action requires new= and old= arguments')
+            sourcefile = open(path, 'r')
+            text = sourcefile.read()
+            text = text.replace(old, new)
+            sourcefile.close()
+            file = open(path, 'w+')
+            file.write(text)
         file.flush()
         file.seek(0)
         file_contents = file.read()
