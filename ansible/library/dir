@@ -1,0 +1,86 @@
+#!/usr/bin/python
+
+# (c) 2012, Mark Theunissen <mark.theunissen@gmail.com>
+# Sponsored by Four Kitchens http://fourkitchens.com.
+#
+# This file is part of the Aurai application, providing commands
+# for use in Training Wheels.
+#
+# Aurai is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Aurai is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Aurai.  If not, see <http://www.gnu.org/licenses/>.
+
+#
+# Usage:
+#
+# dir=/path/to/dir
+#   Verify directory exists.
+#
+# dir=/path/to/dir mode=777 recurse=yes
+#   Recursively chmod the directory to 777
+#
+
+# ===========================================
+# Support methods.
+#
+
+def dir_exists(path):
+    if os.path.lexists(path):
+        if not os.path.islink(path) and not os.path.isfile(path):
+            return True
+    return False
+
+def shell_exec(cmd):
+    call = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = call.communicate()
+    if call.returncode == 0:
+        return 0, ''
+    else:
+        return call.returncode, out+err
+
+# ===========================================
+# Module execution.
+#
+
+def main():
+    module = AnsibleModule(
+        argument_spec = dict(
+            path=dict(required=True),
+            mode=dict(default=None),
+            recurse=dict(default="no",choices=["yes","no"]),
+        )
+    )
+    path = module.params["path"]
+    mode = module.params["mode"]
+    recurse = module.params["recurse"]
+
+    changed = False
+
+    if dir_exists(path):
+        state = 'directory'
+    else:
+        state = 'other'
+
+    if state == 'directory' and mode is not None:
+        if recurse == "yes":
+            res,msg = shell_exec(["/bin/chmod","-R",mode,path])
+        else:
+            res,msg = shell_exec(["/bin/chmod",mode,path])
+        changed = True
+        if res:
+            module.fail_json(msg="chmod error %s: %s" % (path, msg))
+
+    module.exit_json(state=state,changed=False)
+
+# this is magic, see lib/ansible/module_common.py
+#<<INCLUDE_ANSIBLE_MODULE_COMMON>>
+main()
