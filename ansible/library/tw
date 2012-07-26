@@ -118,6 +118,22 @@ def db_exists(db):
     else:
         return False
 
+def git_repo_clone(user,repo,path):
+    res,out = shell_exec(["git","clone","-q",repo,path])
+    shell_exec(["chown","-R","%s:" % user,path])
+
+def git_branch_get(path):
+    res,out = shell_exec("cd %s; git rev-parse --abbrev-ref HEAD" % path, True)
+    return out.strip()
+
+def git_local_changes(path):
+    res,out = shell_exec("cd %s; git st -s" % path, True)
+    return out.strip()
+
+def git_remote(path):
+    res,out = shell_exec("cd %s; git remote -v" % path, True)
+    return out.strip()
+
 # ===========================================
 # Module execution.
 #
@@ -132,6 +148,7 @@ def main():
             db=dict(default=None),
             path=dict(default=None),
             gzip=dict(default=None),
+            repo=dict(default=None),
         )
     )
     action = module.params["action"]
@@ -141,6 +158,7 @@ def main():
     db = module.params["db"]
     path = module.params["path"]
     gzip = module.params["gzip"]
+    repo = module.params["repo"]
 
     if action == "usercreate":
         if user is not None and passwd is not None:
@@ -196,9 +214,13 @@ def main():
             module.fail_json(msg="need a db parameter")
 
     elif action == "gitrepoclone":
+        git_repo_clone(user,repo,path)
     elif action == "gitbranchget":
+        module.exit_json(branch=git_branch_get(path))
     elif action == "gitlocalchanges":
+        module.exit_json(changes=git_local_changes(path))
     elif action == "gitremote":
+        module.exit_json(remote=git_remote(path))
 
     else:
         module.fail_json(msg="unknown action")
