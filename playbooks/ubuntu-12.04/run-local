@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Script for running the play on the localhost.
+ansible-playbook -c local ./setup.yml

@@ -1,0 +1,120 @@
+##
+# Ansible playbook for setting up a Training Wheels student server on
+# Ubuntu 12.04.
+#
+
+---
+- hosts: all
+  user: root
+
+  vars_files:
+    - settings.yml
+
+  tasks:
+    ##
+    # Apt package installation of required software.
+    #
+    - name: Install required packages.
+      action: apt pkg=$item state=installed
+      with_items:
+        - php5
+        - apache2
+        - mysql-server
+        - mysql-client
+        - php5-mysql
+        - php-apc
+        - php5-xmlrpc
+        - php-soap
+        - php5-gd
+        - php-pear
+        - sendmail
+        - vsftpd
+        - unzip
+        - python-mysqldb
+
+    ##
+    # PHP Setup.
+    #
+    - name: PHP configuration file, php.ini
+      action: template src=templates/etc-php5-apache2-php-ini.j2 dest=/etc/php5/apache2/php.ini
+      notify: Restart Apache
+
+    - name: APC cache configuration file, apc.ini
+      action: template src=templates/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/conf.d/apc.ini
+      notify: Restart Apache
+
+    ##
+    # MySQL database setup.
+    #
+    - name: MySQL configuration file, my.cnf
+      action: template src=templates/etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf
+      notify: Restart MySQL
+
+    - name: Set the root password. Has to be done using shell otherwise will fail if run again.
+      action: shell echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$mysql_root_password');" | mysql
+
+    - name: MySQL config for easy access as root user, and so that this playbook can be run again.
+      action: template src=templates/root-my-cnf.j2 dest=/root/.my.cnf
+
+    - name: Delete anonymous MySQL server user for $server_hostname
+      action: mysql_user user="" host=$server_hostname state=absent
+
+    - name: Delete anonymous MySQL server user for localhost
+      action: mysql_user user="" state=absent
+
+    - name: Secure the MySQL root user for IPV6 localhost (::1)
+      action: mysql_user user=root passwd=$mysql_root_password host=::1
+
+    - name: Secure the MySQL root user for IPV4 localhost (127.0.0.1)
+      action: mysql_user user=root passwd=$mysql_root_password host=127.0.0.1
+
+    - name: Secure the MySQL root user for localhost domain (localhost)
+      action: mysql_user user=root passwd=$mysql_root_password host=localhost
+
+    - name: Secure the MySQL root user for $server_hostname domain
+      action: mysql_user user=root passwd=$mysql_root_password host=$server_hostname
+
+    - name: Remove the MySQL test database
+      action: mysql_db db=test state=absent
+
+    ##
+    # Apache2 setup.
+    #
+    - name: Enable some required modules
+      action: command a2enmod rewrite vhost_alias
+
+    - name: Apache configuration file for our site
+      action: template src=templates/etc-apache2-sites-available-trainingwheels.j2 dest=/etc/apache2/sites-available/trainingwheels
+      notify: Restart Apache
+
+    - name: Disable the default site
+      action: command a2dissite default
+
+    - name: Enable our new site
+      action: command a2ensite trainingwheels
+
+    ##
+    # FTP server setup.
+    #
+    - name: FTP daemon setup
+      action: template src=templates/etc-vsftpd-conf.j2 dest=/etc/vsftpd.conf
+      notify: Restart vsftpd
+
+    ##
+    # Drush install, a Drupal shell tool.
+    #
+    - name: Setup PEAR channel for drush
+      action: command pear channel-discover pear.drush.org creates=/usr/share/php/.channels/pear.drush.org.reg
+
+    - name: Install drush for Drupal
+      action: command pear install drush/drush creates=/usr/bin/drush
+
+  handlers:
+    - name: Restart Apache
+      action: service name=apache2 state=restarted
+
+    - name: Restart MySQL
+      action: service name=mysql state=restarted
+
+    - name: Restart vsftpd
+      action: service name=vsftpd state=restarted

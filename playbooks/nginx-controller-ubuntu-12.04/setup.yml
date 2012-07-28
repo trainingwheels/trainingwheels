@@ -1,0 +1,141 @@
+##
+# Ansible playbook for setting up a Training Wheels controller on an
+# Ubuntu 12.04 server that is already setup as a student server.
+#
+
+---
+- hosts: all
+  user: root
+
+  vars_files:
+    - settings.yml
+
+  tasks:
+    ##
+    # Setup a user for nginx
+    #
+    - name: Create nginx group
+      action: group name=nginx system=yes
+      tags: common
+
+    - name: Create a user for nginx, otherwise www-data is shared with Apache
+      action: user name=nginx group=nginx createhome=no system=yes
+      tags: common
+
+    ##
+    # Setup a user for php-fpm
+    #
+    - name: Create phpfpm group
+      action: group name=phpfpm system=yes
+      tags: common
+
+    - name: Create a user for phpfpm
+      action: user name=phpfpm group=phpfpm createhome=no system=yes
+      tags: common
+
+    ##
+    # Apt package installation of required software.
+    #
+    - name: Install required packages.
+      action: apt pkg=$item state=installed
+      tags: common
+      with_items:
+        - nginx
+        - php5-fpm
+        - unzip
+        - python-mysqldb
+
+    ##
+    # Configuration for php-fpm
+    #
+    - name: Configure php-fpm
+      action: template src=templates/etc-php5-fpm-pool-d-www-conf.j2 dest=/etc/php5/fpm/pool.d/www.conf
+      tags: common
+      notify: Restart php-fpm
+
+    - name: PHP configuration file, php.ini for php-fpm
+      action: template src=templates/etc-php5-fpm-php-ini.j2 dest=/etc/php5/fpm/php.ini
+      tags: common
+      notify: Restart php-fpm
+
+    - name: Sudoers file allowing the phpfpm user to administer the server
+      action: copy src=files/etc-sudoers-d-phpfpm dest=/etc/sudoers.d/phpfpm mode=0440
+      tags: common
+
+    ##
+    # Configuration for nginx
+    #
+    - name: Configure nginx
+      action: template src=templates/etc-nginx-nginx-conf.j2 dest=/etc/nginx/nginx.conf
+      tags: common
+      notify: Restart nginx
+
+    - name: Remove default site
+      action: file path=/etc/nginx/sites-enabled/default state=absent
+      tags: common
+      notify: Restart nginx
+
+    - name: Copy our nginx site configuration
+      action: template src=templates/etc-nginx-sites-available-twcontrol.j2 dest=/etc/nginx/sites-available/twcontrol
+      tags: common
+      notify: Restart nginx
+
+    - name: Make site available
+      action: file dest=/etc/nginx/sites-enabled/twcontrol state=link src=/etc/nginx/sites-available/twcontrol
+      tags: common
+      notify: Restart nginx
+
+    ##
+    # Get the Training Wheels distribution - production.
+    #
+    - name: Create a webroot directory
+      action: file path=/var/nginx/tw state=directory
+      tags: prod
+
+    - name: Download the stable tarball to /var/nginx
+      action: command wget -P /var/nginx http://ftp.drupal.org/files/projects/$tw_stable creates=/var/nginx/$tw_stable
+      tags: prod
+
+    - name: Extract the tarball into webroot
+      action: command tar zxvf /var/nginx/$tw_stable --strip-components 1 -C /var/nginx/tw creates=/var/nginx/tw/index.php
+      tags: prod
+
+    ##
+    # Get the Training Wheels distribution - development.
+    #
+    - name: Create a link to a VMWare shared folder for use when developing.
+      action: file dest=/var/nginx state=link src=/mnt/hgfs/Sites
+      tags: dev
+
+    - name: Clone the Training Wheels make scripts from Drupal.org
+      action: git repo=http://git.drupal.org/project/trainingwheels.git dest=/root/tw-make branch=7.x-1.x
+      tags: dev
+
+    - name: Use drush to build the distribution
+      action: command drush make /root/tw-make/build-trainingwheels.make /var/nginx/tw creates=/var/nginx/tw
+      tags: dev
+
+    ##
+    # Setup Training Wheels.
+    #
+    - name: Create sites/default/files directory
+      action: file path=/var/nginx/tw/sites/default/files state=directory mode=0777
+      tags: common
+
+    ##
+    # Setup a MySQL database
+    #
+    - name: Create database user
+      action: mysql_user user=$mysql_user passwd=$mysql_pass priv=$mysql_db.*:ALL state=present
+      tags: common
+
+    - name: Create database
+      action: mysql_db db=$mysql_db state=present
+      tags: common
+
+  handlers:
+    - name: Restart nginx
+      action: service name=nginx state=restarted
+
+    - name: Restart php-fpm
+      action: service name=php5-fpm state=restarted
