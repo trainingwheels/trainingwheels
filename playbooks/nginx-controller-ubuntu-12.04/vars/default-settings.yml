@@ -33,4 +33,4 @@ mysql_pass: 'password'
 mysql_db: 'tw'
 
 # TrainingWheels
-tw_stable: 'trainingwheels-7.x-1.0-alpha2-core.tar.gz'
+tw_stable: 'trainingwheels-7.x-1.x-dev-core.tar.gz'
