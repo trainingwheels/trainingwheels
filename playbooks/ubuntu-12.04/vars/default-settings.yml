@@ -32,6 +32,7 @@ mysql_root_password: 'trainingwheels'
 # apache
 apache_server_admin: 'webmaster@training.wheels'
 apache_server_alias: '*.*.training.wheels'
+apache_servername: 'training.wheels'
 
 # vsftpd
 vsftpd_anonymous_enable: 'NO'
