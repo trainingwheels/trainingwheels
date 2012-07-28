@@ -97,7 +97,7 @@
       tags: prod
 
     - name: Extract the tarball into webroot
-      action: command tar zxvf /var/nginx/$tw_stable --strip-components 1 -C /var/nginx/tw creates=/var/nginx/tw/index.php
+      action: command tar zxvfo /var/nginx/$tw_stable --strip-components 1 -C /var/nginx/tw creates=/var/nginx/tw/index.php
       tags: prod
 
     ##
@@ -120,6 +120,14 @@
     #
     - name: Create sites/default/files directory
       action: file path=/var/nginx/tw/sites/default/files state=directory mode=0777
+      tags: common
+
+    - name: Create settings.php if it doesn't exist
+      action: command cp /var/nginx/tw/sites/default/default.settings.php /var/nginx/tw/sites/default/settings.php creates=/var/nginx/tw/sites/default/settings.php
+      tags: common
+
+    - name: Make settings.php writeable.
+      action: file path=/var/nginx/tw/sites/default/settings.php state=file mode=0777
       tags: common
 
     ##
