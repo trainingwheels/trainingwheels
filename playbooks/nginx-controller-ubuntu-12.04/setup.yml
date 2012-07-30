@@ -29,8 +29,24 @@
       action: group name=phpfpm system=yes
       tags: common
 
+    - name: Create phpfpm home
+      action: file path=/var/trainingwheels/phpfpm-home state=directory owner=phpfpm group=phpfpm mode=700
+      tags: common
+
+    - name: Private tmp directory for php-fpm, needed by Training Wheels
+      action: file path=/var/trainingwheels/phpfpm-home/tmp state=directory owner=phpfpm group=phpfpm mode=700
+      tags: common
+
     - name: Create a user for phpfpm
-      action: user name=phpfpm group=phpfpm createhome=no system=yes
+      action: user name=phpfpm group=phpfpm createhome=yes home=/var/trainingwheels/phpfpm-home system=yes shell=/bin/false
+      tags: common
+
+    - name: Copy MySQL config from root so phpfpm can easily administer the database
+      action: command cp /root/.my.cnf /var/trainingwheels/phpfpm-home/.my.cnf creates=/var/trainingwheels/phpfpm-home/.my.cnf
+      tags: common
+
+    - name: Check permissions of MySQL config
+      action: file path=/var/trainingwheels/phpfpm-home/.my.cnf owner=phpfpm group=phpfpm mode=600
       tags: common
 
     ##

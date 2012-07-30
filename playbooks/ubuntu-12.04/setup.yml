@@ -124,6 +124,12 @@
     - name: Copy the skel files
       action: copy src=files/var-trainingwheels-skel-skel-user-profile dest=/var/trainingwheels/skel/skel_user/.profile
 
+    ##
+    # Training Wheels app setup
+    #
+    - name: Private tmp directory for root
+      action: file path=/root/tmp state=directory owner=root group=root mode=700
+
   handlers:
     - name: Restart Apache
       action: service name=apache2 state=restarted
