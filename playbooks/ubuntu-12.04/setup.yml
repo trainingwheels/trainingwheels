@@ -109,6 +109,21 @@
     - name: Install drush for Drupal
       action: command pear install drush/drush creates=/usr/bin/drush
 
+    ##
+    # Training Wheels user skeleton directory
+    #
+    - name: Create the skel directory
+      action: file path=/var/trainingwheels/skel/skel_user state=directory
+
+    - name: Copy the skel files
+      action: copy src=files/var-trainingwheels-skel-skel-user-bash-logout dest=/var/trainingwheels/skel/skel_user/.bash_logout
+
+    - name: Copy the skel files
+      action: copy src=files/var-trainingwheels-skel-skel-user-bashrc dest=/var/trainingwheels/skel/skel_user/.bashrc
+
+    - name: Copy the skel files
+      action: copy src=files/var-trainingwheels-skel-skel-user-profile dest=/var/trainingwheels/skel/skel_user/.profile
+
   handlers:
     - name: Restart Apache
       action: service name=apache2 state=restarted
