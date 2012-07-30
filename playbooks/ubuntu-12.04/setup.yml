@@ -50,8 +50,8 @@
       action: template src=templates/etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf
       notify: Restart MySQL
 
-    - name: Set the root password. Has to be done using shell otherwise will fail if run again.
-      action: shell echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$mysql_root_password');" | mysql
+    - name: Set the root password.
+      action: mysql_user user=root password=$mysql_root_password host=localhost
 
     - name: MySQL config for easy access as root user, and so that this playbook can be run again.
       action: template src=templates/root-my-cnf.j2 dest=/root/.my.cnf
@@ -63,16 +63,16 @@
       action: mysql_user user="" state=absent
 
     - name: Secure the MySQL root user for IPV6 localhost (::1)
-      action: mysql_user user=root passwd=$mysql_root_password host=::1
+      action: mysql_user user=root password=$mysql_root_password host=::1
 
     - name: Secure the MySQL root user for IPV4 localhost (127.0.0.1)
-      action: mysql_user user=root passwd=$mysql_root_password host=127.0.0.1
+      action: mysql_user user=root password=$mysql_root_password host=127.0.0.1
 
     - name: Secure the MySQL root user for localhost domain (localhost)
-      action: mysql_user user=root passwd=$mysql_root_password host=localhost
+      action: mysql_user user=root password=$mysql_root_password host=localhost
 
     - name: Secure the MySQL root user for $server_hostname domain
-      action: mysql_user user=root passwd=$mysql_root_password host=$server_hostname
+      action: mysql_user user=root password=$mysql_root_password host=$server_hostname
 
     - name: Remove the MySQL test database
       action: mysql_db db=test state=absent

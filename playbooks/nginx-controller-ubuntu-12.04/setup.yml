@@ -150,7 +150,7 @@
     # Setup a MySQL database
     #
     - name: Create database user
-      action: mysql_user user=$mysql_user passwd=$mysql_pass priv=$mysql_db.*:ALL state=present
+      action: mysql_user user=$mysql_user password=$mysql_pass priv=$mysql_db.*:ALL state=present
       tags: common
 
     - name: Create database
