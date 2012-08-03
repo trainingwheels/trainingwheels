@@ -1,6 +1,14 @@
-trainingwheels-playbooks
-========================
+Training Wheels
+===============
 
-Ansible playbooks for use in setting up LAMP servers.
+Training Wheels is an open-source, Drupal-powered education platform that manages sandbox environments and training infrastructure for use in a classroom setting.
 
-Copy vars/default-settings.yml to settings.yml and modify it for your needs.
+This product is in pre-alpha state, and is not ready for use by anyone except the developers who are working on making it awesome.
+
+If you're new to Training Wheels, please start at the project home page, [Get Training Wheels] (http://gettrainingwheels.org).
+
+Other resources:
+
+* [Main documentation] (https://github.com/fourkitchens/trainingwheels/wiki)
+* [The Controller Drupal distribution] (http://drupal.org/project/trainingwheels)
+* [Issues and bugs] (https://github.com/fourkitchens/trainingwheels/issues)
