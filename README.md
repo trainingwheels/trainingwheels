@@ -3,7 +3,7 @@ Training Wheels
 
 Project home page: [Training Wheels] (http://gettrainingwheels.org).
 
-Training Wheels is an open-source, Drupal-powered education platform that manages sandbox environments and training infrastructure for use in a classroom setting.
+Training Wheels is an open-source education platform that manages sandbox environments and training infrastructure for use in a classroom setting.
 
 This product is in pre-alpha state, and is not ready for use by anyone except the developers who are working on making it awesome.
 
