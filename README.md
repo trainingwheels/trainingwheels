@@ -8,9 +8,3 @@ Training Wheels is an open-source education platform that manages sandbox enviro
 This product is in pre-alpha state. If you're a developer interested in working with us, please get in touch.
 
 If you're new to Training Wheels, please start at the main [project page] (http://gettrainingwheels.org).
-
-Other resources:
-
-* [Main documentation] (https://github.com/fourkitchens/trainingwheels/wiki)
-* [The Controller Drupal distribution] (http://drupal.org/project/trainingwheels)
-* [Issues and bugs] (https://github.com/fourkitchens/trainingwheels/issues)
