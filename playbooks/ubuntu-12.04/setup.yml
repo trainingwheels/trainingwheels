@@ -37,18 +37,15 @@
     #
     - name: PHP configuration file, php.ini
       action: template src=templates/etc-php5-apache2-php-ini.j2 dest=/etc/php5/apache2/php.ini
-      notify: Restart Apache
 
     - name: APC cache configuration file, apc.ini
       action: template src=templates/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/conf.d/apc.ini
-      notify: Restart Apache
 
     ##
     # MySQL database setup.
     #
     - name: MySQL configuration file, my.cnf
       action: template src=templates/etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf
-      notify: Restart MySQL
 
     - name: Set the root password.
       action: mysql_user user=root password=$mysql_root_password host=localhost
@@ -85,7 +82,6 @@
 
     - name: Apache configuration file for our site
       action: template src=templates/etc-apache2-sites-available-trainingwheels.j2 dest=/etc/apache2/sites-available/trainingwheels
-      notify: Restart Apache
 
     - name: Disable the default site
       action: command a2dissite default
@@ -98,7 +94,6 @@
     #
     - name: FTP daemon setup
       action: template src=templates/etc-vsftpd-conf.j2 dest=/etc/vsftpd.conf
-      notify: Restart vsftpd
 
     ##
     # Drush install, a Drupal shell tool.
@@ -130,7 +125,9 @@
     - name: Private tmp directory for root
       action: file path=/root/tmp state=directory owner=root group=root mode=700
 
-  handlers:
+    ##
+    # Restart services
+    #
     - name: Restart Apache
       action: service name=apache2 state=restarted
 

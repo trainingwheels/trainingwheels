@@ -67,12 +67,10 @@
     - name: Configure php-fpm
       action: template src=templates/etc-php5-fpm-pool-d-www-conf.j2 dest=/etc/php5/fpm/pool.d/www.conf
       tags: common
-      notify: Restart php-fpm
 
     - name: PHP configuration file, php.ini for php-fpm
       action: template src=templates/etc-php5-fpm-php-ini.j2 dest=/etc/php5/fpm/php.ini
       tags: common
-      notify: Restart php-fpm
 
     - name: Sudoers file allowing the phpfpm user to administer the server
       action: copy src=files/etc-sudoers-d-phpfpm dest=/etc/sudoers.d/phpfpm mode=0440
@@ -84,22 +82,18 @@
     - name: Configure nginx
       action: template src=templates/etc-nginx-nginx-conf.j2 dest=/etc/nginx/nginx.conf
       tags: common
-      notify: Restart nginx
 
     - name: Remove default site
       action: file path=/etc/nginx/sites-enabled/default state=absent
       tags: common
-      notify: Restart nginx
 
     - name: Copy our nginx site configuration
       action: template src=templates/etc-nginx-sites-available-twcontrol.j2 dest=/etc/nginx/sites-available/twcontrol
       tags: common
-      notify: Restart nginx
 
     - name: Make site available
       action: file dest=/etc/nginx/sites-enabled/twcontrol state=link src=/etc/nginx/sites-available/twcontrol
       tags: common
-      notify: Restart nginx
 
     ##
     # Get the Training Wheels distribution - production.
@@ -124,7 +118,7 @@
       tags: dev
 
     - name: Clone the Training Wheels make scripts from Drupal.org
-      action: git repo=http://git.drupal.org/project/trainingwheels.git dest=/root/tw-make branch=7.x-1.x
+      action: git repo=http://git.drupal.org/project/trainingwheels.git dest=/root/tw-make version=7.x-1.x
       tags: dev
 
     - name: Use drush to build the distribution
@@ -157,9 +151,13 @@
       action: mysql_db db=$mysql_db state=present
       tags: common
 
-  handlers:
+    ##
+    # Restart services
+    #
     - name: Restart nginx
       action: service name=nginx state=restarted
+      tags: common
 
     - name: Restart php-fpm
       action: service name=php5-fpm state=restarted
+      tags: common
