@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo
+echo " *************************************************************************************************"
+echo " * This server is configured using Training Wheels (http://gettrainingwheels.org)"
+echo " * To change configuration, modify the Ansible playbooks in /root/trainingwheels, and re-run them."
+echo " *************************************************************************************************"
+echo

@@ -33,6 +33,12 @@
         - python-mysqldb
 
     ##
+    # Message of the day explaining server purpose.
+    #
+    - name: Friendly message of the day
+      action: copy src=files/etc-update-motd-d-95-trainingwheels dest=/etc/update-motd.d/95-trainingwheels mode=755
+
+    ##
     # PHP Setup.
     #
     - name: PHP configuration file, php.ini
