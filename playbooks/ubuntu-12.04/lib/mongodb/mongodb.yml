@@ -1,0 +1,21 @@
+---
+##
+# MongoDB install.
+#
+##
+- name: MongoDB | Add the key
+  action: command apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+
+- name: MongoDB | Add the MongoDB repo
+  action: copy src=lib/mongodb/etc-apt-sources-list-d-mongodb-list dest=/etc/apt/sources.list.d/mongodb.list
+
+- name: MongoDB | Update the apt cache for the new repository
+  action: apt update-cache=yes
+
+- name: MongoDB | Install Mongo
+  action: apt pkg=$item state=installed
+  with_items:
+    - mongodb-10gen
+
+- name: Restart Mongo
+  action: service name=mongodb state=restarted

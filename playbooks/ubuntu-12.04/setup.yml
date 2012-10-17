@@ -163,6 +163,11 @@
     - include: lib/nodejs/nodejs.yml tags=nodejs
 
     ##
+    # MongoDB install
+    #
+    - include: lib/mongodb/mongodb.yml tags=mongodb
+
+    ##
     # Restart services
     #
     - name: Restart Apache
