@@ -18,7 +18,7 @@
       action: group name=nginx system=yes
       tags: common
 
-    - name: Create a user for nginx, otherwise www-data is shared with Apache
+    - name: Create a user for nginx otherwise www-data is shared with Apache
       action: user name=nginx group=nginx createhome=no system=yes
       tags: common
 
@@ -37,7 +37,7 @@
       action: file path=/var/trainingwheels/phpfpm-home state=directory owner=phpfpm group=phpfpm mode=700
       tags: common
 
-    - name: Private tmp directory for php-fpm, needed by Training Wheels
+    - name: Private tmp directory for php-fpm needed by Training Wheels
       action: file path=/var/trainingwheels/phpfpm-home/tmp state=directory owner=phpfpm group=phpfpm mode=700
       tags: common
 
@@ -68,7 +68,7 @@
       action: template src=templates/etc-php5-fpm-pool-d-www-conf.j2 dest=/etc/php5/fpm/pool.d/www.conf
       tags: common
 
-    - name: PHP configuration file, php.ini for php-fpm
+    - name: PHP configuration file php.ini for php-fpm
       action: template src=templates/etc-php5-fpm-php-ini.j2 dest=/etc/php5/fpm/php.ini
       tags: common
 

@@ -1,4 +1,9 @@
 #!/bin/sh
 
 # Script for running the play on the localhost.
-ansible-playbook -c local ./setup.yml
+# Tags reference:
+#
+# common: Common components for the LAMP stack.
+# nodejs: Install the node.js server.
+#
+ansible-playbook --tags="common" -c local ./setup.yml
