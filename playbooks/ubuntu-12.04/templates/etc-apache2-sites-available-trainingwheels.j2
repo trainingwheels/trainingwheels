@@ -3,9 +3,9 @@ ServerName {{ apache_servername }}
 	ServerAdmin {{ apache_server_admin }}
 	ServerAlias {{ apache_server_alias }}
 
-	VirtualDocumentRoot /home/%-4/www/%-3
+	VirtualDocumentRoot {{ apache_virtual_docroot }}
 
-	<Directory /home/*/www/*>
+	<Directory {{ apache_directory }}>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride All
 		Order allow,deny

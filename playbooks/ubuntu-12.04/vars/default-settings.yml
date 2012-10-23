@@ -34,6 +34,10 @@ apache_server_admin: 'webmaster@training.wheels'
 apache_server_alias: '*.*.training.wheels'
 apache_servername: 'training.wheels'
 
+# apache virtual document roots, these two are closely related.
+apache_virtual_docroot: '/home/%-4/www/%-3'
+apache_directory: '/home/*/www/*'
+
 # vsftpd
 vsftpd_anonymous_enable: 'NO'
 vsftpd_local_enable: 'YES'
