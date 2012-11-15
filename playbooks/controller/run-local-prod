@@ -1,4 +1,4 @@
 #!/bin/sh
 
 # Script for running the play on the localhost.
-ansible-playbook --tags="common,dev" -c local ./setup.yml
+ansible-playbook --tags="common,prod" setup.yml
