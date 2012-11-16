@@ -1,0 +1,5 @@
+_assetic:
+    resource: .
+    type: assetic
+_app:
+    resource: /mnt/hgfs/Workarea/trainingwheels/app/Symfony/app/config/routing_dev.yml
