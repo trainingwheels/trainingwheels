@@ -126,6 +126,15 @@
       action: command drush make /root/tw-make/build-trainingwheels.make /var/nginx/tw creates=/var/nginx/tw
       tags: dev
 
+    # TODO: We are moving to a new controller platform, piece-by-piece. For now, run both together.
+    - name: Copy our new controller nginx site configuration
+      action: template src=templates/etc-nginx-sites-available-twcontroller-new.j2 dest=/etc/nginx/sites-available/twcontroller-new
+      tags: dev
+
+    - name: Create a link to a VMWare shared folder for use when developing.
+      action: file dest=/var/nginx/trainingwheels state=link src=/mnt/hgfs/Workarea/trainingwheels
+      tags: dev
+
     ##
     # Setup Training Wheels.
     #
