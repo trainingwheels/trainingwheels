@@ -59,6 +59,7 @@
       with_items:
         - nginx
         - php5-fpm
+        - php5-intl
         - unzip
         - python-mysqldb
 

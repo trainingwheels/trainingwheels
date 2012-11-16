@@ -24,8 +24,9 @@ php_display_startup_errors: 'On'
 php_html_errors: 'On'
 php_post_max_size: '32M'
 php_upload_max_filesize: '32M'
-php_date_timezone: 'US/Central'
+php_date_timezone: 'America/Chicago'
 php_cgi_fix_pathinfo: '0'
+php_short_open_tag: 'Off'
 
 # mysql
 mysql_user: 'tw'

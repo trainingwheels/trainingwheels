@@ -223,7 +223,7 @@ engine = On
 ; Development Value: Off
 ; Production Value: Off
 ; http://php.net/short-open-tag
-short_open_tag = On
+short_open_tag = {{ php_short_open_tag }}
 
 ; Allow ASP-style <% %> tags.
 ; http://php.net/asp-tags
@@ -1560,7 +1560,7 @@ session.entropy_length = 0
 ; Specified here to create the session id.
 ; http://php.net/session.entropy-file
 ; On systems that don't have /dev/urandom /dev/arandom can be used
-; On windows, setting the entropy_length setting will activate the 
+; On windows, setting the entropy_length setting will activate the
 ; Windows random source (using the CryptoAPI)
 ;session.entropy_file = /dev/urandom
 

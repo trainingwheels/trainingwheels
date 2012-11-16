@@ -13,7 +13,8 @@ php_display_startup_errors: 'On'
 php_html_errors: 'On'
 php_post_max_size: '32M'
 php_upload_max_filesize: '32M'
-php_date_timezone: 'US/Central'
+php_date_timezone: 'America/Chicago'
+php_short_open_tag: 'Off'
 
 # apc.ini
 apc_rfc1867: '1'
