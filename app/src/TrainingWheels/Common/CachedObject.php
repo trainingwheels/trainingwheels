@@ -38,14 +38,15 @@ abstract class CachedObject {
     foreach ($this->properties as $prop) {
       $data[$prop] = $this->$prop;
     }
-    cache_set($this->id, $data, 'cache');
+    //cache_set($this->id, $data, 'cache');
   }
 
   /**
    * Load properties from the cache.
    */
   private function cacheFetch() {
-    $data = cache_get($this->id, 'cache');;
+    //$data = cache_get($this->id, 'cache');;
+    $data = NULL;
     if ($data) {
       foreach ($this->properties as $prop) {
         if (isset($data->data[$prop]) && !empty($data->data[$prop])) {

@@ -86,7 +86,7 @@ class DrupalCourse extends TrainingCourse {
    * Add Drupal database settings.
    */
   protected function drupalDBSettingsAdd($db, $dbuser, $pass, $file_path) {
-    twcore_assert_valid_strings(__FUNCTION__, func_get_args());
+    Util::assertValidStrings(__FUNCTION__, func_get_args());
     $settings = '\\' . "\$databases['default']['default']['database'] = '" . $db . "';\n";
     $settings .= '\\' . "\$databases['default']['default']['username'] = '" . $dbuser . "';\n";
     $settings .= '\\' . "\$databases['default']['default']['password'] = '" . $pass . "';\n";

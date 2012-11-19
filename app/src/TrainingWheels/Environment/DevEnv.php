@@ -16,7 +16,7 @@ class DevEnv extends LinuxEnv {
    * Create a user.
    */
   public function userCreate($user, $pass) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $dir = $this->base_path . '/' . $user;
     $this->conn->exec_eq("mkdir $dir");
   }
@@ -25,7 +25,7 @@ class DevEnv extends LinuxEnv {
    * Check if a user exists in the system, just a directory.
    */
   public function userExists($user) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $dir = $this->base_path . '/' . $user;
     return $this->dirExists($dir);
   }
@@ -34,7 +34,7 @@ class DevEnv extends LinuxEnv {
    * Delete a user.
    */
   public function userDelete($user) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $dir = $this->base_path . '/' . $user;
     $this->conn->exec_eq("rmdir $dir");
   }
@@ -43,7 +43,7 @@ class DevEnv extends LinuxEnv {
    * Is the user logged in?
    */
   public function userIsLoggedIn($user) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     return FALSE;
   }
 

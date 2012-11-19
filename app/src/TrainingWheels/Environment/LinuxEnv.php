@@ -3,6 +3,7 @@
 namespace TrainingWheels\Environment;
 use \TrainingWheels\Conn\ServerConn;
 use \TrainingWheels\Environment\TrainingEnv;
+use \TrainingWheels\Util\Util;
 use Exception;
 
 class LinuxEnv implements TrainingEnv {
@@ -19,7 +20,7 @@ class LinuxEnv implements TrainingEnv {
    * Append a text string to the end of a file.
    */
   public function fileAppendText($file_path, $text) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "test -f $file_path",
       "echo \"$text\" >> $file_path"
@@ -31,7 +32,7 @@ class LinuxEnv implements TrainingEnv {
    * Get the contents of a text file.
    */
   public function fileGetContents($file_path) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $out = $this->conn->exec_get("cat $file_path");
     if ($out == "cat: $file_path: No such file or directory") {
       throw new Exception("Trying to get contents of file $file_path that does not exist.");
@@ -43,7 +44,7 @@ class LinuxEnv implements TrainingEnv {
    * Put the contents of a text file, overwriting if one exists.
    */
   public function filePutContents($file_path, $contents) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $out = $this->conn->exec_eq("echo \"$contents\" > $file_path");
     return $out;
   }
@@ -53,7 +54,7 @@ class LinuxEnv implements TrainingEnv {
    * as otherwise this could do a lot of damage to the server.
    */
   public function fileSyncUserFolder($source_user, $target_user, $folder) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
 
     $source_path = "/home/$source_user/$folder";
     $target_path = "/home/$target_user/$folder";
@@ -75,7 +76,7 @@ class LinuxEnv implements TrainingEnv {
    * Replace text in a file, using sed.
    */
   public function fileStrReplace($search, $replace, $file_path) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "test -f $file_path",
       "sed -i'' -e's/$search/$replace/' $file_path",
@@ -87,7 +88,7 @@ class LinuxEnv implements TrainingEnv {
    * Create a text file.
    */
   public function fileCreate($text, $file_path, $user = NULL) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $file = basename($file_path);
     $commands = array(
       "echo $text > ~/tmp/$file",
@@ -103,7 +104,7 @@ class LinuxEnv implements TrainingEnv {
    * Delete a file.
    */
   public function fileDelete($file_path) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $this->conn->exec_eq("rm $file_path");
   }
 
@@ -111,7 +112,7 @@ class LinuxEnv implements TrainingEnv {
    * Copy a file.
    */
   public function fileCopy($source, $target) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $this->conn->exec_eq("cp $source $target");
   }
 
@@ -119,7 +120,7 @@ class LinuxEnv implements TrainingEnv {
    * Check if a Linux user exists in the system.
    */
   public function userExists($user) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $output = $this->conn->exec_get('grep "^' . $user . ':" /etc/passwd');
     return substr($output, 0, strlen($user) + 1) == $user . ':';
   }
@@ -141,7 +142,7 @@ class LinuxEnv implements TrainingEnv {
    * Check if a file exists in the system.
    */
   public function fileExists($file_path) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "test -f $file_path",
     );
@@ -152,7 +153,7 @@ class LinuxEnv implements TrainingEnv {
    * Check if a directory exists in the file system.
    */
   public function dirExists($dir_path) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "test -d $dir_path",
       "echo 'true'"
@@ -168,7 +169,7 @@ class LinuxEnv implements TrainingEnv {
    * Delete a directory from a user's home folder.
    */
   public function dirDelete($dir_path) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     if (substr($dir_path, 0, 6) !== '/home/') {
       throw new Exception("Cannot delete a folder outside of /home");
     }
@@ -182,7 +183,7 @@ class LinuxEnv implements TrainingEnv {
    * Recursively chmod a directory
    */
   public function dirChmod($options, $dir_path, $recurse = TRUE) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     if ($recurse) {
       $options = '-R ' . $options;
     }
@@ -197,7 +198,7 @@ class LinuxEnv implements TrainingEnv {
    * Create a user.
    */
   public function userCreate($user, $pass) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "groupadd $user",
       "rsync -ah --delete /var/trainingwheels/skel/skel_user/ /tmp/skel_user/",
@@ -218,7 +219,7 @@ class LinuxEnv implements TrainingEnv {
    * Delete a user.
    */
   public function userDelete($user) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "userdel $user",
       "groupdel $user",
@@ -231,7 +232,7 @@ class LinuxEnv implements TrainingEnv {
    * Get a user id (Linux user id).
    */
   public function userGetId($user) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $id = $this->conn->exec_get("id -u $user");
     if (!is_numeric($id)) {
       throw new Exception("The user '$user' does not exist, can't get id.");
@@ -243,7 +244,7 @@ class LinuxEnv implements TrainingEnv {
    * Add a user to a group.
    */
   public function userAddToGroup($user, $group) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $this->conn->exec_eq("gpasswd -a $user $group", "Adding user $user to group $group");
   }
 
@@ -251,7 +252,7 @@ class LinuxEnv implements TrainingEnv {
    * Remove a user from a group.
    */
   public function userRemoveFromGroup($user, $group) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $this->conn->exec_eq("gpasswd -d $user $group");
   }
 
@@ -259,7 +260,7 @@ class LinuxEnv implements TrainingEnv {
    * Get a user's password.
    */
   public function userPasswdGet($user) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     return $this->fileGetContents("/home/$user/.password");
   }
 
@@ -267,7 +268,7 @@ class LinuxEnv implements TrainingEnv {
    * Is the user logged in?
    */
   public function userIsLoggedIn($user) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $out = $this->conn->exec_get("users");
     $logged_in = explode(' ', $out);
     return in_array($user, $logged_in);
@@ -277,7 +278,7 @@ class LinuxEnv implements TrainingEnv {
    * Create MySQL user, database and import from dump if given.
    */
   public function mySQLUserDBCreate($user, $pass, $db, $dump_path = 'none') {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "echo \"CREATE USER '$user'@'localhost' IDENTIFIED BY '$pass';\" | mysql",
       "echo \"CREATE DATABASE $db;\" | mysql",
@@ -297,7 +298,7 @@ class LinuxEnv implements TrainingEnv {
    * Delete a MySQL database.
    */
   public function mySQLUserDBDelete($user, $db) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "echo \"DROP DATABASE $db;\" | mysql",
       "echo \"DROP USER '$user'@'localhost';\" | mysql",
@@ -309,7 +310,7 @@ class LinuxEnv implements TrainingEnv {
    * Dump a db to a file.
    */
   public function mySQLDumpToFile($db, $target_file) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "mysqldump --result-file=$target_file $db",
       "gzip -f $target_file",
@@ -321,7 +322,7 @@ class LinuxEnv implements TrainingEnv {
    * Does a database exist?
    */
   public function mySQLDBExists($db) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $cmd = "echo \"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$db';\" | mysql -s";
     $output = $this->conn->exec_get($cmd);
     return $output === $db;
@@ -331,7 +332,7 @@ class LinuxEnv implements TrainingEnv {
    * Restart a service.
    */
   protected function serviceRestart($service) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     if ($service == 'apache2') {
       $expect = "* Restarting web server apache2";
     }
@@ -342,7 +343,7 @@ class LinuxEnv implements TrainingEnv {
    * Clone the repo for a user.
    */
   public function gitRepoClone($user, $repo, $target, $branch) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $this->conn->exec_eq("git clone -q --branch $branch $repo $target");
     $this->conn->exec_eq("chown -R $user: $target");
   }
@@ -351,7 +352,7 @@ class LinuxEnv implements TrainingEnv {
    * Get the current branch of a git repo.
    */
   public function gitBranchGet($dir) {
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $git_path_opts = "--work-tree=$dir --git-dir=$dir/.git";
     return $this->conn->exec_get("git $git_path_opts rev-parse --abbrev-ref HEAD");
   }
@@ -361,7 +362,7 @@ class LinuxEnv implements TrainingEnv {
    */
   public function gitLocalChanges($dir) {
     $git_path_opts = "--work-tree=$dir --git-dir=$dir/.git";
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     return $this->conn->exec_get("git $git_path_opts status -s");
   }
 
@@ -370,7 +371,7 @@ class LinuxEnv implements TrainingEnv {
    */
   public function gitRemote($dir) {
     $git_path_opts = "--work-tree=$dir --git-dir=$dir/.git";
-    twcore_assert_valid_strings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     return $this->conn->exec_get("git $git_path_opts remote -v");
   }
 }

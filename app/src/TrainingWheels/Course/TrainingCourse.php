@@ -82,7 +82,7 @@ abstract class TrainingCourse {
     $user_obj = $this->userFactory($user_name);
     $user_info = $user_obj->get();
     $user_info['course_id'] = $this->courseid;
-    $user_info['uri'] = '/user/' . $user_info['user_id'];
+    $user_info['uri'] = '/user/' . $user_info['userid'];
     return $user_info;
   }
 
