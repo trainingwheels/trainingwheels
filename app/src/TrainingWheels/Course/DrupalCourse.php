@@ -31,8 +31,9 @@ class DrupalCourse extends TrainingCourse {
    * Create users.
    */
   public function usersCreate($users) {
-    parent::usersCreate($users);
+    $result = parent::usersCreate($users);
     $this->env->apacheHTTPDRestart();
+    return $result;
   }
 
   /**

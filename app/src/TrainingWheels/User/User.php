@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\User;
 use TrainingWheels\Common\CachedObject;
+use TrainingWheels\Common\Util;
 use Exception;
 
 abstract class User extends CachedObject {
@@ -55,7 +56,7 @@ abstract class User extends CachedObject {
       throw new Exception("Attempting to create a user that already exists");
     }
     $this->exists = TRUE;
-    $this->password = twcore_passwd_gen();
+    $this->password = Util::passwdGen();
     $this->env->userCreate($this->user_name, $this->password);
     $this->cacheSave();
   }
@@ -190,15 +191,20 @@ abstract class User extends CachedObject {
    * Gather this user's status into an array representation.
    */
   public function get() {
-    $user = array(
-      'user_name' => $this->user_name,
-      'password' => $this->getPasswd(),
-      'logged_in' => $this->isLoggedIn(),
-      'userid' => $this->user_id,
-    );
-    foreach ($this->resources as $name => $resource) {
-      $user['resources'][$name] = $resource->get();
+    if ($this->getExists()) {
+      $user = array(
+        'user_name' => $this->user_name,
+        'password' => $this->getPasswd(),
+        'logged_in' => $this->isLoggedIn(),
+        'userid' => $this->user_id,
+      );
+      foreach ($this->resources as $name => $resource) {
+        $user['resources'][$name] = $resource->get();
+      }
+      return $user;
     }
-    return $user;
+    else {
+      return FALSE;
+    }
   }
 }

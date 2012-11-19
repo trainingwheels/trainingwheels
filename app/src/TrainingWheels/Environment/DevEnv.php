@@ -1,6 +1,7 @@
 <?php
 
 namespace TrainingWheels\Environment;
+use \TrainingWheels\Common\Util;
 
 class DevEnv extends LinuxEnv {
 

@@ -60,8 +60,12 @@ abstract class TrainingCourse {
     $users = $this->userNormalizeParam($users);
     foreach ($users as $user) {
       $user_obj = $this->userFactory($user);
+      if ($user_obj->getExists()) {
+        return FALSE;
+      }
       $user_obj->create();
     }
+    return TRUE;
   }
 
   /**
@@ -81,8 +85,10 @@ abstract class TrainingCourse {
   public function userGet($user_name) {
     $user_obj = $this->userFactory($user_name);
     $user_info = $user_obj->get();
-    $user_info['course_id'] = $this->courseid;
-    $user_info['uri'] = '/user/' . $user_info['userid'];
+    if ($user_info) {
+      $user_info['course_id'] = $this->courseid;
+      $user_info['uri'] = '/user/' . $user_info['userid'];
+    }
     return $user_info;
   }
 

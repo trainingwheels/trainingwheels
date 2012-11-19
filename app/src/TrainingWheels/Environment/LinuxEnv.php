@@ -3,7 +3,7 @@
 namespace TrainingWheels\Environment;
 use \TrainingWheels\Conn\ServerConn;
 use \TrainingWheels\Environment\TrainingEnv;
-use \TrainingWheels\Util\Util;
+use \TrainingWheels\Common\Util;
 use Exception;
 
 class LinuxEnv implements TrainingEnv {

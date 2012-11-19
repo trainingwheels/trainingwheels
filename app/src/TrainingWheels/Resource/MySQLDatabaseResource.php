@@ -1,6 +1,7 @@
 <?php
 
 namespace TrainingWheels\Resource;
+use TrainingWheels\Common\Util;
 use Exception;
 
 class MySQLDatabaseResource extends Resource {
@@ -58,7 +59,7 @@ class MySQLDatabaseResource extends Resource {
     if ($this->getExists()) {
       throw new Exception("Attempting to create a MySQL DB resource that already exists.");
     }
-    $this->mysql_password = twcore_passwd_gen();
+    $this->mysql_password = Util::passwdGen();
     $this->mysql_username = $this->getUserName();
     $this->db_name = $this->mysql_username;
     $this->exists = TRUE;
