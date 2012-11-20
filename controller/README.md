@@ -17,7 +17,7 @@ TODO
 * Re-implement caching in CachedObject.
 * Re-implement drush using Console component.
 * Remove the custom logger, replace with the Silex one.
-
+* Finish porting REST
 
 Manual Testing REST API
 -----------------------

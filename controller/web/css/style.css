@@ -1,0 +1,42 @@
+div#tw-app {
+  width: 500px;
+  min-height: 300px;
+  margin-left: 50px;
+}
+
+div.course-summary {
+  border: 2px solid black;
+  width: 500px;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  min-height: 150px;
+}
+
+div.course-summary:hover {
+  background: #dddddd;
+}
+
+div.course-info {
+  border: 2px solid black;
+  width: 500px;
+  padding: 10px;
+  margin: 10px;
+}
+
+div.course-user-info {
+  border: 2px solid green;
+  width: 500px;
+  padding: 10px;
+  margin: 10px;
+}
+
+div.user {
+  border: 2px solid blue;
+  padding: 10px;
+  margin: 20px 10px;
+}
+
+div.twspin {
+  min-height: 100px;
+}
