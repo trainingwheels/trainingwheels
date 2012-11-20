@@ -24,13 +24,26 @@ Manual Testing REST API
 
 Using CURL, drop the -i and pipe to python -mjson.tool to format the JSON response, e.g.:
 
-    curl http://training.wheels:8888/tw/rest/user/1-instructor | python -mjson.tool
+    curl http://training.wheels:8888/rest/user/1-instructor | python -mjson.tool
+
+Users
+=====
 
 Retrieve a user:
 
-    curl http://training.wheels:8888/tw/rest/user/1-instructor -i && echo ''; echo ''
+    curl http://training.wheels:8888/rest/user/1-instructor -i && echo ''; echo ''
 
 Create user:
 
-    curl http://training.wheels:8888/tw/rest/user -d '{"courseid":"1","user_name":"carol"}' -H 'Content-Type: application/json' -i && echo ''; echo ''
+    curl http://training.wheels:8888/rest/user -d '{"courseid":"1","user_name":"carol"}' -H 'Content-Type: application/json' -i && echo ''; echo ''
 
+Courses
+=======
+
+Index of courses:
+
+    curl http://training.wheels:8888/rest/course -i && echo ''; echo ''
+
+Get a course:
+
+    curl http://training.wheels:8888/rest/course/1 -i && echo ''; echo ''

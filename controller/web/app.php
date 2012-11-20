@@ -65,16 +65,17 @@ $tplGet = function() {
 };
 
 /**
- * Main entry point for the application.
+ * Main entry point for the application. It's a one-page
+ * frontend app but we still need to handle routes here.
  */
-$app->get('/', function () use ($app, $jsGet, $tplGet) {
-
+$main = function () use ($app, $jsGet, $tplGet) {
   $vars = array(
     'js' => $jsGet($app['debug']),
     'tpl' => $tplGet(),
   );
-
   return $app['twig']->render('home.twig', $vars);
-});
+};
+$app->get('/', $main);
+$app->get('/course/{id}', $main);
 
 $app->run();

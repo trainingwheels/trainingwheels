@@ -20,7 +20,6 @@ class REST implements ControllerProviderInterface {
    */
   public function connect(Application $app) {
     $controllers = $app['controllers_factory'];
-    $self = $this;
 
     /**
      * Conversion function to convert ids from the format '1-name' to a Course
@@ -29,9 +28,9 @@ class REST implements ControllerProviderInterface {
     $parseID = function ($id) {
       $parts = explode('-', $id);
       if (isset($parts[0]) && isset($parts[1])) {
-        $cf = new CourseFactory();
+        $course = CourseFactory::singleton()->get($parts[0]);
         return array(
-          'course' => $cf->get($parts[0]),
+          'course' => $course,
           'user_name' => $parts[1],
         );
       }
@@ -51,7 +50,7 @@ class REST implements ControllerProviderInterface {
     /**
      * Retrieve a user.
      */
-    $controllers->get('/user/{user}', function ($user) use ($app, $self) {
+    $controllers->get('/user/{user}', function ($user) use ($app) {
       if (!$user) {
         return $app->json(array('messages' => 'Invalid user ID requested, ensure format is courseid-username, e.g. 1-instructor.'), HTTP_BAD_REQUEST);
       }
@@ -73,8 +72,7 @@ class REST implements ControllerProviderInterface {
         return $app->json(array('messages' => 'Invalid parameters passed, check JSON formatting is strict.'), HTTP_BAD_REQUEST);
       }
 
-      $cf = new CourseFactory();
-      $course = $cf->get($course_id);
+      $course = CourseFactory::singleton()->get($course_id);
       $result = $course->usersCreate($user_name);
       if (!$result) {
         return $app->json(array('messages' => 'User already exists.'), HTTP_CONFLICT);
@@ -90,13 +88,24 @@ class REST implements ControllerProviderInterface {
       $courses = array();
       $ids = array(1);
       foreach ($ids as $id) {
-        $cf = new CourseFactory();
-        $course = $cf->get($id);
+        $course = CourseFactory::singleton()->get($id);
         unset($course->env);
         $courses[] = $course;
       }
       return $app->json($courses, HTTP_OK);
     });
+
+    /**
+     * Retrieve a course.
+     */
+    $controllers->get('/course/{id}', function ($id) use ($app) {
+      $course = CourseFactory::singleton()->get($id);
+      $users = $course->usersGet('*');
+      unset($course->env);
+      $course->users = array_values($users);
+      return $app->json($course, HTTP_OK);
+    })
+    ->assert('id', '\d+');
 
 
 

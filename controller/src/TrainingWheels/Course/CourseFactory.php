@@ -11,6 +11,20 @@ use TrainingWheels\Environment\CentosEnv;
 use TrainingWheels\Environment\UbuntuEnv;
 
 class CourseFactory {
+  // Singleton instance.
+  protected static $instance;
+
+  /**
+   * Return the singleton.
+   */
+  public static function singleton() {
+    if (!isset(self::$instance)) {
+      $className = __CLASS__;
+      self::$instance = new $className;
+      $s = self::$instance;
+    }
+    return self::$instance;
+  }
 
   /**
    * Creating Course object given a course id.
