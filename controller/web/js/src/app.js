@@ -220,7 +220,7 @@
     },
 
     course_page: function(courseid) {
-      var courseModel = new tw.CourseModel({courseid : courseid});
+      var courseModel = tw.CourseModel.findOrCreate({courseid : courseid});
       var courseView = new tw.CourseView({model: courseModel});
       courseModel.fetch();
     }

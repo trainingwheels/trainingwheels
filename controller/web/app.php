@@ -5,17 +5,20 @@ require_once __DIR__.'/../vendor/autoload.php';
 $app = new Silex\Application();
 $app['debug'] = TRUE;
 
+/**
+ * Use Twig for templating, although the majority is done client-side.
+ */
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
   'twig.path' => __DIR__ . '/views',
 ));
 
 /**
- * The REST services endpoints.
+ * The REST service endpoints.
  */
 $app->mount('/rest', new TrainingWheels\Controller\REST());
 
 /**
- * Client-side JavaScript files setup.
+ * Client-side JavaScript includes.
  */
 $jsGet = function($debug) {
   $js = array(
@@ -48,7 +51,7 @@ $jsGet = function($debug) {
 };
 
 /**
- * Client-side JavaScript templates setup.
+ * Client-side JavaScript templates.
  */
 $tplGet = function() {
   $tpl_files = scandir(__DIR__ . '/tpl');
