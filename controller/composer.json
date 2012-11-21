@@ -2,7 +2,8 @@
     "require": {
         "silex/silex": "1.0.*@dev",
         "symfony/console": "2.1.*",
-        "twig/twig": ">=1.11,<2.0-dev"
+        "twig/twig": ">=1.11,<2.0-dev",
+        "monolog/monolog": "1.2.1"
     },
     "autoload": {
         "psr-0": {

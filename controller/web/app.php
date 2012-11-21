@@ -6,10 +6,15 @@ $app = new Silex\Application();
 $app['debug'] = TRUE;
 
 /**
+ * Register providers.
+ *
  * Use Twig for templating, although the majority is done client-side.
  */
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
   'twig.path' => __DIR__ . '/views',
+));
+$app->register(new Silex\Provider\MonologServiceProvider(), array(
+    'monolog.logfile' => __DIR__ . '/development.log',
 ));
 
 /**
