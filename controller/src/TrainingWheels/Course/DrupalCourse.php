@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Course;
 use TrainingWheels\User\LAMPUser;
+use TrainingWheels\Common\Util;
 use TrainingWheels\Resource\GitFilesResource;
 use TrainingWheels\Resource\MySQLDatabaseResource;
 

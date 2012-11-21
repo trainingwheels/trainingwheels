@@ -77,8 +77,7 @@ class REST implements ControllerProviderInterface {
       if (!$result) {
         return $app->json(array('messages' => 'User already exists.'), HTTP_CONFLICT);
       }
-      $output = $course->userGet($user_name);
-      return $app->json($output, HTTP_CREATED);
+      return $app->json(array('messages' => 'success'), HTTP_CREATED);
     });
 
     /**

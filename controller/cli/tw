@@ -4,8 +4,18 @@
 require_once __DIR__.'/../vendor/autoload.php';
 
 use TrainingWheels\Console\UserRetrieve;
+use TrainingWheels\Console\UserCreate;
+use TrainingWheels\Console\UserDelete;
+use TrainingWheels\Console\ResourceCreate;
+use TrainingWheels\Console\ResourceDelete;
+use TrainingWheels\Console\ResourceSync;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 $application->add(new UserRetrieve);
+$application->add(new UserCreate);
+$application->add(new UserDelete);
+$application->add(new ResourceCreate);
+$application->add(new ResourceDelete);
+$application->add(new ResourceSync);
 $application->run();
