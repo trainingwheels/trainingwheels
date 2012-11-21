@@ -75,8 +75,12 @@ abstract class TrainingCourse {
     $users = $this->userNormalizeParam($users);
     foreach ($users as $user) {
       $user_obj = $this->userFactory($user);
+      if (!$user_obj->getExists()) {
+        return FALSE;
+      }
       $user_obj->delete();
     }
+    return TRUE;
   }
 
   /**

@@ -56,7 +56,7 @@ class REST implements ControllerProviderInterface {
       }
       $output = $user['course']->userGet($user['user_name']);
       if (!$output) {
-        return $app->json(array('messages' => 'User ' . $user['user_name'] . 'does not exist.'), HTTP_NOT_FOUND);
+        return $app->json(array('messages' => 'User ' . $user['user_name'] . ' does not exist.'), HTTP_NOT_FOUND);
       }
       return $app->json($output, HTTP_OK);
     })
@@ -79,6 +79,21 @@ class REST implements ControllerProviderInterface {
       }
       return $app->json(array('messages' => 'success'), HTTP_CREATED);
     });
+
+    /**
+     * Delete a user.
+     */
+    $controllers->delete('/user/{user}', function ($user) use ($app) {
+      if (!$user) {
+        return $app->json(array('messages' => 'Invalid user ID requested, ensure format is courseid-username, e.g. 1-instructor.'), HTTP_BAD_REQUEST);
+      }
+      $output = $user['course']->usersDelete($user['user_name']);
+      if (!$output) {
+        return $app->json(array('messages' => 'User ' . $user['user_name'] . ' does not exist.'), HTTP_NOT_FOUND);
+      }
+      return $app->json(array('messages' => 'success'), HTTP_OK);
+    })
+    ->convert('user', $parseID);
 
     /**
      * Index of courses.

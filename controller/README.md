@@ -15,9 +15,14 @@ TODO
 ----
 
 * Re-implement caching in CachedObject.
-* Re-implement drush using Console component.
 * Remove the custom logger, replace with the Silex one.
 * Finish porting REST
+
+Console application
+-------------------
+
+    cd cli
+    ./tw
 
 Manual Testing REST API
 -----------------------
@@ -31,11 +36,15 @@ Users
 
 Retrieve a user:
 
-    curl http://training.wheels:8888/rest/user/1-instructor -i && echo ''; echo ''
+    curl http://training.wheels:8888/rest/user/1-instructor -H "Accept: application/json" -i && echo ''; echo ''
 
 Create user:
 
-    curl http://training.wheels:8888/rest/user -d '{"courseid":"1","user_name":"carol"}' -H 'Content-Type: application/json' -i && echo ''; echo ''
+    curl http://training.wheels:8888/rest/user -d '{"courseid":"1","user_name":"instructor"}' -H 'Content-Type: application/json' -i && echo ''; echo ''
+
+Delete user:
+
+    curl http://training.wheels:8888/rest/user/1-instructor -H "Accept: application/json" -X DELETE -i && echo ''; echo ''
 
 Courses
 =======
