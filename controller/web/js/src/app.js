@@ -1,5 +1,6 @@
-(function($) {
-  tw = {};
+var tw = tw || {};
+
+(function(tw) {
 
   /**
    * Basic template containing a spinner.
@@ -10,29 +11,31 @@
    * User model.
    */
   tw.UserModel = Backbone.RelationalModel.extend({
-    urlRoot : "/rest/user",
-    idAttribute : 'userid'
+    urlRoot: "/rest/user",
+    idAttribute: 'userid'
+  });
+
+  /**
+   * User collection.
+   */
+  tw.UserCollection = Backbone.Collection.extend({
+    url: '/rest/user',
+    model: tw.UserModel
   });
 
   /**
    * Course model.
    */
   tw.CourseModel = Backbone.RelationalModel.extend({
-    urlRoot : "/rest/course",
-    idAttribute : "courseid",
-    relations : [{
-      type : Backbone.HasMany,
-      key : 'users',
-      relatedModel : tw.UserModel,
-      reverseRelation : {
-        key : 'courseid',
-        includeInJSON : 'courseid'
-      }
-    }]
+    urlRoot: "/rest/course",
+    idAttribute: "courseid",
+    relations: {
+      users: tw.UserCollection
+    }
   });
 
   /**
-   * Courses collection.
+   * Course collection.
    */
   tw.CourseCollection = Backbone.Collection.extend({
     url: '/rest/course',
@@ -157,11 +160,13 @@
       _.bindAll(this, 'render', 'addUser', 'newUserSubmit');
       this.model.bind('change', this.render);
       this.model.bind('reset', this.render);
-      this.model.bind('add:users', this.addUser);
+      this.model.bind('users:add', this.addUser);
     },
 
     render: function() {
-        return this.$el.html(this.template(this.model.toJSON()));
+      this.$el.html(this.template(this.model.toJSON()));
+      this.model.users.forEach(this.addUser);
+      return this.$el.html();
     },
 
     addUser: function(user) {
@@ -220,7 +225,7 @@
     },
 
     course_page: function(courseid) {
-      var courseModel = tw.CourseModel.findOrCreate({courseid : courseid});
+      var courseModel = new tw.CourseModel({courseid : courseid});
       var courseView = new tw.CourseView({model: courseModel});
       courseModel.fetch();
     }
@@ -238,4 +243,4 @@
   tw.bootstrap();
   $('#tw-app').spin('large');
 
-})(jQuery);
+})(tw);

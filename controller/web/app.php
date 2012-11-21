@@ -22,7 +22,7 @@ $app->mount('/rest', new TrainingWheels\Controller\REST());
  */
 $jsGet = function($debug) {
   $js = array(
-    '/js/vendor/backbone-relational/backbone-relational.js',
+    '/js/src/backbone-simple-relational.js',
     '/js/src/jquery.spin.js',
     '/js/src/handlebars_helpers.js',
     '/js/src/app.js',
