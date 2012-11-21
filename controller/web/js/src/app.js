@@ -103,7 +103,7 @@ var tw = tw || {};
       var options = {
         action: 'resources-sync',
         sync_from: 'instructor',
-        sync_resources: '*'
+        target_resources: '*'
       };
       this.$el.spin('large');
       this.model.save(options, {wait: true});

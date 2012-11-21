@@ -46,6 +46,10 @@ Delete user:
 
     curl http://training.wheels:8888/rest/user/1-instructor -H "Accept: application/json" -X DELETE -i && echo ''; echo ''
 
+Sync a user (e.g. of using a PUT):
+
+    curl http://training.wheels:8888/rest/user/1-bob -X PUT -d '{"action":"resources-sync","sync_from":"instructor","target_resources":"*"}' -H 'Content-Type: application/json' -i && echo ''; echo ''
+
 Courses
 =======
 
