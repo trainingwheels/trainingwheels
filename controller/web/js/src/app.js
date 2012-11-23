@@ -7,6 +7,13 @@
   win.App = Ember.Application.create();
   var App = win.App;
 
+  // For Ember Data
+  App.store = DS.Store.create({
+    revision: 8,
+    adapter: DS.RESTAdapter.create({ bulkCommit: false }),
+    namespace: 'rest'
+  });
+
   App.ApplicationController = Ember.Controller.extend();
   App.ApplicationView = Ember.View.extend({
     templateName: 'application'

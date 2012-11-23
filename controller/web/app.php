@@ -38,6 +38,7 @@ $jsGet = function($debug) {
       '/js/vendor/spin/spin.min.js',
       '/js/vendor/handlebars/handlebars-1.0.rc.1.min.js',
       '/js/vendor/ember/ember-1.0.0-pre.2.min.js',
+      '/js/vendor/ember-data/ember-data.min.js',
     );
     $js = array_merge($js_min, $js);
   }
@@ -48,6 +49,7 @@ $jsGet = function($debug) {
       '/js/vendor/spin/spin.js',
       '/js/vendor/handlebars/handlebars-1.0.rc.1.js',
       '/js/vendor/ember/ember-1.0.0-pre.2.js',
+      '/js/vendor/ember-data/ember-data.js',
     );
     $js = array_merge($js_full, $js);
   }
