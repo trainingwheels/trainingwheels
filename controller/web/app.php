@@ -11,7 +11,7 @@ $app['debug'] = TRUE;
  * Use Twig for templating, although the majority is done client-side.
  */
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-  'twig.path' => __DIR__ . '/views',
+  'twig.path' => __DIR__ . '/',
 ));
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => __DIR__ . '/development.log',
@@ -27,7 +27,6 @@ $app->mount('/rest', new TrainingWheels\Controller\REST());
  */
 $jsGet = function($debug) {
   $js = array(
-    '/js/src/backbone-simple-relational.js',
     '/js/src/jquery.spin.js',
     '/js/src/handlebars_helpers.js',
     '/js/src/app.js',
@@ -38,7 +37,7 @@ $jsGet = function($debug) {
       '/js/vendor/underscore/underscore-min.js',
       '/js/vendor/spin/spin.min.js',
       '/js/vendor/handlebars/handlebars-1.0.rc.1.min.js',
-      '/js/vendor/backbone/backbone-min.js',
+      '/js/vendor/ember/ember-1.0.0-pre.2.min.js',
     );
     $js = array_merge($js_min, $js);
   }
@@ -48,7 +47,7 @@ $jsGet = function($debug) {
       '/js/vendor/underscore/underscore.js',
       '/js/vendor/spin/spin.js',
       '/js/vendor/handlebars/handlebars-1.0.rc.1.js',
-      '/js/vendor/backbone/backbone.js',
+      '/js/vendor/ember/ember-1.0.0-pre.2.js',
     );
     $js = array_merge($js_full, $js);
   }
@@ -56,31 +55,28 @@ $jsGet = function($debug) {
 };
 
 /**
- * Client-side JavaScript templates.
+ * Client-side Handlebars templates.
  */
 $tplGet = function() {
   $tpl_files = scandir(__DIR__ . '/tpl');
   $templates = array();
   foreach ($tpl_files as $tpl) {
     if ($tpl != '.' && $tpl != '..') {
-      $templates[basename($tpl, '.tpl') . '-tpl'] = file_get_contents(__DIR__ . '/tpl/' . $tpl);
+      $templates[basename($tpl, '.tpl')] = file_get_contents(__DIR__ . '/tpl/' . $tpl);
     }
   }
   return $templates;
 };
 
 /**
- * Main entry point for the application. It's a one-page
- * frontend app but we still need to handle routes here.
+ * Main entry point for the application.
  */
-$main = function () use ($app, $jsGet, $tplGet) {
+$app->get('/', function () use ($app, $jsGet, $tplGet) {
   $vars = array(
     'js' => $jsGet($app['debug']),
     'tpl' => $tplGet(),
   );
-  return $app['twig']->render('home.twig', $vars);
-};
-$app->get('/', $main);
-$app->get('/course/{id}', $main);
+  return $app['twig']->render('index.twig', $vars);
+});
 
 $app->run();

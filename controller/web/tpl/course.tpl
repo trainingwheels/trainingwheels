@@ -1,4 +1,6 @@
-<div class="course-view">
+{{login}} - {{contributions}} contributions to Ember.js
+
+<!--<div class="course-view">
   <div class="course-info">
     <h2>{{title}}</h2>
     <div>
@@ -20,4 +22,4 @@
     </form>
     <div id="user-list"></div>
   </div>
-</div>
+</div>-->
