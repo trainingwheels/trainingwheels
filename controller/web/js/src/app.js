@@ -19,19 +19,20 @@
     templateName: 'course'
   });
 
-
   App.Course = Ember.Object.extend();
   App.Course.reopenClass({
     allCourses: [],
-    find: function() {
+    all: function() {
       $.ajax({
-        url: 'https://api.github.com/repos/emberjs/ember.js/contributors',
-        dataType: 'jsonp',
+        url: '/rest/course',
+        dataType: 'json',
         context: this,
-        success: function(response) {
-          response.data.forEach(function(course) {
+        success: function(data) {
+          // TODO: Don't delete and re-load here.
+          this.allCourses.clear();
+          data.forEach(function(course) {
             this.allCourses.addObject(App.Course.create(course))
-          }, this)
+          }, this);
         }
       });
       return this.allCourses;
@@ -39,17 +40,19 @@
 
     findOne: function(course_id) {
       var course = App.Course.create({
-        login: course_id
+        courseid: course_id
       });
 
       $.ajax({
-        url: 'https://api.github.com/repos/emberjs/ember.js/contributors',
-        dataType: 'jsonp',
+        url: '/rest/course/' + course_id,
+        dataType: 'json',
         context: course,
-        success: function(response) {
-          this.setProperties(response.data.findProperty('login', course_id));
+        success: function(data) {
+          this.setProperties(data);
         }
       })
+
+      console.log(course);
 
       return course;
     }
@@ -57,6 +60,9 @@
 
   App.Router = Ember.Router.extend({
     enableLogging: true,
+
+    goHome: Ember.Route.transitionTo('courses'),
+
     root: Ember.Route.extend({
       index: Ember.Route.extend({
         route: '/',
@@ -68,21 +74,19 @@
         showCourse: Ember.Route.transitionTo('aCourse'),
 
         connectOutlets: function(router) {
-          router.get('applicationController').connectOutlet('courses', App.Course.find());
+          router.get('applicationController').connectOutlet('courses', App.Course.all());
         }
       }),
       aCourse: Ember.Route.extend({
         route: '/course/:course_id',
 
-        goHome: Ember.Route.transitionTo('courses'),
-
         connectOutlets: function(router, context) {
-          router.get('applicationController').connectOutlet('oneCourse', context);
+          router.get('applicationController').connectOutlet('oneCourse', App.Course.findOne(1));
         },
 
         serialize: function(router, context) {
           return {
-            course_id: context.get('login')
+            course_id: context.get('courseid')
           }
         },
 
