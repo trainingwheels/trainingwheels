@@ -14,13 +14,13 @@
     templateName: 'courses'
   });
 
-  App.OneCourseController = Ember.ObjectController.extend();
-  App.OneCourseView = Ember.View.extend({
+  App.CourseController = Ember.ObjectController.extend();
+  App.CourseView = Ember.View.extend({
     templateName: 'course'
   });
 
-  App.Course = Ember.Object.extend();
-  App.Course.reopenClass({
+  App.CourseStore = Ember.Object.extend();
+  App.CourseStore.reopenClass({
     allCourses: [],
     all: function() {
       $.ajax({
@@ -31,15 +31,15 @@
           // TODO: Don't delete and re-load here.
           this.allCourses.clear();
           data.forEach(function(course) {
-            this.allCourses.addObject(App.Course.create(course))
+            this.allCourses.addObject(App.CourseStore.create(course))
           }, this);
         }
       });
       return this.allCourses;
     },
 
-    findOne: function(course_id) {
-      var course = App.Course.create({
+    find: function(course_id) {
+      var course = App.CourseStore.create({
         courseid: course_id
       });
 
@@ -51,8 +51,6 @@
           this.setProperties(data);
         }
       })
-
-      console.log(course);
 
       return course;
     }
@@ -71,27 +69,27 @@
       courses: Ember.Route.extend({
         route: '/courses',
 
-        showCourse: Ember.Route.transitionTo('aCourse'),
+        showCourse: Ember.Route.transitionTo('course'),
 
         connectOutlets: function(router) {
-          router.get('applicationController').connectOutlet('courses', App.Course.all());
+          router.get('applicationController').connectOutlet('courses', App.CourseStore.all());
         }
       }),
-      aCourse: Ember.Route.extend({
+      course: Ember.Route.extend({
         route: '/course/:course_id',
 
-        connectOutlets: function(router, context) {
-          router.get('applicationController').connectOutlet('oneCourse', App.Course.findOne(1));
+        connectOutlets: function(router, course) {
+          router.get('applicationController').connectOutlet('course', App.CourseStore.find(1));
         },
 
-        serialize: function(router, context) {
+        serialize: function(router, course) {
           return {
-            course_id: context.get('courseid')
+            course_id: course.get('courseid')
           }
         },
 
         deserialize: function(router, urlParams){
-          return App.Course.findOne(urlParams.course_id);
+          return App.CourseStore.find(urlParams.course_id);
         }
 
       })
