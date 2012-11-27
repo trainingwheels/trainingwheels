@@ -29,7 +29,7 @@ $jsGet = function($debug) {
   $js = array(
     '/js/src/jquery.spin.js',
     '/js/src/handlebars_helpers.js',
-    '/js/src/app.js',
+    '/js/src/app.js?v=2',
   );
   if (!$debug) {
     $js_min = array(
@@ -49,7 +49,7 @@ $jsGet = function($debug) {
       '/js/vendor/spin/spin.js',
       '/js/vendor/handlebars/handlebars-1.0.rc.1.js',
       '/js/vendor/ember/ember-1.0.0-pre.2.js',
-      '/js/vendor/ember-data/ember-data.js',
+      '/js/vendor/ember-data/ember-data.js?v=2',
     );
     $js = array_merge($js_full, $js);
   }

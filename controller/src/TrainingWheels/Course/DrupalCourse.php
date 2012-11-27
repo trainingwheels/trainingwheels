@@ -15,7 +15,7 @@ class DrupalCourse extends TrainingCourse {
    * Factory that creates new user objects for this course.
    */
   protected function userFactory($user_name) {
-    $user_id = $this->courseid . '-' . $user_name;
+    $user_id = $this->course_id . '-' . $user_name;
     $files_res_id = $user_id . '-drupal_files';
     $db_res_id = $user_id . '-drupal_db';
 

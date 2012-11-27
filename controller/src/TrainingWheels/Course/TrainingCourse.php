@@ -11,8 +11,8 @@ abstract class TrainingCourse {
   // The course name.
   public $course_name;
 
-  // The course id, which can be the node id.
-  public $courseid;
+  // The course id.
+  public $course_id;
 
   // Factory method for creating user objects, needs to be provided by subclass.
   abstract protected function userFactory($user_name);
@@ -90,8 +90,8 @@ abstract class TrainingCourse {
     $user_obj = $this->userFactory($user_name);
     $user_info = $user_obj->get();
     if ($user_info) {
-      $user_info['course_id'] = $this->courseid;
-      $user_info['uri'] = '/user/' . $user_info['userid'];
+      $user_info['course_id'] = $this->course_id;
+      $user_info['uri'] = '/user/' . $user_info['id'];
     }
     return $user_info;
   }

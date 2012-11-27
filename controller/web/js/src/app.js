@@ -7,13 +7,56 @@
   win.App = Ember.Application.create();
   var App = win.App;
 
-  // For Ember Data
+  ////
+  // Ember Data
+  //
   App.store = DS.Store.create({
     revision: 8,
-    adapter: DS.RESTAdapter.create({ bulkCommit: false }),
-    namespace: 'rest'
+    adapter: DS.RESTAdapter.create({
+      bulkCommit: false,
+      namespace: 'rest',
+      plurals: {
+        user: 'users',
+        course_summary: 'course_summaries'
+      },
+      mappings: {
+        users: 'App.User',
+        courses: 'App.Course',
+        course_summaries: 'App.CourseSummary'
+      }
+    })
   });
 
+  App.User = DS.Model.extend({
+    user_name: DS.attr('string'),
+    password: DS.attr('string'),
+    logged_in: DS.attr('boolean'),
+  });
+
+  App.Course = DS.Model.extend({
+    course_name: DS.attr('string'),
+    course_type: DS.attr('string'),
+    description: DS.attr('string'),
+    env_type: DS.attr('string'),
+    repo: DS.attr('string'),
+    title: DS.attr('string'),
+    uri: DS.attr('string'),
+    users: DS.hasMany('App.User')
+  });
+
+  App.CourseSummary = DS.Model.extend({
+    course_name: DS.attr('string'),
+    course_type: DS.attr('string'),
+    description: DS.attr('string'),
+    env_type: DS.attr('string'),
+    repo: DS.attr('string'),
+    title: DS.attr('string'),
+    uri: DS.attr('string')
+  });
+
+  ////
+  // Controllers & Views
+  //
   App.ApplicationController = Ember.Controller.extend();
   App.ApplicationView = Ember.View.extend({
     templateName: 'application'
@@ -30,50 +73,14 @@
   });
 
   App.UsersController = Ember.ArrayController.extend({
-    allUsers: [],
-
   });
   App.UsersView = Ember.View.extend({
     templateName: 'users'
   });
 
-  App.CourseStore = Ember.Object.extend();
-  App.CourseStore.reopenClass({
-    allCourses: [],
-    all: function() {
-      $.ajax({
-        url: '/rest/course',
-        dataType: 'json',
-        context: this,
-        success: function(data) {
-          // TODO: Don't delete and re-load here.
-          this.allCourses.clear();
-          data.forEach(function(course) {
-            this.allCourses.addObject(App.CourseStore.create(course))
-          }, this);
-        }
-      });
-      return this.allCourses;
-    },
-
-    find: function(course_id) {
-      var course = App.CourseStore.create({
-        courseid: course_id
-      });
-
-      $.ajax({
-        url: '/rest/course/' + course_id,
-        dataType: 'json',
-        context: course,
-        success: function(data) {
-          this.setProperties(data);
-        }
-      })
-
-      return course;
-    }
-  });
-
+  ////
+  // Router
+  //
   App.Router = Ember.Router.extend({
     enableLogging: true,
 
@@ -92,36 +99,29 @@
         showCourse: Ember.Route.transitionTo('course'),
 
         connectOutlets: function(router) {
-          router.get('applicationController').connectOutlet('courses', App.CourseStore.all());
+          router.get('applicationController').connectOutlet('courses', App.store.findAll(App.CourseSummary));
         }
       }),
       course: Ember.Route.extend({
         route: '/course/:course_id',
 
         connectOutlets: function(router, context) {
-
-          // At the moment, the course that is incoming in context could be from the courses list, which
-          // doesn't have the users attached as the REST interface at /courses doesn't include it.
-          // So we reload the course.
-          var course = App.CourseStore.find(1);
+          var course = App.store.find(App.Course, 1);
           router.get('applicationController').connectOutlet('course', course);
 
-          cl(course);
-          cl(course.course_type);
-          cl(course.get('course_type'));
-
           var courseController = router.get('courseController');
-          courseController.connectOutlet('users', App.UsersController.loadUsers(course));
+          // TODO: filter for just this course's users.
+          courseController.connectOutlet('users', App.store.filter(App.User, function (data) { return true; }));
         },
 
         serialize: function(router, course) {
           return {
-            course_id: course.get('courseid')
+            course_id: course.get('id')
           }
         },
 
-        deserialize: function(router, urlParams){
-          return App.CourseStore.find(urlParams.course_id);
+        deserialize: function(router, urlParams) {
+          return App.store.find(App.Course, urlParams.course_id);
         }
 
       })

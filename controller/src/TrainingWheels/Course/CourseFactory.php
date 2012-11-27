@@ -35,11 +35,11 @@ class CourseFactory {
     $course = $this->buildCourse($params['course']);
     $this->buildEnv($course, $params['env'], $params['host'], $params['user'], $params['pass']);
 
+    $course->course_id = $course_id;
     $course->title = $params['title'];
     $course->description = $params['description'];
     $course->repo = $params['repo'];
     $course->course_name = $params['course_name'];
-    $course->courseid = $params['id'];
     $course->uri = '/course/' . $params['id'];
 
     return $course ? $course : FALSE;

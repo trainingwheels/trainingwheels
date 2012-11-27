@@ -128,9 +128,9 @@ class REST implements ControllerProviderInterface {
     ->convert('user', $parseID);
 
     /**
-     * Index of courses.
+     * Course summaries
      */
-    $controllers->get('/course', function() use ($app) {
+    $controllers->get('/course_summaries', function() use ($app) {
       $courses = array();
       $ids = array(1);
       foreach ($ids as $id) {
@@ -138,18 +138,26 @@ class REST implements ControllerProviderInterface {
         unset($course->env);
         $courses[] = $course;
       }
-      return $app->json($courses, HTTP_OK);
+      $return = new \stdClass;
+      $return->course_summaries = $courses;
+      return $app->json($return, HTTP_OK);
     });
 
     /**
      * Retrieve a course.
      */
-    $controllers->get('/course/{id}', function ($id) use ($app) {
+    $controllers->get('/courses/{id}', function ($id) use ($app) {
       $course = CourseFactory::singleton()->get($id);
+      // Ember data expects an 'id' parameter.
+      $course->id = $course->course_id;
       $users = $course->usersGet('*');
       unset($course->env);
-      $course->users = array_values($users);
-      return $app->json($course, HTTP_OK);
+
+      $return = new \stdClass;
+      $return->courses = array($course);
+      $return->users = array_values($users);
+      unset($course->course_id);
+      return $app->json($return, HTTP_OK);
     })
     ->assert('id', '\d+');
 

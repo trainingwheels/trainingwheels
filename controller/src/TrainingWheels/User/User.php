@@ -196,7 +196,7 @@ abstract class User extends CachedObject {
         'user_name' => $this->user_name,
         'password' => $this->getPasswd(),
         'logged_in' => $this->isLoggedIn(),
-        'userid' => $this->user_id,
+        'id' => $this->user_id,
       );
       foreach ($this->resources as $name => $resource) {
         $user['resources'][$name] = $resource->get();
