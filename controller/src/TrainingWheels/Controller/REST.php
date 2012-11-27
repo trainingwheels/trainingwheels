@@ -136,6 +136,8 @@ class REST implements ControllerProviderInterface {
       foreach ($ids as $id) {
         $course = CourseFactory::singleton()->get($id);
         unset($course->env);
+        $course->id = $course->course_id;
+        unset($course->course_id);
         $courses[] = $course;
       }
       $return = new \stdClass;
