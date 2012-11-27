@@ -1,6 +1,9 @@
 (function(win, $) {
   'use strict';
 
+  // Shorthand for logging easily using cl('message');
+  var cl = console.log.bind(console);
+
   win.App = Ember.Application.create();
   var App = win.App;
 
@@ -17,6 +20,14 @@
   App.CourseController = Ember.ObjectController.extend();
   App.CourseView = Ember.View.extend({
     templateName: 'course'
+  });
+
+  App.UsersController = Ember.ArrayController.extend({
+    allUsers: [],
+
+  });
+  App.UsersView = Ember.View.extend({
+    templateName: 'users'
   });
 
   App.CourseStore = Ember.Object.extend();
@@ -62,10 +73,12 @@
     goHome: Ember.Route.transitionTo('courses'),
 
     root: Ember.Route.extend({
+      // Going to the home page currently redirects you to the list of courses.
       index: Ember.Route.extend({
         route: '/',
         redirectsTo: 'courses'
       }),
+      // List of the courses in the system.
       courses: Ember.Route.extend({
         route: '/courses',
 
@@ -78,8 +91,20 @@
       course: Ember.Route.extend({
         route: '/course/:course_id',
 
-        connectOutlets: function(router, course) {
-          router.get('applicationController').connectOutlet('course', App.CourseStore.find(1));
+        connectOutlets: function(router, context) {
+
+          // At the moment, the course that is incoming in context could be from the courses list, which
+          // doesn't have the users attached as the REST interface at /courses doesn't include it.
+          // So we reload the course.
+          var course = App.CourseStore.find(1);
+          router.get('applicationController').connectOutlet('course', course);
+
+          cl(course);
+          cl(course.course_type);
+          cl(course.get('course_type'));
+
+          var courseController = router.get('courseController');
+          courseController.connectOutlet('users', App.UsersController.loadUsers(course));
         },
 
         serialize: function(router, course) {
