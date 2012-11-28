@@ -54,8 +54,8 @@ Courses
 
 Index of courses:
 
-    curl http://training.wheels:8888/rest/course -i && echo ''; echo ''
+    curl http://training.wheels:8888/rest/courses -i && echo ''; echo ''
 
 Get a course:
 
-    curl http://training.wheels:8888/rest/course/1 -i && echo ''; echo ''
+    curl http://training.wheels:8888/rest/courses/1 -i && echo ''; echo ''

@@ -10,9 +10,6 @@
         {{course_name}}
       </div>
     </div>
-    <div class="course-user-info">
-      <h2>Users</h2>
-        {{outlet}}
-    </div>
+    {{outlet}}
   {{/if}}
 </div>

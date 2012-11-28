@@ -31,6 +31,7 @@
     user_name: DS.attr('string'),
     password: DS.attr('string'),
     logged_in: DS.attr('boolean'),
+    course_id: DS.attr('number')
   });
 
   App.Course = DS.Model.extend({
@@ -73,9 +74,16 @@
   });
 
   App.UsersController = Ember.ArrayController.extend({
+    instructor: function() {
+      return this.get('content').findProperty('user_name', 'instructor');
+    }.property('content.@each.user_name')
   });
   App.UsersView = Ember.View.extend({
-    templateName: 'users'
+    templateName: 'users',
+    showUser: function(event) {
+      console.log(event.context.get('user_name'));
+    }
+
   });
 
   ////
@@ -87,11 +95,13 @@
     goHome: Ember.Route.transitionTo('courses'),
 
     root: Ember.Route.extend({
+
       // Going to the home page currently redirects you to the list of courses.
       index: Ember.Route.extend({
         route: '/',
         redirectsTo: 'courses'
       }),
+
       // List of the courses in the system.
       courses: Ember.Route.extend({
         route: '/courses',
@@ -102,16 +112,23 @@
           router.get('applicationController').connectOutlet('courses', App.store.findAll(App.CourseSummary));
         }
       }),
+
+      // Page showing a single course details and all the users.
       course: Ember.Route.extend({
         route: '/course/:course_id',
 
         connectOutlets: function(router, context) {
-          var course = App.store.find(App.Course, 1);
+          var course_id = context.id;
+          var course = App.store.find(App.Course, course_id);
           router.get('applicationController').connectOutlet('course', course);
 
           var courseController = router.get('courseController');
-          // TODO: filter for just this course's users.
-          courseController.connectOutlet('users', App.store.filter(App.User, function (data) { return true; }));
+          var usersData = App.store.filter(App.User, function (data) {
+            if (data.get('course_id') == course_id) {
+              return true;
+            }
+          });
+          courseController.connectOutlet('users', usersData);
         },
 
         serialize: function(router, course) {
