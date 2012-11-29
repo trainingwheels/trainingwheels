@@ -8,7 +8,7 @@ To get Composer on your system:
 
 Building the app:
 
-    cd trainingwheels/app
+    cd trainingwheels/controller
     composer install
 
 TODO
