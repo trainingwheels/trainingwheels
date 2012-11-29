@@ -1,7 +1,8 @@
 <div class="user">
-  <a href="#" {{action "showUser" user target="App.usersController"}}><h2>{{user_name}}</h2></a>
+  <div class="arrow-image down"></div>
+  <h4>{{user_name}}</h4>
+  <!-- these class names will change automatically, just write css for them -->
+  <div {{bindAttr class="logged-in:user-logged-in:user-logged-out"}}></div>
 
-  {{view Ember.TextField valueBinding="user_name"}}
-  <div>Password: {{password}}</div>
-  <div>Logged in: {{#if logged_in}}yes{{else}}no{{/if}}</div>
+  <div class="user-resource-status resources-created"></div>
 </div>

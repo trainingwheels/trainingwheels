@@ -10,6 +10,7 @@
         {{course_name}}
       </div>
     </div>
+    <button {{action refreshCourse target="controller"}}>Refresh</button>
     {{outlet instructorOutlet}}
     {{outlet usersOutlet}}
   {{/if}}

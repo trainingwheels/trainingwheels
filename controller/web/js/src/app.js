@@ -7,6 +7,8 @@
   win.App = Ember.Application.create();
   var App = win.App;
 
+  App.sortOptions = ['name', 'id'];
+
   ////
   // Ember Data
   //
@@ -91,7 +93,9 @@
     templateName: 'instructor',
   });
 
-  App.UserController = Ember.ObjectController.extend();
+  App.UserController = Ember.ObjectController.extend({
+    user_logged_in_class: 'user-logged-in'
+  });
   App.UserView = Ember.View.extend({
     templateName: 'user',
   });
