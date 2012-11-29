@@ -98,57 +98,10 @@
       tags: common
 
     ##
-    # Get the Training Wheels distribution - production.
-    #
-    - name: Create a webroot directory
-      action: file path=/var/nginx/tw state=directory
-      tags: prod
-
-    - name: Download the stable tarball to /var/nginx
-      action: command wget -P /var/nginx http://ftp.drupal.org/files/projects/$tw_stable creates=/var/nginx/$tw_stable
-      tags: prod
-
-    - name: Extract the tarball into webroot
-      action: command tar zxvfo /var/nginx/$tw_stable --strip-components 1 -C /var/nginx/tw creates=/var/nginx/tw/index.php
-      tags: prod
-
-    ##
     # Get the Training Wheels distribution - development.
     #
     - name: Create a link to a VMWare shared folder for use when developing.
       action: file dest=/var/nginx state=link src=/mnt/hgfs/Sites
-      tags: dev
-
-    - name: Clone the Training Wheels make scripts from Drupal.org
-      action: git repo=http://git.drupal.org/project/trainingwheels.git dest=/root/tw-make version=7.x-1.x
-      tags: dev
-
-    - name: Use drush to build the distribution
-      action: command drush make /root/tw-make/build-trainingwheels.make /var/nginx/tw creates=/var/nginx/tw
-      tags: dev
-
-    # TODO: We are moving to a new controller platform, piece-by-piece. For now, run both together.
-    - name: Copy our new controller nginx site configuration
-      action: template src=templates/etc-nginx-sites-available-twcontroller-new.j2 dest=/etc/nginx/sites-available/twcontroller-new
-      tags: dev
-
-    - name: Create a link to a VMWare shared folder for use when developing.
-      action: file dest=/var/nginx/trainingwheels state=link src=/mnt/hgfs/Workarea/trainingwheels
-      tags: dev
-
-    ##
-    # Setup Training Wheels.
-    #
-    - name: Create sites/default/files directory
-      action: file path=/var/nginx/tw/sites/default/files state=directory mode=0777
-      tags: common
-
-    - name: Create settings.php if it doesn't exist
-      action: command cp /var/nginx/tw/sites/default/default.settings.php /var/nginx/tw/sites/default/settings.php creates=/var/nginx/tw/sites/default/settings.php
-      tags: common
-
-    - name: Make settings.php writeable.
-      action: file path=/var/nginx/tw/sites/default/settings.php state=file mode=0777
       tags: common
 
     ##

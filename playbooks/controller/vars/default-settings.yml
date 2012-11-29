@@ -32,6 +32,3 @@ php_short_open_tag: 'Off'
 mysql_user: 'tw'
 mysql_pass: 'password'
 mysql_db: 'tw'
-
-# TrainingWheels
-tw_stable: 'trainingwheels-7.x-1.x-dev-core.tar.gz'
