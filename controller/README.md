@@ -17,6 +17,14 @@ TODO
 * Re-implement caching in CachedObject.
 * Remove the custom logger, replace with the Silex one, Monolog.
 
+Building Ember
+--------------
+
+    rvm install 1.9.2 --with-openssl-dir=$rvm_path/usr
+    rvm 1.9.2
+    bundle exec install
+    bundle rake build
+
 Console application
 -------------------
 
