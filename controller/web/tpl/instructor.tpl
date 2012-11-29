@@ -1,5 +1,5 @@
-<div class="course-user-info">
-  <h2>Users</h2>
+<div class="course-instructor">
+  <h2>Instructor</h2>
   {{#each user in controller}}
     {{#with user}}
       {{view "App.UserView"}}

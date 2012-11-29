@@ -10,6 +10,7 @@
         {{course_name}}
       </div>
     </div>
-    {{outlet}}
+    {{outlet instructorOutlet}}
+    {{outlet usersOutlet}}
   {{/if}}
 </div>

@@ -21,6 +21,7 @@
       },
       mappings: {
         users: 'App.User',
+        instructor: 'App.User',
         courses: 'App.Course',
         course_summaries: 'App.CourseSummary'
       }
@@ -42,7 +43,9 @@
     repo: DS.attr('string'),
     title: DS.attr('string'),
     uri: DS.attr('string'),
-    users: DS.hasMany('App.User')
+    users: DS.hasMany('App.User'),
+    // TODO: Replace with hasOne when PR https://github.com/emberjs/data/pull/475 gets in.
+    instructor: DS.hasMany('App.User')
   });
 
   App.CourseSummary = DS.Model.extend({
@@ -73,17 +76,19 @@
     templateName: 'course'
   });
 
-  App.UsersController = Ember.ArrayController.extend({
-    instructor: function() {
-      return this.get('content').findProperty('user_name', 'instructor');
-    }.property('content.@each.user_name')
-  });
+  App.UsersController = Ember.ArrayController.extend();
   App.UsersView = Ember.View.extend({
     templateName: 'users',
-    showUser: function(event) {
-      console.log(event.context.get('user_name'));
-    }
+  });
 
+  App.InstructorController = Ember.ArrayController.extend();
+  App.InstructorView = Ember.View.extend({
+    templateName: 'instructor',
+  });
+
+  App.UserController = Ember.ObjectController.extend();
+  App.UserView = Ember.View.extend({
+    templateName: 'user',
   });
 
   ////
@@ -119,16 +124,39 @@
 
         connectOutlets: function(router, context) {
           var course_id = context.id;
+          // When we .find() a course, the hasMany relationships in the store
+          // will auto-fill the users, so we can just use .filter() below
+          // which doesn't trigger a request.
           var course = App.store.find(App.Course, course_id);
           router.get('applicationController').connectOutlet('course', course);
 
+          // Pull the non-instructor users and connect them to the outlet. Remember that
+          // this data store is not materialized right here, the requests are async and
+          // once the data enters the store, the front end is updated. Try this in the
+          // console if you want to look at the data:
+          // App.store.filter(App.User, function(data) { return true; } ).objectAt(0).toData()
           var courseController = router.get('courseController');
-          var usersData = App.store.filter(App.User, function (data) {
-            if (data.get('course_id') == course_id) {
+          var users = App.store.filter(App.User, function (data) {
+            if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
               return true;
             }
           });
-          courseController.connectOutlet('users', usersData);
+          courseController.connectOutlet({
+            outletName: 'usersOutlet',
+            name: 'users',
+            context: users
+          });
+
+          var instructor = App.store.filter(App.User, function (data) {
+            if (data.get('user_name') == 'instructor' && data.get('course_id') == course_id) {
+              return true;
+            }
+          });
+          courseController.connectOutlet({
+            outletName: 'instructorOutlet',
+            name: 'instructor',
+            context: instructor
+          });
         },
 
         serialize: function(router, course) {

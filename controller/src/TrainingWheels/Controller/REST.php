@@ -150,15 +150,25 @@ class REST implements ControllerProviderInterface {
      */
     $controllers->get('/courses/{id}', function ($id) use ($app) {
       $course = CourseFactory::singleton()->get($id);
+
       // Ember data expects an 'id' parameter.
       $course->id = $course->course_id;
+
+      // Get all the users, then split the instructor and
+      // the rest into two adjacent properties on the
+      // returned object. Ember doesn't support embedded
+      // properties right now.
       $users = $course->usersGet('*');
-      unset($course->env);
+      $instructor = $users['instructor'];
+      unset($users['instructor']);
 
       $return = new \stdClass;
       $return->courses = array($course);
       $return->users = array_values($users);
+      $return->instructor = array($instructor);
+
       unset($course->course_id);
+      unset($course->env);
       return $app->json($return, HTTP_OK);
     })
     ->assert('id', '\d+');
