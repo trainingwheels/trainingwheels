@@ -73,7 +73,11 @@
     templateName: 'courses'
   });
 
-  App.CourseController = Ember.ObjectController.extend();
+  App.CourseController = Ember.ObjectController.extend({
+    refreshCourse: function() {
+      alertify.success('Refreshing the course');
+    }
+  });
   App.CourseView = Ember.View.extend({
     templateName: 'course'
   });
@@ -81,7 +85,7 @@
   App.UsersController = Ember.ArrayController.extend({
     addUser: function() {
       App.store.createRecord(App.User, {user_name: "newuser", course_id: 1});
-      cl('adding a user');
+      alertify.success('Adding a user');
     }
   });
   App.UsersView = Ember.View.extend({

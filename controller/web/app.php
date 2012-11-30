@@ -35,6 +35,7 @@ $jsGet = function($debug) {
     $js_min = array(
       '/js/vendor/jquery/jquery-1.8.3.min.js',
       '/js/vendor/underscore/underscore-min.js',
+      '/js/vendor/alertify/alertify.min.js',
       '/js/vendor/spin/spin.min.js',
       '/js/vendor/handlebars/handlebars-1.0.rc.1.min.js',
       '/js/vendor/ember/ember-1.0.0-pre.2.min.js',
@@ -46,6 +47,7 @@ $jsGet = function($debug) {
     $js_full = array(
       '/js/vendor/jquery/jquery-1.8.3.js',
       '/js/vendor/underscore/underscore.js',
+      '/js/vendor/alertify/alertify.js',
       '/js/vendor/spin/spin.js',
       '/js/vendor/handlebars/handlebars-1.0.rc.1.js',
       '/js/vendor/ember/ember-1.0.0-pre.2.js',
