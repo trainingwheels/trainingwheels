@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Console;
 use TrainingWheels\Course\CourseFactory;
+use TrainingWheels\Log\Log;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,6 +21,7 @@ class ResourceSync extends Command
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
+    Log::log('CLI command: ResourceSync', L_INFO);
     $course = CourseFactory::singleton()->get($input->getArgument('course_id'));
     $source_user = $input->getArgument('source_user');
     $target_users = $input->getArgument('target_users');

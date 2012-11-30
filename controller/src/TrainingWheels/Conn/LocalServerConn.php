@@ -1,6 +1,7 @@
 <?php
 
 namespace TrainingWheels\Conn;
+use TrainingWheels\Log\Log;
 use Exception;
 
 class LocalServerConn extends ServerConn {
@@ -13,12 +14,12 @@ class LocalServerConn extends ServerConn {
       $commands = $input;
     }
     else {
-      throw new Exception("Invalid input to ServerConn.");
+      throw new Exception("Invalid input to function LocalServerConn::process(), expecting string or array.");
     }
 
     foreach ($commands as $key => $command) {
       // When we run locally, we're running as either the phpfpm user through
-      // nginx, or drush. Therefore, we need to add sudo before each call and
+      // nginx, or the console. Therefore, we need to add sudo before each call and
       // check the results specifically for the 'you're not allowed' message.
       // In the event we get this error, permission for this user to execute
       // the command as root needs to be added to sudoers or /etc/sudoers.d/
@@ -34,7 +35,9 @@ class LocalServerConn extends ServerConn {
     // It would be awesome to use the actual return codes, but the SSH server
     // connection plugin doesn't give us those codes, so for compatibility
     // with that plugin, we don't either.
-    $result =  trim(shell_exec($command . ' 2>&1'));
+    Log::log('LocalServerConn::exec: ' . $command, L_DEBUG);
+    $result = trim(shell_exec($command . ' 2>&1'));
+    Log::log('LocalServerConn::resp: ' . $result, L_DEBUG);
 
     if (substr($result, 0, 20) == 'sudo: no tty present') {
       throw new Exception("The current user does not have sudo permission to execute " . $command);

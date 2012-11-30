@@ -9,7 +9,16 @@ use TrainingWheels\Console\UserDelete;
 use TrainingWheels\Console\ResourceCreate;
 use TrainingWheels\Console\ResourceDelete;
 use TrainingWheels\Console\ResourceSync;
+use TrainingWheels\Log\Log;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 use Symfony\Component\Console\Application;
+
+$log = new Logger('tw');
+$log->pushHandler(new StreamHandler('../log/cli.log', Logger::DEBUG));
+
+Log::$instance = new Log($log);
+Log::log('Initializing CLI application', L_INFO);
 
 $application = new Application();
 $application->add(new UserRetrieve);

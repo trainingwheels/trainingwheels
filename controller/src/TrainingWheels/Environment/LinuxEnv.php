@@ -361,8 +361,8 @@ class LinuxEnv implements TrainingEnv {
    * Check if there are local changes.
    */
   public function gitLocalChanges($dir) {
-    $git_path_opts = "--work-tree=$dir --git-dir=$dir/.git";
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    $git_path_opts = "--work-tree=$dir --git-dir=$dir/.git";
     return $this->conn->exec_get("git $git_path_opts status -s");
   }
 
@@ -370,8 +370,8 @@ class LinuxEnv implements TrainingEnv {
    * Check what the remote is.
    */
   public function gitRemote($dir) {
-    $git_path_opts = "--work-tree=$dir --git-dir=$dir/.git";
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    $git_path_opts = "--work-tree=$dir --git-dir=$dir/.git";
     return $this->conn->exec_get("git $git_path_opts remote -v");
   }
 }

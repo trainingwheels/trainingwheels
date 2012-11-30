@@ -21,7 +21,6 @@ class CourseFactory {
     if (!isset(self::$instance)) {
       $className = __CLASS__;
       self::$instance = new $className;
-      $s = self::$instance;
     }
     return self::$instance;
   }

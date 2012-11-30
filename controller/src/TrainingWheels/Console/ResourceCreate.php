@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Console;
 use TrainingWheels\Course\CourseFactory;
+use TrainingWheels\Log\Log;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,6 +20,7 @@ class ResourceCreate extends Command
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
+    Log::log('CLI command: ResourceCreate', L_INFO);
     $course = CourseFactory::singleton()->get($input->getArgument('course_id'));
     $user_names = $input->getArgument('user_names');
 

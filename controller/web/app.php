@@ -2,20 +2,31 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+use TrainingWheels\Log\Log;
+use Monolog\Logger;
+
 $app = new Silex\Application();
 $app['debug'] = TRUE;
 
 /**
- * Register providers.
- *
  * Use Twig for templating, although the majority is done client-side.
  */
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
   'twig.path' => __DIR__ . '/',
 ));
+
+/**
+ * Currently we have monolog logging from both a Silex Provider for
+ * the web app messages, and internally in Training Wheels from the
+ * Log class.
+ */
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__ . '/development.log',
+    'monolog.logfile' => __DIR__ . '/../log/messages.log',
+    'monolog.name' => 'tw',
+    'monolog.level' => $app['debug'] ? Logger::DEBUG : Logger::INFO,
 ));
+Log::$instance = new Log($app['monolog']);
+Log::log('Initializing web application', L_INFO);
 
 /**
  * The REST service endpoints.

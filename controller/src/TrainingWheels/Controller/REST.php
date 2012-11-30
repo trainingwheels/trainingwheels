@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Controller;
 use TrainingWheels\Course\CourseFactory;
+use TrainingWheels\Log\Log;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
