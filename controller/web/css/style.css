@@ -1,3 +1,13 @@
+.user-login-status {
+  height: 20px;
+  width: 20px;
+  background-color: red;
+}
+
+.user-login-status.logged-in {
+  background-color: green;
+}
+
 div#tw-app {
   width: 500px;
   min-height: 300px;
@@ -40,3 +50,4 @@ div.user {
 div.twspin {
   min-height: 100px;
 }
+

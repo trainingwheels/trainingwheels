@@ -15,7 +15,6 @@ TODO
 ----
 
 * Re-implement caching in CachedObject.
-* Remove the custom logger, replace with the Silex one, Monolog.
 
 Building Ember
 --------------

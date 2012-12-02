@@ -30,9 +30,19 @@ file into your sub-theme's css directory:
 
 While using generated CSS with your browser's inspectors, the line numbers it reports will be
 wrong since it will be showing the generated CSS file's line numbers and not the
-line numbers of the source Sass files. By default, Compass will output a comment with what line and what partial the CSS is comming from above the selector. This is useful if you're looking at your CSS file itself, but not as useful if you're trying to debug straight from your inspector. If you'd like to debug straight from your inspector, there are two options, one for Google Chrome and one for Firefox.
+line numbers of the source Sass files. By default, Compass will output a comment with what
+line and what partial the CSS is comming from above the selector. This is useful if you're
+looking at your CSS file itself, but not as useful if you're trying to debug straight from
+your inspector. If you'd like to debug straight from your inspector, there are two options,
+one for Google Chrome and one for Firefox.
 
-If you are using Firefox, you can install the [FireSass](https://addons.mozilla.org/en-US/firefox/addon/firesass-for-firebug/) plug-in into Firefox. Then, edit your sub-theme's config.rb file so Firesass is true (`firesass = true`) and make sure that `sass_options = :debug_info => true` is enabled (in the example config.rb file, there's a check for whether you're on the development environment). If you are using Google Chrome (currently available in the Canary build, soon in the full version), make sure the Debug Info is enabled as well, go to `about://flags`, Enable Developer Tools experiments, restart Canary, open your inspector, click settings (the gear on the bottom right), open experiments, and check Support for Sass.
+If you are using Firefox, you can install the [FireSass](https://addons.mozilla.org/en-US/firefox/addon/firesass-for-firebug/) plug-in into Firefox. Then, edit your sub-theme's config.rb file so Firesass is true (`firesass = true`)
+and make sure that `sass_options = :debug_info => true` is enabled (in the example config.rb
+file, there's a check for whether you're on the development environment). If you are using
+Google Chrome (currently available in the Canary build, soon in the full version), make sure
+the Debug Info is enabled as well, go to `about://flags`, Enable Developer Tools experiments,
+restart Canary, open your inspector, click settings (the gear on the bottom right), open
+experiments, and check Support for Sass.
 
 
 MOVING YOUR CSS TO PRODUCTION
@@ -51,4 +61,3 @@ to delete all the generated CSS files.
     `#environment = :production`
 - Regenerate all the CSS files by running: `compass compile`
 
-And don't forget to turn on Drupal's CSS aggregation. :-)

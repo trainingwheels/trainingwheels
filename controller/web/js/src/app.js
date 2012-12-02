@@ -102,6 +102,7 @@
   });
   App.UserView = Ember.View.extend({
     templateName: 'user',
+    css_class_login_status: 'user-login-status'
   });
 
   ////

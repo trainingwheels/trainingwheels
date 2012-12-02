@@ -9,19 +9,11 @@ images_dir = "images"
 javascripts_dir = "js"
 fonts_dir = "fonts"
 
-# To enable relative paths to assets via compass helper functions. Since Drupal
-# themes can be installed in multiple locations, we don't need to worry about
-# the absolute path to the theme from the server root.
+# To enable relative paths to assets via compass helper functions.
 relative_assets = true
 
 # To disable debugging comments that display the original location of your selectors. Uncomment:
 line_comments = false
-
-# Assuming this theme is in sites/*/themes/THEMENAME, you can add the partials
-# included with a module by uncommenting and modifying one of the lines below:
-#add_import_path "../../../default/modules/FOO"
-#add_import_path "../../../all/modules/FOO"
-#add_import_path "../../../../modules/FOO"
 
 # If you prefer the indented syntax, you might want to regenerate this
 # project again passing --syntax sass, or you can uncomment this:
