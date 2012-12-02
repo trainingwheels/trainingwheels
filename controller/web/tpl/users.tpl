@@ -7,7 +7,7 @@
   <button {{action deleteSelected target="controller"}}>Delete</button>
   {{#each user in controller}}
     {{#with user}}
-      {{view "App.UserView"}}
+      {{view "App.UserSummaryView"}}
     {{/with}}
   {{/each}}
   {{view Ember.TextField valueBinding="newUserName"}} <button {{action addUser target="controller"}}>Add user</button>

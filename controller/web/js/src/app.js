@@ -17,37 +17,19 @@
     adapter: DS.RESTAdapter.create({
       bulkCommit: false,
       namespace: 'rest',
+      // Plurals are used when formatting the URLs, so if you have a
+      // App.CourseSummary, and you attempt to populate it using findAll(),
+      // the actual request will be GET /rest/course_summaries
       plurals: {
-        user: 'users',
-        course_summary: 'course_summaries'
+        course_summary: 'course_summaries',
       },
+      // Only required on the main key for the request, so /rest/courses/1
+      // shoud return { courses: [{}] }, the first course in an array with
+      // the key mapping here to the type.
       mappings: {
-        users: 'App.User',
-        instructor: 'App.User',
         courses: 'App.Course',
-        course_summaries: 'App.CourseSummary'
       }
     })
-  });
-
-  App.User = DS.Model.extend({
-    user_name: DS.attr('string'),
-    password: DS.attr('string'),
-    logged_in: DS.attr('boolean'),
-    course_id: DS.attr('number')
-  });
-
-  App.Course = DS.Model.extend({
-    course_name: DS.attr('string'),
-    course_type: DS.attr('string'),
-    description: DS.attr('string'),
-    env_type: DS.attr('string'),
-    repo: DS.attr('string'),
-    title: DS.attr('string'),
-    uri: DS.attr('string'),
-    users: DS.hasMany('App.User'),
-    // TODO: Replace with hasOne when PR https://github.com/emberjs/data/pull/475 gets in.
-    instructor: DS.hasMany('App.User')
   });
 
   App.CourseSummary = DS.Model.extend({
@@ -59,6 +41,33 @@
     title: DS.attr('string'),
     uri: DS.attr('string')
   });
+
+  App.Course = App.CourseSummary.extend({
+    users: DS.hasMany('App.UserSummary'),
+    // TODO: Replace with hasOne when PR https://github.com/emberjs/data/pull/475 gets in.
+    instructor: DS.hasMany('App.UserSummary'),
+    didLoad: function() {
+      alertify.success('Course "' + this.get('title') + '" loaded.');
+    }
+  });
+
+  App.UserSummary = DS.Model.extend({
+    user_name: DS.attr('string'),
+    password: DS.attr('string'),
+    logged_in: DS.attr('boolean'),
+    course_id: DS.attr('number')
+  });
+
+  App.User = App.UserSummary.extend({
+    resources: DS.hasMany('App.Resource')
+  });
+
+  App.Resource = DS.Model.extend({
+    key: DS.attr('string'),
+    title: DS.attr('string'),
+    exists: DS.attr('boolean'),
+    type: DS.attr('string'),
+  })
 
   ////
   // Controllers & Views
@@ -84,7 +93,7 @@
 
   App.UsersController = Ember.ArrayController.extend({
     addUser: function() {
-      App.store.createRecord(App.User, {user_name: "newuser", course_id: 1});
+      App.store.createRecord(App.UserSummary, {user_name: "newuser", course_id: 1});
       alertify.success('Adding a user');
     }
   });
@@ -97,11 +106,11 @@
     templateName: 'instructor',
   });
 
-  App.UserController = Ember.ObjectController.extend({
+  App.UserSummaryController = Ember.ObjectController.extend({
     user_logged_in_class: 'user-logged-in'
   });
-  App.UserView = Ember.View.extend({
-    templateName: 'user',
+  App.UserSummaryView = Ember.View.extend({
+    templateName: 'user-summary',
     css_class_login_status: 'user-login-status'
   });
 
@@ -139,7 +148,7 @@
         connectOutlets: function(router, context) {
           var course_id = context.id;
           // When we .find() a course, the hasMany relationships in the store
-          // will auto-fill the users, so we can just use .filter() below
+          // will auto-fill the users summaries, so we can just use .filter() below
           // which doesn't trigger a request.
           var course = App.store.find(App.Course, course_id);
           router.get('applicationController').connectOutlet('course', course);
@@ -150,7 +159,7 @@
           // console if you want to look at the data:
           // App.store.filter(App.User, function(data) { return true; } ).objectAt(0).toData()
           var courseController = router.get('courseController');
-          var users = App.store.filter(App.User, function (data) {
+          var users = App.store.filter(App.UserSummary, function (data) {
             if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
               return true;
             }
@@ -161,7 +170,7 @@
             context: users
           });
 
-          var instructor = App.store.filter(App.User, function (data) {
+          var instructor = App.store.filter(App.UserSummary, function (data) {
             if (data.get('user_name') == 'instructor' && data.get('course_id') == course_id) {
               return true;
             }

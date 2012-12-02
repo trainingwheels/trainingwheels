@@ -2,7 +2,7 @@
   <h2>Instructor</h2>
   {{#each user in controller}}
     {{#with user}}
-      {{view "App.UserView"}}
+      {{view "App.UserSummaryView"}}
     {{/with}}
   {{/each}}
 </div>
