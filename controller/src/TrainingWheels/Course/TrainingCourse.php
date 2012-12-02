@@ -46,11 +46,24 @@ abstract class TrainingCourse {
       foreach ($users as $user_name) {
         $user_obj = $this->userFactory($user_name);
         if ($user_obj->getExists()) {
-          $output[$user_name] = $this->userGet($user_name);
+          $output[$user_name] = $this->userGet($user_name, FALSE);
         }
       }
     }
     return $output;
+  }
+
+  /**
+   * Get info on a single user.
+   */
+  public function userGet($user_name, $full = TRUE) {
+    $user_obj = $this->userFactory($user_name);
+    $user_info = $user_obj->get($full);
+    if ($user_info) {
+      $user_info['course_id'] = $this->course_id;
+      $user_info['uri'] = '/user/' . $user_info['id'];
+    }
+    return $user_info;
   }
 
   /**
@@ -81,19 +94,6 @@ abstract class TrainingCourse {
       $user_obj->delete();
     }
     return TRUE;
-  }
-
-  /**
-   * Get info on a single user.
-   */
-  public function userGet($user_name) {
-    $user_obj = $this->userFactory($user_name);
-    $user_info = $user_obj->get();
-    if ($user_info) {
-      $user_info['course_id'] = $this->course_id;
-      $user_info['uri'] = '/user/' . $user_info['id'];
-    }
-    return $user_info;
   }
 
   /**

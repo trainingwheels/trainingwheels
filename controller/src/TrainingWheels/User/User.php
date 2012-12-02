@@ -189,8 +189,12 @@ abstract class User extends CachedObject {
 
   /**
    * Gather this user's status into an array representation.
+   *
+   * @param $full
+   *   It can be expensive to compute the resource's status, so
+   *   if $full is FALSE, skip resources.
    */
-  public function get() {
+  public function get($full = TRUE) {
     if ($this->getExists()) {
       $user = array(
         'user_name' => $this->user_name,
@@ -198,8 +202,10 @@ abstract class User extends CachedObject {
         'logged_in' => $this->isLoggedIn(),
         'id' => $this->user_id,
       );
-      foreach ($this->resources as $name => $resource) {
-        $user['resources'][$name] = $resource->get();
+      if ($full) {
+        foreach ($this->resources as $name => $resource) {
+          $user['resources'][$name] = $resource->get();
+        }
       }
       return $user;
     }
