@@ -7,8 +7,6 @@
   win.App = Ember.Application.create();
   var App = win.App;
 
-  App.sortOptions = ['name', 'id'];
-
   ////
   // Ember Data
   //
@@ -85,25 +83,15 @@
   App.CourseController = Ember.ObjectController.extend({
     refreshCourse: function() {
       alertify.success('Refreshing the course');
-    }
-  });
-  App.CourseView = Ember.View.extend({
-    templateName: 'course'
-  });
-
-  App.UsersController = Ember.ArrayController.extend({
+    },
     addUser: function() {
       App.store.createRecord(App.UserSummary, {user_name: "newuser", course_id: 1});
       alertify.success('Adding a user');
     }
   });
-  App.UsersView = Ember.View.extend({
-    templateName: 'users',
-  });
-
-  App.InstructorController = Ember.ArrayController.extend();
-  App.InstructorView = Ember.View.extend({
-    templateName: 'instructor',
+  App.CourseView = Ember.View.extend({
+    templateName: 'course',
+    sortOptions: ['name', 'id']
   });
 
   App.UserSummaryController = Ember.ObjectController.extend({
@@ -149,14 +137,13 @@
           var course_id = context.id;
           // When we .find() a course, the hasMany relationships in the store
           // will auto-fill the users summaries, so we can just use .filter() below
-          // which doesn't trigger a request.
+          // when we load the users, which doesn't trigger another request.
           var course = App.store.find(App.Course, course_id);
           router.get('applicationController').connectOutlet('course', course);
 
-          // Pull the non-instructor users and connect them to the outlet. Remember that
-          // this data store is not materialized right here, the requests are async and
-          // once the data enters the store, the front end is updated. Try this in the
-          // console if you want to look at the data:
+          // Remember that this data store is not materialized right here, the requests
+          // are async and once the data enters the store, the front end is updated. Try
+          // this in the console if you want to look at the data:
           // App.store.filter(App.User, function(data) { return true; } ).objectAt(0).toData()
           var courseController = router.get('courseController');
           var users = App.store.filter(App.UserSummary, function (data) {
@@ -164,22 +151,14 @@
               return true;
             }
           });
-          courseController.connectOutlet({
-            outletName: 'usersOutlet',
-            name: 'users',
-            context: users
-          });
+          courseController.users = users;
 
           var instructor = App.store.filter(App.UserSummary, function (data) {
             if (data.get('user_name') == 'instructor' && data.get('course_id') == course_id) {
               return true;
             }
           });
-          courseController.connectOutlet({
-            outletName: 'instructorOutlet',
-            name: 'instructor',
-            context: instructor
-          });
+          courseController.instructor = instructor;
         },
 
         serialize: function(router, course) {

@@ -1,7 +1,7 @@
 <h2>Select a course:</h2>
 
 <div id="tw-course-list">
-  {{#each course in controller}}
+  {{#each course in controller.content}}
   <a {{action showCourse course}}>
     <div class="course-summary">
       <h3>{{course.title}}</h3>
