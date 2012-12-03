@@ -27,11 +27,26 @@
       Sort by: {{view Ember.Select contentBinding="view.sortOptions"}}
       <button {{action syncAll target="controller"}}>Sync all</button>
       <button {{action deleteSelected target="controller"}}>Delete</button>
-      {{#each user in controller.users}}
+      {{#each user in controller.usersAbove}}
         {{#with user}}
           {{view "App.UserSummaryView"}}
         {{/with}}
       {{/each}}
+
+      SELECTED USER ::
+      {{#each user in controller.userSelected}}
+        {{#with user}}
+          {{view "App.UserSummaryView"}}
+        {{/with}}
+      {{/each}}
+      :: END SELECTED
+
+      {{#each user in controller.usersBelow}}
+        {{#with user}}
+          {{view "App.UserSummaryView"}}
+        {{/with}}
+      {{/each}}
+
       {{view Ember.TextField valueBinding="newUserName"}} <button {{action addUser target="controller"}}>Add user</button>
     </div>
   {{/if}}

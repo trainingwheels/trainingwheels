@@ -81,12 +81,49 @@
   });
 
   App.CourseController = Ember.ObjectController.extend({
+    course_id: 0,
+    selectedUser: {},
+    allUsers: [],
+    usersAbove: [],
+    usersBelow: [],
+    instructor: [],
+
     refreshCourse: function() {
       alertify.success('Refreshing the course');
     },
+
     addUser: function() {
       App.store.createRecord(App.UserSummary, {user_name: "newuser", course_id: 1});
       alertify.success('Adding a user');
+    },
+
+    selectUser: function(id) {
+      var selectedUser = this.get('allUsers').findProperty('id', id);
+      var index = this.get('allUsers').indexOf(selectedUser);
+
+      this.set('usersAbove', this.get('allUsers').slice(0,index));
+      this.set('usersBelow', this.get('allUsers').slice(index,10000));
+    },
+
+    buildUsers: function(course_id) {
+      var users = App.store.filter(App.UserSummary, function (data) {
+        if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
+          return true;
+        }
+      });
+      this.set('allUsers', users);
+      this.set('usersAbove', users);
+
+      var instructor = App.store.filter(App.UserSummary, function (data) {
+        if (data.get('user_name') == 'instructor' && data.get('course_id') == course_id) {
+          return true;
+        }
+      });
+      this.set('instructor', instructor);
+
+      // Need to save the course id to the controller for the purposes of
+      // deserializing the nested user path later down the line.
+      this.set('course_id', course_id);
     }
   });
   App.CourseView = Ember.View.extend({
@@ -110,6 +147,7 @@
 
     goHome: Ember.Route.transitionTo('courses'),
 
+    // #/
     root: Ember.Route.extend({
 
       // Going to the home page currently redirects you to the list of courses.
@@ -118,60 +156,81 @@
         redirectsTo: 'courses'
       }),
 
-      // List of the courses in the system.
+      // #/courses
       courses: Ember.Route.extend({
         route: '/courses',
 
-        showCourse: Ember.Route.transitionTo('course'),
+        showCourse: Ember.Route.transitionTo('course.coursePage.index'),
 
         connectOutlets: function(router) {
           router.get('applicationController').connectOutlet('courses', App.store.findAll(App.CourseSummary));
         }
       }),
 
-      // Page showing a single course details and all the users.
+      // #/course
       course: Ember.Route.extend({
-        route: '/course/:course_id',
+        route: '/course',
 
-        connectOutlets: function(router, context) {
-          var course_id = context.id;
-          // When we .find() a course, the hasMany relationships in the store
-          // will auto-fill the users summaries, so we can just use .filter() below
-          // when we load the users, which doesn't trigger another request.
-          var course = App.store.find(App.Course, course_id);
-          router.get('applicationController').connectOutlet('course', course);
+        index: Ember.Route.extend({
+          route: '/',
+          redirectsTo: 'courses'
+        }),
 
-          // Remember that this data store is not materialized right here, the requests
-          // are async and once the data enters the store, the front end is updated. Try
-          // this in the console if you want to look at the data:
-          // App.store.filter(App.User, function(data) { return true; } ).objectAt(0).toData()
-          var courseController = router.get('courseController');
-          var users = App.store.filter(App.UserSummary, function (data) {
-            if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
-              return true;
+        // #/course/1
+        coursePage: Ember.Route.extend({
+          route: '/:course_id',
+
+          index: Ember.Route.extend({
+            route: '/'
+          }),
+
+          showUser: Ember.Route.transitionTo('course.coursePage.userSelected'),
+
+          connectOutlets: function(router, context) {
+            var course_id = context.id;
+            // When we .find() a course, the hasMany relationships in the store
+            // will auto-fill the users summaries, so we can just use .filter() below
+            // when we load the users, which doesn't trigger another request.
+            // Remember that the data store is not materialized right here, the requests
+            // are async and once the data enters the store, the front end is updated. Try
+            // this in the console if you want to look at the data:
+            // App.store.filter(App.User, function(data) { return true; } ).objectAt(0).toData()
+            var course = App.store.find(App.Course, course_id);
+            router.get('applicationController').connectOutlet('course', course);
+            var courseController = router.get('courseController');
+            courseController.buildUsers(course_id);
+          },
+
+          serialize: function(router, course) {
+            return {
+              course_id: course.get('id')
             }
-          });
-          courseController.users = users;
+          },
 
-          var instructor = App.store.filter(App.UserSummary, function (data) {
-            if (data.get('user_name') == 'instructor' && data.get('course_id') == course_id) {
-              return true;
+          deserialize: function(router, urlParams) {
+            router.get('courseController').set('course_id', urlParams.course_id);
+            return App.store.find(App.Course, urlParams.course_id);
+          },
+
+          // #/course/1/user/bobby
+          userSelected: Ember.Route.extend({
+            route: '/user/:user_name',
+            connectOutlets: function(router, context) {
+              var courseController = router.get('courseController');
+              courseController.selectUser(context.id);
+            },
+            serialize: function(router, user) {
+              return {
+                user_name: user.get('user_name')
+              }
+            },
+            deserialize: function(router, urlParams) {
+              var user_id = router.get('courseController').get('course_id') + '-' + urlParams.user_name;
+              return App.store.find(App.User, user_id);
             }
-          });
-          courseController.instructor = instructor;
-        },
-
-        serialize: function(router, course) {
-          return {
-            course_id: course.get('id')
-          }
-        },
-
-        deserialize: function(router, urlParams) {
-          return App.store.find(App.Course, urlParams.course_id);
-        }
-
-      })
+          })
+        })
+      }),
     })
   })
 
