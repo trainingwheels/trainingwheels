@@ -3,3 +3,47 @@
 //
 // All of your variables should go in this file.
 ////////////////////////
+
+// Colors
+$blue: #80a6fc;
+$yellow: #E5DA55;
+$yellowDark: #938732; //yellow's hover color
+$white: #ffffff;
+$lightGray: #f2f2f2;
+$mediumGray: #bebcba;
+$Gray: #85817d;
+$darkGray: #4a4545;
+$black: #000000;
+
+$highlight: $lightGray;
+
+// footer background base64 string
+// generated using: http://ptrn.it/QQ6o6O
+$footerBackground: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAN0lEQVQIW2O0trb5/+nrNwY+bi4GGM0ABIwgCRADWRAugVWHroHRf5AxMABTBDcKLgM1lhGXDgAjOyIKDJx+0AAAAABJRU5ErkJggg==";
+
+// Font faces, stacks and sizes.
+
+$base-font-size:   16px; // The font size set on the root html element.
+$base-line-height: 22px; // This line-height determines the basic unit of vertical rhythm.
+
+$h1-font-size: 3 * $base-font-size;
+$h2-font-size: 2 * $base-font-size;
+$h3-font-size: 1.45 * $base-font-size;
+$h4-font-size: 1.125 * $base-font-size;
+$h5-font-size: 1.125 * $base-font-size;
+$h6-font-size: 2 * $base-font-size;
+
+// Next, let's create some font stacks.
+$helvetica: helvetica, arial, sans-serif;
+$facitweb: "jaf-facitweb", helvetica, arial, sans-serif;
+$bebas: "bebas-neue", helvetica, arial, sans-serif;
+$icons: "SSSymbolicons";
+
+// Now create some variables for the font stacks we want to use on this site.
+$base-font-family: $helvetica; // The font family set on the html element.
+$font-body:        $helvetica;
+
+// Border radius variables.
+$default-border-radius: 7px;
+$radius: 7px;
+$vertical-radius: 7px;
