@@ -2,4 +2,4 @@ settings.yml
 controller/vendor
 controller/web/development.log
 controller/web/.sass-cache
-controller/log
+controller/log/*.log
