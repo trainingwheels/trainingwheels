@@ -51,7 +51,7 @@ class REST implements ControllerProviderInterface {
     /**
      * Retrieve a user.
      */
-    $controllers->get('/user/{user}', function ($user) use ($app) {
+    $controllers->get('/users/{user}', function ($user) use ($app) {
       if (!$user) {
         return $app->json(array('messages' => 'Invalid user ID requested, ensure format is courseid-username, e.g. 1-instructor.'), HTTP_BAD_REQUEST);
       }
@@ -59,7 +59,12 @@ class REST implements ControllerProviderInterface {
       if (!$output) {
         return $app->json(array('messages' => 'User ' . $user['user_name'] . ' does not exist.'), HTTP_NOT_FOUND);
       }
-      return $app->json($output, HTTP_OK);
+      $return = new \stdClass;
+      $return->resources = $output['resources'];
+      unset($output['resources']);
+      $return->users = array($output);
+
+      return $app->json($return, HTTP_OK);
     })
     ->convert('user', $parseID);
 

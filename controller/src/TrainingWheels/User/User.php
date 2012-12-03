@@ -204,7 +204,11 @@ abstract class User extends CachedObject {
       );
       if ($full) {
         foreach ($this->resources as $name => $resource) {
-          $user['resources'][$name] = $resource->get();
+          $res = $resource->get();
+          $res['key'] = $name;
+          $res['user_id'] = $this->user_id;
+          $res['id'] = $this->user_id . '-' . $name;
+          $user['resources'][] = $res;
         }
       }
       return $user;

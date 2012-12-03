@@ -1,6 +1,6 @@
 <div class="course-view">
   {{#if title}}
-    <div class="course-info">
+    <div class="course-info" {{action showCourse course}}>
       <h2>{{title}}</h2>
       <div>
         {{{description}}}
@@ -33,13 +33,11 @@
         {{/with}}
       {{/each}}
 
-      SELECTED USER ::
       {{#each user in controller.userSelected}}
         {{#with user}}
-          {{view "App.UserSummaryView"}}
+          {{view "App.UserView" controllerBinding="App.router.userController"}}
         {{/with}}
       {{/each}}
-      :: END SELECTED
 
       {{#each user in controller.usersBelow}}
         {{#with user}}

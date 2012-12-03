@@ -37,7 +37,7 @@ abstract class TrainingCourse {
   }
 
   /**
-   * Get multiple users in this course.
+   * Get multiple users in this course. Will return summarised versions of users.
    */
   public function usersGet($users = '*') {
     $users = $this->userNormalizeParam($users);
@@ -61,7 +61,7 @@ abstract class TrainingCourse {
     $user_info = $user_obj->get($full);
     if ($user_info) {
       $user_info['course_id'] = $this->course_id;
-      $user_info['uri'] = '/user/' . $user_info['id'];
+      $user_info['uri'] = '/users/' . $user_info['id'];
     }
     return $user_info;
   }

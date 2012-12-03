@@ -42,7 +42,7 @@ Users
 
 Retrieve a user:
 
-    curl http://training.wheels:8000/rest/user/1-instructor -H "Accept: application/json" -i && echo ''; echo ''
+    curl http://training.wheels:8000/rest/users/1-instructor -H "Accept: application/json" -i && echo ''; echo ''
 
 Create user:
 

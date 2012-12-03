@@ -26,6 +26,7 @@
       // the key mapping here to the type.
       mappings: {
         courses: 'App.Course',
+        users: 'App.User'
       }
     })
   });
@@ -65,6 +66,7 @@
     title: DS.attr('string'),
     exists: DS.attr('boolean'),
     type: DS.attr('string'),
+    user_id: DS.attr('string')
   })
 
   ////
@@ -82,9 +84,9 @@
 
   App.CourseController = Ember.ObjectController.extend({
     course_id: 0,
-    selectedUser: {},
     allUsers: [],
     usersAbove: [],
+    userSelected: [],
     usersBelow: [],
     instructor: [],
 
@@ -97,15 +99,16 @@
       alertify.success('Adding a user');
     },
 
-    selectUser: function(id) {
-      var selectedUser = this.get('allUsers').findProperty('id', id);
-      var index = this.get('allUsers').indexOf(selectedUser);
+    selectUser: function(user_id) {
+      var user = this.get('allUsers').findProperty('id', user_id);
+      var index = this.get('allUsers').indexOf(user);
 
-      this.set('usersAbove', this.get('allUsers').slice(0,index));
-      this.set('usersBelow', this.get('allUsers').slice(index,10000));
+      this.set('usersAbove', this.get('allUsers').slice(0, index));
+      this.set('userSelected', this.get('allUsers').slice(index, index + 1));
+      this.set('usersBelow', this.get('allUsers').slice(index + 1, 10000));
     },
 
-    buildUsers: function(course_id) {
+    bindUsers: function(course_id) {
       var users = App.store.filter(App.UserSummary, function (data) {
         if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
           return true;
@@ -132,11 +135,34 @@
   });
 
   App.UserSummaryController = Ember.ObjectController.extend({
-    user_logged_in_class: 'user-logged-in'
   });
   App.UserSummaryView = Ember.View.extend({
     templateName: 'user-summary',
     css_class_login_status: 'user-login-status'
+  });
+
+  // TODO: remove duplication in this.
+  App.UserController = Ember.ObjectController.extend({
+    user_logged_in_class: 'user-logged-in',
+    resources: [],
+
+    bindResources: function(user_id) {
+      var resources = App.store.filter(App.Resource, function (data) {
+        if (data.get('user_id') == user_id) {
+          return true;
+        }
+      });
+      this.set('resources', resources);
+    }
+  });
+  App.UserView = Ember.View.extend({
+    templateName: 'user',
+    css_class_login_status: 'user-login-status'
+  });
+
+  App.ResourceController = Ember.ObjectController.extend();
+  App.ResourceView = Ember.View.extend({
+    templateName: 'resource'
   });
 
   ////
@@ -146,6 +172,7 @@
     enableLogging: true,
 
     goHome: Ember.Route.transitionTo('courses'),
+    showCourse: Ember.Route.transitionTo('course.coursePage.index'),
 
     // #/
     root: Ember.Route.extend({
@@ -159,8 +186,6 @@
       // #/courses
       courses: Ember.Route.extend({
         route: '/courses',
-
-        showCourse: Ember.Route.transitionTo('course.coursePage.index'),
 
         connectOutlets: function(router) {
           router.get('applicationController').connectOutlet('courses', App.store.findAll(App.CourseSummary));
@@ -198,7 +223,7 @@
             var course = App.store.find(App.Course, course_id);
             router.get('applicationController').connectOutlet('course', course);
             var courseController = router.get('courseController');
-            courseController.buildUsers(course_id);
+            courseController.bindUsers(course_id);
           },
 
           serialize: function(router, course) {
@@ -216,8 +241,11 @@
           userSelected: Ember.Route.extend({
             route: '/user/:user_name',
             connectOutlets: function(router, context) {
+              var user = App.store.find(App.User, context.id);
               var courseController = router.get('courseController');
               courseController.selectUser(context.id);
+              var userController = router.get('userController');
+              userController.bindResources(context.id);
             },
             serialize: function(router, user) {
               return {
