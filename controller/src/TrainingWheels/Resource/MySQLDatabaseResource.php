@@ -32,11 +32,19 @@ class MySQLDatabaseResource extends Resource {
       'type' => 'mysqldb',
       'exists' => $this->getExists(),
       'title' => $this->title,
+      // In the future, we may have more statuses than just ready or missing.
+      'status' => $this->getExists() ? 'resource-ready' : 'resource-missing',
     );
     if ($info['exists']) {
-      $info['attribs']['db_name'] = $this->getDBName();
-      $info['attribs']['mysql_username'] = $this->getUserName();
-      $info['attribs']['mysql_password'] = $this->getPasswd();
+      $info['attribs'][0]['key'] = 'db_name';
+      $info['attribs'][0]['title'] = 'Database name';
+      $info['attribs'][0]['value'] = $this->getDBName();
+      $info['attribs'][1]['key'] = 'mysql_username';
+      $info['attribs'][1]['title'] = 'MySQL user';
+      $info['attribs'][1]['value'] = $this->getUserName();
+      $info['attribs'][2]['key'] = 'mysql_password';
+      $info['attribs'][2]['title'] = 'MySQL password';
+      $info['attribs'][2]['value'] = $this->getPasswd();
     }
     return $info;
   }

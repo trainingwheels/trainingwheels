@@ -7,11 +7,6 @@
   <meta name="author" content="Four Kitchens">
   <link rel="stylesheet" href="/css/alertify.css" type="text/css" />
   <link rel="stylesheet" href="/css/style.css" type="text/css" />
-  <script type="text/javascript" src="//use.typekit.net/bmt3edz.js">
-  </script>
-  <script type="text/javascript">
-    try{Typekit.load();}catch(e){}
-  </script>  
 </head>
 <body>
 
@@ -24,6 +19,12 @@
   {% for j in js %}
   <script src="{{ j|raw }}" type="text/javascript"></script>
   {% endfor %}
+
+  <script type="text/javascript" src="//use.typekit.net/bmt3edz.js">
+  </script>
+  <script type="text/javascript">
+    try{Typekit.load();}catch(e){}
+  </script>
 
 </body>
 </html>

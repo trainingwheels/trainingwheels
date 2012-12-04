@@ -33,11 +33,19 @@ class GitFilesResource extends Resource {
       'type' => 'gitfiles',
       'exists' => $this->getExists(),
       'title' => $this->title,
+      // In the future, we may have more statuses than just ready or missing.
+      'status' => $this->getExists() ? 'resource-ready' : 'resource-missing',
     );
     if ($info['exists']) {
-      $info['attribs']['branch'] = $this->currentBranch();
-      $info['attribs']['changes'] = $this->localChanges();
-      $info['attribs']['remote'] = $this->remote();
+      $info['attribs'][0]['key'] = 'branch';
+      $info['attribs'][0]['title'] = 'Branch';
+      $info['attribs'][0]['value'] = $this->currentBranch();
+      $info['attribs'][1]['key'] = 'changes';
+      $info['attribs'][1]['title'] = 'Local changes';
+      $info['attribs'][1]['value'] = $this->localChanges();
+      $info['attribs'][2]['key'] = 'remote';
+      $info['attribs'][2]['title'] = 'Remote repositories';
+      $info['attribs'][2]['value'] = $this->remote();
     }
     return $info;
   }

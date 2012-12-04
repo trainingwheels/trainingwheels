@@ -65,8 +65,13 @@
     key: DS.attr('string'),
     title: DS.attr('string'),
     exists: DS.attr('boolean'),
+    status: DS.attr('string'),
     type: DS.attr('string'),
-    user_id: DS.attr('string')
+    user_id: DS.attr('string'),
+    attribs: DS.attr('string'),
+    attribsArray: function() {
+      return $.parseJSON(this.get('attribs'));
+    }.property('attribs')
   })
 
   ////
@@ -141,7 +146,6 @@
     css_class_login_status: 'user-login-status'
   });
 
-  // TODO: remove duplication in this.
   App.UserController = Ember.ObjectController.extend({
     user_logged_in_class: 'user-logged-in',
     resources: [],
@@ -153,6 +157,11 @@
         }
       });
       this.set('resources', resources);
+    },
+
+    copyPassword: function(event) {
+      alertify.alert('<div id="selected-password">' + event.context + '</div>');
+      setTimeout(function () { $('#selected-password').selectText(); }, 50);
     }
   });
   App.UserView = Ember.View.extend({
@@ -162,7 +171,8 @@
 
   App.ResourceController = Ember.ObjectController.extend();
   App.ResourceView = Ember.View.extend({
-    templateName: 'resource'
+    templateName: 'resource',
+    css_class_resources_status: 'resource-status',
   });
 
   ////
