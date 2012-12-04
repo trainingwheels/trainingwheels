@@ -1,5 +1,5 @@
 <div class="course-view">
-  {{#if title}}
+  {{#if isLoaded}}
     <div class="course-info" {{action showCourse course}}>
       <h2>{{title}}</h2>
       <div>
@@ -47,5 +47,7 @@
 
       {{view Ember.TextField valueBinding="newUserName"}} <button {{action addUser target="controller"}}>Add user</button>
     </div>
+  {{else}}
+    <div class="tw-loading"></div>
   {{/if}}
 </div>
