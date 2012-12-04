@@ -236,17 +236,6 @@
             courseController.bindUsers(course_id);
           },
 
-          serialize: function(router, course) {
-            return {
-              course_id: course.get('id')
-            }
-          },
-
-          deserialize: function(router, urlParams) {
-            router.get('courseController').set('course_id', urlParams.course_id);
-            return App.store.find(App.Course, urlParams.course_id);
-          },
-
           // #/course/1/user/bobby
           userSelected: Ember.Route.extend({
             route: '/user/:user_name',
