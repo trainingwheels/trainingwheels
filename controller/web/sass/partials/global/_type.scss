@@ -1,0 +1,148 @@
+////////////////////////
+// Variables Partials
+//
+// All of your variables should go in this file.
+////////////////////////
+
+body {
+  margin: 0;
+  font-family: $helvetica;
+  font-size: $base-font-size;
+  line-height: $base-line-height;
+  color: $darkGray;
+  background-color: $white;
+}
+
+// Paragraphs
+
+p {
+  margin-top: 0;
+  margin-bottom: 1.375;
+}
+
+// Headings
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $facitweb;
+  font-weight: normal;
+  margin-top: 0;
+  }
+
+h1 {
+  font-size: $h1-font-size;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: $h2-font-size;
+  line-height: 1.2em;
+}
+
+h3 {
+  font-size: $h3-font-size;
+  color: $darkGray;
+
+}
+
+h4 {
+  font-size: $h4-font-size;
+
+}
+
+h5 {
+  font-size: $h5-font-size;
+  color:$mediumGray;
+}
+
+h6 {
+  font-size: $h6-font-size;
+}
+
+// Icons
+
+.icon-symbolicons {
+  font-size: $h6-font-size;
+  //font-family: $icon-symbolicons;
+}
+
+// Lists
+
+ul, ol {
+  padding: 0;
+  margin: 0 0 $base-line-height / 2 25px;
+}
+
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-bottom: 0;
+}
+
+ul {
+  list-style: square;
+}
+
+ol {
+  list-style: decimal;
+}
+
+li {
+  line-height: $base-line-height;
+}
+
+ul.unstyled,
+ol.unstyled {
+  margin-left: 0;
+  list-style: none;
+}
+
+ul.menu li {
+  margin: 0 .5em 0 0em;
+}
+
+
+/**
+* Misc
+*/
+
+// Horizontal rules
+
+hr {
+  margin: $base-line-height 0;
+  border-top: 1px solid $lightGray;
+  border-bottom: 1px solid $white;
+}
+
+// Emphasis
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
+
+// Blockquotes
+
+blockquote {
+  padding: 0 0 0 15px;
+  margin: 0 0 $base-line-height;
+  border-left: 5px solid $mediumGray;
+  p {
+    margin-bottom: 0;
+  }
+}
+
+// Links
+
+
+a {
+  color: $blue;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
