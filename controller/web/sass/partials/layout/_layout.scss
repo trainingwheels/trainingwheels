@@ -7,3 +7,38 @@
 //
 // All box model properties go here
 ////////////////////////
+
+#top-header {
+  top: 0;
+  width: 100%;
+  min-height: 50px;
+  position: relative;
+  z-index: 4;
+  padding-top: 15px;
+  margin-bottom: $base-line-height;
+}
+
+#logo {
+  width: 50px;
+  height: 40px;
+  margin-left: 16px;
+  padding-left: 60px;
+}
+
+.course-view {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: $base-line-height;
+}
+
+//Footer
+
+#footer {
+  bottom: 0;
+  width: 100%;
+  position: relative;
+  z-index: 4;
+  padding: 10px;
+  margin-top:$base-line-height;
+  border-top: 1px solid $mediumGray;
+}
