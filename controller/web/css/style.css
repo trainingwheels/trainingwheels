@@ -148,7 +148,7 @@ a:hover {
   padding-left: 60px;
 }
 
-.course-view {
+#course-view {
   margin: 0 auto;
   max-width: 900px;
   padding: 22px;
@@ -183,7 +183,7 @@ body {
   color: #938732;
 }
 
-.course-view {
+#course-view {
   background-color: white;
 }
 
@@ -195,6 +195,14 @@ body {
 #footer ul {
   list-style-type: none;
   margin: 0;
+}
+
+.tw-loading {
+  background: url(../images/loading.gif) no-repeat;
+  height: 31px;
+  width: 31px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media print {
