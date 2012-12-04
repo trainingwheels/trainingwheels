@@ -197,6 +197,14 @@ body {
   margin: 0;
 }
 
+.tw-loading {
+  background: url(../images/loading.gif) no-repeat;
+  height: 31px;
+  width: 31px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media print {
   *,
   *:after,
