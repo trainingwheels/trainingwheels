@@ -38,8 +38,8 @@ $app->mount('/rest', new TrainingWheels\Controller\REST());
  */
 $jsGet = function($debug) {
   $js = array(
-    '/js/src/handlebars_helpers.js',
     '/js/src/app.js?v=2',
+    '/js/src/jquery_plugins.js',
   );
   if (!$debug) {
     $js_min = array(

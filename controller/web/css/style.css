@@ -148,7 +148,7 @@ a:hover {
   padding-left: 60px;
 }
 
-.course-view {
+#course-view {
   margin: 0 auto;
   max-width: 900px;
   padding: 22px;
@@ -183,7 +183,7 @@ body {
   color: #938732;
 }
 
-.course-view {
+#course-view {
   background-color: white;
 }
 

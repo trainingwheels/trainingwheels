@@ -60,6 +60,13 @@ class REST implements ControllerProviderInterface {
         return $app->json(array('messages' => 'User ' . $user['user_name'] . ' does not exist.'), HTTP_NOT_FOUND);
       }
       $return = new \stdClass;
+
+      // Encode the attribs so that they get parsed as strings on the client.
+      foreach ($output['resources'] as $key => $res) {
+        if (isset($output['resources'][$key]['attribs'])) {
+          $output['resources'][$key]['attribs'] = json_encode($res['attribs']);
+        }
+      }
       $return->resources = $output['resources'];
       unset($output['resources']);
       $return->users = array($output);
