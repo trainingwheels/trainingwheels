@@ -148,12 +148,6 @@ a:hover {
   padding-left: 60px;
 }
 
-#course-view {
-  margin: 0 auto;
-  max-width: 900px;
-  padding: 22px;
-}
-
 #footer {
   bottom: 0;
   width: 100%;
@@ -162,6 +156,25 @@ a:hover {
   padding: 10px;
   margin-top: 22px;
   border-top: 1px solid #bebcba;
+}
+
+#course-view {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 22px;
+}
+
+.user-summary, .user-full, #course-users-top-tools {
+  border-bottom: 1px solid #d9d6d6;
+  border-top: 1px solid white;
+}
+
+#course-users-bottom-tools {
+  border-top: 1px solid white;
+}
+
+#course-info {
+  border-bottom: 1px solid #d9d6d6;
 }
 
 body {
@@ -183,10 +196,6 @@ body {
   color: #938732;
 }
 
-#course-view {
-  background-color: white;
-}
-
 #footer {
   background: white;
   color: #bebcba;
@@ -203,6 +212,107 @@ body {
   width: 31px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.user-info h3 {
+  margin: .5em 0;
+}
+.user-info h3 .user-name {
+  font-size: 18px;
+  color: #80a6fc;
+}
+.user-info h3 .user-name:hover {
+  color: #e5da55;
+}
+
+button {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 4px 10px 4px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #bebcba;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #bebcba;
+  background-color: #f2f2f2;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
+  background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+}
+button:first-child {
+  *margin-left: 0;
+}
+button:hover {
+  text-decoration: none;
+  background-color: #bfbfbf;
+  *background-color: #b2b2b2;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+}
+button:active, button.active {
+  background-color: #bfbfbf;
+  *background-color: #b2b2b2;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  background-image: none;
+}
+
+.refresh-button {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 4px 10px 4px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #bebcba;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #bebcba;
+  background-color: #f2f2f2;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
+  background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+  padding: 16px 16px 10px 16px;
+  color: #4a4545;
+  font-size: 40px;
+  line-height: 55px;
+}
+.refresh-button:first-child {
+  *margin-left: 0;
+}
+.refresh-button:hover {
+  text-decoration: none;
+  background-color: #bfbfbf;
+  *background-color: #b2b2b2;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+}
+.refresh-button:active, .refresh-button.active {
+  background-color: #bfbfbf;
+  *background-color: #b2b2b2;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  background-image: none;
 }
 
 @media print {

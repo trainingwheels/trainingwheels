@@ -14,12 +14,18 @@ $mediumGray: #bebcba;
 $Gray: #85817d;
 $darkGray: #4a4545;
 $black: #000000;
+$border: #d9d6d6;
 
 $highlight: $lightGray;
 
 // footer background base64 string
 // generated using: http://ptrn.it/QQ6o6O
 $footerBackground: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAN0lEQVQIW2O0trb5/+nrNwY+bi4GGM0ABIwgCRADWRAugVWHroHRf5AxMABTBDcKLgM1lhGXDgAjOyIKDJx+0AAAAABJRU5ErkJggg==";
+
+// First lets declare our own fonts
+
+//@include font-face("SSStandard", font-files("news_gothic/236F40_2_0.woff", "news_gothic/236F40_2_0.ttf", "news_gothic/236F40_2_0.eot"));
+//@include font-face("SSSocial", font-files("news_gothic/236F40_4_0.woff", "news_gothic/236F40_4_0.ttf", "news_gothic/236F40_4_0.eot"));
 
 // Font faces, stacks and sizes.
 
@@ -37,7 +43,9 @@ $h6-font-size: 2 * $base-font-size;
 $helvetica: helvetica, arial, sans-serif;
 $facitweb: "jaf-facitweb", helvetica, arial, sans-serif;
 $bebas: "bebas-neue", helvetica, arial, sans-serif;
-$icons: "SSSymbolicons";
+$icon-standard: "SSStandard";
+$icon-social: "SSSocial";
+$icon-symbolicons: "SSSymbolicons";
 
 // Now create some variables for the font stacks we want to use on this site.
 $base-font-family: $helvetica; // The font family set on the html element.

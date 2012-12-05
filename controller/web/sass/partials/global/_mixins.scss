@@ -3,3 +3,110 @@
 //
 // All of your mixins should go in this file.
 ////////////////////////
+
+// Symbol Set mixins
+
+// General mixin to make a class a symbolset class
+@mixin ss-class {
+  font-family: "SSStandard";
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: none;
+  text-rendering: optimizeLegibility;
+  white-space: nowrap;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  -o-font-feature-settings: "liga";
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
+// Button MixIns
+
+@mixin button-make($color) {
+  display: inline-block;
+  margin-bottom: .5em;
+  @include ie7-inline-block();
+  padding: 4px 10px 4px;
+  font-size: $base-font-size;
+  font-weight:bold;
+  line-height: $base-line-height;
+  *line-height: 20px; // for IE7
+  color: $mediumGray;
+  text-align: center;
+  //text-shadow: 0 1px 1px rgba(255,255,255,.75);
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid $mediumGray;
+  background-color: $color;
+  *border: 0; // Remove the border to prevent IE7's black border on input:focus
+  @include border-radius(5px);
+  @include ie7-restore-left-whitespace(); // Give IE7 some love
+  @include gradient(saturate($color, 10%), darken($color, 10%));
+  
+  &:hover {
+    //color: lighten($color, 20%);
+    //outline: none;
+    //text-shadow: none;
+    text-decoration: none;
+    background-color: darken($color, 20%);
+    *background-color: darken($color, 25%); /* Buttons in IE7 don't get borders, so darken on hover */
+  }
+  
+  &:active, &.active {
+    background-color: darken($color, 20%);
+    *background-color: darken($color, 25%); /* Buttons in IE7 don't get borders, so darken on hover */
+    background-image: none;
+    //outline: 0;
+    //@include box-shadow(#{inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05)});
+  } 
+}
+
+// Gradient Mixin
+@mixin gradient($from, $to) {
+  background: -webkit-gradient(linear, left top, left bottom, from($from), to($to));
+  background: -moz-linear-gradient(top,  $from, $to);
+  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$from}', endColorstr='#{$to}');
+}
+
+// Border Radius Mixin
+@mixin border-radius($radius: $default-border-radius, $vertical-radius: false) {
+  @if $vertical-radius {
+    // Webkit doesn't understand the official shorthand syntax for specifying
+    // a vertical radius unless so in case there's several we only take the first.
+    @include experimental(border-radius, first-value-of($radius) first-value-of($vertical-radius), not -moz, -webkit, not -o, not -ms, not -khtml, not official);
+    @include experimental("border-radius", $radius unquote("/") $vertical-radius, -moz, not -webkit, not -o, not -ms, -khtml, official); }
+  @else {
+    @include experimental(border-radius, $radius); } }
+
+
+// IE7 likes to collapse whitespace on either side of the inline-block elements.
+// Ems because we're attempting to match the width of a space character. Left
+// version is for form buttons, which typically come after other elements, and
+// right version is for icons, which come before. Applying both is ok, but it will
+// mean that space between those elements will be .6em (~2 space characters) in IE7,
+// instead of the 1 space in other browsers.
+@mixin ie7-restore-left-whitespace() {
+  *margin-left: .3em;
+
+  &:first-child {
+    *margin-left: 0;
+  }
+}
+
+@mixin ie7-restore-right-whitespace() {
+  *margin-right: .3em;
+
+  &:last-child {
+    *margin-left: 0;
+  }
+}
+
+
+// IE 7 Mixins
+@mixin ie7-inline-block() {
+  *display: inline; // IE7 inline-block hack
+  *zoom: 1;
+}

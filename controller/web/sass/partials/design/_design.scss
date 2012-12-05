@@ -29,10 +29,6 @@ body {
   }
 }
 
-#course-view {
-  background-color: $white;
-}
-
 //Footer
 
 #footer {
@@ -53,4 +49,35 @@ body {
   width: 31px;
   margin-left: auto;
   margin-right: auto;
+}
+
+//User Listing
+
+#course-view {
+  //background-color: $white;
+}
+
+.user-info {
+  h3 {
+    margin: .5em 0;
+    .user-name {
+      font-size: 18px;
+      color: $blue;
+      &:hover {
+        color:$yellow;
+      }
+    }
+  }
+}
+
+button {
+  @include button-make($lightGray);
+}
+
+.refresh-button {
+  @include button-make($lightGray);
+  padding: 16px 16px 10px 16px;
+  color: $darkGray;
+  font-size: $base-font-size * 2.5;
+  line-height: $base-line-height * 2.5;
 }
