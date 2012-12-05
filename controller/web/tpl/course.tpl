@@ -2,9 +2,9 @@
   {{#if isLoaded}}
     <div id="course-info">
       <h1><a href="#" {{action showCourse course}}>{{title}}</a></h1>
-      <button {{action refreshCourse target="controller"}}>Refresh</button>
+      <button class="refresh-button ss-refresh"{{action refreshCourse target="controller"}}></button>
       <div class="course-lock">
-        <button>Lock</button>
+        <button class="ss-lock"></button>
         <div class="course-lock-text">Course in session</div>
       </div>
     </div>
@@ -19,11 +19,11 @@
 
     <div id="course-users">
       <div id="course-users-top-tools">
-        <button {{action collapseAll target="controller"}}>Collapse all</button>
-        <button {{action selectAll target="controller"}}>Select all</button>
-        Sort by: {{view Ember.Select contentBinding="view.sortOptions"}}
-        <button {{action syncAll target="controller"}}>Sync all</button>
-        <button {{action deleteSelected target="controller"}}>Delete</button>
+        <button class="ss-rows"{{action collapseAll target="controller"}}></button>
+        <button class="ss-users"{{action selectAll target="controller"}}></button>
+        Sort by:{{view Ember.Select contentBinding="view.sortOptions"}}
+        <button class="ss-sync"{{action syncAll target="controller"}}></button>
+        <button class="ss-trash"{{action deleteSelected target="controller"}}></button>
       </div>
       <div id="course-users-list">
         {{#each user in controller.usersAbove}}
