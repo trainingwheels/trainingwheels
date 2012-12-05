@@ -1,18 +1,14 @@
-<h2>Select a course:</h2>
+<h1>Select a course:</h1>
 
-<div id="tw-course-list">
+<div id="course-list">
   {{#each course in controller.content}}
-  <a {{action showCourse course}}>
-    <div class="course-summary">
-      <h3>{{course.title}}</h3>
-      <div>
-        {{{course.description}}}
+    {{#with course}}
+      <div class="course-summary">
+        <h2><a href="#" {{action showCourse course}}>{{title}}</a></h2>
+        <div "course-description">
+          {{description}}
+        </div>
       </div>
-      <strong>Course machine name</strong>
-      <div>
-        {{course.course_name}}
-      </div>
-    </div>
-  </a>
+    {{/with}}
   {{/each}}
 </div>
