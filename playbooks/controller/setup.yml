@@ -105,15 +105,14 @@
       tags: common
 
     ##
-    # Setup a MySQL database
+    # Setup the MongoDB database
     #
-    - name: Create database user
-      action: mysql_user user=$mysql_user password=$mysql_pass priv=$mysql_db.*:ALL state=present
+    - name: Install the PECL MongoDB extension
+      action: command pecl install mongo creates=/usr/lib/php5/20090626/mongo.so
       tags: common
 
-    - name: Create database
-      action: mysql_db db=$mysql_db state=present
-      tags: common
+    - name: Configure PHP to use PECL MongoDB extension
+      action: copy dest=/etc/php5/conf.d/mongo.ini src=files/etc-php5-conf-d-mongo-ini
 
     ##
     # Restart services

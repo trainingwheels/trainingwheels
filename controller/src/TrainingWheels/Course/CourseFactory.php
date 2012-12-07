@@ -9,10 +9,12 @@ use TrainingWheels\Conn\SSHServerConn;
 use TrainingWheels\Environment\DevEnv;
 use TrainingWheels\Environment\CentosEnv;
 use TrainingWheels\Environment\UbuntuEnv;
+use TrainingWheels\Store\DataStore;
 
 class CourseFactory {
   // Singleton instance.
   protected static $instance;
+  protected static $data;
 
   /**
    * Return the singleton.
@@ -21,6 +23,7 @@ class CourseFactory {
     if (!isset(self::$instance)) {
       $className = __CLASS__;
       self::$instance = new $className;
+      self::$instance->data = new DataStore();
     }
     return self::$instance;
   }

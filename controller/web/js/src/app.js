@@ -8,6 +8,20 @@
   var App = win.App;
 
   ////
+  // Common components
+  //
+  // @see http://www.solitr.com/blog/2012/06/ember-input-field-with-save-button/
+  //
+  App.LazyTextField = Ember.View.extend({
+    attributeBindings: ['value', 'type', 'size', 'name', 'placeholder', 'disabled', 'maxlength'],
+    tagName: 'input',
+    type: 'text',
+    getCurrentValue: function() {
+      return this.$().val();
+    }
+  });
+
+  ////
   // Ember Data
   //
   App.store = DS.Store.create({
@@ -95,6 +109,33 @@
   App.CoursesController = Ember.ArrayController.extend();
   App.CoursesView = Ember.View.extend({
     templateName: 'courses'
+  });
+
+  App.CourseFormController = Ember.ObjectController.extend();
+  App.CourseFormView = Ember.View.extend({
+    name: '',
+    title: '',
+    description: '',
+    type: '',
+    environment: '',
+    repository: '',
+    host: '',
+
+    templateName: 'course-form',
+
+    saveCourse: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.set('name', this.get('nameTextField').getCurrentValue());
+      this.set('title', this.get('titleTextField').getCurrentValue());
+      this.set('description', this.get('descriptionTextField').getCurrentValue());
+      this.set('type', this.get('typeTextField').getCurrentValue());
+      this.set('environment', this.get('environmentTextField').getCurrentValue());
+      this.set('repository', this.get('repositoryTextField').getCurrentValue());
+      this.set('host', this.get('hostTextField').getCurrentValue());
+
+      alertify.success('Adding the user ' + this.get('name'));
+    }
   });
 
   App.CourseController = Ember.ObjectController.extend({
@@ -217,6 +258,8 @@
       courses: Ember.Route.extend({
         route: '/courses',
 
+        addCourse: Ember.Route.transitionTo('course.add'),
+
         connectOutlets: function(router) {
           router.get('applicationController').connectOutlet('courses', App.store.findAll(App.CourseSummary));
         }
@@ -229,6 +272,15 @@
         index: Ember.Route.extend({
           route: '/',
           redirectsTo: 'courses'
+        }),
+
+        // #/course/add
+        add: Ember.Route.extend({
+          route: '/add',
+
+          connectOutlets: function(router, context) {
+            router.get('applicationController').connectOutlet('courseForm');
+          }
         }),
 
         // #/course/1
