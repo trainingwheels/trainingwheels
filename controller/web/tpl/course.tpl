@@ -19,24 +19,31 @@
 
     <div id="course-users">
       <div id="course-users-top-tools">
-        <button class="ss-rows"{{action collapseAll target="controller"}}></button>
-        <button class="ss-users"{{action selectAll target="controller"}}></button>
-        Sort by:{{view Ember.Select contentBinding="view.sortOptions"}}
-        <button class="ss-sync"{{action syncAll target="controller"}}></button>
-        <button class="ss-trash"{{action deleteSelected target="controller"}}></button>
+        <div id="user-view-tools">
+          <button class="ss-rows"{{action collapseAll target="controller"}}></button>
+          <button class="ss-users"{{action selectAll target="controller"}}></button>
+          Sort by:{{view Ember.Select contentBinding="view.sortOptions"}}
+        </div>
+        <div class="tools-right">
+          <button class="ss-sync"{{action syncAll target="controller"}}></button>
+          <button class="ss-trash"{{action deleteSelected target="controller"}}></button>
+        </div>
       </div>
       <div id="course-users-list">
+      
         {{#each user in controller.usersAbove}}
           {{#with user}}
             {{view "App.UserSummaryView"}}
           {{/with}}
         {{/each}}
 
+        <div class="user-selected">
         {{#each user in controller.userSelected}}
           {{#with user}}
             {{view "App.UserView" controllerBinding="App.router.userController"}}
           {{/with}}
         {{/each}}
+        </div>
 
         {{#each user in controller.usersBelow}}
           {{#with user}}
