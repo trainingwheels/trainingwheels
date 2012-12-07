@@ -131,6 +131,49 @@ a:hover {
   text-decoration: underline;
 }
 
+button {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px 6px 0 6px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #bebcba;
+  background-color: #f2f2f2;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
+  background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+}
+button:first-child {
+  *margin-left: 0;
+}
+button:hover {
+  text-decoration: none;
+  background-color: #bfbfbf;
+  *background-color: #b2b2b2;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+}
+button:active, button.active {
+  background-color: #bfbfbf;
+  *background-color: #b2b2b2;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  background-image: none;
+}
+
 #top-header {
   top: 0;
   width: 100%;
@@ -164,17 +207,68 @@ a:hover {
   padding: 22px;
 }
 
+#course-info {
+  border-bottom: 1px solid #d9d6d6;
+}
+#course-info h1 {
+  display: inline-block;
+}
+#course-info .refresh-button {
+  padding: 12px 16px 4px 16px;
+  line-height: 55px;
+  display: inline-block;
+}
+#course-info .course-lock {
+  display: inline-block;
+  float: right;
+}
+#course-info .course-lock .course-lock-text {
+  display: inline-block;
+}
+
+#course-users #course-users-list .user-tools, #course-users #course-users-list .resource {
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-bottom: 22px;
+}
+#course-users #course-users-list .user-tools h4, #course-users #course-users-list .resource h4 {
+  margin-bottom: 0;
+}
+#course-users #course-users-top-tools {
+  padding-top: 3em;
+  padding-bottom: 1em;
+}
+#course-users #course-users-top-tools .tools-right {
+  float: right;
+}
+#course-users #course-users-bottom-tools {
+  border-top: 1px solid white;
+}
+
 .user-summary, .user-full, #course-users-top-tools {
   border-bottom: 1px solid #d9d6d6;
   border-top: 1px solid white;
 }
 
-#course-users-bottom-tools {
-  border-top: 1px solid white;
+.user-info h3 {
+  margin: .5em 0;
+  display: inline-block;
 }
-
-#course-info {
-  border-bottom: 1px solid #d9d6d6;
+.user-info .indicators-summary-users {
+  float: right;
+  padding-top: 13px;
+}
+.user-info .indicators-summary-users .ss-folder {
+  display: inline-block;
+  padding-right: 12px;
+}
+.user-info .indicators-summary-users .ss-user {
+  display: inline-block;
+  padding-right: 12px;
+}
+.user-info .ss-icon {
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 body {
@@ -214,9 +308,55 @@ body {
   margin-right: auto;
 }
 
-.user-info h3 {
-  margin: .5em 0;
+#course-info .refresh-button {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px 6px 0 6px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #bebcba;
+  background-color: #f2f2f2;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
+  background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+  font-size: 40px;
+  line-height: 55px;
 }
+#course-info .refresh-button:first-child {
+  *margin-left: 0;
+}
+#course-info .refresh-button:hover {
+  text-decoration: none;
+  background-color: #bfbfbf;
+  *background-color: #b2b2b2;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+}
+#course-info .refresh-button:active, #course-info .refresh-button.active {
+  background-color: #bfbfbf;
+  *background-color: #b2b2b2;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  background-image: none;
+}
+
+#course-users .user-selected {
+  background-color: white;
+}
+
 .user-info h3 .user-name {
   font-size: 18px;
   color: #80a6fc;
@@ -224,95 +364,8 @@ body {
 .user-info h3 .user-name:hover {
   color: #e5da55;
 }
-
-button {
-  display: inline-block;
-  margin-bottom: .5em;
-  *display: inline;
-  *zoom: 1;
-  padding: 4px 10px 4px;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 22px;
-  *line-height: 20px;
-  color: #bebcba;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid #bebcba;
-  background-color: #f2f2f2;
-  *border: 0;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
-  *margin-left: .3em;
-  background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
-  background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
-}
-button:first-child {
-  *margin-left: 0;
-}
-button:hover {
-  text-decoration: none;
-  background-color: #bfbfbf;
-  *background-color: #b2b2b2;
-  /* Buttons in IE7 don't get borders, so darken on hover */
-}
-button:active, button.active {
-  background-color: #bfbfbf;
-  *background-color: #b2b2b2;
-  /* Buttons in IE7 don't get borders, so darken on hover */
-  background-image: none;
-}
-
-.refresh-button {
-  display: inline-block;
-  margin-bottom: .5em;
-  *display: inline;
-  *zoom: 1;
-  padding: 4px 10px 4px;
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 22px;
-  *line-height: 20px;
-  color: #bebcba;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid #bebcba;
-  background-color: #f2f2f2;
-  *border: 0;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
-  *margin-left: .3em;
-  background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
-  background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
-  padding: 16px 16px 10px 16px;
-  color: #4a4545;
-  font-size: 40px;
-  line-height: 55px;
-}
-.refresh-button:first-child {
-  *margin-left: 0;
-}
-.refresh-button:hover {
-  text-decoration: none;
-  background-color: #bfbfbf;
-  *background-color: #b2b2b2;
-  /* Buttons in IE7 don't get borders, so darken on hover */
-}
-.refresh-button:active, .refresh-button.active {
-  background-color: #bfbfbf;
-  *background-color: #b2b2b2;
-  /* Buttons in IE7 don't get borders, so darken on hover */
-  background-image: none;
+.user-info .ss-icon {
+  font-size: 12px;
 }
 
 @media print {
@@ -447,5 +500,48 @@ button:active, button.active {
   }
   a:hover {
     text-decoration: underline;
+  }
+
+  button {
+    display: inline-block;
+    margin-bottom: .5em;
+    *display: inline;
+    *zoom: 1;
+    padding: 6px 6px 0 6px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
+    *line-height: 20px;
+    color: #4a4545;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid #bebcba;
+    background-color: #f2f2f2;
+    *border: 0;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    *margin-left: .3em;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
+    background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+  }
+  button:first-child {
+    *margin-left: 0;
+  }
+  button:hover {
+    text-decoration: none;
+    background-color: #bfbfbf;
+    *background-color: #b2b2b2;
+    /* Buttons in IE7 don't get borders, so darken on hover */
+  }
+  button:active, button.active {
+    background-color: #bfbfbf;
+    *background-color: #b2b2b2;
+    /* Buttons in IE7 don't get borders, so darken on hover */
+    background-image: none;
   }
 }
