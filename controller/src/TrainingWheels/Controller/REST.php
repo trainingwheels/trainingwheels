@@ -141,7 +141,7 @@ class REST implements ControllerProviderInterface {
     ->convert('user', $parseID);
 
     /**
-     * Course summaries
+     * Get course summaries
      */
     $controllers->get('/course_summaries', function() use ($app) {
       $courses = array();
@@ -159,10 +159,25 @@ class REST implements ControllerProviderInterface {
     });
 
     /**
+     * Create a course.
+     */
+    $controllers->post('/course_summaries', function (Request $request) use ($app) {
+      $newCourse = $request->request->get('course_summary');
+      $factory = CourseFactory::singleton();
+
+      $factory->save($newCourse);
+
+      return $app->json(array('messages' => 'success'), HTTP_CREATED);
+    });
+
+    /**
      * Retrieve a course.
      */
     $controllers->get('/courses/{id}', function ($id) use ($app) {
       $course = CourseFactory::singleton()->get($id);
+      if (!$course) {
+        return $app->json(array('messages' => 'Course with id ' . $id . ' does not exist.'), HTTP_NOT_FOUND);
+      }
 
       // Ember data expects an 'id' parameter.
       $course->id = $course->course_id;

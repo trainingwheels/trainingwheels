@@ -8,20 +8,6 @@
   var App = win.App;
 
   ////
-  // Common components
-  //
-  // @see http://www.solitr.com/blog/2012/06/ember-input-field-with-save-button/
-  //
-  App.LazyTextField = Ember.View.extend({
-    attributeBindings: ['value', 'type', 'size', 'name', 'placeholder', 'disabled', 'maxlength'],
-    tagName: 'input',
-    type: 'text',
-    getCurrentValue: function() {
-      return this.$().val();
-    }
-  });
-
-  ////
   // Ember Data
   //
   App.store = DS.Store.create({
@@ -52,7 +38,10 @@
     env_type: DS.attr('string'),
     repo: DS.attr('string'),
     title: DS.attr('string'),
-    uri: DS.attr('string')
+    uri: DS.attr('string'),
+    didCreate: function() {
+      alertify.success('Course "' + this.get('title') + '" created.');
+    }
   });
 
   App.Course = App.CourseSummary.extend({
@@ -111,31 +100,24 @@
     templateName: 'courses'
   });
 
-  App.CourseFormController = Ember.ObjectController.extend();
-  App.CourseFormView = Ember.View.extend({
-    name: '',
-    title: '',
-    description: '',
-    type: '',
-    environment: '',
-    repository: '',
-    host: '',
-
-    templateName: 'course-form',
-
-    saveCourse: function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.set('name', this.get('nameTextField').getCurrentValue());
-      this.set('title', this.get('titleTextField').getCurrentValue());
-      this.set('description', this.get('descriptionTextField').getCurrentValue());
-      this.set('type', this.get('typeTextField').getCurrentValue());
-      this.set('environment', this.get('environmentTextField').getCurrentValue());
-      this.set('repository', this.get('repositoryTextField').getCurrentValue());
-      this.set('host', this.get('hostTextField').getCurrentValue());
-
-      alertify.success('Adding the user ' + this.get('name'));
+  App.CourseFormController = Ember.ObjectController.extend({
+    saveCourse: function(view) {
+      var newCourse = {
+        title: view.get('titleTextField').get('value'),
+        description: view.get('descriptionTextField').get('value'),
+        course_name: view.get('nameTextField').get('value'),
+        course_type: view.get('typeTextField').get('value'),
+        env_type: view.get('environmentTextField').get('value'),
+        repo: view.get('repositoryTextField').get('value'),
+        host: view.get('hostTextField').get('value'),
+      }
+      App.store.createRecord(App.CourseSummary, newCourse);
+      alertify.success('Adding the course ' + newCourse.course_name + '...');
+      App.store.commit();
     }
+  });
+  App.CourseFormView = Ember.View.extend({
+    templateName: 'course-form',
   });
 
   App.CourseController = Ember.ObjectController.extend({
@@ -277,6 +259,11 @@
         // #/course/add
         add: Ember.Route.extend({
           route: '/add',
+
+          saveCourse: function(router, context) {
+            router.get('courseFormController').saveCourse(context.view);
+            router.transitionTo('courses');
+          },
 
           connectOutlets: function(router, context) {
             router.get('applicationController').connectOutlet('courseForm');

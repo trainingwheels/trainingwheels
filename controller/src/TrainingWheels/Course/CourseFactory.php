@@ -10,6 +10,7 @@ use TrainingWheels\Environment\DevEnv;
 use TrainingWheels\Environment\CentosEnv;
 use TrainingWheels\Environment\UbuntuEnv;
 use TrainingWheels\Store\DataStore;
+use Exception;
 
 class CourseFactory {
   // Singleton instance.
@@ -29,22 +30,40 @@ class CourseFactory {
   }
 
   /**
-   * Creating Course object given a course id.
+   * Create Course object given a course id.
    */
   public function get($course_id) {
-    $params = $this->dummyCourse($course_id);
+    $params = $this->data->get('course', $course_id);
 
-    $course = $this->buildCourse($params['course']);
-    $this->buildEnv($course, $params['env'], $params['host'], $params['user'], $params['pass']);
+    if ($params) {
+      $course = $this->buildCourse($params['course']);
+      $this->buildEnv($course, $params['env'], $params['host'], $params['user'], $params['pass']);
 
-    $course->course_id = $course_id;
-    $course->title = $params['title'];
-    $course->description = $params['description'];
-    $course->repo = $params['repo'];
-    $course->course_name = $params['course_name'];
-    $course->uri = '/course/' . $params['id'];
+      $course->course_id = $course_id;
+      $course->title = $params['title'];
+      $course->description = $params['description'];
+      $course->repo = $params['repo'];
+      $course->course_name = $params['course_name'];
+      $course->uri = '/course/' . $params['id'];
 
-    return $course ? $course : FALSE;
+      return $course;
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Get all course summaries.
+   */
+  public function getAll() {
+
+  }
+
+  /**
+   * Save a course.
+   */
+  public function save($course) {
+    $this->data->save('course', $course);
   }
 
   /**
