@@ -135,7 +135,7 @@ blockquote {
   }
 }
 
-// Links
+// Links / Buttons
 
 
 a {
@@ -144,5 +144,10 @@ a {
   &:hover {
     text-decoration: underline;
   }
+}
+
+
+button {
+  @include button-make($lightGray);
 }
 
