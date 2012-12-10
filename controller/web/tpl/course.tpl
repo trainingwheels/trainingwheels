@@ -28,7 +28,7 @@
         </div>
       </div>
       <div id="course-users-list">
-      
+
         {{#each user in controller.usersAbove}}
           {{#with user}}
             {{view "App.UserSummaryView"}}

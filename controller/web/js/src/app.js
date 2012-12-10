@@ -54,7 +54,14 @@
     user_name: DS.attr('string'),
     password: DS.attr('string'),
     logged_in: DS.attr('boolean'),
-    course_id: DS.attr('number')
+    course_id: DS.attr('number'),
+    resource_status: DS.attr('string'),
+    css_class_login_status: function() {
+      return 'user-login-status ss-user ' + (this.get('logged_in') ? 'logged_in' : 'logged_out');
+    }.property('logged_in'),
+    css_class_resource_overview_status: function() {
+      return 'resource-status ss-folder ' + this.get('resource_status');
+    }.property('resource_status'),
   });
 
   App.User = App.UserSummary.extend({
@@ -71,7 +78,10 @@
     attribs: DS.attr('string'),
     attribsArray: function() {
       return $.parseJSON(this.get('attribs'));
-    }.property('attribs')
+    }.property('attribs'),
+    css_class_resource_status: function() {
+      return 'resource-status ss-folder ' + this.get('status');
+    }.property('status'),
   })
 
   ////
@@ -113,6 +123,19 @@
       this.set('usersBelow', this.get('allUsers').slice(index + 1, 10000));
     },
 
+    unselectAllUsers: function(course_id) {
+      course_id = this.get('course_id');
+      var users = App.store.filter(App.UserSummary, function (data) {
+        if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
+          return true;
+        }
+      });
+      this.set('allUsers', users);
+      this.set('usersAbove', users);
+      this.set('usersBelow', []);
+      this.set('userSelected', []);
+    },
+
     bindUsers: function(course_id) {
       var users = App.store.filter(App.UserSummary, function (data) {
         if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
@@ -143,7 +166,6 @@
   });
   App.UserSummaryView = Ember.View.extend({
     templateName: 'user-summary',
-    css_class_login_status: 'user-login-status'
   });
 
   App.UserController = Ember.ObjectController.extend({
@@ -166,13 +188,11 @@
   });
   App.UserView = Ember.View.extend({
     templateName: 'user',
-    css_class_login_status: 'user-login-status'
   });
 
   App.ResourceController = Ember.ObjectController.extend();
   App.ResourceView = Ember.View.extend({
     templateName: 'resource',
-    css_class_resources_status: 'resource-status',
   });
 
   ////
@@ -244,6 +264,14 @@
           // #/course/1/user/bobby
           userSelected: Ember.Route.extend({
             route: '/user/:user_name',
+            unselectAllUsers: function(router, context) {
+              var courseController = router.get('courseController');
+              var dummyCourseContext = {
+                id: courseController.get('course_id')
+              };
+              courseController.unselectAllUsers();
+              router.transitionTo('course.coursePage.index', dummyCourseContext);
+            },
             connectOutlets: function(router, context) {
               var user = App.store.find(App.User, context.id);
               var courseController = router.get('courseController');
