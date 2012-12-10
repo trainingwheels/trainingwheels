@@ -113,6 +113,19 @@
       this.set('usersBelow', this.get('allUsers').slice(index + 1, 10000));
     },
 
+    unselectAllUsers: function(course_id) {
+      course_id = this.get('course_id');
+      var users = App.store.filter(App.UserSummary, function (data) {
+        if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
+          return true;
+        }
+      });
+      this.set('allUsers', users);
+      this.set('usersAbove', users);
+      this.set('usersBelow', []);
+      this.set('userSelected', []);
+    },
+
     bindUsers: function(course_id) {
       var users = App.store.filter(App.UserSummary, function (data) {
         if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
@@ -244,6 +257,14 @@
           // #/course/1/user/bobby
           userSelected: Ember.Route.extend({
             route: '/user/:user_name',
+            unselectAllUsers: function(router, context) {
+              var courseController = router.get('courseController');
+              var dummyCourseContext = {
+                id: courseController.get('course_id')
+              };
+              courseController.unselectAllUsers();
+              router.transitionTo('course.coursePage.index', dummyCourseContext);
+            },
             connectOutlets: function(router, context) {
               var user = App.store.find(App.User, context.id);
               var courseController = router.get('courseController');

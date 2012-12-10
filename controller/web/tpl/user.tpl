@@ -1,8 +1,8 @@
 <div class="user-full">
   <div class="user-info">
-    <a class="ss-icon" href="#" {{action showUser user}}>navigatedown</a>
+    <a class="ss-icon" href="#" {{action unselectAllUsers user}}>navigatedown</a>
     <h3>
-      <a class="user-name" href="#" {{action showUser user}}>{{user.user_name}}</a>
+      <a class="user-name" href="#" {{action unselectAllUsers user}}>{{user.user_name}}</a>
     </h3>
     <div class="indicators-summary-users">
       <div class="ss-user"{{bindAttr class="view.css_class_login_status logged_in"}}></div>
