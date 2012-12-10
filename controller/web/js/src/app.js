@@ -54,7 +54,14 @@
     user_name: DS.attr('string'),
     password: DS.attr('string'),
     logged_in: DS.attr('boolean'),
-    course_id: DS.attr('number')
+    course_id: DS.attr('number'),
+    resource_status: DS.attr('string'),
+    css_class_login_status: function() {
+      return 'user-login-status ss-user ' + (this.get('logged_in') ? 'logged_in' : 'logged_out');
+    }.property('logged_in'),
+    css_class_resource_overview_status: function() {
+      return 'resource-status ss-folder ' + this.get('resource_status');
+    }.property('resource_status'),
   });
 
   App.User = App.UserSummary.extend({
@@ -71,7 +78,10 @@
     attribs: DS.attr('string'),
     attribsArray: function() {
       return $.parseJSON(this.get('attribs'));
-    }.property('attribs')
+    }.property('attribs'),
+    css_class_resource_status: function() {
+      return 'resource-status ss-folder ' + this.get('status');
+    }.property('status'),
   })
 
   ////
@@ -156,7 +166,6 @@
   });
   App.UserSummaryView = Ember.View.extend({
     templateName: 'user-summary',
-    css_class_login_status: 'user-login-status'
   });
 
   App.UserController = Ember.ObjectController.extend({
@@ -179,13 +188,11 @@
   });
   App.UserView = Ember.View.extend({
     templateName: 'user',
-    css_class_login_status: 'user-login-status'
   });
 
   App.ResourceController = Ember.ObjectController.extend();
   App.ResourceView = Ember.View.extend({
     templateName: 'resource',
-    css_class_resources_status: 'resource-status',
   });
 
   ////
