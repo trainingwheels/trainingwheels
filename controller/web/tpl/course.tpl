@@ -3,10 +3,10 @@
     <div id="course-info">
       <h1><a href="#" {{action showCourse course}}>{{title}}</a></h1>
       <button class="refresh-button ss-refresh"{{action refreshCourse target="controller"}}></button>
-      <div class="course-lock">
-        <button class="ss-lock"></button>
+      <a class="course-lock">
+        <div class="ss-lock"></div>
         <div class="course-lock-text">Course in session</div>
-      </div>
+      </a>
     </div>
 
     <div id="course-instructor">
@@ -19,11 +19,9 @@
 
     <div id="course-users">
       <div id="course-users-top-tools">
-        <div id="user-view-tools">
           <button class="ss-rows"{{action collapseAll target="controller"}}></button>
           <button class="ss-users"{{action selectAll target="controller"}}></button>
           Sort by:{{view Ember.Select contentBinding="view.sortOptions"}}
-        </div>
         <div class="tools-right">
           <button class="ss-sync"{{action syncAll target="controller"}}></button>
           <button class="ss-trash"{{action deleteSelected target="controller"}}></button>
@@ -52,7 +50,7 @@
         {{/each}}
       </div>
       <div id="course-users-bottom-tools">
-        {{view Ember.TextField valueBinding="newUserName"}} <button {{action addUser target="controller"}}>Add user</button>
+        {{view Ember.TextField valueBinding="newUserName"}} <button class="yellow-btn ss-icon ss-symbolicons-block"{{action addUser target="controller"}}>adduser</button>
       </div>
     </div>
   {{else}}
