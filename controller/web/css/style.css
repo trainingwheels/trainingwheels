@@ -161,17 +161,20 @@ button {
 button:first-child {
   *margin-left: 0;
 }
-button:hover {
+button:hover, button.hover {
   text-decoration: none;
-  background-color: #bfbfbf;
+  background-color: #727272;
   *background-color: #b2b2b2;
   /* Buttons in IE7 don't get borders, so darken on hover */
 }
 button:active, button.active {
-  background-color: #bfbfbf;
-  *background-color: #b2b2b2;
+  background-color: #d8d8d8;
+  *background-color: #cccccc;
   /* Buttons in IE7 don't get borders, so darken on hover */
   background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 #top-header {
@@ -182,6 +185,8 @@ button:active, button.active {
   z-index: 4;
   padding-top: 15px;
   margin-bottom: 22px;
+  border-top: 1px solid #e5da55;
+  border-bottom: 1px solid #bebcba;
 }
 
 #logo {
@@ -198,7 +203,7 @@ button:active, button.active {
   z-index: 4;
   padding: 10px;
   margin-top: 22px;
-  border-top: 1px solid #bebcba;
+  border-top: 1px solid #d9d6d6;
 }
 
 #course-view {
@@ -212,17 +217,19 @@ button:active, button.active {
 }
 #course-info h1 {
   display: inline-block;
+  padding-right: 10px;
 }
 #course-info .refresh-button {
-  padding: 12px 16px 4px 16px;
-  line-height: 55px;
+  padding: 10px 8px 2px 6px;
   display: inline-block;
 }
 #course-info .course-lock {
-  display: inline-block;
   float: right;
 }
 #course-info .course-lock .course-lock-text {
+  display: inline-block;
+}
+#course-info .course-lock .ss-lock {
   display: inline-block;
 }
 
@@ -241,8 +248,16 @@ button:active, button.active {
 #course-users #course-users-top-tools .tools-right {
   float: right;
 }
+#course-users #course-users-top-tools #user-view-tools .ss-rows {
+  border-radius-right: 1px;
+}
 #course-users #course-users-bottom-tools {
   border-top: 1px solid white;
+  padding-top: 2em;
+}
+#course-users #course-users-bottom-tools .ember-text-field {
+  height: 44px;
+  width: 300px;
 }
 
 .user-summary, .user-full, #course-users-top-tools {
@@ -275,14 +290,91 @@ body {
   background-color: #eeeeee;
 }
 
+.yellow-btn {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px 6px 0 6px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #bebcba;
+  background-color: #e5da55;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#ded029));
+  background: -moz-linear-gradient(top, #efe24b, #ded029);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
+  padding: 11px 11px;
+  font-size: 20px;
+}
+.yellow-btn:first-child {
+  *margin-left: 0;
+}
+.yellow-btn:hover, .yellow-btn.hover {
+  text-decoration: none;
+  background-color: #333008;
+  *background-color: #a29719;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+}
+.yellow-btn:active, .yellow-btn.active {
+  background-color: #ded029;
+  *background-color: #cec120;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+a {
+  color: darkGray;
+  text-decoration: none;
+}
+a:hover, a.hover {
+  color: #bebcba;
+  text-decoration: none;
+}
+
+dt {
+  width: 200px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+dd {
+  margin: 0;
+  display: inline-block;
+  width: 66%;
+}
+
+dt, dd {
+  border-top: solid 1px #DDD;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
 #top-header {
-  background: #4a4545;
+  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#cec120));
+  background: -moz-linear-gradient(top, #efe24b, #cec120);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#cec120');
 }
 
 #logo {
   background: url(../images/tw-logo-header.svg) no-repeat;
   font-size: 32px;
-  color: #e5da55;
+  color: #4a4545;
   text-decoration: none;
   font-family: "bebas-neue", helvetica, arial, sans-serif;
 }
@@ -291,9 +383,16 @@ body {
 }
 
 #footer {
-  background: white;
-  color: #bebcba;
+  background: url(../images/az_subtle.png) repeat;
+  color: #4a4545;
   padding: 22px;
+  font-size: 12px;
+}
+#footer a {
+  color: #4a4545;
+}
+#footer a:hover {
+  color: #938732;
 }
 #footer ul {
   list-style-type: none;
@@ -308,6 +407,10 @@ body {
   margin-right: auto;
 }
 
+#course-info a {
+  color: #4a4545;
+  font-size: 38px;
+}
 #course-info .refresh-button {
   display: inline-block;
   margin-bottom: .5em;
@@ -334,38 +437,54 @@ body {
   background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
   background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
-  font-size: 40px;
-  line-height: 55px;
+  font-size: 32px;
+  line-height: 32px;
+  padding: 10px 8px 2px 6px;
 }
 #course-info .refresh-button:first-child {
   *margin-left: 0;
 }
-#course-info .refresh-button:hover {
+#course-info .refresh-button:hover, #course-info .refresh-button.hover {
   text-decoration: none;
-  background-color: #bfbfbf;
+  background-color: #727272;
   *background-color: #b2b2b2;
   /* Buttons in IE7 don't get borders, so darken on hover */
 }
 #course-info .refresh-button:active, #course-info .refresh-button.active {
-  background-color: #bfbfbf;
-  *background-color: #b2b2b2;
+  background-color: #d8d8d8;
+  *background-color: #cccccc;
   /* Buttons in IE7 don't get borders, so darken on hover */
   background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+#course-info .course-lock {
+  font-size: 16px;
+}
+#course-info .course-lock.hover, #course-info .course-lock:hover {
+  color: #938732;
 }
 
 #course-users .user-selected {
-  background-color: white;
+  background-color: #f8f8f8;
+}
+#course-users #course-users-bottom-tools .ember-text-field {
+  font-size: 20px;
+  padding-left: 10px;
+  color: #4a4545;
 }
 
 .user-info h3 .user-name {
   font-size: 18px;
-  color: #80a6fc;
+  color: #4a4545;
 }
 .user-info h3 .user-name:hover {
-  color: #e5da55;
+  color: #bebcba;
 }
 .user-info .ss-icon {
-  font-size: 12px;
+  font-size: 14px;
+  color: #4a4545;
 }
 
 @media print {
@@ -532,16 +651,19 @@ body {
   button:first-child {
     *margin-left: 0;
   }
-  button:hover {
+  button:hover, button.hover {
     text-decoration: none;
-    background-color: #bfbfbf;
+    background-color: #727272;
     *background-color: #b2b2b2;
     /* Buttons in IE7 don't get borders, so darken on hover */
   }
   button:active, button.active {
-    background-color: #bfbfbf;
-    *background-color: #b2b2b2;
+    background-color: #d8d8d8;
+    *background-color: #cccccc;
     /* Buttons in IE7 don't get borders, so darken on hover */
     background-image: none;
+    -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   }
 }

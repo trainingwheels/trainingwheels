@@ -18,6 +18,8 @@
   z-index: 4;
   padding-top: 15px;
   margin-bottom: $base-line-height;
+  border-top: 1px solid $yellow;
+  border-bottom: 1px solid $mediumGray;
 }
 
 #logo {
@@ -36,7 +38,7 @@
   z-index: 4;
   padding: 10px;
   margin-top:$base-line-height;
-  border-top: 1px solid $mediumGray;
+  border-top: 1px solid $border;
 }
 
 //User Listing
@@ -51,16 +53,18 @@
   border-bottom: 1px solid $border;
   h1 {
     display: inline-block;
-    }
+    padding-right: 10px;
+  }
   .refresh-button {
-    padding: 12px 16px 4px 16px;
-    line-height: $base-line-height * 2.5;
+    padding: 10px 8px 2px 6px;
     display: inline-block;
   }
   .course-lock {
-    display: inline-block;
     float: right;
     .course-lock-text{
+      display: inline-block;
+    }
+    .ss-lock {
       display: inline-block;
     }
   }
@@ -82,16 +86,20 @@
     padding-bottom: 1em;  
     .tools-right {
       float:right;
-    .user-view-tools {
-      .ss-rows {
-        .border-radius-right{        
-        }
-      }
     }
+    #user-view-tools {
+      .ss-rows {
+        border-radius-right: 1px;
+      }
     }
   }
   #course-users-bottom-tools {
     border-top: 1px solid $white;
+    padding-top: 2em;
+    .ember-text-field {
+      height: $base-line-height * 2;
+      width: 300px;
+    }
   }
 }
 

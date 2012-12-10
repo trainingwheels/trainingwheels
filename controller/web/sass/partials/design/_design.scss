@@ -12,16 +12,49 @@ body {
   background-color: #eeeeee;
 }
 
+.yellow-btn {
+  @include button-make($yellow);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 20px;  
+}
+
+a {
+  color: darkGray;
+  text-decoration: none;
+  &:hover, &.hover {
+    color: $mediumGray;
+    text-decoration: none;
+  }
+}
+
+dt {
+  width: 200px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+dd {
+  margin: 0;
+  display: inline-block;
+  width: 66%;
+}
+
+dt, dd {
+  border-top: solid 1px #DDD;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
 //Header
 
 #top-header {
-  background: $darkGray;
+  @include gradient(saturate($yellow, 10%), darken($yellow, 15%));
 }
 
 #logo {
   background: url(../images/tw-logo-header.svg) no-repeat;
   font-size: $base-font-size * 2;
-  color: $yellow;
+  color: $darkGray;
   text-decoration: none;
   font-family: $bebas;
   &:hover {
@@ -32,9 +65,16 @@ body {
 //Footer
 
 #footer {
-  background: $white;
-  color: $mediumGray;
+  background: url(../images/az_subtle.png) repeat;
+  color: $darkGray;
   padding:$base-line-height;
+  font-size: 12px;
+  a {
+    color: $darkGray;
+    &:hover {
+      color: $yellowDark;
+    }
+  }
   ul {
     list-style-type: none;
     margin: 0;
@@ -54,16 +94,36 @@ body {
 //User Listing
 
 #course-info {
+  a {
+    color: $darkGray;
+    font-size: 38px;
+  }
   .refresh-button {
     @include button-make($lightGray);
-    font-size: $base-font-size * 2.5;
-    line-height: $base-line-height * 2.5;
+    font-size: $base-font-size * 2;
+    line-height: 32px;
+    padding: 10px 8px 2px 6px;    
+  }
+  .course-lock {
+      font-size: 16px;
+      &.hover, &:hover {
+      color: $yellowDark;
+      }
+    .course-lock-text{
+    }
   }
 }
 
 #course-users {
   .user-selected {
-    background-color: $white;
+    background-color: #f8f8f8;
+  }
+  #course-users-bottom-tools {
+    .ember-text-field {
+      font-size: 20px;
+      padding-left: 10px;
+      color: $darkGray;
+    }
   }
 }
 
@@ -71,13 +131,14 @@ body {
   h3 {
     .user-name {
       font-size: 18px;
-      color: $blue;
+      color: $darkGray;
       &:hover {
-        color:$yellow;
+        color:$mediumGray;
       }
     }
   }
   .ss-icon {
-    font-size: 12px;
+    font-size: 14px;
+    color: $darkGray;
   }
 }
