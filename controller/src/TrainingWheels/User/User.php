@@ -211,6 +211,25 @@ abstract class User extends CachedObject {
           $user['resources'][] = $res;
         }
       }
+      // An overview of the resource status.
+      $resource_count = count($this->resources);
+      $exist_count = 0;
+
+      foreach ($this->resources as $name => $resource) {
+        if ($resource->getExists()) {
+          $exist_count++;
+        }
+      }
+      if ($exist_count == 0) {
+        $user['resource_status'] = 'resource-missing';
+      }
+      else if ($exist_count == $resource_count) {
+        $user['resource_status'] = 'resource-ready';
+      }
+      else {
+        $user['resource_status'] = 'resource-partial';
+      }
+
       return $user;
     }
     else {
