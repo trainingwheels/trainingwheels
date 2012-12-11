@@ -137,8 +137,30 @@ dt, dd {
       }
     }
   }
+  .indicators-summary-users {
+    .resource-ready {
+      color: $darkGray;
+    }
+    .resource-missing {
+      color: $red;
+    } 
+  }
   .ss-icon {
     font-size: 14px;
     color: $darkGray;
+  }
+}
+
+.resource-info {
+  h4 {
+    display: inline;
+  }
+  .indicators-summary-users {
+    .resource-ready {
+      color: $darkGray;
+    }
+    .resource-missing {
+      color: $red;
+    } 
   }
 }
