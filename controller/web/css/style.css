@@ -498,6 +498,9 @@ dt, dd {
 .user-info .indicators-summary-users .resource-missing {
   color: #a30006;
 }
+.user-info .indicators-summary-users .logged_out {
+  color: #bebcba;
+}
 .user-info .ss-icon {
   font-size: 14px;
   color: #4a4545;

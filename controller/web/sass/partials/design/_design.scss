@@ -143,7 +143,10 @@ dt, dd {
     }
     .resource-missing {
       color: $red;
-    } 
+    }
+    .logged_out {
+      color: $mediumGray;
+    }
   }
   .ss-icon {
     font-size: 14px;
