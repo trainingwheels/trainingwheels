@@ -1,7 +1,9 @@
 <div class="resource">
   <div class="resource-info">
     <h4>{{title}}</h4>
-    <div {{bindAttr class="css_class_resource_status"}}></div>
+    <div class="indicators-summary-users">
+      <div {{bindAttr class="css_class_resource_status"}}></div>
+    </div>
   </div>
   <div class="resource-details">
     {{#if exists}}

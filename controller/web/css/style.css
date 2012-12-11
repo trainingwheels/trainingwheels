@@ -286,6 +286,16 @@ button:active, button.active {
   padding-right: 12px;
 }
 
+.resource-info {
+  display: inline;
+}
+.resource-info h4 {
+  display: inline;
+}
+.resource-info .indicators-summary-users {
+  float: right;
+}
+
 body {
   background-color: #eeeeee;
 }
@@ -482,9 +492,25 @@ dt, dd {
 .user-info h3 .user-name:hover {
   color: #bebcba;
 }
+.user-info .indicators-summary-users .resource-ready {
+  color: #4a4545;
+}
+.user-info .indicators-summary-users .resource-missing {
+  color: #a30006;
+}
 .user-info .ss-icon {
   font-size: 14px;
   color: #4a4545;
+}
+
+.resource-info h4 {
+  display: inline;
+}
+.resource-info .indicators-summary-users .resource-ready {
+  color: #4a4545;
+}
+.resource-info .indicators-summary-users .resource-missing {
+  color: #a30006;
 }
 
 @media print {
