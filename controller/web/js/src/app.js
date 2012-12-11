@@ -99,11 +99,13 @@
 
   App.CourseController = Ember.ObjectController.extend({
     course_id: 0,
-    allUsers: [],
-    usersAbove: [],
+    allUserSummaries: [],
+    userSummariesAbove: [],
+    userSummariesBelow: [],
     userSelected: [],
-    usersBelow: [],
     instructor: [],
+    instructorSummary: [],
+    instructorSelected: [],
 
     refreshCourse: function() {
       alertify.success('Refreshing the course');
@@ -115,35 +117,40 @@
     },
 
     selectUser: function(user_id) {
-      var user = this.get('allUsers').findProperty('id', user_id);
-      var index = this.get('allUsers').indexOf(user);
+      var pieces = user_id.split('-');
+      var user = this.get('allUserSummaries').findProperty('id', user_id);
 
-      this.set('usersAbove', this.get('allUsers').slice(0, index));
-      this.set('userSelected', this.get('allUsers').slice(index, index + 1));
-      this.set('usersBelow', this.get('allUsers').slice(index + 1, 10000));
+      if (pieces[1] === 'instructor') {
+        this.set('instructorSelected', this.get('instructor'));
+        this.set('instructorSummary', []);
+
+        this.set('userSummariesAbove', this.get('allUserSummaries'));
+        this.set('userSummariesBelow', []);
+        this.set('userSelected', []);
+      }
+      else {
+        if (this.get('instructorSelected').get('length') > 0) {
+          this.set('instructorSummary', this.get('instructor'));
+          this.set('instructorSelected', []);
+        }
+
+        var index = this.get('allUserSummaries').indexOf(user);
+        this.set('userSummariesAbove', this.get('allUserSummaries').slice(0, index));
+        this.set('userSelected', this.get('allUserSummaries').slice(index, index + 1));
+        this.set('userSummariesBelow', this.get('allUserSummaries').slice(index + 1, 10000));
+      }
     },
 
-    unselectAllUsers: function(course_id) {
-      course_id = this.get('course_id');
+    resetUsers: function(course_id) {
       var users = App.store.filter(App.UserSummary, function (data) {
         if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
           return true;
         }
       });
-      this.set('allUsers', users);
-      this.set('usersAbove', users);
-      this.set('usersBelow', []);
+      this.set('allUserSummaries', users);
+      this.set('userSummariesAbove', users);
+      this.set('userSummariesBelow', []);
       this.set('userSelected', []);
-    },
-
-    bindUsers: function(course_id) {
-      var users = App.store.filter(App.UserSummary, function (data) {
-        if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
-          return true;
-        }
-      });
-      this.set('allUsers', users);
-      this.set('usersAbove', users);
 
       var instructor = App.store.filter(App.UserSummary, function (data) {
         if (data.get('user_name') == 'instructor' && data.get('course_id') == course_id) {
@@ -151,6 +158,8 @@
         }
       });
       this.set('instructor', instructor);
+      this.set('instructorSummary', instructor);
+      this.set('instructorSelected', []);
 
       // Need to save the course id to the controller for the purposes of
       // deserializing the nested user path later down the line.
@@ -253,7 +262,7 @@
             var course = App.store.find(App.Course, course_id);
             router.get('applicationController').connectOutlet('course', course);
             var courseController = router.get('courseController');
-            courseController.bindUsers(course_id);
+            courseController.resetUsers(course_id);
           },
 
           deserialize: function(router, urlParams) {
@@ -264,16 +273,19 @@
           // #/course/1/user/bobby
           userSelected: Ember.Route.extend({
             route: '/user/:user_name',
-            unselectAllUsers: function(router, context) {
+            hideUsers: function(router, context) {
               var courseController = router.get('courseController');
               var dummyCourseContext = {
                 id: courseController.get('course_id')
               };
-              courseController.unselectAllUsers();
+              courseController.resetUsers(dummyCourseContext.id);
               router.transitionTo('course.coursePage.index', dummyCourseContext);
             },
             connectOutlets: function(router, context) {
-              var user = App.store.find(App.User, context.id);
+              // This triggers the loading of the resources, could probably
+              // be changed so that there is a resources endpoint.
+              App.store.find(App.User, context.id);
+
               var courseController = router.get('courseController');
               courseController.selectUser(context.id);
               var userController = router.get('userController');
