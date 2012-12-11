@@ -10,11 +10,19 @@
     </div>
 
     <div id="course-instructor">
-      {{#each user in controller.instructor}}
+      {{#each user in controller.instructorSummary}}
         {{#with user}}
           {{view "App.UserSummaryView"}}
         {{/with}}
       {{/each}}
+
+      <div class="user-selected">
+        {{#each user in controller.instructorSelected}}
+          {{#with user}}
+            {{view "App.UserView" controllerBinding="App.router.userController"}}
+          {{/with}}
+        {{/each}}
+      </div>
     </div>
 
     <div id="course-users">
@@ -29,21 +37,21 @@
       </div>
       <div id="course-users-list">
 
-        {{#each user in controller.usersAbove}}
+        {{#each user in controller.userSummariesAbove}}
           {{#with user}}
             {{view "App.UserSummaryView"}}
           {{/with}}
         {{/each}}
 
         <div class="user-selected">
-        {{#each user in controller.userSelected}}
-          {{#with user}}
-            {{view "App.UserView" controllerBinding="App.router.userController"}}
-          {{/with}}
-        {{/each}}
+          {{#each user in controller.userSelected}}
+            {{#with user}}
+              {{view "App.UserView" controllerBinding="App.router.userController"}}
+            {{/with}}
+          {{/each}}
         </div>
 
-        {{#each user in controller.usersBelow}}
+        {{#each user in controller.userSummariesBelow}}
           {{#with user}}
             {{view "App.UserSummaryView"}}
           {{/with}}
