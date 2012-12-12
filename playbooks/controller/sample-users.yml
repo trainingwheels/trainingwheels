@@ -1,0 +1,11 @@
+##
+# Ansible playbook for sample users.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: Create users
+      action: "command ./tw u:c 1 instructor,bobby,sally chdir=/var/trainingwheels-source/controller/cli"

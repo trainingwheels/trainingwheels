@@ -13,7 +13,7 @@ phpfpm_listen_mode: '0600'
 
 # nginx
 nginx_user: 'nginx'
-nginx_server_name: 'training.wheels'
+nginx_server_name: 'gettrainingwheels.com'
 nginx_lan_subnet: '192.168.0.0/16'
 nginx_worker_processes: '1'
 

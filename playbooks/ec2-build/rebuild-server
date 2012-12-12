@@ -1,0 +1,116 @@
+#!/bin/bash
+
+# User input
+# EC2_EXTERNAL: if this is being run from a server within EC2, say a control box,
+# it's faster to use the internal IP address, so the default behavior is to assume
+# internal. However, for testing, it may be necessary to run from outside of EC2
+# so you can override by passing the parameter 'external'.
+EC2_EXTERNAL="$1"
+
+# Vars
+TAG_VAL='trainingwheels-autobuild'
+IP_ADDRESS='184.73.222.124'
+KEY_NAME='tw'
+RUNNING_TIMEOUT='120'
+INSTANCE_TYPE='m1.medium'
+REGION='us-east-1'
+BASE_DIR=`pwd`
+AMI='ami-3d4ff254'
+ID_FILE="${HOME}/.ssh/tw.pem"
+ANS_ARGS="--timeout=$RUNNING_TIMEOUT --private-key=$ID_FILE --inventory-file=$BASE_DIR/ec2-hostname"
+SLEEP='3'
+CUSTOM_HOST='gettrainingwheels.com'
+
+echo ''
+echo 'Terminating all existing build instances...'
+OBSOLETE_INSTANCES=`euca-describe-instances --filter tag-value=$TAG_VAL | grep INSTANCE | cut -f 2`
+euca-terminate-instances $OBSOLETE_INSTANCES
+
+echo ''
+echo "Waiting for all build instances to be shut down..."
+if ! timeout $RUNNING_TIMEOUT sh -c "while euca-describe-instances --filter tag-value=$TAG_VAL | grep INSTANCE | grep -qv terminated; do echo 'checking...'; sleep $SLEEP; done"; then
+  echo "server didn't shutdown within $RUNNING_TIMEOUT seconds"
+  exit 1
+fi
+
+# Start a new Training Wheels server, using the standard Ubuntu 12.04.1 server image.
+echo ''
+echo 'Creating new instance...'
+NEW_INSTANCE_ID=`euca-run-instances --key $KEY_NAME --region $REGION --instance-type $INSTANCE_TYPE --group default $AMI | grep INSTANCE | cut -f 2`
+euca-create-tags --tag tw-usage=$TAG_VAL $NEW_INSTANCE_ID
+
+echo ''
+echo "Waiting for the instance to have state 'running'..."
+if ! timeout $RUNNING_TIMEOUT sh -c "while ! euca-describe-instances $NEW_INSTANCE_ID | grep -q running; do echo 'checking...'; sleep $SLEEP; done"; then
+  echo "server didn't become active within $RUNNING_TIMEOUT seconds"
+  exit 1
+fi
+
+# We keep a single elastic public IP address. Assign this address to the instance.
+echo ''
+echo 'Associating the elastic IP with the new instance...'
+euca-associate-address -i $NEW_INSTANCE_ID $IP_ADDRESS
+
+echo ''
+echo 'Grabbing the internal host name if required, else the external...'
+if [ "$EC2_EXTERNAL" != 'external' ]; then
+  HOST=`euca-describe-instances $NEW_INSTANCE_ID | grep internal | cut -f 5`
+else
+  HOST="$CUSTOM_HOST"
+fi
+echo "$HOST" > $BASE_DIR/ec2-hostname
+echo "$HOST"
+
+echo ''
+echo "Waiting for the instance to actually accept ssh connections..."
+if ! timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'whoami' | grep 'ubuntu'; do echo 'checking...'; sleep $SLEEP; done"; then
+  echo "server didn't start after $RUNNING_TIMEOUT seconds"
+  exit 1
+fi
+
+echo ''
+echo "Waiting for the instance to gain internal networking..."
+if ! timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'ping -c4 $REGION.ec2.archive.ubuntu.com' | grep '64 bytes from'; do echo 'checking...'; sleep $SLEEP; done"; then
+  echo "server internal networking didn't start after $RUNNING_TIMEOUT seconds"
+  exit 1
+fi
+
+echo ''
+echo "Waiting for the instance to gain external networking..."
+if ! timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'ping -c4 security.ubuntu.com' | grep '64 bytes from'; do echo 'checking...'; sleep $SLEEP; done"; then
+  echo "server external networking didn't start after $RUNNING_TIMEOUT seconds"
+  exit 1
+fi
+
+echo ''
+echo "Allowing root user login access..."
+ansible-playbook $ANS_ARGS --user=ubuntu ./setup-root-user.yml
+
+echo ''
+echo "Running initial build and setup phase playbook..."
+ansible-playbook -c ssh $ANS_ARGS --user=root ./prep-server.yml
+
+echo ''
+echo 'Copying the settings files for the controller and classroom playbooks...'
+cp $BASE_DIR/classroom-settings.yml $BASE_DIR/../classroom/settings.yml
+cp $BASE_DIR/controller-settings.yml $BASE_DIR/../controller/settings.yml
+
+echo ''
+echo 'Running classroom setup playbook...'
+cd ../classroom
+ansible-playbook -c ssh $ANS_ARGS --user=root setup.yml
+
+echo ''
+echo 'Running controller setup and sample users playbooks...'
+cd ../controller
+ansible-playbook -c ssh $ANS_ARGS --tags="common,dev" --user=root setup.yml
+ansible-playbook -c ssh $ANS_ARGS --user=root sample-users.yml
+
+echo ''
+echo 'Running the post build playbook...'
+cd ../ec2-build
+ansible-playbook -c ssh $ANS_ARGS --user=root post-build.yml
+
+echo ''
+echo 'done.'
+echo ''

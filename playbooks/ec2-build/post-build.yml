@@ -1,0 +1,12 @@
+##
+# Ansible playbook for setting up a Training Wheels server in EC2, for
+# our auto build system. Post-build steps.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: Bender user should own the source
+      action: command chown -R bender:bender /var/trainingwheels-source
