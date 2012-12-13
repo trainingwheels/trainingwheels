@@ -11,6 +11,11 @@ img, video {
   height: auto;
 }
 
+@font-face {
+  font-family: "Junction-webfont";
+  src: url('../fonts/../fonts/junction/Junction-webfont.woff') format('woff'), url('../fonts/../fonts/junction/Junction-webfont.ttf') format('truetype'), url('../fonts/../fonts/junction/Junction-webfont.eot') format('embedded-opentype'), url('../fonts/../fonts/junction/Junction-webfont.svg') format('svg');
+}
+
 body {
   margin: 0;
   font-family: helvetica, arial, sans-serif;
@@ -26,7 +31,7 @@ p {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "jaf-facitweb", helvetica, arial, sans-serif;
+  font-family: "Junction-webfont", helvetica, arial, sans-serif;
   font-weight: normal;
   margin-top: 0;
 }
@@ -138,14 +143,15 @@ button {
   *zoom: 1;
   padding: 6px 6px 0 6px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
   line-height: 22px;
   *line-height: 20px;
   color: #4a4545;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
-  border: 1px solid #bebcba;
+  border: 1px solid #bfbfbf;
   background-color: #f2f2f2;
   *border: 0;
   -webkit-border-radius: 5px;
@@ -157,15 +163,19 @@ button {
   background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
   background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
 }
 button:first-child {
   *margin-left: 0;
 }
-button:hover, button.hover {
+button:hover, button.hover, button:focus, button.focus {
   text-decoration: none;
-  background-color: #727272;
+  background-color: #80a6fc;
   *background-color: #b2b2b2;
   /* Buttons in IE7 don't get borders, so darken on hover */
+  outline: 0;
 }
 button:active, button.active {
   background-color: #d8d8d8;
@@ -175,6 +185,8 @@ button:active, button.active {
   -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cccccc;
+  border-bottom: 1px solid #b2b2b2;
 }
 
 #top-header {
@@ -297,14 +309,15 @@ body {
   *zoom: 1;
   padding: 6px 6px 0 6px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
   line-height: 22px;
   *line-height: 20px;
   color: #4a4545;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
-  border: 1px solid #bebcba;
+  border: 1px solid #b8ac1c;
   background-color: #e5da55;
   *border: 0;
   -webkit-border-radius: 5px;
@@ -316,17 +329,21 @@ body {
   background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#ded029));
   background: -moz-linear-gradient(top, #efe24b, #ded029);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
+  -webkit-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  -moz-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  box-shadow: inset 0 1px 0 0 #f6f2c4;
   padding: 11px 11px;
   font-size: 20px;
 }
 .yellow-btn:first-child {
   *margin-left: 0;
 }
-.yellow-btn:hover, .yellow-btn.hover {
+.yellow-btn:hover, .yellow-btn.hover, .yellow-btn:focus, .yellow-btn.focus {
   text-decoration: none;
-  background-color: #333008;
+  background-color: #80a6fc;
   *background-color: #a29719;
   /* Buttons in IE7 don't get borders, so darken on hover */
+  outline: 0;
 }
 .yellow-btn:active, .yellow-btn.active {
   background-color: #ded029;
@@ -336,6 +353,8 @@ body {
   -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cec120;
+  border-bottom: 1px solid #a29719;
 }
 
 a {
@@ -418,14 +437,15 @@ dt, dd {
   *zoom: 1;
   padding: 6px 6px 0 6px;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
   line-height: 22px;
   *line-height: 20px;
   color: #4a4545;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
-  border: 1px solid #bebcba;
+  border: 1px solid #bfbfbf;
   background-color: #f2f2f2;
   *border: 0;
   -webkit-border-radius: 5px;
@@ -437,6 +457,9 @@ dt, dd {
   background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
   background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
   font-size: 32px;
   line-height: 32px;
   padding: 10px 8px 2px 6px;
@@ -444,11 +467,12 @@ dt, dd {
 #course-info .refresh-button:first-child {
   *margin-left: 0;
 }
-#course-info .refresh-button:hover, #course-info .refresh-button.hover {
+#course-info .refresh-button:hover, #course-info .refresh-button.hover, #course-info .refresh-button:focus, #course-info .refresh-button.focus {
   text-decoration: none;
-  background-color: #727272;
+  background-color: #80a6fc;
   *background-color: #b2b2b2;
   /* Buttons in IE7 don't get borders, so darken on hover */
+  outline: 0;
 }
 #course-info .refresh-button:active, #course-info .refresh-button.active {
   background-color: #d8d8d8;
@@ -458,6 +482,8 @@ dt, dd {
   -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cccccc;
+  border-bottom: 1px solid #b2b2b2;
 }
 #course-info .course-lock {
   font-size: 16px;
@@ -487,6 +513,107 @@ dt, dd {
   color: #4a4545;
 }
 
+#course-form {
+  margin: 0 auto;
+  max-width: 500px;
+  padding: 22px;
+}
+#course-form #course-form-title {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-size: 32px;
+  padding-bottom: 25px;
+  padding-left: 25px;
+}
+#course-form #course-fields .field {
+  text-align: right;
+  margin-bottom: 11px;
+  font-size: 18px;
+  font-family: "Open Sans", sans-serif;
+}
+#course-form #course-fields .field .ember-text-field {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  font-size: 20px;
+  padding: 5.5px 7.33333px;
+  color: #4a4545;
+  margin-left: 5px;
+  border: 1px solid #bebcba;
+  background-color: #f2f2f2;
+  box-shadow: 0px 0px 0px black, 0px 3px 3px #eeeeee inset;
+}
+#course-form #course-fields .field .ember-text-field:hover {
+  border: 1px solid #85817d;
+}
+#course-form #course-fields .field .ember-text-field:focus {
+  border: 1px solid #85817d;
+  background-color: #f8f8f8;
+  outline: medium none;
+}
+#course-form #course-fields .field .ember-text-field:focus:hover {
+  border: 1px solid #85817d;
+}
+#course-form #course-tools button {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px 6px 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #b8ac1c;
+  background-color: #e5da55;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#ded029));
+  background: -moz-linear-gradient(top, #efe24b, #ded029);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
+  -webkit-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  -moz-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  box-shadow: inset 0 1px 0 0 #f6f2c4;
+  padding: 11px 11px;
+  font-size: 16px;
+  margin: 0 0 0 auto;
+  width: 150px;
+  display: block;
+}
+#course-form #course-tools button:first-child {
+  *margin-left: 0;
+}
+#course-form #course-tools button:hover, #course-form #course-tools button.hover, #course-form #course-tools button:focus, #course-form #course-tools button.focus {
+  text-decoration: none;
+  background-color: #80a6fc;
+  *background-color: #a29719;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  outline: 0;
+}
+#course-form #course-tools button:active, #course-form #course-tools button.active {
+  background-color: #ded029;
+  *background-color: #cec120;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cec120;
+  border-bottom: 1px solid #a29719;
+}
+
 @media print {
   *,
   *:after,
@@ -500,6 +627,11 @@ dt, dd {
     max-width: 100%;
     height: auto;
   }
+
+  @font-face {
+    font-family: "Junction-webfont";
+    src: url('../fonts/../fonts/junction/Junction-webfont.woff') format('woff'), url('../fonts/../fonts/junction/Junction-webfont.ttf') format('truetype'), url('../fonts/../fonts/junction/Junction-webfont.eot') format('embedded-opentype'), url('../fonts/../fonts/junction/Junction-webfont.svg') format('svg');
+}
 
   body {
     margin: 0;
@@ -516,7 +648,7 @@ dt, dd {
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: "jaf-facitweb", helvetica, arial, sans-serif;
+    font-family: "Junction-webfont", helvetica, arial, sans-serif;
     font-weight: normal;
     margin-top: 0;
   }
@@ -628,14 +760,15 @@ dt, dd {
     *zoom: 1;
     padding: 6px 6px 0 6px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
+    font-family: "Open Sans", sans-serif;
     line-height: 22px;
     *line-height: 20px;
     color: #4a4545;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    border: 1px solid #bebcba;
+    border: 1px solid #bfbfbf;
     background-color: #f2f2f2;
     *border: 0;
     -webkit-border-radius: 5px;
@@ -647,15 +780,19 @@ dt, dd {
     background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
     background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+    -webkit-box-shadow: inset 0 1px 0 0 white;
+    -moz-box-shadow: inset 0 1px 0 0 white;
+    box-shadow: inset 0 1px 0 0 white;
   }
   button:first-child {
     *margin-left: 0;
   }
-  button:hover, button.hover {
+  button:hover, button.hover, button:focus, button.focus {
     text-decoration: none;
-    background-color: #727272;
+    background-color: #80a6fc;
     *background-color: #b2b2b2;
     /* Buttons in IE7 don't get borders, so darken on hover */
+    outline: 0;
   }
   button:active, button.active {
     background-color: #d8d8d8;
@@ -665,5 +802,7 @@ dt, dd {
     -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
     -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    border: 1px solid #cccccc;
+    border-bottom: 1px solid #b2b2b2;
   }
 }

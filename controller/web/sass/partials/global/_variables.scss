@@ -9,6 +9,7 @@ $blue: #80a6fc;
 $yellow: #E5DA55;
 $yellowDark: #938732; //yellow's hover color
 $white: #ffffff;
+$whiteGray: #f8f8f8;
 $lightGray: #f2f2f2;
 $mediumGray: #bebcba;
 $Gray: #85817d;
@@ -18,12 +19,15 @@ $border: #d9d6d6;
 
 $highlight: $lightGray;
 
-// footer background base64 string
-// generated using: http://ptrn.it/QQ6o6O
-$footerBackground: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAN0lEQVQIW2O0trb5/+nrNwY+bi4GGM0ABIwgCRADWRAugVWHroHRf5AxMABTBDcKLgM1lhGXDgAjOyIKDJx+0AAAAABJRU5ErkJggg==";
-
 // First lets declare our own fonts
-
+@include font-face("Junction-webfont",
+	font-files(
+		"../fonts/junction/Junction-webfont.woff", 'woff',
+		"../fonts/junction/Junction-webfont.ttf", 'ttf',
+		"../fonts/junction/Junction-webfont.eot", 'eot',
+		"../fonts/junction/Junction-webfont.svg", 'svg'
+	)
+);
 
 // Font faces, stacks and sizes.
 
@@ -39,7 +43,9 @@ $h6-font-size: 2 * $base-font-size;
 
 // Next, let's create some font stacks.
 $helvetica: helvetica, arial, sans-serif;
-$facitweb: "jaf-facitweb", helvetica, arial, sans-serif;
+$facitweb: "Junction-webfont", helvetica, arial, sans-serif;
+$junction: "Junction-webfont", helvetica, arial, sans-serif;
+$opensans:'Open Sans', sans-serif;
 $bebas: "bebas-neue", helvetica, arial, sans-serif;
 $icon-standard: "SSStandard";
 $icon-social: "SSSocial";

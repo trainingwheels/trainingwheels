@@ -116,7 +116,7 @@ dt, dd {
 
 #course-users {
   .user-selected {
-    background-color: #f8f8f8;
+    background-color: $whiteGray;
   }
   #course-users-bottom-tools {
     .ember-text-field {
@@ -142,3 +142,61 @@ dt, dd {
     color: $darkGray;
   }
 }
+
+//Course Form
+
+#course-form {
+  margin: 0 auto;
+  max-width: 500px;
+  padding: $base-line-height;
+  #course-form-title {
+    font-family: $opensans;
+    font-weight: 600;
+    font-size: $h2-font-size;
+    padding-bottom: 25px;
+    padding-left: 25px;
+  }
+  #course-fields {
+    .field {
+      text-align: right;
+      margin-bottom: $base-line-height/2;
+      font-size: $h4-font-size;
+      font-family: $opensans;
+      .ember-text-field {
+        @include border-radius(4px);
+        font-size: 20px;
+        padding: $base-line-height/4 $base-line-height/3;
+        color: $darkGray;
+        margin-left: 5px;
+        border: 1px solid $mediumGray;
+        background-color: $lightGray;
+        box-shadow: 0px 0px 0px rgb(0, 0, 0), 0px 3px 3px rgb(238, 238, 238) inset;
+        &:hover {
+          border: 1px solid $Gray;
+        }
+        &:focus {
+          border: 1px solid $Gray;
+          background-color: $whiteGray;
+          outline: medium none;
+          &:hover {
+            border: 1px solid $Gray;
+          }
+        }
+      }
+    }
+  }
+  #course-tools {
+    button {
+      @include button-make($yellow);
+      padding: $base-line-height / 2 $base-line-height /2;
+      font-size: 16px;
+      margin: 0 0 0 auto;
+      width: 150px;
+      display: block;
+    }
+  }
+}
+
+//General Input Forms
+//General Submit Buttons
+
