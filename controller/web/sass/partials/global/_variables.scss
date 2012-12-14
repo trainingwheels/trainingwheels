@@ -20,14 +20,7 @@ $border: #d9d6d6;
 $highlight: $lightGray;
 
 // First lets declare our own fonts
-@include font-face("Junction-webfont",
-	font-files(
-		"../fonts/junction/Junction-webfont.woff", 'woff',
-		"../fonts/junction/Junction-webfont.ttf", 'ttf',
-		"../fonts/junction/Junction-webfont.eot", 'eot',
-		"../fonts/junction/Junction-webfont.svg", 'svg'
-	)
-);
+
 
 // Font faces, stacks and sizes.
 
@@ -43,8 +36,7 @@ $h6-font-size: 2 * $base-font-size;
 
 // Next, let's create some font stacks.
 $helvetica: helvetica, arial, sans-serif;
-$facitweb: "Junction-webfont", helvetica, arial, sans-serif;
-$junction: "Junction-webfont", helvetica, arial, sans-serif;
+$facitweb: 'Open Sans', sans-serif;
 $opensans:'Open Sans', sans-serif;
 $bebas: "bebas-neue", helvetica, arial, sans-serif;
 $icon-standard: "SSStandard";
