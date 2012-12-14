@@ -70,8 +70,7 @@
   }
 }
 
-#course-users {
-  #course-users-list {
+#course-users, #course-instructor {
     .user-tools, .resource {
       padding-left: 12px;
       padding-right: 12px;
@@ -79,7 +78,6 @@
       h4 {
         margin-bottom: 0;
       }
-    }
   }
   #course-users-top-tools {
     padding-top: 3em;
