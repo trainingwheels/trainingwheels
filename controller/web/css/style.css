@@ -233,29 +233,29 @@ button:active, button.active {
   display: inline-block;
 }
 
-#course-users #course-users-list .user-tools, #course-users #course-users-list .resource {
+#course-users .user-tools, #course-users .resource, #course-instructor .user-tools, #course-instructor .resource {
   padding-left: 12px;
   padding-right: 12px;
   margin-bottom: 22px;
 }
-#course-users #course-users-list .user-tools h4, #course-users #course-users-list .resource h4 {
+#course-users .user-tools h4, #course-users .resource h4, #course-instructor .user-tools h4, #course-instructor .resource h4 {
   margin-bottom: 0;
 }
-#course-users #course-users-top-tools {
+#course-users #course-users-top-tools, #course-instructor #course-users-top-tools {
   padding-top: 3em;
   padding-bottom: 1em;
 }
-#course-users #course-users-top-tools .tools-right {
+#course-users #course-users-top-tools .tools-right, #course-instructor #course-users-top-tools .tools-right {
   float: right;
 }
-#course-users #course-users-top-tools #user-view-tools .ss-rows {
+#course-users #course-users-top-tools #user-view-tools .ss-rows, #course-instructor #course-users-top-tools #user-view-tools .ss-rows {
   border-radius-right: 1px;
 }
-#course-users #course-users-bottom-tools {
+#course-users #course-users-bottom-tools, #course-instructor #course-users-bottom-tools {
   border-top: 1px solid white;
   padding-top: 2em;
 }
-#course-users #course-users-bottom-tools .ember-text-field {
+#course-users #course-users-bottom-tools .ember-text-field, #course-instructor #course-users-bottom-tools .ember-text-field {
   height: 44px;
   width: 300px;
 }
@@ -476,10 +476,10 @@ dt, dd {
   color: #938732;
 }
 
-#course-users .user-selected {
+#course-users .user-selected, #course-instructor .user-selected {
   background-color: #f8f8f8;
 }
-#course-users #course-users-bottom-tools .ember-text-field {
+#course-users #course-users-bottom-tools .ember-text-field, #course-instructor #course-users-bottom-tools .ember-text-field {
   font-size: 20px;
   padding-left: 10px;
   color: #4a4545;
