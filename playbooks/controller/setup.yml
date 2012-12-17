@@ -4,9 +4,8 @@
 #
 
 ---
-- hosts: localhost
-  connection: local
-  user: root
+- hosts: all
+  gather_facts: False
 
   vars_files:
     - settings.yml
@@ -43,7 +42,7 @@
       tags: common
 
     - name: Copy MySQL config from root so phpfpm can easily administer the database
-      action: command cp /root/.my.cnf /var/trainingwheels/phpfpm-home/.my.cnf creates=/var/trainingwheels/phpfpm-home/.my.cnf
+      action: shell cp ~/.my.cnf /var/trainingwheels/phpfpm-home/.my.cnf creates=/var/trainingwheels/phpfpm-home/.my.cnf
       tags: common
 
     - name: Check permissions of MySQL config
@@ -97,23 +96,34 @@
       action: file dest=/etc/nginx/sites-enabled/twcontrol state=link src=/etc/nginx/sites-available/twcontrol
       tags: common
 
+    #####################################################################
     ##
-    # Get the Training Wheels distribution - development.
+    # Get the Training Wheels app from Github
     #
-    - name: Create a link to a VMWare shared folder for use when developing.
-      action: file dest=/var/nginx state=link src=/mnt/hgfs/Sites
-      tags: common
+    - name: Clone the Training Wheels project
+      action: git repo=https://github.com/fourkitchens/trainingwheels.git dest=/var/trainingwheels-source version=master
+      tags: dev
 
-    ##
-    # Setup a MySQL database
-    #
-    - name: Create database user
-      action: mysql_user user=$mysql_user password=$mysql_pass priv=$mysql_db.*:ALL state=present
-      tags: common
+    - name: Install Composer - create directory
+      action: file path=/usr/local/bin state=directory owner=root group=root
+      tags: dev
 
-    - name: Create database
-      action: mysql_db db=$mysql_db state=present
-      tags: common
+    - name: Install Composer
+      action: shell curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin creates=/usr/local/bin/composer.phar
+      tags: dev
+
+    - name: Install dependencies
+      action: command composer.phar install -d /var/trainingwheels-source/controller/ creates=/var/trainingwheels-source/controller/vendor
+      tags: dev
+
+    - name: Let web user write to log file directory
+      action: file state=directory path=/var/trainingwheels-source/controller/log mode=0777
+      tags: dev
+
+    - name: Convenience link to Training Wheels source
+      action: file state=link src=/var/trainingwheels-source dest=~/trainingwheels
+
+    #####################################################################
 
     ##
     # Restart services
