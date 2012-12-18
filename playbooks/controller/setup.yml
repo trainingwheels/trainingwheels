@@ -122,6 +122,7 @@
 
     - name: Convenience link to Training Wheels source
       action: file state=link src=/var/trainingwheels-source dest=~/trainingwheels
+      tags: dev
 
     #####################################################################
 
