@@ -4,9 +4,8 @@
 #
 
 ---
-- hosts: localhost
-  connection: local
-  user: root
+- hosts: all
+  gather_facts: False
 
   vars_files:
     - settings.yml
@@ -32,131 +31,105 @@
         - vsftpd
         - unzip
         - python-mysqldb
-      tags: common
 
     ##
     # Message of the day explaining server purpose.
     #
     - name: Friendly message of the day
       action: copy src=files/etc-update-motd-d-95-trainingwheels dest=/etc/update-motd.d/95-trainingwheels mode=755
-      tags: common
 
     ##
     # PHP Setup.
     #
     - name: PHP configuration file php.ini
       action: template src=templates/etc-php5-apache2-php-ini.j2 dest=/etc/php5/apache2/php.ini
-      tags: common
 
     - name: APC cache configuration file apc.ini
       action: template src=templates/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/conf.d/apc.ini
-      tags: common
 
     ##
     # MySQL database setup.
     #
     - name: MySQL configuration file my.cnf
       action: template src=templates/etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf
-      tags: common
 
     - name: Set the root password.
       action: mysql_user user=root password=$mysql_root_password host=localhost
-      tags: common
 
     - name: MySQL config for easy access as root user and so that this playbook can be run again.
-      action: template src=templates/root-my-cnf.j2 dest=/root/.my.cnf
-      tags: common
+      action: template src=templates/root-my-cnf.j2 dest=~/.my.cnf
 
     - name: Delete anonymous MySQL server user for $server_hostname
       action: mysql_user user="" host=$server_hostname state=absent
-      tags: common
 
     - name: Delete anonymous MySQL server user for localhost
       action: mysql_user user="" state=absent
-      tags: common
 
     - name: Secure the MySQL root user for IPV6 localhost (::1)
       action: mysql_user user=root password=$mysql_root_password host=::1
-      tags: common
 
     - name: Secure the MySQL root user for IPV4 localhost (127.0.0.1)
       action: mysql_user user=root password=$mysql_root_password host=127.0.0.1
-      tags: common
 
     - name: Secure the MySQL root user for localhost domain (localhost)
       action: mysql_user user=root password=$mysql_root_password host=localhost
-      tags: common
 
     - name: Secure the MySQL root user for $server_hostname domain
       action: mysql_user user=root password=$mysql_root_password host=$server_hostname
-      tags: common
 
     - name: Remove the MySQL test database
       action: mysql_db db=test state=absent
-      tags: common
 
     ##
     # Apache2 setup.
     #
     - name: Enable some required modules
       action: command a2enmod rewrite vhost_alias
-      tags: common
 
     - name: Apache configuration file for our site
       action: template src=templates/etc-apache2-sites-available-trainingwheels.j2 dest=/etc/apache2/sites-available/trainingwheels
-      tags: common
 
     - name: Disable the default site
       action: command a2dissite default
-      tags: common
 
     - name: Enable our new site
       action: command a2ensite trainingwheels
-      tags: common
 
     ##
     # FTP server setup.
     #
     - name: FTP daemon setup
       action: template src=templates/etc-vsftpd-conf.j2 dest=/etc/vsftpd.conf
-      tags: common
 
     ##
     # Drush install, a Drupal shell tool.
     #
     - name: Setup PEAR channel for drush
       action: command pear channel-discover pear.drush.org creates=/usr/share/php/.channels/pear.drush.org.reg
-      tags: common
 
     - name: Install drush for Drupal
       action: command pear install drush/drush creates=/usr/bin/drush
-      tags: common
 
     ##
     # Training Wheels user skeleton directory
     #
     - name: Create the skel directory
       action: file path=/var/trainingwheels/skel/skel_user state=directory
-      tags: common
 
     - name: Copy the skel files
       action: copy src=files/var-trainingwheels-skel-skel-user-bash-logout dest=/var/trainingwheels/skel/skel_user/.bash_logout
-      tags: common
 
     - name: Copy the skel files
       action: copy src=files/var-trainingwheels-skel-skel-user-bashrc dest=/var/trainingwheels/skel/skel_user/.bashrc
-      tags: common
 
     - name: Copy the skel files
       action: copy src=files/var-trainingwheels-skel-skel-user-profile dest=/var/trainingwheels/skel/skel_user/.profile
-      tags: common
 
     ##
     # Training Wheels app setup
     #
     - name: Private tmp directory for root
       action: file path=/root/tmp state=directory owner=root group=root mode=700
-      tags: common
 
     ##
     # Node.js install
@@ -169,16 +142,22 @@
     - include: lib/mongodb/mongodb.yml tags=mongodb
 
     ##
+    # SSH Setup
+    #
+    - name: Allow password authentication
+      action: lineinfile dest=/etc/ssh/sshd_config regexp=^PasswordAuthentication line='PasswordAuthentication yes'
+
+    ##
     # Restart services
     #
     - name: Restart Apache
       action: service name=apache2 state=restarted
-      tags: common
 
     - name: Restart MySQL
       action: service name=mysql state=restarted
-      tags: common
 
     - name: Restart vsftpd
       action: service name=vsftpd state=restarted
-      tags: common
+
+    - name: Restart sshd
+      action: service name=ssh state=restarted

@@ -15,7 +15,7 @@ body {
 .yellow-btn {
   @include button-make($yellow);
   padding: $base-line-height / 2 $base-line-height /2;
-  font-size: 20px;  
+  font-size: 20px;
 }
 
 a {
@@ -102,7 +102,7 @@ dt, dd {
     @include button-make($lightGray);
     font-size: $base-font-size * 2;
     line-height: 32px;
-    padding: 10px 8px 2px 6px;    
+    padding: 10px 8px 2px 6px;
   }
   .course-lock {
       font-size: 16px;
@@ -114,7 +114,7 @@ dt, dd {
   }
 }
 
-#course-users {
+#course-users, #course-instructor {
   .user-selected {
     background-color: $whiteGray;
   }
@@ -137,9 +137,34 @@ dt, dd {
       }
     }
   }
+  .indicators-summary-users {
+    .resource-ready {
+      color: $darkGray;
+    }
+    .resource-missing {
+      color: $red;
+    }
+    .logged_out {
+      color: $mediumGray;
+    }
+  }
   .ss-icon {
     font-size: 14px;
     color: $darkGray;
+  }
+}
+
+.resource-info {
+  h4 {
+    display: inline;
+  }
+  .indicators-summary-users {
+    .resource-ready {
+      color: $darkGray;
+    }
+    .resource-missing {
+      color: $red;
+    }
   }
 }
 

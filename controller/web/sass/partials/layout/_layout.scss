@@ -70,8 +70,7 @@
   }
 }
 
-#course-users {
-  #course-users-list {
+#course-users, #course-instructor {
     .user-tools, .resource {
       padding-left: 12px;
       padding-right: 12px;
@@ -79,11 +78,10 @@
       h4 {
         margin-bottom: 0;
       }
-    }
   }
   #course-users-top-tools {
     padding-top: 3em;
-    padding-bottom: 1em;  
+    padding-bottom: 1em;
     .tools-right {
       float:right;
     }
@@ -123,11 +121,21 @@
     .ss-user{
       display: inline-block;
       padding-right: 12px;
-    } 
+    }
   }
   .ss-icon {
     padding-left: 12px;
     padding-right: 12px;
+  }
+}
+
+.resource-info {
+  display: inline;
+  h4 {
+    display: inline;
+  }
+  .indicators-summary-users {
+    float:right;
   }
 }
 

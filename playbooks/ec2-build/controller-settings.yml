@@ -1,0 +1,29 @@
+# Settings that are applied to the templates.
+
+---
+# www.conf for php-fpm
+# Only the nginx user is allowed to write or read from the php-fpm socket.
+phpfpm_user: 'phpfpm'
+phpfpm_group: 'phpfpm'
+phpfpm_pm_start_servers: '2'
+phpfpm_listen: '/run/phpfpm.sock'
+phpfpm_listen_owner: 'nginx'
+phpfpm_listen_group: 'nginx'
+phpfpm_listen_mode: '0600'
+
+# nginx
+nginx_user: 'nginx'
+nginx_server_name: 'gettrainingwheels.com'
+nginx_lan_subnet: '192.168.0.0/16'
+nginx_worker_processes: '1'
+
+# php.ini for php-fpm
+php_max_execution_time: '90'
+php_display_errors: 'On'
+php_display_startup_errors: 'On'
+php_html_errors: 'On'
+php_post_max_size: '32M'
+php_upload_max_filesize: '32M'
+php_date_timezone: 'America/Chicago'
+php_cgi_fix_pathinfo: '0'
+php_short_open_tag: 'Off'
