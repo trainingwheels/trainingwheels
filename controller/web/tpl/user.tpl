@@ -10,9 +10,9 @@
     </div>
   </div>
   <div class="user-tools">
+    <a href="#" {{action copyPassword user.password target="controller"}}>copy password</a>
     <!-- Not yet implemented  -->
-    <!-- <a href="#" {{action copyPassword user.password target="controller"}}>copy password</a>
-    <button class="ss-sync"{{action syncUser target="controller"}}></button>
+    <!-- <button class="ss-sync"{{action syncUser target="controller"}}></button>
     <button class="ss-trash"{{action deleteUser target="controller"}}></button> -->
   </div>
   <div class="user-resources">
