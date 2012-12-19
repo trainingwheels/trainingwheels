@@ -1,0 +1,20 @@
+##
+# Ansible playbook for sample data.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: Upload sample course data
+      action: copy src=sample-data-mongo.js dest=/tmp/sample-data-mongo.js
+
+    - name: Insert sample Mongo course data
+      action: command mongo trainingwheels /tmp/sample-data-mongo.js
+
+    - name: Create users
+      action: "command ./tw u:c 1 instructor,bobby,sally chdir=/var/trainingwheels-source/controller/cli"
+
+    - name: Create instructor resources
+      action: "command ./tw r:c 1 instructor chdir=/var/trainingwheels-source/controller/cli"

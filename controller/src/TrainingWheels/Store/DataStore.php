@@ -38,22 +38,29 @@ class DataStore {
    * Insert a document.
    */
   public function insert($collection, $object) {
-    $object['id'] = $this->getNextSequence($object . '_id');
+    $object['id'] = $this->getNextSequence($collection . '_id');
     $this->db->$collection->insert($object);
+    return $object;
   }
 
   /**
    * Get a document.
    */
   public function find($collection, $id) {
-    return $this->db->$collection->findOne(array('id' => $id));
+    return $this->db->$collection->findOne(array('id' => (int)$id));
   }
 
   /**
    * Get all documents from a collection.
    */
   public function findAll($collection) {
-    return $this->db->$collection->find();
+    $output = array();
+    $cursor = $this->db->$collection->find();
+    foreach ($cursor as $id => $value) {
+      unset($value['_id']);
+      $output[] = (object)$value;
+    }
+    return $output;
   }
 }
 

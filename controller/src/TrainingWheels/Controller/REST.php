@@ -144,15 +144,7 @@ class REST implements ControllerProviderInterface {
      * Get course summaries
      */
     $controllers->get('/course_summaries', function() use ($app) {
-      $courses = array();
-      $ids = array(1);
-      foreach ($ids as $id) {
-        $course = CourseFactory::singleton()->get($id);
-        unset($course->env);
-        $course->id = $course->course_id;
-        unset($course->course_id);
-        $courses[] = $course;
-      }
+      $courses = CourseFactory::singleton()->getAllSummaries();
       $return = new \stdClass;
       $return->course_summaries = $courses;
       return $app->json($return, HTTP_OK);
@@ -163,11 +155,12 @@ class REST implements ControllerProviderInterface {
      */
     $controllers->post('/course_summaries', function (Request $request) use ($app) {
       $newCourse = $request->request->get('course_summary');
-      $factory = CourseFactory::singleton();
+      $savedCourse = CourseFactory::singleton()->save($newCourse);
 
-      $factory->save($newCourse);
+      $return = new \stdClass;
+      $return->courses = array($savedCourse);
 
-      return $app->json(array('messages' => 'success'), HTTP_CREATED);
+      return $app->json($return, HTTP_CREATED);
     });
 
     /**

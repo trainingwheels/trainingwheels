@@ -58,7 +58,7 @@ $jsGet = function($debug) {
       '/js/vendor/underscore/underscore.js',
       '/js/vendor/alertify/alertify.js',
       '/js/vendor/handlebars/handlebars-1.0.rc.1.js',
-      '/js/vendor/ember/ember-1.0.0-pre.2.js?v=' . time(),
+      '/js/vendor/ember/ember-1.0.0-pre.2.js',
       '/js/vendor/ember-data/ember-data.js',
     );
     $js = array_merge($js_full, $js);

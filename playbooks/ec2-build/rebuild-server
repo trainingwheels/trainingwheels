@@ -101,10 +101,10 @@ cd ../classroom
 ansible-playbook -c ssh $ANS_ARGS --user=root setup.yml
 
 echo ''
-echo 'Running controller setup and sample users playbooks...'
+echo 'Running controller setup and sample data playbooks...'
 cd ../controller
 ansible-playbook -c ssh $ANS_ARGS --tags="common,dev" --user=root setup.yml
-ansible-playbook -c ssh $ANS_ARGS --user=root sample-users.yml
+ansible-playbook -c ssh $ANS_ARGS --user=root sample-data.yml
 
 echo ''
 echo 'Running the post build playbook...'

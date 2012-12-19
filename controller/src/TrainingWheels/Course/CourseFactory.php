@@ -33,11 +33,11 @@ class CourseFactory {
    * Create Course object given a course id.
    */
   public function get($course_id) {
-    $params = $this->data->get('course', $course_id);
+    $params = $this->data->find('course', $course_id);
 
     if ($params) {
-      $course = $this->buildCourse($params['course']);
-      $this->buildEnv($course, $params['env'], $params['host'], $params['user'], $params['pass']);
+      $course = $this->buildCourse($params['course_type']);
+      $this->buildEnv($course, $params['env_type'], $params['host'], $params['user'], $params['pass']);
 
       $course->course_id = $course_id;
       $course->title = $params['title'];
@@ -55,33 +55,15 @@ class CourseFactory {
   /**
    * Get all course summaries.
    */
-  public function getAll() {
-
+  public function getAllSummaries() {
+    return $this->data->findAll('course');
   }
 
   /**
    * Save a course.
    */
   public function save($course) {
-    $this->data->save('course', $course);
-  }
-
-  /**
-   * Dummy data.
-   */
-  protected function dummyCourse($course_id) {
-    return array(
-      'id' => 1,
-      'title' => 'My Course',
-      'description' => 'This is a dummy course called mycourse',
-      'course' => 'drupal',
-      'env' => 'ubuntu',
-      'repo' => 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
-      'course_name' => 'mycourse',
-      'host' => 'localhost',
-      'user' => '',
-      'pass' => '',
-    );
+    return $this->data->insert('course', $course);
   }
 
   /**
