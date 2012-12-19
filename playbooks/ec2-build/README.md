@@ -7,7 +7,7 @@ To run the `rebuild-server` script, you need Ansible and Euca2ools (Eucalyptus T
 
 We use a 'control' server within EC2 to tear up/down other servers. The control server can just be a micro instance, as all it needs to do is execute euca2ools and Ansible playbooks against the build servers.
 
-There are some parts that are hardcoded for gettrainingwheels.com, pull requests welcome!
+There are some parts that are hardcoded for tw-build.com, pull requests welcome!
 
 General
 -------

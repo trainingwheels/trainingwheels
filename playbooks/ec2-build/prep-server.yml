@@ -25,7 +25,7 @@
       action: copy src=etc-hostname dest=/etc/hostname owner=root group=root mode=0644
 
     - name: Change the hostname using the hostname command
-      action: command hostname gettrainingwheels.com
+      action: command hostname tw-build.com
 
     - name: Create new place for Ubuntu home directory.
       action: file state=directory path=/adminhome

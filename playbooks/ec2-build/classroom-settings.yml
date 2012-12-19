@@ -4,7 +4,7 @@
 # Hostname is important as we need to delete an anonymous MySQL
 # user that is created with this name, make sure you match this
 # up.
-server_hostname: 'gettrainingwheels.com'
+server_hostname: 'tw-build.com'
 
 # php.ini for apache2
 php_max_execution_time: '90'
@@ -33,8 +33,8 @@ mysql_root_password: 'tplqomnscy323e'
 
 # apache
 apache_server_admin: 'mark@fourkitchens.com'
-apache_server_alias: '*.*.gettrainingwheels.com'
-apache_servername: 'gettrainingwheels.com'
+apache_server_alias: '*.*.tw-build.com'
+apache_servername: 'tw-build.com'
 
 # apache virtual document roots, these two are closely related.
 apache_virtual_docroot: '/home/%-4/www/%-3'

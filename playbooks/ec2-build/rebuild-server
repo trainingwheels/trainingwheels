@@ -19,7 +19,7 @@ AMI='ami-3d4ff254'
 ID_FILE="${HOME}/.ssh/tw.pem"
 ANS_ARGS="--timeout=$RUNNING_TIMEOUT --private-key=$ID_FILE --inventory-file=$BASE_DIR/ec2-hostname"
 SLEEP='3'
-CUSTOM_HOST='gettrainingwheels.com'
+CUSTOM_HOST='tw-build.com'
 
 echo ''
 echo 'Terminating all existing build instances...'
