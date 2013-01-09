@@ -9,10 +9,13 @@ use TrainingWheels\Conn\SSHServerConn;
 use TrainingWheels\Environment\DevEnv;
 use TrainingWheels\Environment\CentosEnv;
 use TrainingWheels\Environment\UbuntuEnv;
+use TrainingWheels\Store\DataStore;
+use Exception;
 
 class CourseFactory {
   // Singleton instance.
   protected static $instance;
+  protected static $data;
 
   /**
    * Return the singleton.
@@ -21,45 +24,46 @@ class CourseFactory {
     if (!isset(self::$instance)) {
       $className = __CLASS__;
       self::$instance = new $className;
+      self::$instance->data = new DataStore();
     }
     return self::$instance;
   }
 
   /**
-   * Creating Course object given a course id.
+   * Create Course object given a course id.
    */
   public function get($course_id) {
-    $params = $this->dummyCourse($course_id);
+    $params = $this->data->find('course', $course_id);
 
-    $course = $this->buildCourse($params['course']);
-    $this->buildEnv($course, $params['env'], $params['host'], $params['user'], $params['pass']);
+    if ($params) {
+      $course = $this->buildCourse($params['course_type']);
+      $this->buildEnv($course, $params['env_type'], $params['host'], $params['user'], $params['pass']);
 
-    $course->course_id = $course_id;
-    $course->title = $params['title'];
-    $course->description = $params['description'];
-    $course->repo = $params['repo'];
-    $course->course_name = $params['course_name'];
-    $course->uri = '/course/' . $params['id'];
+      $course->course_id = $course_id;
+      $course->title = $params['title'];
+      $course->description = $params['description'];
+      $course->repo = $params['repo'];
+      $course->course_name = $params['course_name'];
+      $course->uri = '/course/' . $params['id'];
 
-    return $course ? $course : FALSE;
+      return $course;
+    }
+
+    return FALSE;
   }
 
   /**
-   * Dummy data.
+   * Get all course summaries.
    */
-  protected function dummyCourse($course_id) {
-    return array(
-      'id' => 1,
-      'title' => 'My Course',
-      'description' => 'This is a dummy course called mycourse',
-      'course' => 'drupal',
-      'env' => 'ubuntu',
-      'repo' => 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
-      'course_name' => 'mycourse',
-      'host' => 'localhost',
-      'user' => '',
-      'pass' => '',
-    );
+  public function getAllSummaries() {
+    return $this->data->findAll('course');
+  }
+
+  /**
+   * Save a course.
+   */
+  public function save($course) {
+    return $this->data->insert('course', $course);
   }
 
   /**

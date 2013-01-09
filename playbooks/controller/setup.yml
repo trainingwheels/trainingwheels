@@ -78,6 +78,17 @@
       tags: common
 
     ##
+    # Configuration for MongoDB database
+    #
+    - name: Install the PECL MongoDB extension
+      action: command pecl install mongo creates=/usr/lib/php5/20090626/mongo.so
+      tags: common
+
+    - name: Configure PHP to use PECL MongoDB extension
+      action: copy dest=/etc/php5/conf.d/mongo.ini src=files/etc-php5-conf-d-mongo-ini
+      tags: common
+
+    ##
     # Configuration for nginx
     #
     - name: Configure nginx
@@ -123,7 +134,6 @@
     - name: Convenience link to Training Wheels source
       action: file state=link src=/var/trainingwheels-source dest=~/trainingwheels
       tags: dev
-
     #####################################################################
 
     ##

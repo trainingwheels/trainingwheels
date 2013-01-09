@@ -141,21 +141,26 @@ class REST implements ControllerProviderInterface {
     ->convert('user', $parseID);
 
     /**
-     * Course summaries
+     * Get course summaries
      */
     $controllers->get('/course_summaries', function() use ($app) {
-      $courses = array();
-      $ids = array(1);
-      foreach ($ids as $id) {
-        $course = CourseFactory::singleton()->get($id);
-        unset($course->env);
-        $course->id = $course->course_id;
-        unset($course->course_id);
-        $courses[] = $course;
-      }
+      $courses = CourseFactory::singleton()->getAllSummaries();
       $return = new \stdClass;
       $return->course_summaries = $courses;
       return $app->json($return, HTTP_OK);
+    });
+
+    /**
+     * Create a course.
+     */
+    $controllers->post('/course_summaries', function (Request $request) use ($app) {
+      $newCourse = $request->request->get('course_summary');
+      $savedCourse = CourseFactory::singleton()->save($newCourse);
+
+      $return = new \stdClass;
+      $return->courses = array($savedCourse);
+
+      return $app->json($return, HTTP_CREATED);
     });
 
     /**
@@ -163,6 +168,9 @@ class REST implements ControllerProviderInterface {
      */
     $controllers->get('/courses/{id}', function ($id) use ($app) {
       $course = CourseFactory::singleton()->get($id);
+      if (!$course) {
+        return $app->json(array('messages' => 'Course with id ' . $id . ' does not exist.'), HTTP_NOT_FOUND);
+      }
 
       // Ember data expects an 'id' parameter.
       $course->id = $course->course_id;
