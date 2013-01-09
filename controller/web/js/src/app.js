@@ -47,17 +47,7 @@
     }
   });
 
-  App.Course = DS.Model.extend({
-    course_name: DS.attr('string'),
-    course_type: DS.attr('string'),
-    description: DS.attr('string'),
-    env_type: DS.attr('string'),
-    repo: DS.attr('string'),
-    title: DS.attr('string'),
-    uri: DS.attr('string'),
-    host: DS.attr('string'),
-    user: DS.attr('string'),
-    pass: DS.attr('string'),
+  App.Course = App.CourseSummary.extend({
     users: DS.hasMany('App.UserSummary'),
     // TODO: Replace with hasOne when PR https://github.com/emberjs/data/pull/475 gets in.
     instructor: DS.hasMany('App.UserSummary'),
@@ -80,12 +70,7 @@
     }.property('resource_status'),
   });
 
-  App.User = DS.Model.extend({
-    user_name: DS.attr('string'),
-    password: DS.attr('string'),
-    logged_in: DS.attr('boolean'),
-    course_id: DS.attr('number'),
-    resource_status: DS.attr('string'),
+  App.User = App.UserSummary.extend({
     resources: DS.hasMany('App.Resource')
   });
 
