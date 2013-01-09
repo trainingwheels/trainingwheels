@@ -38,7 +38,13 @@
     env_type: DS.attr('string'),
     repo: DS.attr('string'),
     title: DS.attr('string'),
-    uri: DS.attr('string')
+    uri: DS.attr('string'),
+    host: DS.attr('string'),
+    user: DS.attr('string'),
+    pass: DS.attr('string'),
+    didCreate: function() {
+      alertify.success('Course "' + this.get('title') + '" created.');
+    }
   });
 
   App.Course = App.CourseSummary.extend({
@@ -95,6 +101,34 @@
   App.CoursesController = Ember.ArrayController.extend();
   App.CoursesView = Ember.View.extend({
     templateName: 'courses'
+  });
+
+  App.CourseFormController = Ember.ObjectController.extend({
+    saveCourse: function(view) {
+      // Can't figure out why ember data doesn't handle IDs properly.
+      // This is a nasty hack to manually add the id to the object in the store.
+      var courses = App.store.filter(App.CourseSummary, function() {return true;});
+      var new_id = courses.get('content').length + 1;
+
+      var newCourse = {
+        id: new_id.toString(),
+        title: view.get('titleTextField').get('value'),
+        description: view.get('descriptionTextField').get('value'),
+        course_name: view.get('nameTextField').get('value'),
+        course_type: view.get('typeTextField').get('value'),
+        env_type: view.get('environmentTextField').get('value'),
+        repo: view.get('repositoryTextField').get('value'),
+        host: view.get('hostTextField').get('value'),
+        user: view.get('userTextField').get('value'),
+        pass: view.get('passTextField').get('value'),
+      }
+      App.store.createRecord(App.CourseSummary, newCourse);
+      alertify.success('Adding the course ' + newCourse.course_name + '...');
+      App.store.commit(App.CourseSummary);
+    }
+  });
+  App.CourseFormView = Ember.View.extend({
+    templateName: 'course-form',
   });
 
   App.CourseController = Ember.ObjectController.extend({
@@ -226,8 +260,11 @@
       courses: Ember.Route.extend({
         route: '/courses',
 
+        addCourse: Ember.Route.transitionTo('course.add'),
+
         connectOutlets: function(router) {
-          router.get('applicationController').connectOutlet('courses', App.store.findAll(App.CourseSummary));
+          var courses = App.store.find(App.CourseSummary);
+          router.get('applicationController').connectOutlet('courses', courses);
         }
       }),
 
@@ -238,6 +275,20 @@
         index: Ember.Route.extend({
           route: '/',
           redirectsTo: 'courses'
+        }),
+
+        // #/course/add
+        add: Ember.Route.extend({
+          route: '/add',
+
+          saveCourse: function(router, context) {
+            router.get('courseFormController').saveCourse(context.view);
+            router.transitionTo('courses');
+          },
+
+          connectOutlets: function(router, context) {
+            router.get('applicationController').connectOutlet('courseForm');
+          }
         }),
 
         // #/course/1
@@ -260,6 +311,7 @@
             // this in the console if you want to look at the data:
             // App.store.filter(App.User, function(data) { return true; } ).objectAt(0).toData()
             var course = App.store.find(App.Course, course_id);
+
             router.get('applicationController').connectOutlet('course', course);
             var courseController = router.get('courseController');
             courseController.resetUsers(course_id);

@@ -12,3 +12,7 @@
     {{/with}}
   {{/each}}
 </div>
+
+<div id="course-tools">
+  <button {{action addCourse}}>Add course</button>
+</div>

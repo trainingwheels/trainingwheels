@@ -139,3 +139,19 @@
   }
 }
 
+//Course Form
+
+#course-form {
+  margin: 0 auto;
+  max-width: 500px;
+  padding: $base-line-height;
+  #course-form-title {
+    padding-bottom: 25px;
+    padding-left: 25px;
+  }
+  #course-fields {
+    .field {
+      margin-bottom: $base-line-height/2;
+    }
+  }
+}

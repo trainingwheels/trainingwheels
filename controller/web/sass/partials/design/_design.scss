@@ -15,7 +15,7 @@ body {
 .yellow-btn {
   @include button-make($yellow);
   padding: $base-line-height / 2 $base-line-height /2;
-  font-size: 20px;  
+  font-size: 20px;
 }
 
 a {
@@ -48,7 +48,7 @@ dt, dd {
 //Header
 
 #top-header {
-  @include gradient(saturate($yellow, 10%), darken($yellow, 15%));
+  @include gradient(saturate($yellow, 10%), darken($yellow, 10%));
 }
 
 #logo {
@@ -102,7 +102,7 @@ dt, dd {
     @include button-make($lightGray);
     font-size: $base-font-size * 2;
     line-height: 32px;
-    padding: 10px 8px 2px 6px;    
+    padding: 10px 8px 2px 6px;
   }
   .course-lock {
       font-size: 16px;
@@ -116,7 +116,7 @@ dt, dd {
 
 #course-users, #course-instructor {
   .user-selected {
-    background-color: #f8f8f8;
+    background-color: $whiteGray;
   }
   #course-users-bottom-tools {
     .ember-text-field {
@@ -164,6 +164,59 @@ dt, dd {
     }
     .resource-missing {
       color: $red;
-    } 
+    }
   }
 }
+
+//Course Form
+
+#course-form {
+  #course-form-title {
+    font-family: $opensans;
+    font-weight: 600;
+    font-size: $h2-font-size;
+  }
+  #course-fields {
+    .field {
+      text-align: right;
+      font-size: $h4-font-size;
+      font-family: $opensans;
+    }
+  }
+}
+
+//Default Input Fields
+
+.ember-text-field {
+  @include border-radius(4px);
+  font-size: $h4-font-size;
+  font-family: $opensans;
+  padding: $base-line-height/4 $base-line-height/3;
+  color: $darkGray;
+  margin-left: 5px;
+  border: 1px solid $mediumGray;
+  background-color: $lightGray;
+  box-shadow: 0px 0px 0px rgb(0, 0, 0), 0px 3px 3px rgb(238, 238, 238) inset;
+    &:hover {
+      border: 1px solid $Gray;
+    }
+    &:focus {
+      border: 1px solid $Gray;
+      background-color: $whiteGray;
+      outline: medium none;
+      &:hover {
+        border: 1px solid $Gray;
+      }
+    }
+}
+
+//Default Submit Buttons
+
+.submit {
+      @include button-make($yellow);
+      padding: $base-line-height / 2 $base-line-height /2;
+      font-size: 16px;
+      margin: 0 0 0 auto;
+      width: 150px;
+      display: block;
+    }
