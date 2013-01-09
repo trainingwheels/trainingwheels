@@ -4,7 +4,7 @@
   {{#each course in controller.content}}
     {{#with course}}
       <div class="course-summary">
-        <h2><a href="#" {{action showCourse course}}>{{title}}</a></h2>
+        <h2>{{#linkTo "course" course}}{{title}}{{/linkTo}}</h2>
         <div "course-description">
           {{description}}
         </div>
@@ -14,5 +14,5 @@
 </div>
 
 <div id="course-tools">
-  <button {{action addCourse}}>Add course</button>
+  <button {{action "coursesAdd"}}>Add course</button>
 </div>

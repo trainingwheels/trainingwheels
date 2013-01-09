@@ -15,7 +15,7 @@
     </div>
 
     <div id="course-tools">
-      <button class="submit" type="submit" value="Save" {{action saveCourse}}>Create course</button>
+      <button class="submit" type="submit" value="Save" {{action "saveCourse" view}}>Create course</button>
     </div>
   </form>
 </div>
