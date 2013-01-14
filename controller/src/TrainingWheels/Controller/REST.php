@@ -3,6 +3,7 @@
 namespace TrainingWheels\Controller;
 use TrainingWheels\Course\CourseFactory;
 use TrainingWheels\Log\Log;
+use TrainingWheels\Job\JobFactory;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -193,6 +194,14 @@ class REST implements ControllerProviderInterface {
       return $app->json($return, HTTP_OK);
     })
     ->assert('id', '\d+');
+
+    /**
+     * Create a job.
+     */
+    $controllers->post('/jobs', function (Request $request) use ($app) {
+      $return = '';
+      return $app->json($return, HTTP_CREATED);
+    });
 
     return $controllers;
   }
