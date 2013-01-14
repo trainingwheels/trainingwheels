@@ -131,9 +131,6 @@
       action: file state=directory path=/var/trainingwheels-source/controller/log mode=0777
       tags: dev
 
-    - name: Convenience link to Training Wheels source
-      action: file state=link src=/var/trainingwheels-source dest=~/trainingwheels
-      tags: dev
     #####################################################################
 
     ##
