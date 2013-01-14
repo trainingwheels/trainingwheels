@@ -10,6 +10,10 @@ use TrainingWheels\Store\DataStore;
 use Exception;
 
 abstract class Factory {
+  // Abstract functions.
+  abstract public function get($id);
+  abstract public function save($object);
+
   // Singleton instance.
   protected static $instance;
   protected static $data;
@@ -72,7 +76,4 @@ abstract class Factory {
       break;
     }
   }
-
-  abstract public function get($id);
-  abstract public function save($object);
 }
