@@ -109,6 +109,9 @@
       cs.store.commit();
       alertify.success('Adding the course "' + newCourse.title + '"...');
       this.transitionToRoute('courses');
+    },
+    cancelCourseAdd: function() {
+      this.transitionToRoute('courses');
     }
   });
   App.CoursesAddView = Ember.View.extend({

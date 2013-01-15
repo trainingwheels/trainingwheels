@@ -196,7 +196,7 @@ dt, dd {
 
 //Default Input Fields
 
-.ember-text-field {
+.ember-text-field, .ember-text-area {
   @include border-radius(4px);
   font-size: $h4-font-size;
   font-family: $opensans;

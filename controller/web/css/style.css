@@ -587,7 +587,7 @@ dt, dd {
   font-family: "Open Sans", sans-serif;
 }
 
-.ember-text-field {
+.ember-text-field, .ember-text-area {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
@@ -602,15 +602,15 @@ dt, dd {
   background-color: #f2f2f2;
   box-shadow: 0px 0px 0px black, 0px 3px 3px #eeeeee inset;
 }
-.ember-text-field:hover {
+.ember-text-field:hover, .ember-text-area:hover {
   border: 1px solid #85817d;
 }
-.ember-text-field:focus {
+.ember-text-field:focus, .ember-text-area:focus {
   border: 1px solid #85817d;
   background-color: #f8f8f8;
   outline: medium none;
 }
-.ember-text-field:focus:hover {
+.ember-text-field:focus:hover, .ember-text-area:focus:hover {
   border: 1px solid #85817d;
 }
 
