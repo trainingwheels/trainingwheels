@@ -10,6 +10,7 @@
 
 body {
   background-color: #eeeeee;
+  background: url(../images/light-noise.png) repeat;
 }
 
 .yellow-btn {
@@ -48,17 +49,22 @@ dt, dd {
 //Header
 
 #top-header {
-  @include gradient(saturate($yellow, 10%), darken($yellow, 10%));
+  @include gradient(darken($darkGray, 0%), darken($darkGray, 10%));
+  background: url(../images/dark-noise.png) repeat;
+}
+
+#top-rule {
+  @include gradient(saturate($yellow, 10%), darken($yellow, 20%));
 }
 
 .logo {
   background: url(../images/tw-logo-header.svg) no-repeat;
   font-size: $base-font-size * 2;
-  color: $darkGray;
+  color: $white;
   text-decoration: none;
   font-family: $bebas;
   &:hover {
-    color: $yellowDark;
+    color: $yellow;
   }
 }
 
@@ -78,6 +84,9 @@ dt, dd {
   ul {
     list-style-type: none;
     margin: 0;
+    li {
+      display: inline;
+    }
   }
 }
 
