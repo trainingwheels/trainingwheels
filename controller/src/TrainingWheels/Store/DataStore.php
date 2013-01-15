@@ -37,8 +37,10 @@ class DataStore {
   /**
    * Insert a document.
    */
-  public function insert($collection, $object) {
-    $object['id'] = $this->getNextSequence($collection . '_id');
+  public function insert($collection, $object, $auto_increment = TRUE) {
+    if ($auto_increment) {
+      $object['id'] = $this->getNextSequence($collection . '_id');
+    }
     $this->db->$collection->insert($object);
     return $object;
   }

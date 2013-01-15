@@ -1,8 +1,8 @@
 <?php
 
-namespace TrainingWheels\Job
+namespace TrainingWheels\Job;
 use TrainingWheels\Common\Factory;
-use TrainingWheels\Job\UserJob;
+use TrainingWheels\Job\ResourceJob;
 use Exception;
 
 class JobFactory extends Factory {
@@ -13,15 +13,14 @@ class JobFactory extends Factory {
     $params = $this->data->find('_id', $job_id);
 
     if ($params) {
-      $job = $this->buildJob($params['type']);
-      $this->buildEnv($job, $params['env_type'], $params['host'], $params['user'], $params['pass']);
-
+      $job = new \stdClass;
       $job->_id = $params['_id'];
-      $job->action = $params['action'];
       $job->course_id = $params['course_id'];
-      $job->course_name = $params['course_name'];
+      $job->type = $params['type'];
+      $job->action = $params['action'];
       $job->params = $params['params'];
 
+      $this->buildJob($job);
       return $job;
     }
 
@@ -32,17 +31,16 @@ class JobFactory extends Factory {
    * Save a job.
    */
   public function save($job) {
-    return $this->data->insert('job', $job);
+    return $this->buildJob($this->data->insert('job', $job, FALSE));
   }
 
   /**
    * Job builder.
    */
-  protected function buildJob($type) {
-    switch ($type) {
-      case 'user':
-        $job = new UserJob();
-        $job->type = 'user';
+  protected function buildJob($job) {
+    switch ($job->type) {
+      case 'resource':
+        $job = new ResourceJob($job->course_id, $job->action, $job->params);
       break;
 
       default:
