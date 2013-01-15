@@ -70,7 +70,7 @@ class REST implements ControllerProviderInterface {
       }
       $return->resources = $output['resources'];
       unset($output['resources']);
-      $return->users = array($output);
+      $return->user = $output;
 
       return $app->json($return, HTTP_OK);
     })
@@ -159,7 +159,7 @@ class REST implements ControllerProviderInterface {
       $savedCourse = CourseFactory::singleton()->save($newCourse);
 
       $return = new \stdClass;
-      $return->courses = array($savedCourse);
+      $return->course_summary = $savedCourse;
 
       return $app->json($return, HTTP_CREATED);
     });
@@ -176,18 +176,12 @@ class REST implements ControllerProviderInterface {
       // Ember data expects an 'id' parameter.
       $course->id = $course->course_id;
 
-      // Get all the users, then split the instructor and
-      // the rest into two adjacent properties on the
-      // returned object. Ember doesn't support embedded
-      // properties right now.
+      // Get all the users and add them to the return.
       $users = $course->usersGet('*');
-      $instructor = $users['instructor'];
-      unset($users['instructor']);
 
       $return = new \stdClass;
-      $return->courses = array($course);
+      $return->course = $course;
       $return->users = array_values($users);
-      $return->instructor = array($instructor);
 
       unset($course->course_id);
       unset($course->env);

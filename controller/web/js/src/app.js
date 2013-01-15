@@ -4,30 +4,25 @@
   // Shorthand for logging easily using cl('message');
   var cl = console.log.bind(console);
 
-  win.App = Ember.Application.create();
+  win.App = Ember.Application.create({LOG_TRANSITIONS: true});
   var App = win.App;
 
   ////
-  // Ember Data
+  // Ember Data Store and Models.
   //
-  App.store = DS.Store.create({
-    revision: 8,
-    adapter: DS.RESTAdapter.create({
-      bulkCommit: false,
+  DS.RESTAdapter.configure('App.UserSummary', { sideloadAs: 'users' } );
+
+  // Plurals are used when formatting the URLs, so if you have a
+  // App.CourseSummary, and you attempt to populate it using findAll(),
+  // the actual request will be GET /rest/course_summaries
+  DS.RESTAdapter.configure('plurals', {
+    course_summary: 'course_summaries',
+  });
+
+  App.Store = DS.Store.extend({
+    revision: 11,
+    adapter: DS.RESTAdapter.extend({
       namespace: 'rest',
-      // Plurals are used when formatting the URLs, so if you have a
-      // App.CourseSummary, and you attempt to populate it using findAll(),
-      // the actual request will be GET /rest/course_summaries
-      plurals: {
-        course_summary: 'course_summaries',
-      },
-      // Only required on the main key for the request, so /rest/courses/1
-      // shoud return { courses: [{}] }, the first course in an array with
-      // the key mapping here to the type.
-      mappings: {
-        courses: 'App.Course',
-        users: 'App.User'
-      }
     })
   });
 
@@ -43,7 +38,7 @@
     user: DS.attr('string'),
     pass: DS.attr('string'),
     didCreate: function() {
-      alertify.success('Course "' + this.get('title') + '" created.');
+      alertify.success('Course "' + this.get('title') + '" saved.');
     }
   });
 
@@ -57,6 +52,7 @@
   });
 
   App.UserSummary = DS.Model.extend({
+    course: DS.belongsTo('App.Course'),
     user_name: DS.attr('string'),
     password: DS.attr('string'),
     logged_in: DS.attr('boolean'),
@@ -93,25 +89,11 @@
   ////
   // Controllers & Views
   //
-  App.ApplicationController = Ember.Controller.extend();
-  App.ApplicationView = Ember.View.extend({
-    templateName: 'application'
-  });
-
-  App.CoursesController = Ember.ArrayController.extend();
-  App.CoursesView = Ember.View.extend({
-    templateName: 'courses'
-  });
-
-  App.CourseFormController = Ember.ObjectController.extend({
+  App.CoursesAddController = Ember.ObjectController.extend({
+    // It seems like there should be a way to get the view parameter
+    // without passing it from the {{action}}.
     saveCourse: function(view) {
-      // Can't figure out why ember data doesn't handle IDs properly.
-      // This is a nasty hack to manually add the id to the object in the store.
-      var courses = App.store.filter(App.CourseSummary, function() {return true;});
-      var new_id = courses.get('content').length + 1;
-
       var newCourse = {
-        id: new_id.toString(),
         title: view.get('titleTextField').get('value'),
         description: view.get('descriptionTextField').get('value'),
         course_name: view.get('nameTextField').get('value'),
@@ -122,12 +104,14 @@
         user: view.get('userTextField').get('value'),
         pass: view.get('passTextField').get('value'),
       }
-      App.store.createRecord(App.CourseSummary, newCourse);
-      alertify.success('Adding the course ' + newCourse.course_name + '...');
-      App.store.commit(App.CourseSummary);
+      // There should be a better way to commit the new record.
+      var cs = App.CourseSummary.createRecord(newCourse);
+      cs.store.commit();
+      alertify.success('Adding the course "' + newCourse.title + '"...');
+      this.transitionToRoute('courses');
     }
   });
-  App.CourseFormView = Ember.View.extend({
+  App.CoursesAddView = Ember.View.extend({
     templateName: 'course-form',
   });
 
@@ -140,13 +124,14 @@
     instructor: [],
     instructorSummary: [],
     instructorSelected: [],
+    userController: {},
 
     refreshCourse: function() {
       alertify.success('Refreshing the course');
     },
 
     addUser: function() {
-      App.store.createRecord(App.UserSummary, {user_name: "newuser", course_id: 1});
+      App.Store.createRecord(App.UserSummary, {user_name: "newuser", course_id: 1});
       alertify.success('Adding a user');
     },
 
@@ -175,8 +160,9 @@
       }
     },
 
-    resetUsers: function(course_id) {
-      var users = App.store.filter(App.UserSummary, function (data) {
+    resetUsers: function() {
+      var course_id = this.get('course_id');
+      var users = App.UserSummary.filter(function (data) {
         if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
           return true;
         }
@@ -186,7 +172,7 @@
       this.set('userSummariesBelow', []);
       this.set('userSelected', []);
 
-      var instructor = App.store.filter(App.UserSummary, function (data) {
+      var instructor = App.UserSummary.filter(function (data) {
         if (data.get('user_name') == 'instructor' && data.get('course_id') == course_id) {
           return true;
         }
@@ -194,10 +180,12 @@
       this.set('instructor', instructor);
       this.set('instructorSummary', instructor);
       this.set('instructorSelected', []);
+    },
 
-      // Need to save the course id to the controller for the purposes of
-      // deserializing the nested user path later down the line.
-      this.set('course_id', course_id);
+    // This collapses all the displayed users and returns to /courses/x
+    returnToCourse: function() {
+      this.resetUsers();
+      this.transitionToRoute('course');
     }
   });
   App.CourseView = Ember.View.extend({
@@ -205,8 +193,7 @@
     sortOptions: ['name', 'id']
   });
 
-  App.UserSummaryController = Ember.ObjectController.extend({
-  });
+  App.UserSummaryController = Ember.ObjectController.extend();
   App.UserSummaryView = Ember.View.extend({
     templateName: 'user-summary',
   });
@@ -216,7 +203,7 @@
     resources: [],
 
     bindResources: function(user_id) {
-      var resources = App.store.filter(App.Resource, function (data) {
+      var resources = App.Resource.filter(function (data) {
         if (data.get('user_id') == user_id) {
           return true;
         }
@@ -241,123 +228,61 @@
   ////
   // Router
   //
-  App.Router = Ember.Router.extend({
-    enableLogging: true,
+  App.Router.map(function() {
+    this.route('index', { path: '/' });
+    this.route('courses', { path: '/courses' });
+    this.route('coursesAdd', { path: '/courses/add' });
+    this.resource('course', { path: '/courses/:course_id' }, function() {
+      this.route('user', { path: '/user/:user_id' });
+    });
+  });
 
-    goHome: Ember.Route.transitionTo('courses'),
-    showCourse: Ember.Route.transitionTo('course.coursePage.index'),
+  App.IndexRoute = Ember.Route.extend({
+    redirect: function() {
+      this.transitionTo('courses');
+    }
+  });
 
-    // #/
-    root: Ember.Route.extend({
+  App.CoursesRoute = Ember.Route.extend({
+    model: function() {
+      return App.CourseSummary.find();
+    },
+    events: {
+      coursesAdd: function() {
+        this.transitionTo('coursesAdd');
+      }
+    }
+  });
 
-      // Going to the home page currently redirects you to the list of courses.
-      index: Ember.Route.extend({
-        route: '/',
-        redirectsTo: 'courses'
-      }),
+  App.CoursesAddRoute = Ember.Route.extend({
+    enter: function() {
+      // If we navigate directly to /courses/add, we won't have a populated
+      // CourseSummary store yet, which causes duplication on /courses when
+      // this is saved. Workaround is to make sure that the CourseSummaries
+      // are loaded here.
+      App.CourseSummary.find();
+    }
+  });
 
-      // #/courses
-      courses: Ember.Route.extend({
-        route: '/courses',
+  App.CourseRoute = Ember.Route.extend({
+    setupController: function(controller, model) {
+      controller.set('content', App.Course.find(model.id));
+      controller.set('course_id', model.id);
+      controller.resetUsers();
+    }
+  });
 
-        addCourse: Ember.Route.transitionTo('course.add'),
+  App.CourseUserRoute = Ember.Route.extend({
+    setupController: function(controller, model) {
+      var userController = this.controllerFor('user');
+      userController.set('content', App.User.find(model.id));
+      userController.bindResources(model.id);
 
-        connectOutlets: function(router) {
-          var courses = App.store.find(App.CourseSummary);
-          router.get('applicationController').connectOutlet('courses', courses);
-        }
-      }),
+      var courseController = this.controllerFor('course');
+      courseController.selectUser(model.id);
 
-      // #/course
-      course: Ember.Route.extend({
-        route: '/course',
-
-        index: Ember.Route.extend({
-          route: '/',
-          redirectsTo: 'courses'
-        }),
-
-        // #/course/add
-        add: Ember.Route.extend({
-          route: '/add',
-
-          saveCourse: function(router, context) {
-            router.get('courseFormController').saveCourse(context.view);
-            router.transitionTo('courses');
-          },
-
-          connectOutlets: function(router, context) {
-            router.get('applicationController').connectOutlet('courseForm');
-          }
-        }),
-
-        // #/course/1
-        coursePage: Ember.Route.extend({
-          route: '/:course_id',
-
-          index: Ember.Route.extend({
-            route: '/'
-          }),
-
-          showUser: Ember.Route.transitionTo('course.coursePage.userSelected'),
-
-          connectOutlets: function(router, context) {
-            var course_id = context.id;
-            // When we .find() a course, the hasMany relationships in the store
-            // will auto-fill the users summaries, so we can just use .filter() below
-            // when we load the users, which doesn't trigger another request.
-            // Remember that the data store is not materialized right here, the requests
-            // are async and once the data enters the store, the front end is updated. Try
-            // this in the console if you want to look at the data:
-            // App.store.filter(App.User, function(data) { return true; } ).objectAt(0).toData()
-            var course = App.store.find(App.Course, course_id);
-
-            router.get('applicationController').connectOutlet('course', course);
-            var courseController = router.get('courseController');
-            courseController.resetUsers(course_id);
-          },
-
-          deserialize: function(router, urlParams) {
-            router.get('courseController').set('course_id', urlParams.course_id);
-            return App.store.find(App.Course, urlParams.course_id);
-          },
-
-          // #/course/1/user/bobby
-          userSelected: Ember.Route.extend({
-            route: '/user/:user_name',
-            hideUsers: function(router, context) {
-              var courseController = router.get('courseController');
-              var dummyCourseContext = {
-                id: courseController.get('course_id')
-              };
-              courseController.resetUsers(dummyCourseContext.id);
-              router.transitionTo('course.coursePage.index', dummyCourseContext);
-            },
-            connectOutlets: function(router, context) {
-              // This triggers the loading of the resources, could probably
-              // be changed so that there is a resources endpoint.
-              App.store.find(App.User, context.id);
-
-              var courseController = router.get('courseController');
-              courseController.selectUser(context.id);
-              var userController = router.get('userController');
-              userController.bindResources(context.id);
-            },
-            serialize: function(router, user) {
-              return {
-                user_name: user.get('user_name')
-              }
-            },
-            deserialize: function(router, urlParams) {
-              var user_id = router.get('courseController').get('course_id') + '-' + urlParams.user_name;
-              return App.store.find(App.User, user_id);
-            }
-          })
-        })
-      }),
-    })
-  })
-
-  App.initialize();
+      courseController.set('userController', userController);
+    }
+  });
 
 })(window, jQuery);

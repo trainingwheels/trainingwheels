@@ -5,16 +5,14 @@
   <title>Training Wheels Controller</title>
   <meta name="description" content="Training Wheels is an application for managing training environments.">
   <meta name="author" content="Four Kitchens">
-  <link rel="stylesheet" href="/css/alertify.css" type="text/css" />
-  <link rel="stylesheet" href="/css/style.css" type="text/css" />
+  <link href="/css/alertify.css" type="text/css" rel="stylesheet" />
+  <link href="/css/style.css" type="text/css" rel="stylesheet" />
   <link href="/fonts/ss-social/ss-social.css" rel="stylesheet" />
   <link href="/fonts/ss-symbolicons-block/ss-symbolicons-block.css" rel="stylesheet" />
   <link href="/fonts/ss-standard/ss-standard.css" rel="stylesheet" />
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
-
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' type='text/css' rel='stylesheet' />
 </head>
 <body>
-
   {% for key, template in tpl %}
   <script type="text/x-handlebars" data-template-name="{{ key|raw }}" >
     {{ template|raw }}
@@ -24,12 +22,5 @@
   {% for j in js %}
   <script src="{{ j|raw }}" type="text/javascript"></script>
   {% endfor %}
-
-  <script type="text/javascript" src="//use.typekit.net/bmt3edz.js">
-  </script>
-  <script type="text/javascript">
-    try{Typekit.load();}catch(e){}
-  </script>
-
 </body>
 </html>

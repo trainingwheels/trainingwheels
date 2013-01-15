@@ -1,7 +1,7 @@
 <div id="course-view">
   {{#if isLoaded}}
     <div id="course-info">
-      <h1><a href="#" {{action showCourse course}}>{{title}}</a></h1>
+      <h1><a href="#" {{action "returnToCourse"}}>{{title}}</a></h1>
       <!-- Not yet implemented  -->
       <!-- <button class="refresh-button ss-refresh" action refreshCourse target="controller" ></button>
       <a class="course-lock">
@@ -20,7 +20,7 @@
       <div class="user-selected">
         {{#each user in controller.instructorSelected}}
           {{#with user}}
-            {{view "App.UserView" controllerBinding="App.router.userController"}}
+            {{view "App.UserView" controllerBinding="controller.userController"}}
           {{/with}}
         {{/each}}
       </div>
@@ -48,7 +48,7 @@
         <div class="user-selected">
           {{#each user in controller.userSelected}}
             {{#with user}}
-              {{view "App.UserView" controllerBinding="App.router.userController"}}
+              {{view "App.UserView" controllerBinding="controller.userController"}}
             {{/with}}
           {{/each}}
         </div>

@@ -91,6 +91,10 @@
     ##
     # Configuration for nginx
     #
+    - name: Add mime types for nginx including our font type WOFF
+      action: copy src=files/etc-nginx-mime-types dest=/etc/nginx/mime.types
+      tags: common
+
     - name: Configure nginx
       action: template src=templates/etc-nginx-nginx-conf.j2 dest=/etc/nginx/nginx.conf
       tags: common
@@ -131,9 +135,6 @@
       action: file state=directory path=/var/trainingwheels-source/controller/log mode=0777
       tags: dev
 
-    - name: Convenience link to Training Wheels source
-      action: file state=link src=/var/trainingwheels-source dest=~/trainingwheels
-      tags: dev
     #####################################################################
 
     ##
