@@ -1,7 +1,8 @@
+<div id="top-rule">
+</div>
 <div id="top-header">
   {{#linkTo "index" class="logo"}}Training Wheels{{/linkTo}}
 </div>
-
 {{outlet}}
 
 <div id="footer">

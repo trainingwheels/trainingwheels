@@ -11,6 +11,11 @@ img, video {
   height: auto;
 }
 
+@font-face {
+  font-family: "BebasNeueRegular";
+  src: url(/fonts/bebas-neue/BebasNeue-webfont.woff) format('woff'), url(/fonts/bebas-neue/BebasNeue-webfont.ttf) format('truetype'), url(/fonts/bebas-neue/BebasNeue-webfont.eot) format('embedded-opentype'), url(/fonts/bebas-neue/BebasNeue-webfont.svg) format('svg');
+}
+
 body {
   margin: 0;
   font-family: helvetica, arial, sans-serif;
@@ -184,6 +189,15 @@ button:active, button.active {
   border-bottom: 1px solid #b2b2b2;
 }
 
+#top-rule {
+  top: 0;
+  width: 100%;
+  min-height: 6px;
+  position: relative;
+  border-top: 1px solid #e5da55;
+  border-bottom: 1px solid #4a4545;
+}
+
 #top-header {
   top: 0;
   width: 100%;
@@ -192,7 +206,6 @@ button:active, button.active {
   z-index: 4;
   padding-top: 15px;
   margin-bottom: 22px;
-  border-top: 1px solid #e5da55;
   border-bottom: 1px solid #bebcba;
 }
 
@@ -209,8 +222,9 @@ button:active, button.active {
   position: relative;
   z-index: 4;
   padding: 10px;
-  margin-top: 22px;
+  margin: 22px;
   border-top: 1px solid #d9d6d6;
+  border-bottom: 1px solid #d9d6d6;
 }
 
 #course-view {
@@ -318,6 +332,7 @@ button:active, button.active {
 
 body {
   background-color: #eeeeee;
+  background: url(../images/light-noise.png) repeat;
 }
 
 .yellow-btn {
@@ -403,18 +418,26 @@ dt, dd {
 }
 
 #top-header {
-  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#ded029));
-  background: -moz-linear-gradient(top, #efe24b, #ded029);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
+  background: -webkit-gradient(linear, left top, left bottom, from(#4a4545), to(#302c2c));
+  background: -moz-linear-gradient(top, #4a4545, #302c2c);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4a4545', endColorstr='#302c2c');
+  background: url(../images/dark-noise.png) repeat;
+}
+
+#top-rule {
+  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#b8ac1c));
+  background: -moz-linear-gradient(top, #efe24b, #b8ac1c);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#b8ac1c');
 }
 
 .logo {
   background: url(../images/tw-logo-header.svg) no-repeat;
   font-size: 32px;
-  color: #4a4545;
+  color: white;
   text-decoration: none;
-  font-family: "bebas-neue", helvetica, arial, sans-serif;
+  font-family: "BebasNeueRegular", helvetica, arial, sans-serif;
 }
+
 .logo:hover {
   color: #938732;
 }
@@ -434,6 +457,9 @@ dt, dd {
 #footer ul {
   list-style-type: none;
   margin: 0;
+}
+#footer ul li {
+  display: inline;
 }
 
 .tw-loading {
@@ -659,6 +685,11 @@ dt, dd {
     max-width: 100%;
     height: auto;
   }
+
+  @font-face {
+    font-family: "BebasNeueRegular";
+    src: url(/fonts/bebas-neue/BebasNeue-webfont.woff) format('woff'), url(/fonts/bebas-neue/BebasNeue-webfont.ttf) format('truetype'), url(/fonts/bebas-neue/BebasNeue-webfont.eot) format('embedded-opentype'), url(/fonts/bebas-neue/BebasNeue-webfont.svg) format('svg');
+}
 
   body {
     margin: 0;

@@ -21,6 +21,14 @@ $highlight: $lightGray;
 
 // First lets declare our own fonts
 
+@include font-face("BebasNeueRegular",
+	font-files(
+		"/fonts/bebas-neue/BebasNeue-webfont.woff", 'woff',
+		"/fonts/bebas-neue/BebasNeue-webfont.ttf", 'ttf',
+		"/fonts/bebas-neue/BebasNeue-webfont.eot", 'eot',
+		"/fonts/bebas-neue/BebasNeue-webfont.svg", 'svg'
+	)
+);
 
 // Font faces, stacks and sizes.
 
@@ -38,7 +46,7 @@ $h6-font-size: 2 * $base-font-size;
 $helvetica: helvetica, arial, sans-serif;
 $facitweb: 'Open Sans', sans-serif;
 $opensans:'Open Sans', sans-serif;
-$bebas: "bebas-neue", helvetica, arial, sans-serif;
+$bebas: "BebasNeueRegular", helvetica, arial, sans-serif;
 $icon-standard: "SSStandard";
 $icon-social: "SSSocial";
 $icon-symbolicons: "SSSymbolicons";
