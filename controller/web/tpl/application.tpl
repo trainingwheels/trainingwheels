@@ -1,5 +1,5 @@
 <div id="top-header">
-  <a id="logo"{{action goHome }}>Training Wheels</a>
+  {{#linkTo "index" class="logo"}}Training Wheels{{/linkTo}}
 </div>
 
 {{outlet}}

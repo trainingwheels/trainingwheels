@@ -196,7 +196,7 @@ button:active, button.active {
   border-bottom: 1px solid #bebcba;
 }
 
-#logo {
+.logo {
   width: 50px;
   height: 40px;
   margin-left: 16px;
@@ -408,14 +408,14 @@ dt, dd {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
 }
 
-#logo {
+.logo {
   background: url(../images/tw-logo-header.svg) no-repeat;
   font-size: 32px;
   color: #4a4545;
   text-decoration: none;
   font-family: "bebas-neue", helvetica, arial, sans-serif;
 }
-#logo:hover {
+.logo:hover {
   color: #938732;
 }
 

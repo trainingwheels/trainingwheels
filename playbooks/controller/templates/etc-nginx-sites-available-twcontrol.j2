@@ -5,7 +5,7 @@ server {
   listen 8000;
 
   server_name {{ nginx_server_name }};
-  root /var/trainingwheels-source/controller/web;
+  root {{ nginx_webroot }};
 
   error_log /var/log/nginx/tw-new.error.log;
   access_log /var/log/nginx/tw-new.access.log;
