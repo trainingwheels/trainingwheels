@@ -23,10 +23,10 @@ $highlight: $lightGray;
 
 @include font-face("BebasNeueRegular",
 	font-files(
-		"../../fonts/bebas-neue/BebasNeue-webfont.woff", 'woff',
-		"../../fonts/bebas-neue/BebasNeue-webfont.ttf", 'ttf',
-		"../../fonts/bebas-neue/BebasNeue-webfont.eot", 'eot',
-		"../../fonts/bebas-neue/BebasNeue-webfont.svg", 'svg'
+		"/fonts/bebas-neue/BebasNeue-webfont.woff", 'woff',
+		"/fonts/bebas-neue/BebasNeue-webfont.ttf", 'ttf',
+		"/fonts/bebas-neue/BebasNeue-webfont.eot", 'eot',
+		"/fonts/bebas-neue/BebasNeue-webfont.svg", 'svg'
 	)
 );
 

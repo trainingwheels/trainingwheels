@@ -13,7 +13,7 @@ img, video {
 
 @font-face {
   font-family: "BebasNeueRegular";
-  src: url('../fonts/../../fonts/bebas-neue/BebasNeue-webfont.woff') format('woff'), url('../fonts/../../fonts/bebas-neue/BebasNeue-webfont.ttf') format('truetype'), url('../fonts/../../fonts/bebas-neue/BebasNeue-webfont.eot') format('embedded-opentype'), url('../fonts/../../fonts/bebas-neue/BebasNeue-webfont.svg') format('svg');
+  src: url(/fonts/bebas-neue/BebasNeue-webfont.woff) format('woff'), url(/fonts/bebas-neue/BebasNeue-webfont.ttf) format('truetype'), url(/fonts/bebas-neue/BebasNeue-webfont.eot) format('embedded-opentype'), url(/fonts/bebas-neue/BebasNeue-webfont.svg) format('svg');
 }
 
 body {
@@ -688,7 +688,7 @@ dt, dd {
 
   @font-face {
     font-family: "BebasNeueRegular";
-    src: url('../fonts/../../fonts/bebas-neue/BebasNeue-webfont.woff') format('woff'), url('../fonts/../../fonts/bebas-neue/BebasNeue-webfont.ttf') format('truetype'), url('../fonts/../../fonts/bebas-neue/BebasNeue-webfont.eot') format('embedded-opentype'), url('../fonts/../../fonts/bebas-neue/BebasNeue-webfont.svg') format('svg');
+    src: url(/fonts/bebas-neue/BebasNeue-webfont.woff) format('woff'), url(/fonts/bebas-neue/BebasNeue-webfont.ttf) format('truetype'), url(/fonts/bebas-neue/BebasNeue-webfont.eot) format('embedded-opentype'), url(/fonts/bebas-neue/BebasNeue-webfont.svg) format('svg');
 }
 
   body {
