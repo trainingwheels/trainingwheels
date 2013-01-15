@@ -1,5 +1,5 @@
-// Version: v1.0.0-pre.2-395-ge4af09e
-// Last commit: e4af09e (2013-01-13 21:57:54 -0800)
+// Version: v1.0.0-pre.2-398-g1051f2f
+// Last commit: 1051f2f (2013-01-15 10:06:03 -0800)
 
 
 (function() {
@@ -142,8 +142,8 @@ if ('undefined' !== typeof window) {
 
 })();
 
-// Version: v1.0.0-pre.2-397-gd269fa3
-// Last commit: d269fa3 (2013-01-14 21:31:22 -0800)
+// Version: v1.0.0-pre.2-398-g1051f2f
+// Last commit: 1051f2f (2013-01-15 10:06:03 -0800)
 
 
 (function() {
@@ -6645,7 +6645,7 @@ Ember.Error.prototype = Ember.create(Error.prototype);
 var STRING_DASHERIZE_REGEXP = (/[ _]/g);
 var STRING_DASHERIZE_CACHE = {};
 var STRING_DECAMELIZE_REGEXP = (/([a-z])([A-Z])/g);
-var STRING_CAMELIZE_REGEXP = (/(\-|_|\s)+(.)?/g);
+var STRING_CAMELIZE_REGEXP = (/(\-|_|\.|\s)+(.)?/g);
 var STRING_UNDERSCORE_REGEXP_1 = (/([a-z\d])([A-Z]+)/g);
 var STRING_UNDERSCORE_REGEXP_2 = (/\-|\s+/g);
 
@@ -25824,8 +25824,8 @@ Ember States
 
 
 })();
-// Version: v1.0.0-pre.2-397-gd269fa3
-// Last commit: d269fa3 (2013-01-14 21:31:22 -0800)
+// Version: v1.0.0-pre.2-398-g1051f2f
+// Last commit: 1051f2f (2013-01-15 10:06:03 -0800)
 
 
 (function() {
