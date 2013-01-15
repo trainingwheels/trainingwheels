@@ -38,7 +38,7 @@ $app->mount('/rest', new TrainingWheels\Controller\REST());
  */
 $jsGet = function($debug) {
   $js = array(
-    '/js/src/app.js?v=' . time(),
+    '/js/src/app.js',
     '/js/src/jquery_plugins.js',
   );
   if (!$debug) {
@@ -47,7 +47,7 @@ $jsGet = function($debug) {
       '/js/vendor/underscore/underscore-min.js',
       '/js/vendor/alertify/alertify.min.js',
       '/js/vendor/handlebars/handlebars-1.0.rc.1.min.js',
-      '/js/vendor/ember/ember-1.0.0-pre.2.min.js',
+      '/js/vendor/ember/ember.min.js',
       '/js/vendor/ember-data/ember-data.min.js',
     );
     $js = array_merge($js_min, $js);
@@ -58,7 +58,7 @@ $jsGet = function($debug) {
       '/js/vendor/underscore/underscore.js',
       '/js/vendor/alertify/alertify.js',
       '/js/vendor/handlebars/handlebars-1.0.rc.1.js',
-      '/js/vendor/ember/ember-1.0.0-pre.2.js',
+      '/js/vendor/ember/ember.js',
       '/js/vendor/ember-data/ember-data.js',
     );
     $js = array_merge($js_full, $js);

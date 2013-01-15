@@ -16,19 +16,52 @@ TODO
 
 * Re-implement caching in CachedObject.
 
-Building Ember
---------------
+Building Ember.js and Ember Data
+--------------------------------
 
-    rvm install 1.9.2 --with-openssl-dir=$rvm_path/usr
-    rvm 1.9.2
-    bundle exec install
-    bundle rake build
+Prepare your Ubuntu 12.04 system:
+
+    aptitude install ruby1.9.1 ruby1.9.1-dev
+    gem install rake
+    gem install bundler
+
+Checkout the repositories, then do the following in the root of each:
+
+    bundle install
+    bundle exec rake dist
 
 Console application
 -------------------
 
     cd cli
     ./tw
+
+Working with Mongo
+------------------
+
+To access database CLI, use `mongo trainingwheels` on the command line.
+
+Some command examples:
+
+    show collections
+    db.course.find()
+    db.counters.find()
+
+To reset the backend data, use:
+
+    cd trainingwheels/playbooks/controller
+    mongo trainingwheels sample-data-mongo.js
+
+Working with web inspector and Ember.js
+---------------------------------------
+
+To view data store:
+
+    App.Course.filter(function(data) { return true; } ).objectAt(0).serialize()
+
+To figure out what class an object is, use toString():
+
+    this.toString()
 
 Manual Testing REST API
 -----------------------

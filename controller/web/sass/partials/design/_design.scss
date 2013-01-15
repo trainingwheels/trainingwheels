@@ -51,7 +51,7 @@ dt, dd {
   @include gradient(saturate($yellow, 10%), darken($yellow, 10%));
 }
 
-#logo {
+.logo {
   background: url(../images/tw-logo-header.svg) no-repeat;
   font-size: $base-font-size * 2;
   color: $darkGray;
