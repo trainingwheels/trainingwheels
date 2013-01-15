@@ -1,7 +1,7 @@
 <?php
 
 namespace TrainingWheels\Console;
-use TrainingWheels\Course\CourseFactory;
+use TrainingWheels\Job\ResourceJob;
 use TrainingWheels\Log\Log;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,13 +21,19 @@ class ResourceDelete extends Command
 
   protected function execute(InputInterface $input, OutputInterface $output) {
     Log::log('CLI command: ResourceDelete', L_INFO);
-    $course = CourseFactory::singleton()->get($input->getArgument('course_id'));
-    $user_names = $input->getArgument('user_names');
-
     $resources = $input->getArgument('resources');
-    $resources = ($resources == 'all' || empty($resources)) ? '*' : explode(',', $resources);
+    $resources = ($resources == 'all' || empty($resources)) ? array() : explode(',', $resources);
 
-    $course->usersResourcesDelete(explode(',', $user_names), $resources);
+    $job = new ResourceJob(
+      $input->getArgument('course_id'),
+      'resourceDelete',
+      array(
+        'user_names' => explode(',', $input->getArgument('user_names'),
+        'resources' => $resources,
+      )
+    );
+    $job->execute();
+
     $output->writeln('Resource(s) deleted.');
   }
 }

@@ -23,7 +23,7 @@ abstract class Factory {
    */
   public static function singleton() {
     if (!isset(self::$instance)) {
-      $className = __CLASS__;
+      $className = get_called_class();
       self::$instance = new $className;
       self::$instance->data = new DataStore();
     }

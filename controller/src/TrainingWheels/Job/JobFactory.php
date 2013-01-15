@@ -14,10 +14,12 @@ class JobFactory extends Factory {
 
     if ($params) {
       $job = $this->buildJob($params['type']);
-      $this->buildEnv(
+      $this->buildEnv($job, $params['env_type'], $params['host'], $params['user'], $params['pass']);
 
       $job->_id = $params['_id'];
+      $job->action = $params['action'];
       $job->course_id = $params['course_id'];
+      $job->course_name = $params['course_name'];
       $job->params = $params['params'];
 
       return $job;

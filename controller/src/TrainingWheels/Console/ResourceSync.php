@@ -1,7 +1,7 @@
 <?php
 
 namespace TrainingWheels\Console;
-use TrainingWheels\Course\CourseFactory;
+use TrainingWheels\Job\ResourceJob;
 use TrainingWheels\Log\Log;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,14 +22,18 @@ class ResourceSync extends Command
 
   protected function execute(InputInterface $input, OutputInterface $output) {
     Log::log('CLI command: ResourceSync', L_INFO);
-    $course = CourseFactory::singleton()->get($input->getArgument('course_id'));
-    $source_user = $input->getArgument('source_user');
-    $target_users = $input->getArgument('target_users');
-
     $resources = $input->getArgument('resources');
-    $resources = ($resources == 'all' || empty($resources)) ? '*' : explode(',', $resources);
-
-    $course->usersResourcesSync($source_user, explode(',', $target_users), $resources);
+    $resources = ($resources == 'all' || empty($resources)) ? array() : explode(',', $resources);
+    $job = new ResourceJob(
+      $input->getArgument('course_id'),
+      'resourceSync',
+      array(
+        'source_user' => $input->getArgument('source_user'),
+        'target_users' => explode(',', $input->getArgument('target_users')),
+        'resources' => $resources,
+      )
+    );;
+    $job->execute();
     $output->writeln('User(s) synced.');
   }
 }

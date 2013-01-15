@@ -5,12 +5,33 @@ use TrainingWheels\Log\Log;
 use Exception;
 
 abstract class Job {
-  // An instance of course TrainingEnv.
-  public $enf;
-
-  // The course name.
-  public $course_name;
-
   // The course id.
-  public $course_id;
+  protected $course_id;
+
+  // The action to take for this job.
+  protected $action;
+
+  // Parameters related to the job.
+  protected $params;
+
+  /**
+   * Constructor.
+   */
+  function __construct($course_id, $action, $params) {
+    $this->course_id = $course_id;
+    $this->action = $action;
+    $this->params = $params;
+  }
+
+  /**
+   * Executes the job and returns a success/failure value.
+   */
+  public function execute() {
+    if (method_exists($this, $this->action)) {
+      $this->{$this->action}();
+    }
+    else {
+      throw new Exception("Unknown job: $this->action.");
+    }
+  }
 }
