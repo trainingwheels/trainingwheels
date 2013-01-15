@@ -15,7 +15,7 @@ class ResourceJob extends Job {
   protected function resourceCreate() {
     $course = CourseFactory::singleton()->get($this->course_id);
     $resources = empty($this->params['resources']) ? '*' : $this->params['resources'];
-    $course->usersResourcesCreate($this->params['user_names']), $resources);
+    $course->usersResourcesCreate($this->params['user_names'], $resources);
   }
 
   /**
@@ -26,7 +26,7 @@ class ResourceJob extends Job {
    *   resources - an array of resources to sync.
    */
   protected function resourceDelete() {
-    $course = CourseFactory::singleton()->get($input->getArgument('course_id'));
+    $course = CourseFactory::singleton()->get($this->course_id);
     $resources = empty($this->params['resources']) ? '*' : $this->params['resources'];
     $course->usersResourcesDelete($this->params['user_names'], $resources);
   }

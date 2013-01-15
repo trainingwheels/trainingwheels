@@ -28,7 +28,7 @@ class ResourceDelete extends Command
       $input->getArgument('course_id'),
       'resourceDelete',
       array(
-        'user_names' => explode(',', $input->getArgument('user_names'),
+        'user_names' => explode(',', $input->getArgument('user_names')),
         'resources' => $resources,
       )
     );
