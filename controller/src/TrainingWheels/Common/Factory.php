@@ -6,7 +6,6 @@ use TrainingWheels\Conn\SSHServerConn;
 use TrainingWheels\Environment\DevEnv;
 use TrainingWheels\Environment\CentosEnv;
 use TrainingWheels\Environment\UbuntuEnv;
-use TrainingWheels\Store\DataStore;
 use Exception;
 
 abstract class Factory {
@@ -14,21 +13,14 @@ abstract class Factory {
   abstract public function get($id);
   abstract public function save($object);
 
-  // Singleton instance.
-  protected static $instance;
-  protected static $data;
-
   /**
-   * Return the singleton.
+   * Additionally each implementing class should contain
+   * a protected static $instance variable and a public
+   * static singleton function to return a static instance
+   * of the class.
    */
-  public static function singleton() {
-    if (!isset(self::$instance)) {
-      $className = get_called_class();
-      self::$instance = new $className;
-      self::$instance->data = new DataStore();
-    }
-    return self::$instance;
-  }
+
+  protected static $data;
 
   /**
    * Environment buider.

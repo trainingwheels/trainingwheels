@@ -5,9 +5,25 @@ use TrainingWheels\Common\Factory;
 use TrainingWheels\Course\DevCourse;
 use TrainingWheels\Course\DrupalCourse;
 use TrainingWheels\Course\NodejsCourse;
+use TrainingWheels\Store\DataStore;
 use Exception;
 
 class CourseFactory extends Factory {
+  // Singleton instance.
+  protected static $instance;
+
+  /**
+   * Return the singleton.
+   */
+  public static function singleton() {
+    if (!isset(self::$instance)) {
+      $className = get_called_class();
+      self::$instance = new $className;
+      self::$instance->data = new DataStore();
+    }
+    return self::$instance;
+  }
+
   /**
    * Create Course object given a course id.
    */

@@ -206,8 +206,7 @@ class REST implements ControllerProviderInterface {
       catch (Exception $e) {
         return $app->json(array('messages' => 'Job could not be executed.'), HTTP_INTERNAL_SERVER_ERROR);
       }
-      $return = '';
-      return $app->json($return, HTTP_NO_CONTENT);
+      return $app->json(array('messages' => 'success'), HTTP_CREATED);
     });
 
     return $controllers;

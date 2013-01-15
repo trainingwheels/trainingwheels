@@ -3,9 +3,25 @@
 namespace TrainingWheels\Job;
 use TrainingWheels\Common\Factory;
 use TrainingWheels\Job\ResourceJob;
+use TrainingWheels\Store\DataStore;
 use Exception;
 
 class JobFactory extends Factory {
+  // Singleton instance.
+  protected static $instance;
+
+  /**
+   * Return the singleton.
+   */
+  public static function singleton() {
+    if (!isset(self::$instance)) {
+      $className = get_called_class();
+      self::$instance = new $className;
+      self::$instance->data = new DataStore();
+    }
+    return self::$instance;
+  }
+
   /**
    * Create a Job object given a job id.
    */
