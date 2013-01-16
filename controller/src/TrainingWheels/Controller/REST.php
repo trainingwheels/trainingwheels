@@ -193,11 +193,9 @@ class REST implements ControllerProviderInterface {
      * Create a job.
      */
     $controllers->post('/jobs', function (Request $request) use ($app) {
-      $job = new \stdClass;
-      $job->course_id = $request->request->get('course_id');
-      $job->type = $request->request->get('type');
-      $job->action = $request->request->get('action');
-      $job->params = (array)$request->request->get('params');
+      $job = (object)$request->request->get('job');
+      $job->params = (array)json_decode($job->params_string);
+      unset($job->params_string);
       $job = JobFactory::singleton()->save($job);
 
       try {
@@ -206,7 +204,8 @@ class REST implements ControllerProviderInterface {
       catch (Exception $e) {
         return $app->json(array('messages' => 'Job could not be executed.'), HTTP_INTERNAL_SERVER_ERROR);
       }
-      return $app->json(array('messages' => 'success'), HTTP_CREATED);
+      // TODO - remove the completed job.
+      return $app->json(array('messages' => 'success'), HTTP_OK);
     });
 
     return $controllers;

@@ -16,7 +16,7 @@
   // App.CourseSummary, and you attempt to populate it using findAll(),
   // the actual request will be GET /rest/course_summaries
   DS.RESTAdapter.configure('plurals', {
-    course_summary: 'course_summaries',
+    course_summary: 'course_summaries'
   });
 
   App.Store = DS.Store.extend({
@@ -84,7 +84,17 @@
     css_class_resource_status: function() {
       return 'resource-status ss-folder ' + this.get('status');
     }.property('status'),
-  })
+  });
+
+  App.Job = DS.Model.extend({
+    course_id: DS.attr('number'),
+    type: DS.attr('string'),
+    action: DS.attr('string'),
+    paramsString: DS.attr('string'),
+    params: function() {
+      return $.parseJSON(this.get('paramsString'));
+    }.property('paramsString')
+  });
 
   ////
   // Controllers & Views
@@ -214,6 +224,26 @@
     copyPassword: function(password) {
       alertify.alert('<div id="selected-password">' + password + '</div>');
       setTimeout(function () { $('#selected-password').selectText(); }, 50);
+    },
+
+    syncUser: function(user_name) {
+      var job = App.Job.createRecord({
+        course_id: this.controllerFor('course').get('course_id'),
+        type: 'resource',
+        action: 'resourceSync',
+        paramsString: JSON.stringify({
+          source_user: 'instructor',
+          target_users: [ user_name ]
+        })
+      });
+      job.store.commit();
+      job.on('didCreate', function(record) {
+        job.deleteRecord();
+        alertify.alert("Successfully synced resources from 'instructor' to '" + user_name + "'.");
+      });
+      job.on('becameError', function(record) {
+        alertify.alert('Job could not be executed.');
+      });
     }
   });
   App.UserView = Ember.View.extend({
