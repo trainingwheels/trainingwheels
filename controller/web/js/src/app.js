@@ -223,7 +223,7 @@
       setTimeout(function () { $('#selected-password').selectText(); }, 50);
     },
 
-    syncUser: function(user_name) {
+    syncUser: function(user_name, callback) {
       var job = App.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),
         type: 'resource',
@@ -236,15 +236,31 @@
       job.store.commit();
       job.on('didCreate', function(record) {
         job.deleteRecord();
-        alertify.alert("Successfully synced resources from 'instructor' to '" + user_name + "'.");
+        callback(null);
       });
       job.on('becameError', function(record) {
-        alertify.alert('Job could not be executed.');
+        callback('Job could not be executed.');
       });
-    }
+    },
   });
   App.UserView = Ember.View.extend({
     templateName: 'user',
+    syncUser: function(user_name) {
+      // I'm not super happy about this implementation, but I don't see a way
+      // to target an element within the view in a clean way without creating
+      // a sub-view.
+      var $e = $('.ss-sync', $('#' + this.elementId));
+      $e.addClass('syncing')
+      this.controller.syncUser(user_name, function userSynced(err) {
+        $e.removeClass('syncing')
+        if (!err) {
+          alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
+        }
+        else {
+          alertify.error(err);
+        }
+      });
+    }
   });
 
   App.ResourceController = Ember.ObjectController.extend();
