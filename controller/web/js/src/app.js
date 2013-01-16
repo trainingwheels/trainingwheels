@@ -10,13 +10,16 @@
   ////
   // Ember Data Store and Models.
   //
-  DS.RESTAdapter.configure('App.UserSummary', { sideloadAs: 'users' } );
+  DS.RESTAdapter.configure('App.UserSummary', {
+    sideloadAs: 'users'
+  });
 
   // Plurals are used when formatting the URLs, so if you have a
   // App.CourseSummary, and you attempt to populate it using findAll(),
   // the actual request will be GET /rest/course_summaries
   DS.RESTAdapter.configure('plurals', {
     course_summary: 'course_summaries',
+    user_summary: 'user_summaries',
   });
 
   App.Store = DS.Store.extend({
@@ -38,7 +41,10 @@
     user: DS.attr('string'),
     pass: DS.attr('string'),
     didCreate: function() {
-      alertify.success('Course "' + this.get('title') + '" saved.');
+      alertify.success('Course "' + this.get('title') + '" created.');
+    },
+    becameError: function() {
+      alertify.error('There was an error creating course "' + this.get('title') + '".');
     }
   });
 
@@ -64,6 +70,12 @@
     css_class_resource_overview_status: function() {
       return 'resource-status ss-folder ' + this.get('resource_status');
     }.property('resource_status'),
+    didCreate: function() {
+      alertify.success('User "' + this.get('user_name') + '" created.');
+    },
+    becameError: function() {
+      alertify.error('There was an error creating user "' + this.get('user_name') + '".');
+    }
   });
 
   App.User = App.UserSummary.extend({
@@ -105,9 +117,8 @@
         pass: view.get('passTextField').get('value'),
       }
       // There should be a better way to commit the new record.
-      var cs = App.CourseSummary.createRecord(newCourse);
-      cs.store.commit();
-      alertify.success('Adding the course "' + newCourse.title + '"...');
+      var model = App.CourseSummary.createRecord(newCourse);
+      model.store.commit();
       this.transitionToRoute('courses');
     }
   });
@@ -131,8 +142,13 @@
     },
 
     addUser: function() {
-      App.Store.createRecord(App.UserSummary, {user_name: "newuser", course_id: 1});
-      alertify.success('Adding a user');
+      var newUserName = this.get('newUserName');
+      this.set('newUserName', '');
+      var course_id = this.get('course_id');
+      var model = App.UserSummary.createRecord({user_name: newUserName, course_id: 1});
+      model.store.commit();
+      this.resetUsers();
+      this.transitionToRoute('course');
     },
 
     selectUser: function(user_id) {
@@ -214,6 +230,12 @@
     copyPassword: function(password) {
       alertify.alert('<div id="selected-password">' + password + '</div>');
       setTimeout(function () { $('#selected-password').selectText(); }, 50);
+    },
+
+    collapseUser: function() {
+      var courseController = this.controllerFor('course');
+      courseController.resetUsers();
+      this.transitionToRoute('course');
     }
   });
   App.UserView = Ember.View.extend({
@@ -248,7 +270,7 @@
       return App.CourseSummary.find();
     },
     events: {
-      coursesAdd: function() {
+      coursesAddAction: function() {
         this.transitionTo('coursesAdd');
       }
     }
@@ -266,6 +288,7 @@
 
   App.CourseRoute = Ember.Route.extend({
     setupController: function(controller, model) {
+      this._super.apply(arguments);
       controller.set('content', App.Course.find(model.id));
       controller.set('course_id', model.id);
       controller.resetUsers();
@@ -274,6 +297,7 @@
 
   App.CourseUserRoute = Ember.Route.extend({
     setupController: function(controller, model) {
+      this._super.apply(arguments);
       var userController = this.controllerFor('user');
       userController.set('content', App.User.find(model.id));
       userController.bindResources(model.id);

@@ -61,7 +61,7 @@ class REST implements ControllerProviderInterface {
       }
       $return = new \stdClass;
 
-      // Encode the attribs so that they get parsed as strings on the client.
+      // Encode the resource attributes so that they get parsed as strings on the client.
       foreach ($output['resources'] as $key => $res) {
         if (isset($output['resources'][$key]['attribs'])) {
           $output['resources'][$key]['attribs'] = json_encode($res['attribs']);
@@ -78,9 +78,10 @@ class REST implements ControllerProviderInterface {
     /**
      * Create a user.
      */
-    $controllers->post('/user', function (Request $request) use ($app) {
-      $course_id = $request->request->get('courseid');
-      $user_name = $request->request->get('user_name');
+    $controllers->post('/user_summaries', function (Request $request) use ($app) {
+      $user = $request->request->get('user_summary');
+      $course_id = $user['course_id'];
+      $user_name = $user['user_name'];
       if (!$course_id || !$user_name) {
         return $app->json(array('messages' => 'Invalid parameters passed, check JSON formatting is strict.'), HTTP_BAD_REQUEST);
       }
@@ -90,7 +91,9 @@ class REST implements ControllerProviderInterface {
       if (!$result) {
         return $app->json(array('messages' => 'User already exists.'), HTTP_CONFLICT);
       }
-      return $app->json(array('messages' => 'success'), HTTP_CREATED);
+      // Get only the summary, by passing FALSE as second param.
+      $user_obj = $course->userGet($user_name, FALSE);
+      return $app->json(array('user_summary' => $user_obj), HTTP_CREATED);
     });
 
     /**
