@@ -1,5 +1,5 @@
-// Version: v1.0.0-pre.2-398-g1051f2f
-// Last commit: 1051f2f (2013-01-15 10:06:03 -0800)
+// Version: v1.0.0-pre.2-408-g43354a9
+// Last commit: 43354a9 (2013-01-15 18:12:34 -0800)
 
 
 (function() {
@@ -142,8 +142,8 @@ if ('undefined' !== typeof window) {
 
 })();
 
-// Version: v1.0.0-pre.2-398-g1051f2f
-// Last commit: 1051f2f (2013-01-15 10:06:03 -0800)
+// Version: v1.0.0-pre.2-408-g43354a9
+// Last commit: 43354a9 (2013-01-15 18:12:34 -0800)
 
 
 (function() {
@@ -6125,6 +6125,13 @@ define("container",
 
         delete this.parent;
         this.isDestroyed = true;
+      },
+
+      reset: function() {
+        for (var i=0, l=this.children.length; i<l; i++) {
+          resetCache(this.children[i]);
+        }
+        resetCache(this);
       }
     };
 
@@ -6203,6 +6210,14 @@ define("container",
         if (option(container, key, 'instantiate') === false) { return; }
         callback(value);
       });
+    }
+
+    function resetCache(container) {
+      container.cache.eachLocal(function(key, value) {
+        if (option(container, key, 'instantiate') === false) { return; }
+        value.destroy();
+      });
+      container.cache.dict = {};
     }
 
     return Container;
@@ -22043,9 +22058,13 @@ Ember.generateController = function(container, controllerName, context) {
   var controller;
 
   if (context && Ember.isArray(context)) {
-    controller = Ember.ArrayController.extend({content: context});
+    controller = Ember.ArrayController.extend({
+      content: context
+    });
   } else if (context) {
-    controller = Ember.ObjectController.extend({content: context});
+    controller = Ember.ObjectController.extend({
+      content: context
+    });
   } else {
     controller = Ember.Controller.extend();
   }
@@ -22356,6 +22375,10 @@ Ember.Route = Ember.Object.extend({
 
     var controller = this.controllerFor(this.templateName, context);
 
+    if (controller) {
+      set(controller, 'model', context);
+    }
+
     if (this.setupControllers) {
       Ember.deprecate("Ember.Route.setupControllers is deprecated. Please use Ember.Route.setupController(controller, model) instead.");
       this.setupControllers(controller, context);
@@ -22509,11 +22532,7 @@ Ember.Route = Ember.Object.extend({
 
     @method setupController
   */
-  setupController: function(controller, model) {
-    if (controller) {
-      controller.set('content', model);
-    }
-  },
+  setupController: Ember.K,
 
   /**
     Returns the controller for a particular route.
@@ -22636,7 +22655,7 @@ Ember.Route = Ember.Object.extend({
       name = this.templateName;
     }
 
-    name = name || this.templateName;
+    name = name ? name.replace(/\//g, '.') : this.templateName;
 
     var container = this.container,
         view = container.lookup('view:' + name),
@@ -22679,7 +22698,7 @@ function parentTemplate(route) {
 
 function normalizeOptions(route, name, template, options) {
   options = options || {};
-  options.into = options.into || parentTemplate(route);
+  options.into = options.into ? options.into.replace(/\//g, '.') : parentTemplate(route);
   options.outlet = options.outlet || 'main';
   options.name = name;
   options.template = template;
@@ -22978,6 +22997,7 @@ Ember.onLoad('Ember.Handlebars', function(Handlebars) {
       context = Ember.Handlebars.get(options.contexts[1], context, options);
     }
 
+    name = name.replace(/\//g, '.');
     container = options.data.keywords.controller.container;
     router = container.lookup('router:main');
 
@@ -22997,7 +23017,7 @@ Ember.onLoad('Ember.Handlebars', function(Handlebars) {
 
     controller.set('target', options.data.keywords.controller);
 
-    options.hash.viewName = name;
+    options.hash.viewName = Ember.String.camelize(name);
     options.hash.template = container.lookup('template:' + name);
     options.hash.controller = controller;
 
@@ -25824,8 +25844,8 @@ Ember States
 
 
 })();
-// Version: v1.0.0-pre.2-398-g1051f2f
-// Last commit: 1051f2f (2013-01-15 10:06:03 -0800)
+// Version: v1.0.0-pre.2-408-g43354a9
+// Last commit: 43354a9 (2013-01-15 18:12:34 -0800)
 
 
 (function() {
