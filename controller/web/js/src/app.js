@@ -90,10 +90,7 @@
     course_id: DS.attr('number'),
     type: DS.attr('string'),
     action: DS.attr('string'),
-    paramsString: DS.attr('string'),
-    params: function() {
-      return $.parseJSON(this.get('paramsString'));
-    }.property('paramsString')
+    params: DS.attr('string'),
   });
 
   ////
@@ -231,7 +228,7 @@
         course_id: this.controllerFor('course').get('course_id'),
         type: 'resource',
         action: 'resourceSync',
-        paramsString: JSON.stringify({
+        params: JSON.stringify({
           source_user: 'instructor',
           target_users: [ user_name ]
         })

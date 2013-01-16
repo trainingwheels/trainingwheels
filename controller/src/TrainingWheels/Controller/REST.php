@@ -194,8 +194,7 @@ class REST implements ControllerProviderInterface {
      */
     $controllers->post('/jobs', function (Request $request) use ($app) {
       $job = (object)$request->request->get('job');
-      $job->params = (array)json_decode($job->params_string);
-      unset($job->params_string);
+      $job->params = (array)json_decode($job->params);
       $job = JobFactory::singleton()->save($job);
 
       try {
