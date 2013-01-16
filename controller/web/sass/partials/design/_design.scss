@@ -245,5 +245,5 @@ dt, dd {
 }
 .syncing {
   display: inline-block;
-  @include animation(rotate 1s infinite);
+  @include animation(rotate 1s linear infinite);
 }

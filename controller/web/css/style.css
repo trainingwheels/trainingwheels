@@ -731,11 +731,11 @@ dt, dd {
 
 .syncing {
   display: inline-block;
-  -webkit-animation: rotate 1s infinite;
-  -moz-animation: rotate 1s infinite;
-  -ms-animation: rotate 1s infinite;
-  -o-animation: rotate 1s infinite;
-  animation: rotate 1s infinite;
+  -webkit-animation: rotate 1s linear infinite;
+  -moz-animation: rotate 1s linear infinite;
+  -ms-animation: rotate 1s linear infinite;
+  -o-animation: rotate 1s linear infinite;
+  animation: rotate 1s linear infinite;
 }
 
 @media print {
