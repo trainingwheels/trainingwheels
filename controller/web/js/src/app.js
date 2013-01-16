@@ -284,6 +284,7 @@
 
   App.CourseRoute = Ember.Route.extend({
     setupController: function(controller, model) {
+      this._super.apply(arguments);
       controller.set('content', App.Course.find(model.id));
       controller.set('course_id', model.id);
       controller.resetUsers();
@@ -292,6 +293,7 @@
 
   App.CourseUserRoute = Ember.Route.extend({
     setupController: function(controller, model) {
+      this._super.apply(arguments);
       var userController = this.controllerFor('user');
       userController.set('content', App.User.find(model.id));
       userController.bindResources(model.id);
