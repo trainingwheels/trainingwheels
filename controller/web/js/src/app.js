@@ -41,7 +41,10 @@
     user: DS.attr('string'),
     pass: DS.attr('string'),
     didCreate: function() {
-      alertify.success('Course "' + this.get('title') + '" saved.');
+      alertify.success('Course "' + this.get('title') + '" created.');
+    },
+    becameError: function() {
+      alertify.error('There was an error creating course "' + this.get('title') + '".');
     }
   });
 
@@ -68,7 +71,10 @@
       return 'resource-status ss-folder ' + this.get('resource_status');
     }.property('resource_status'),
     didCreate: function() {
-      alertify.success('User "' + this.get('user_name') + '" saved.');
+      alertify.success('User "' + this.get('user_name') + '" created.');
+    },
+    becameError: function() {
+      alertify.error('There was an error creating user "' + this.get('user_name') + '".');
     }
   });
 
@@ -113,7 +119,6 @@
       // There should be a better way to commit the new record.
       var model = App.CourseSummary.createRecord(newCourse);
       model.store.commit();
-      alertify.success('Adding course "' + newCourse.title + '"...');
       this.transitionToRoute('courses');
     }
   });
@@ -142,7 +147,6 @@
       var course_id = this.get('course_id');
       var model = App.UserSummary.createRecord({user_name: newUserName, course_id: 1});
       model.store.commit();
-      alertify.success('Adding user "' + newUserName + '"...');
       this.resetUsers();
       this.transitionToRoute('course');
     },
