@@ -38,14 +38,12 @@
 <ul>
 <li><a href="https://github.com/fourkitchens/trainingwheels/wiki/Quickstart">Quickstart</a></li>
 <li><a href="https://github.com/fourkitchens/trainingwheels/wiki">Main documentation</a></li>
-<li><a href="http://drupal.org/project/trainingwheels">The controller Drupal distribution</a></li>
 <li><a href="https://github.com/fourkitchens/trainingwheels/issues">Issues and bugs</a></li>
-<li><a href="http://ansible.github.com/">Ansible</a></li>
 </ul><h3>Introduction</h3>
 
 <p>Training Wheels is an open-source education platform that manages sandbox environments and training infrastructure for use in a classroom setting.</p>
 
-<p>This product is in pre-alpha state. If you're a developer interested in working with us, please get in touch. Our current roadmap includes designing and finishing the user interface and moving the controller off Drupal and making it a stand-alone Symfony PHP app.</p>
+<p>This product is in pre-alpha state. If you're a developer interested in working with us, please get in touch.</p>
 
 <h3>Is Training Wheels for me?</h3>
 
@@ -72,24 +70,11 @@
 
 <p>There are two components to Training Wheels: the controller site and the server setup playbooks.</p>
 
-<p>The controller is an application built on Drupal, in the form of a distribution. It is designed to be extremely flexible in what <em>kind</em> of training course is being run. Do you need to provide each student an installation of Wordpress? Or a custom application? Or perhaps you only need a single Drupal site and each student should have a user account on that single site. The Training Wheels controller is designed from the ground up to handle these cases, although we are mostly developing for a LAMP stack.</p>
+<p>The controller is an application built on <a href="http://emberjs.com">Ember.js</a>, <a href="http://silex.sensiolabs.org">Silex</a>, some <a href="http://symfony.com/">Symfony</a> components and <a href="http://www.mongodb.org/">MongoDB</a>. It is designed to be extremely flexible in what <em>kind</em> of training course is being run. Do you need to provide each student an installation of Wordpress? Or a custom application? Or perhaps you only need a single Drupal site and each student should have a user account on that single site. The Training Wheels controller is designed from the ground up to handle these cases, although we are mostly developing for a LAMP stack.</p>
 
 <p>You don't have to run the controller on the same server as the student environments if you don't want to - it supports administering the local server as well as a remote server over SSH.</p>
 
 <p>The second component to an installation is the server configuration playbook, which is highly specific. We currently have a playbook to configure a server for a multi-user LAMP stack with SSH &amp; FTP access for students, however we will surely accumulate many more playbooks in the future for setting up multi-user servers for other applications.</p>
-
-<h3>Who uses this?</h3>
-
-<p>We developed Training Wheels at <a href="http://fourkitchens.com">Four Kitchens</a>. It has been used to successfully deliver the following training courses:
-
-  <ul>
-    <li><a href="http://denver2012.drupal.org/content/responsive-first-design-and-build-site-all-devices">Responsive Web Design</a>: DrupalCon Denver 2012</li>
-    <li><a href="http://munich2012.drupal.org/program/training/responsive-websites-design-and-build-all-devices">Responsive Web Design</a>: DrupalCon Munich 2012</li>
-    <li><a href="http://2012.badcamp.net/program/training-php-non-programmers">PHP for non-programmers</a>: BadCamp 2012</li>
-    <li><a href="http://2012.badcamp.net/program/training-drupal-nodejs">Drupal and node.js</a>: BadCamp 2012</li>
-  </ul>
-
-</p>
 
 <h3>Technology</h3>
 
@@ -105,7 +90,7 @@
       </footer>
     </div>
 
-
+    
 
   </body>
 </html>
