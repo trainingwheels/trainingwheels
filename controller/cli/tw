@@ -1,7 +1,15 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+$autoloader_path = __DIR__.'/../vendor/autoload.php';
+
+if (!file_exists($autoloader_path)) {
+  print 'Unable to find the class autoloader, are you sure you have run "composer install"? See README.md for more information.';
+  print "\n";
+  exit;
+}
+
+require_once $autoloader_path;
 
 use TrainingWheels\Console\UserRetrieve;
 use TrainingWheels\Console\UserCreate;
