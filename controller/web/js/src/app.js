@@ -144,6 +144,7 @@
       model.store.commit();
       alertify.success('Adding user "' + newUserName + '"...');
       this.resetUsers();
+      this.transitionToRoute('course');
     },
 
     selectUser: function(user_id) {
