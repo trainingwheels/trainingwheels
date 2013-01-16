@@ -59,10 +59,10 @@
           {{/with}}
         {{/each}}
       </div>
-      <!-- Not yet implemented  -->
-      <!-- <div id="course-users-bottom-tools">
-        view Ember.TextField valueBinding="newUserName" <button class="yellow-btn ss-icon ss-symbolicons-block"action addUser target="controller">adduser</button>
-      </div> -->
+      <div id="course-users-bottom-tools">
+        {{view Ember.TextField placeholder="New user name" valueBinding="newUserName"}}
+        <button class="yellow-btn ss-icon ss-symbolicons-block"{{action addUser}}>adduser</button>
+      </div>
     </div>
   {{else}}
     <div class="tw-loading"></div>

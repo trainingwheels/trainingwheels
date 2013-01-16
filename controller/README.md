@@ -80,7 +80,7 @@ Retrieve a user:
 
 Create user:
 
-    curl http://training.wheels:8000/rest/user -d '{"courseid":"1","user_name":"instructor"}' -H 'Content-Type: application/json' -i && echo ''; echo ''
+    curl http://training.wheels:8000/rest/user_summaries -d '{"user_summary": {"course_id":"1","user_name":"instructor"}}' -H 'Content-Type: application/json' -i && echo ''; echo ''
 
 Delete user:
 

@@ -14,5 +14,5 @@
 </div>
 
 <div id="course-tools">
-  <button {{action "coursesAdd"}}>Add course</button>
+  <button {{action "coursesAddAction"}}>Add course</button>
 </div>
