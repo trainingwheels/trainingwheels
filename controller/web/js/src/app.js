@@ -211,8 +211,8 @@
       this.set('resources', resources);
     },
 
-    copyPassword: function(event) {
-      alertify.alert('<div id="selected-password">' + event.context + '</div>');
+    copyPassword: function(password) {
+      alertify.alert('<div id="selected-password">' + password + '</div>');
       setTimeout(function () { $('#selected-password').selectText(); }, 50);
     }
   });

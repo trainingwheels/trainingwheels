@@ -49,10 +49,9 @@ Some command examples:
 
 To reset the backend data, use:
 
-    cd trainingwheels/playbooks/controller
-    mongo trainingwheels sample-data-mongo.js
+    mongo trainingwheels trainingwheels/playbooks/controller/sample-data-mongo.js
 
-Working with web inspector and Ember.js
+Working with Web Inspector and Ember.js
 ---------------------------------------
 
 To view data store:
@@ -62,6 +61,8 @@ To view data store:
 To figure out what class an object is, use toString():
 
     this.toString()
+
+In general, it's useful to switch off caching in your web inspector settings in Chrome.
 
 Manual Testing REST API
 -----------------------
