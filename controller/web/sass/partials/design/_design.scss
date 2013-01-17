@@ -278,27 +278,25 @@ dt, dd {
 }
 .alertify-button:hover,
 .alertify-button:focus {
-	background-image: -webkit-linear-gradient(top, rgba(0,0,0,.1), rgba(0,0,0,0));
-	background-image:    -moz-linear-gradient(top, rgba(0,0,0,.1), rgba(0,0,0,0));
-	background-image:     -ms-linear-gradient(top, rgba(0,0,0,.1), rgba(0,0,0,0));
-	background-image:      -o-linear-gradient(top, rgba(0,0,0,.1), rgba(0,0,0,0));
-	background-image:         linear-gradient(top, rgba(0,0,0,.1), rgba(0,0,0,0));
+	background-image: none;
+	color: $darkGray;
 }
 .alertify-button:active {
 	position: relative;
 	top: 1px;
 }
-	.alertify-button-cancel {
+.alertify-button-cancel {
   @include button-make($mediumGray);
   padding: $base-line-height / 2 $base-line-height /2;
   font-size: 16px;
   width: 50px;
-	}
-	.alertify-button-ok {
+}
+.alertify-button-ok {
   @include button-make($yellow);
   padding: $base-line-height / 2 $base-line-height /2;
   font-size: 16px;
-  width: 50px;	}
+  width: 50px;
+}
 .alertify-log {
 	background: $yellow;
 	padding: 15px;

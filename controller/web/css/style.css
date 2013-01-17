@@ -172,8 +172,8 @@ button:first-child {
 }
 button:hover, button.hover, button:focus, button.focus {
   text-decoration: none;
-  background-color: #80a6fc;
-  *background-color: #b2b2b2;
+  background-color: #d8d8d8;
+  *background-color: #d8d8d8;
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
@@ -372,8 +372,8 @@ body {
 }
 .yellow-btn:hover, .yellow-btn.hover, .yellow-btn:focus, .yellow-btn.focus {
   text-decoration: none;
-  background-color: #80a6fc;
-  *background-color: #a29719;
+  background-color: #ded029;
+  *background-color: #ded029;
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
@@ -510,8 +510,8 @@ dt, dd {
 }
 #course-info .refresh-button:hover, #course-info .refresh-button.hover, #course-info .refresh-button:focus, #course-info .refresh-button.focus {
   text-decoration: none;
-  background-color: #80a6fc;
-  *background-color: #b2b2b2;
+  background-color: #d8d8d8;
+  *background-color: #d8d8d8;
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
@@ -661,8 +661,8 @@ dt, dd {
 }
 .submit:hover, .submit.hover, .submit:focus, .submit.focus {
   text-decoration: none;
-  background-color: #80a6fc;
-  *background-color: #a29719;
+  background-color: #ded029;
+  *background-color: #ded029;
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
@@ -753,8 +753,8 @@ dt, dd {
 }
 .alertify-button:hover, .alertify-button.hover, .alertify-button:focus, .alertify-button.focus {
   text-decoration: none;
-  background-color: #80a6fc;
-  *background-color: #a29719;
+  background-color: #ded029;
+  *background-color: #ded029;
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
@@ -772,11 +772,8 @@ dt, dd {
 
 .alertify-button:hover,
 .alertify-button:focus {
-  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
-  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
-  background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
-  background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
-  background-image: linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+  background-image: none;
+  color: #4a4545;
 }
 
 .alertify-button:active {
@@ -823,8 +820,8 @@ dt, dd {
 }
 .alertify-button-cancel:hover, .alertify-button-cancel.hover, .alertify-button-cancel:focus, .alertify-button-cancel.focus {
   text-decoration: none;
-  background-color: #80a6fc;
-  *background-color: #807c79;
+  background-color: #a5a3a0;
+  *background-color: #a5a3a0;
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
@@ -879,8 +876,8 @@ dt, dd {
 }
 .alertify-button-ok:hover, .alertify-button-ok.hover, .alertify-button-ok:focus, .alertify-button-ok.focus {
   text-decoration: none;
-  background-color: #80a6fc;
-  *background-color: #a29719;
+  background-color: #ded029;
+  *background-color: #ded029;
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
@@ -1088,8 +1085,8 @@ dt, dd {
   }
   button:hover, button.hover, button:focus, button.focus {
     text-decoration: none;
-    background-color: #80a6fc;
-    *background-color: #b2b2b2;
+    background-color: #d8d8d8;
+    *background-color: #d8d8d8;
     /* Buttons in IE7 don't get borders, so darken on hover */
     outline: 0;
   }
