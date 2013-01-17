@@ -19,7 +19,7 @@
   // the actual request will be GET /rest/course_summaries
   DS.RESTAdapter.configure('plurals', {
     course_summary: 'course_summaries',
-    user_summary: 'user_summaries',
+    user_summary: 'user_summaries'
   });
 
   App.Store = DS.Store.extend({
@@ -96,7 +96,14 @@
     css_class_resource_status: function() {
       return 'resource-status ss-folder ' + this.get('status');
     }.property('status'),
-  })
+  });
+
+  App.Job = DS.Model.extend({
+    course_id: DS.attr('number'),
+    type: DS.attr('string'),
+    action: DS.attr('string'),
+    params: DS.attr('string'),
+  });
 
   ////
   // Controllers & Views
@@ -235,6 +242,31 @@
       setTimeout(function () { $('#selected-password').selectText(); }, 50);
     },
 
+    syncUser: function(user_name, callback) {
+      var job = App.Job.createRecord({
+        course_id: this.controllerFor('course').get('course_id'),
+        type: 'resource',
+        action: 'resourceSync',
+        params: JSON.stringify({
+          source_user: 'instructor',
+          target_users: [ user_name ]
+        })
+      });
+      job.store.commit();
+      job.on('didCreate', function(record) {
+        // Artificially defer the delete callback so ember can
+        // finish updating the model before we remove it.
+        setTimeout(function() {
+          job.deleteRecord();
+          job.store.commit();
+        }, 1);
+        callback(null);
+      });
+      job.on('becameError', function(record) {
+        callback('Job could not be executed.');
+      });
+    },
+
     collapseUser: function() {
       var courseController = this.controllerFor('course');
       courseController.resetUsers();
@@ -243,6 +275,22 @@
   });
   App.UserView = Ember.View.extend({
     templateName: 'user',
+    syncUser: function(user_name) {
+      // I'm not super happy about this implementation, but I don't see a way
+      // to target an element within the view in a clean way without creating
+      // a sub-view.
+      var $e = $('.ss-sync', $('#' + this.elementId));
+      $e.addClass('syncing')
+      this.controller.syncUser(user_name, function userSynced(err) {
+        $e.removeClass('syncing')
+        if (!err) {
+          alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
+        }
+        else {
+          alertify.error(err);
+        }
+      });
+    }
   });
 
   App.ResourceController = Ember.ObjectController.extend();

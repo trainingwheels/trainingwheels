@@ -37,8 +37,10 @@ class DataStore {
   /**
    * Insert a document.
    */
-  public function insert($collection, $object) {
-    $object['id'] = $this->getNextSequence($collection . '_id');
+  public function insert($collection, $object, $auto_increment = TRUE) {
+    if ($auto_increment) {
+      $object['id'] = $this->getNextSequence($collection . '_id');
+    }
     $this->db->$collection->insert($object);
     return $object;
   }
@@ -46,8 +48,8 @@ class DataStore {
   /**
    * Get a document.
    */
-  public function find($collection, $id) {
-    return $this->db->$collection->findOne(array('id' => (int)$id));
+  public function find($collection, $query) {
+    return $this->db->$collection->findOne($query);
   }
 
   /**
@@ -61,6 +63,15 @@ class DataStore {
       $output[] = (object)$value;
     }
     return $output;
+  }
+
+  /**
+   * Delete a document.
+   *
+   * @see http://php.net/manual/en/mongocollection.remove.php
+   */
+  public function remove($collection, array $criteria, array $options = array()) {
+    return $this->db->$collection->remove($criteria, $options);
   }
 }
 

@@ -1,28 +1,28 @@
 <?php
 
 namespace TrainingWheels\Course;
+use TrainingWheels\Common\Factory;
+use TrainingWheels\Conn\LocalServerConn;
+use TrainingWheels\Conn\SSHServerConn;
 use TrainingWheels\Course\DevCourse;
 use TrainingWheels\Course\DrupalCourse;
 use TrainingWheels\Course\NodejsCourse;
-use TrainingWheels\Conn\LocalServerConn;
-use TrainingWheels\Conn\SSHServerConn;
 use TrainingWheels\Environment\DevEnv;
 use TrainingWheels\Environment\CentosEnv;
 use TrainingWheels\Environment\UbuntuEnv;
 use TrainingWheels\Store\DataStore;
 use Exception;
 
-class CourseFactory {
+class CourseFactory extends Factory {
   // Singleton instance.
   protected static $instance;
-  protected static $data;
 
   /**
    * Return the singleton.
    */
   public static function singleton() {
     if (!isset(self::$instance)) {
-      $className = __CLASS__;
+      $className = get_called_class();
       self::$instance = new $className;
       self::$instance->data = new DataStore();
     }
@@ -33,7 +33,7 @@ class CourseFactory {
    * Create Course object given a course id.
    */
   public function get($course_id) {
-    $params = $this->data->find('course', $course_id);
+    $params = $this->data->find('course', array('id' => (int)$course_id));
 
     if ($params) {
       $course = $this->buildCourse($params['course_type']);
@@ -67,6 +67,53 @@ class CourseFactory {
   }
 
   /**
+   * Environment buider.
+   */
+  protected function buildEnv(&$object, $type, $host, $user, $pass) {
+    switch ($type) {
+      case 'ubuntu':
+        if ($host == 'localhost') {
+          $conn = new LocalServerConn(TRUE);
+        }
+        else {
+          $conn = new SSHServerConn($host, 22, $user, $pass, TRUE);
+          if (!$conn->connect()) {
+            throw new Exception("Unable to connect/login to server $host on port 22");
+          }
+        }
+        $object->env = new UbuntuEnv($conn);
+        $object->env_type = 'ubuntu';
+      break;
+
+      case 'ubuntu-local':
+        $conn = new LocalServerConn(TRUE);
+        $object->env = new UbuntuEnv($conn);
+        $object->env_type = 'ubuntu';
+      break;
+
+      case 'centos':
+        $conn = new SSHServerConn($host, 22, $user, $pass, TRUE);
+        if (!$conn->connect()) {
+          throw new Exception("Unable to connect/login to server $host on port 22");
+        }
+        $object->env = new CentosEnv($conn);
+        $object->env_type = 'centos';
+      break;
+
+      case 'dev':
+        $conn = new LocalServerConn(TRUE);
+        $base_path = '/root/tw';
+        $object->env = new DevEnv($conn, $base_path);
+        $object->env_type = 'dev';
+      break;
+
+      default:
+        throw new Exception("Environment type $type not found.");
+      break;
+    }
+  }
+
+  /**
    * Course builder.
    */
   protected function buildCourse($type) {
@@ -97,52 +144,5 @@ class CourseFactory {
       break;
     }
     return $course;
-  }
-
-  /**
-   * Environment buider.
-   */
-  protected function buildEnv(&$course, $type, $host, $user, $pass) {
-    switch ($type) {
-      case 'ubuntu':
-        if ($host == 'localhost') {
-          $conn = new LocalServerConn(TRUE);
-        }
-        else {
-          $conn = new SSHServerConn($host, 22, $user, $pass, TRUE);
-          if (!$conn->connect()) {
-            throw new Exception("Unable to connect/login to server $host on port 22");
-          }
-        }
-        $course->env = new UbuntuEnv($conn);
-        $course->env_type = 'ubuntu';
-      break;
-
-      case 'ubuntu-local':
-        $conn = new LocalServerConn(TRUE);
-        $course->env = new UbuntuEnv($conn);
-        $course->env_type = 'ubuntu';
-      break;
-
-      case 'centos':
-        $conn = new SSHServerConn($host, 22, $user, $pass, TRUE);
-        if (!$conn->connect()) {
-          throw new Exception("Unable to connect/login to server $host on port 22");
-        }
-        $course->env = new CentosEnv($conn);
-        $course->env_type = 'centos';
-      break;
-
-      case 'dev':
-        $conn = new LocalServerConn(TRUE);
-        $base_path = '/root/tw';
-        $course->env = new DevEnv($conn, $base_path);
-        $course->env_type = 'dev';
-      break;
-
-      default:
-        throw new Exception("Environment type $type not found.");
-      break;
-    }
   }
 }

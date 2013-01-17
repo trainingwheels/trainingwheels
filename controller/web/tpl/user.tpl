@@ -11,9 +11,9 @@
   </div>
   <div class="user-tools">
     <a href="#" {{action "copyPassword" user.password}}>copy password</a>
+    <button {{action "syncUser" user.user_name target="view"}}><span class="ss-sync"></span></button>
     <!-- Not yet implemented  -->
-    <!-- <button class="ss-sync"{{action syncUser target="controller"}}></button>
-    <button class="ss-trash"{{action deleteUser target="controller"}}></button> -->
+    <!-- <button class="ss-trash"{{action deleteUser target="controller"}}></button> -->
   </div>
   <div class="user-resources">
     {{#each resource in controller.resources}}

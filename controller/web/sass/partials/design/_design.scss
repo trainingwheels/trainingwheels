@@ -8,6 +8,8 @@
 // All styling, non box model properties go here
 ////////////////////////
 
+@import 'animation';
+
 body {
   background-color: #eeeeee;
 }
@@ -236,7 +238,6 @@ dt, dd {
       width: 150px;
       display: block;
     }
-    
 .cancel {
       //@include button-make($lightGray);
       padding: $base-line-height / 2 $base-line-height /2;
@@ -246,7 +247,7 @@ dt, dd {
       display: block;
 }
 
-//alertify
+// Alertify
 
 /**
  * Default Look and Feel
@@ -304,10 +305,26 @@ dt, dd {
 	color: $darkGray;
 	text-shadow: -1px -1px 0 rgba(0,0,0,0);
 }
-	.alertify-log-error {
-		background: $darkGray;
-		color: $white;
-	}
-	.alertify-log-success {
-		background: $yellow;
-	}
+.alertify-log-error {
+	background: $darkGray;
+	color: $white;
+}
+.alertify-log-success {
+	background: $yellow;
+}
+
+///////////////////
+// Syncing buttons.
+///////////////////
+@include keyframes(rotate) {
+  from {
+    @include rotate(0deg);
+  }
+  to {
+    @include rotate(360deg);
+  }
+}
+.syncing {
+  display: inline-block;
+  @include animation(rotate 1s linear infinite);
+}

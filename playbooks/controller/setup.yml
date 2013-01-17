@@ -63,6 +63,21 @@
         - python-mysqldb
 
     ##
+    # Install compass and animation gems for theming
+    #
+    - name: CSS | Install rubygems package
+      action: apt pkg=rubygems state=installed
+      tags: dev
+
+    - name: CSS | Install Aurora
+      action: command gem install compass-aurora
+      tags: dev
+
+    - name: CSS | Install Animation
+      action: command gem install animation --pre
+      tags: dev
+
+    ##
     # Configuration for php-fpm
     #
     - name: Configure php-fpm
