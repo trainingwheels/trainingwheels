@@ -210,10 +210,7 @@ button:active, button.active {
 }
 
 .logo {
-  width: 50px;
-  height: 40px;
-  margin-left: 16px;
-  padding-left: 60px;
+  padding-left: 1em;
 }
 
 #footer {
@@ -319,7 +316,7 @@ button:active, button.active {
 
 #course-form {
   margin: 0 auto;
-  max-width: 500px;
+  max-width: 550px;
   padding: 22px;
 }
 #course-form #course-form-title {
@@ -329,10 +326,12 @@ button:active, button.active {
 #course-form #course-fields .field {
   margin-bottom: 11px;
 }
+#course-form #course-tools button {
+  margin-bottom: 11px;
+}
 
 body {
   background-color: #eeeeee;
-  background: url(../images/light-noise.png) repeat;
 }
 
 .yellow-btn {
@@ -431,15 +430,13 @@ dt, dd {
 }
 
 .logo {
-  background: url(../images/tw-logo-header.svg) no-repeat;
   font-size: 32px;
   color: white;
   text-decoration: none;
   font-family: "BebasNeueRegular", helvetica, arial, sans-serif;
 }
-
 .logo:hover {
-  color: #938732;
+  color: #e5da55;
 }
 
 #footer {
@@ -586,6 +583,15 @@ dt, dd {
   font-size: 18px;
   font-family: "Open Sans", sans-serif;
 }
+#course-form #course-fields .field span {
+  vertical-align: top;
+  display: inline-block;
+  padding-top: 10px;
+}
+#course-form hr {
+  border-top: 1px solid #bebcba;
+  margin: 2em inherit;
+}
 
 .ember-text-field, .ember-text-area {
   -webkit-border-radius: 4px;
@@ -670,6 +676,241 @@ dt, dd {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   border: 1px solid #cec120;
   border-bottom: 1px solid #a29719;
+}
+
+.cancel {
+  padding: 11px 11px;
+  font-size: 16px;
+  margin: 0 auto 0 0;
+  display: block;
+}
+
+/**
+ * Default Look and Feel
+ */
+.alertify,
+.alertify-log {
+  font-family: "Open Sans", sans-serif;
+}
+
+.alertify {
+  background: white;
+  border: none;
+  /* browsers that don't support rgba */
+  border-radius: 7px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  -webkit-background-clip: padding;
+  /* Safari 4? Chrome 6? */
+  -moz-background-clip: padding;
+  /* Firefox 3.6 */
+  background-clip: padding-box;
+  /* Firefox 4, Safari 5, Opera 10, IE 9 */
+}
+
+.alertify-text {
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.alertify-button {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px 6px 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #b8ac1c;
+  background-color: #e5da55;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#ded029));
+  background: -moz-linear-gradient(top, #efe24b, #ded029);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
+  -webkit-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  -moz-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  box-shadow: inset 0 1px 0 0 #f6f2c4;
+  padding: 11px 11px;
+  font-size: 16px;
+  width: 50px;
+  text-shadow: none;
+}
+.alertify-button:first-child {
+  *margin-left: 0;
+}
+.alertify-button:hover, .alertify-button.hover, .alertify-button:focus, .alertify-button.focus {
+  text-decoration: none;
+  background-color: #80a6fc;
+  *background-color: #a29719;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  outline: 0;
+}
+.alertify-button:active, .alertify-button.active {
+  background-color: #ded029;
+  *background-color: #cec120;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cec120;
+  border-bottom: 1px solid #a29719;
+}
+
+.alertify-button:hover,
+.alertify-button:focus {
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+  background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+  background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+}
+
+.alertify-button:active {
+  position: relative;
+  top: 1px;
+}
+
+.alertify-button-cancel {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px 6px 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #8d8985;
+  background-color: #bebcba;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#c5bcb3), to(#a5a3a0));
+  background: -moz-linear-gradient(top, #c5bcb3, #a5a3a0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c5bcb3', endColorstr='#a5a3a0');
+  -webkit-box-shadow: inset 0 1px 0 0 #fcfcfc;
+  -moz-box-shadow: inset 0 1px 0 0 #fcfcfc;
+  box-shadow: inset 0 1px 0 0 #fcfcfc;
+  padding: 11px 11px;
+  font-size: 16px;
+  width: 50px;
+}
+.alertify-button-cancel:first-child {
+  *margin-left: 0;
+}
+.alertify-button-cancel:hover, .alertify-button-cancel.hover, .alertify-button-cancel:focus, .alertify-button-cancel.focus {
+  text-decoration: none;
+  background-color: #80a6fc;
+  *background-color: #807c79;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  outline: 0;
+}
+.alertify-button-cancel:active, .alertify-button-cancel.active {
+  background-color: #a5a3a0;
+  *background-color: #999693;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #999693;
+  border-bottom: 1px solid #807c79;
+}
+
+.alertify-button-ok {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px 6px 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #b8ac1c;
+  background-color: #e5da55;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#ded029));
+  background: -moz-linear-gradient(top, #efe24b, #ded029);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
+  -webkit-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  -moz-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  box-shadow: inset 0 1px 0 0 #f6f2c4;
+  padding: 11px 11px;
+  font-size: 16px;
+  width: 50px;
+}
+.alertify-button-ok:first-child {
+  *margin-left: 0;
+}
+.alertify-button-ok:hover, .alertify-button-ok.hover, .alertify-button-ok:focus, .alertify-button-ok.focus {
+  text-decoration: none;
+  background-color: #80a6fc;
+  *background-color: #a29719;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  outline: 0;
+}
+.alertify-button-ok:active, .alertify-button-ok.active {
+  background-color: #ded029;
+  *background-color: #cec120;
+  /* Buttons in IE7 don't get borders, so darken on hover */
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cec120;
+  border-bottom: 1px solid #a29719;
+}
+
+.alertify-log {
+  background: #e5da55;
+  padding: 15px;
+  border-radius: 7px;
+  color: #4a4545;
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0);
+}
+
+.alertify-log-error {
+  background: #4a4545;
+  color: white;
+}
+
+.alertify-log-success {
+  background: #e5da55;
 }
 
 @media print {
