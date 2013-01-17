@@ -1,20 +1,12 @@
-require 'vagrant-ansible'
-
 Vagrant::Config.run do |config|
-  config.vm.box     = "tw-base-box"
+  config.vm.box     = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
   config.vm.customize ["modifyvm", :id, "--memory", "512"]
-
-  # You can adjust this to the amount of CPUs your system has available
   config.vm.customize ["modifyvm", :id, "--cpus", "1"]
 
-  config.vm.provision :ansible do |ansible|
-    # point Vagrant at the location of your playbook you want to run
-    ansible.playbook = "nginx-ubuntu.yml"
-
-    # the Vagrant VM will be put in this host group change this should
-    # match the host group in your playbook you want to test
-    ansible.hosts = "web-servers"
+  Vagrant::Config.run do |config|
+    config.vm.provision :shell, :path => "tw-setup.sh"
   end
+
 end
