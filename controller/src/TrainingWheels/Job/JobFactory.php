@@ -27,7 +27,7 @@ class JobFactory extends Factory {
    * Create a Job object given a job id.
    */
   public function get($job_id) {
-    $params = $this->data->find('_id', $job_id);
+    $params = $this->data->find('job', array('_id' => new MongoId($job_id)));
 
     if ($params) {
       $job = new \stdClass;

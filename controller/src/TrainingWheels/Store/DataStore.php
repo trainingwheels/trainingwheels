@@ -48,8 +48,8 @@ class DataStore {
   /**
    * Get a document.
    */
-  public function find($collection, $id) {
-    return $this->db->$collection->findOne(array('id' => (int)$id));
+  public function find($collection, $query) {
+    return $this->db->$collection->findOne($query);
   }
 
   /**

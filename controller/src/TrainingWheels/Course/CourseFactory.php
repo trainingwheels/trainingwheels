@@ -28,7 +28,7 @@ class CourseFactory extends Factory {
    * Create Course object given a course id.
    */
   public function get($course_id) {
-    $params = $this->data->find('course', $course_id);
+    $params = $this->data->find('course', array('id' => (int)$course_id));
 
     if ($params) {
       $course = $this->buildCourse($params['course_type']);
