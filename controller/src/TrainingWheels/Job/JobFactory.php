@@ -4,6 +4,7 @@ namespace TrainingWheels\Job;
 use TrainingWheels\Common\Factory;
 use TrainingWheels\Job\ResourceJob;
 use TrainingWheels\Store\DataStore;
+use MongoId;
 use Exception;
 
 class JobFactory extends Factory {
@@ -30,7 +31,7 @@ class JobFactory extends Factory {
 
     if ($params) {
       $job = new \stdClass;
-      $job->_id = $params['_id'];
+      $job->job_id = $params['job_id'];
       $job->course_id = $params['course_id'];
       $job->type = $params['type'];
       $job->action = $params['action'];
@@ -47,7 +48,17 @@ class JobFactory extends Factory {
    * Save a job.
    */
   public function save($job) {
-    return $this->buildJob($this->data->insert('job', $job, FALSE));
+    $job = $this->data->insert('job', $job, FALSE);
+    $job->job_id = $job->_id->__toString();
+    unset($job->_id);
+    return $this->buildJob($job);
+  }
+
+  /**
+   * Delete a job.
+   */
+  public function remove($job_id) {
+    $this->data->remove('job', array('_id' => new MongoId($job_id)));
   }
 
   /**
@@ -56,7 +67,7 @@ class JobFactory extends Factory {
   protected function buildJob($job) {
     switch ($job->type) {
       case 'resource':
-        $job = new ResourceJob($job->course_id, $job->action, $job->params);
+        $job = new ResourceJob($job->job_id, $job->course_id, $job->action, $job->params);
       break;
 
       default:

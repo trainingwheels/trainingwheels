@@ -64,6 +64,15 @@ class DataStore {
     }
     return $output;
   }
+
+  /**
+   * Delete a document.
+   *
+   * @see http://php.net/manual/en/mongocollection.remove.php
+   */
+  public function remove($collection, array $criteria, array $options = array()) {
+    return $this->db->$collection->remove($criteria, $options);
+  }
 }
 
 

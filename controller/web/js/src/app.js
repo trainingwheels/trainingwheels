@@ -251,7 +251,12 @@
       });
       job.store.commit();
       job.on('didCreate', function(record) {
-        job.deleteRecord();
+        // Artificially defer the delete callback so ember can
+        // finish updating the model before we remove it.
+        setTimeout(function() {
+          job.deleteRecord();
+          job.store.commit();
+        }, 1);
         callback(null);
       });
       job.on('becameError', function(record) {

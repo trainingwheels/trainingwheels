@@ -5,6 +5,9 @@ use TrainingWheels\Log\Log;
 use Exception;
 
 abstract class Job {
+  // The internal job id.
+  protected $id;
+
   // The course id.
   protected $course_id;
 
@@ -17,7 +20,8 @@ abstract class Job {
   /**
    * Constructor.
    */
-  function __construct($course_id, $action, $params) {
+  function __construct($id, $course_id, $action, $params) {
+    $this->id = $id;
     $this->course_id = $course_id;
     $this->action = $action;
     $this->params = $params;
@@ -33,5 +37,29 @@ abstract class Job {
     else {
       throw new Exception("Unknown job: $this->action.");
     }
+  }
+
+  /**
+   * Helper function to serialize the job data for return
+   * to the client.
+   */
+  public function serialize() {
+    $ret = new \stdClass;
+    $ret->id = $this->id;
+    $ret->course_id = $this->course_id;
+    $ret->action = $this->action;
+    $ret->params = json_encode($this->params);
+
+    return $ret;
+  }
+
+  /**
+   * Simple getter function.
+   */
+  public function get($property) {
+    if (isset($this->{$property})) {
+      return $this->{$property};
+    }
+    throw new Exception("Unknown property: $property");
   }
 }
