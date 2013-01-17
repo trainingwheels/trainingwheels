@@ -212,7 +212,7 @@ class REST implements ControllerProviderInterface {
     });
 
     /**
-     * Delete a user.
+     * Delete a job.
      */
     $controllers->delete('/jobs/{id}', function ($id) use ($app) {
       if (!$id) {
