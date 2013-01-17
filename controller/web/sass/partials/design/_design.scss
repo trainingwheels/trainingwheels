@@ -8,6 +8,8 @@
 // All styling, non box model properties go here
 ////////////////////////
 
+@import 'animation';
+
 body {
   background-color: #eeeeee;
   background: url(../images/light-noise.png) repeat;
@@ -229,3 +231,19 @@ dt, dd {
       width: 150px;
       display: block;
     }
+
+///////////////////
+// Syncing buttons.
+///////////////////
+@include keyframes(rotate) {
+  from {
+    @include rotate(0deg);
+  }
+  to {
+    @include rotate(360deg);
+  }
+}
+.syncing {
+  display: inline-block;
+  @include animation(rotate 1s linear infinite);
+}

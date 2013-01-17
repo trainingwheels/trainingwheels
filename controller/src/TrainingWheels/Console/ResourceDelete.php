@@ -1,7 +1,7 @@
 <?php
 
 namespace TrainingWheels\Console;
-use TrainingWheels\Course\CourseFactory;
+use TrainingWheels\Job\JobFactory;
 use TrainingWheels\Log\Log;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,13 +21,21 @@ class ResourceDelete extends Command
 
   protected function execute(InputInterface $input, OutputInterface $output) {
     Log::log('CLI command: ResourceDelete', L_INFO);
-    $course = CourseFactory::singleton()->get($input->getArgument('course_id'));
-    $user_names = $input->getArgument('user_names');
-
     $resources = $input->getArgument('resources');
-    $resources = ($resources == 'all' || empty($resources)) ? '*' : explode(',', $resources);
+    $resources = ($resources == 'all' || empty($resources)) ? array() : explode(',', $resources);
 
-    $course->usersResourcesDelete(explode(',', $user_names), $resources);
+    $job = new \stdClass;
+    $job->type = 'resource';
+    $job->course_id = $input->getArgument('course_id');
+    $job->action = 'resourceDelete';
+    $job->params = array(
+      'user_names' => explode(',', $input->getArgument('user_names')),
+      'resources' => $resources,
+    );
+    $job = JobFactory::singleton()->save($job);
+    $job->execute();
+    JobFactory::singleton()->remove($job->get('id'));
+
     $output->writeln('Resource(s) deleted.');
   }
 }

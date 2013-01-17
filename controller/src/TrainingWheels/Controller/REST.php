@@ -3,6 +3,7 @@
 namespace TrainingWheels\Controller;
 use TrainingWheels\Course\CourseFactory;
 use TrainingWheels\Log\Log;
+use TrainingWheels\Job\JobFactory;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
@@ -10,9 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 define('HTTP_OK', 200);
 define('HTTP_CREATED', 201);
+define('HTTP_NO_CONTENT', 204);
 define('HTTP_BAD_REQUEST', 400);
 define('HTTP_NOT_FOUND', 404);
 define('HTTP_CONFLICT', 409);
+define('HTTP_SERVER_ERROR', 500);
 
 class REST implements ControllerProviderInterface {
 
@@ -190,6 +193,40 @@ class REST implements ControllerProviderInterface {
       return $app->json($return, HTTP_OK);
     })
     ->assert('id', '\d+');
+
+    /**
+     * Create a job.
+     */
+    $controllers->post('/jobs', function (Request $request) use ($app) {
+      $job = (object)$request->request->get('job');
+      $job->params = (array)json_decode($job->params);
+      $job = JobFactory::singleton()->save($job);
+
+      try {
+        $job->execute();
+      }
+      catch (Exception $e) {
+        return $app->json(array('messages' => 'Job could not be executed.'), HTTP_INTERNAL_SERVER_ERROR);
+      }
+      return $app->json(array('job' => $job->serialize()), HTTP_OK);
+    });
+
+    /**
+     * Delete a job.
+     */
+    $controllers->delete('/jobs/{id}', function ($id) use ($app) {
+      if (!$id) {
+        return $app->json(array('messages' => 'Invalid job ID requested.'), HTTP_BAD_REQUEST);
+      }
+
+      try {
+        JobFactory::singleton()->remove($id);
+      }
+      catch (Exception $e) {
+        return $app->json(array('messages' => 'Could not delete job ' . $id . '.'), HTTP_SERVER_ERROR);
+      }
+      return $app->json('', HTTP_NO_CONTENT);
+    });
 
     return $controllers;
   }
