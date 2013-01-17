@@ -22,7 +22,7 @@ class DrupalCourse extends TrainingCourse {
     $user_obj = new LAMPUser($this->env, $user_name, $user_id);
     $user_obj->resources = array(
       'drupal_files' => new GitFilesResource($this->env, $files_res_id, 'Code', $user_name, $this->course_name, $this->course_name, $this->repo),
-      'drupal_db' => new MySQLDatabaseResource($this->env, $db_res_id, 'Database', $user_name, $this->course_name, "/home/$user_name/$this->course_name/database.sql.gz"),
+      'drupal_db' => new MySQLDatabaseResource($this->env, $db_res_id, 'Database', $user_name, $this->course_name, "/twhome/$user_name/$this->course_name/database.sql.gz"),
     );
 
     return $user_obj;
@@ -56,7 +56,7 @@ class DrupalCourse extends TrainingCourse {
         // suffice for both.
         $source_db = $source_user_obj->resourceGet('drupal_db');
         $target_db = $target_user_obj->resourceGet('drupal_db');
-        $settings_file = "/home/$user_name/$this->course_name/sites/default/settings.php";
+        $settings_file = "/twhome/$user_name/$this->course_name/sites/default/settings.php";
         $this->env->fileStrReplace($source_db->getDBName(), $target_db->getDBName(), $settings_file);
         $this->env->fileStrReplace($source_db->getPasswd(), $target_db->getPasswd(), $settings_file);
       }
@@ -75,11 +75,11 @@ class DrupalCourse extends TrainingCourse {
       $db = $user_obj->resourceGet('drupal_db');
 
       // Grant the group all access to files, which allows Apache to write.
-      $files_dir = "/home/$user_name/$this->course_name/sites/default/files";
+      $files_dir = "/twhome/$user_name/$this->course_name/sites/default/files";
       $this->env->dirChmod('g+rwx', $files_dir);
 
       if ($db && $db->getExists()) {
-        $this->drupalDBSettingsAdd($db->db_name, $db->mysql_username, $db->getPasswd(), "/home/$user_name/$this->course_name/sites/default/settings.php");
+        $this->drupalDBSettingsAdd($db->db_name, $db->mysql_username, $db->getPasswd(), "/twhome/$user_name/$this->course_name/sites/default/settings.php");
       }
     }
   }

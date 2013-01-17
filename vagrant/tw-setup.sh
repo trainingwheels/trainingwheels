@@ -16,7 +16,7 @@ sudo mv /tmp/ansible-hosts /etc/ansible/hosts
 
 echo ''
 echo 'Grabbing the Training Wheels source from Github...'
-ansible all -c local -s -m git -a"repo=https://github.com/fourkitchens/trainingwheels.git dest=/tmp/trainingwheels version=$TW_DIR"
+ansible all -c local -s -m git -a"repo=https://github.com/fourkitchens/trainingwheels.git dest=$TW_DIR version=vagrant"
 
 echo ''
 echo 'Copying the settings files for the controller and classroom playbooks...'

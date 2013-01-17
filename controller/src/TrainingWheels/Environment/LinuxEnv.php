@@ -56,8 +56,8 @@ class LinuxEnv implements TrainingEnv {
   public function fileSyncUserFolder($source_user, $target_user, $folder) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
 
-    $source_path = "/home/$source_user/$folder";
-    $target_path = "/home/$target_user/$folder";
+    $source_path = "/twhome/$source_user/$folder";
+    $target_path = "/twhome/$target_user/$folder";
 
     if ($source_path == $target_path) {
       throw new Exception("Source and target cannot be equal: $source_path");
@@ -91,8 +91,8 @@ class LinuxEnv implements TrainingEnv {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $file = basename($file_path);
     $commands = array(
-      "echo $text > ~/tmp/$file",
-      "cp ~/tmp/$file $file_path",
+      "echo $text > /root/tmp/$file",
+      "cp /root/tmp/$file $file_path",
     );
     if ($user) {
       $commands[] = "chown $user: $file_path";
@@ -129,7 +129,7 @@ class LinuxEnv implements TrainingEnv {
    * Get all Linux users, just the ones with home directories.
    */
   public function usersGetAll() {
-    $output = $this->conn->exec_get('ls /home');
+    $output = $this->conn->exec_get('ls /twhome');
     if (!empty($output)) {
       return explode("\n", $output);
     }
@@ -170,8 +170,8 @@ class LinuxEnv implements TrainingEnv {
    */
   public function dirDelete($dir_path) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
-    if (substr($dir_path, 0, 6) !== '/home/') {
-      throw new Exception("Cannot delete a folder outside of /home");
+    if (substr($dir_path, 0, 6) !== '/twhome/') {
+      throw new Exception("Cannot delete a folder outside of /twhome");
     }
     $commands = array(
       "rm -rf $dir_path",
@@ -204,12 +204,12 @@ class LinuxEnv implements TrainingEnv {
       "rsync -ah --delete /var/trainingwheels/skel/skel_user/ /tmp/skel_user/",
       // "sudo echo 'hello' > /tmp/filename" doesn't work if the file is owned by root, need to
       // do a 2 step process.
-      "echo $pass > ~/tmp/.password",
-      "cp ~/tmp/.password /tmp/skel_user/.password",
-      "useradd -m -p`openssl passwd -1 $pass` -d/home/$user -k/tmp/skel_user -s/bin/bash -g$user $user",
-      "chmod o-rwx /home/$user",
-      "chown root: /home/$user/.password",
-      "chmod 400 /home/$user/.password",
+      "echo $pass > /root/tmp/.password",
+      "cp /root/tmp/.password /tmp/skel_user/.password",
+      "useradd -m -p`openssl passwd -1 $pass` -d/twhome/$user -k/tmp/skel_user -s/bin/bash -g$user $user",
+      "chmod o-rwx /twhome/$user",
+      "chown root: /twhome/$user/.password",
+      "chmod 400 /twhome/$user/.password",
       "rm -rf /tmp/skel_user",
     );
     $this->conn->exec_success($commands);
@@ -223,7 +223,7 @@ class LinuxEnv implements TrainingEnv {
     $commands = array(
       "userdel $user",
       "groupdel $user",
-      "rm -rf /home/$user",
+      "rm -rf /twhome/$user",
     );
     $this->conn->exec_success($commands);
   }
@@ -261,7 +261,7 @@ class LinuxEnv implements TrainingEnv {
    */
   public function userPasswdGet($user) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
-    return $this->fileGetContents("/home/$user/.password");
+    return $this->fileGetContents("/twhome/$user/.password");
   }
 
   /**
