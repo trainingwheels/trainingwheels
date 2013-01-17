@@ -127,6 +127,9 @@
       var model = App.CourseSummary.createRecord(newCourse);
       model.store.commit();
       this.transitionToRoute('courses');
+    },
+    cancelCourseAdd: function() {
+      this.transitionToRoute('courses');
     }
   });
   App.CoursesAddView = Ember.View.extend({
@@ -272,14 +275,18 @@
   });
   App.UserView = Ember.View.extend({
     templateName: 'user',
+    syncing: false,
+
+    css_class_sync_button: function() {
+      return 'ss-sync' + (this.get('syncing') ? ' syncing' : '');
+    }.property('syncing'),
+
     syncUser: function(user_name) {
-      // I'm not super happy about this implementation, but I don't see a way
-      // to target an element within the view in a clean way without creating
-      // a sub-view.
-      var $e = $('.ss-sync', $('#' + this.elementId));
-      $e.addClass('syncing')
+      this.set('syncing', true);
+      var self = this;
+
       this.controller.syncUser(user_name, function userSynced(err) {
-        $e.removeClass('syncing')
+        self.set('syncing', false);
         if (!err) {
           alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
         }
