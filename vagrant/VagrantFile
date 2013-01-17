@@ -1,12 +1,14 @@
+#!/usr/bin/env ruby
+
 Vagrant::Config.run do |config|
-  config.vm.box     = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.define :tw do |tw_config|
+    tw_config.vm.box         = "precise64"
+    tw_config.vm.box_url     = "http://files.vagrantup.com/precise64.box"
+    tw_config.vm.host_name   = "training.wheels"
 
-  config.vm.customize ["modifyvm", :id, "--memory", "512"]
-  config.vm.customize ["modifyvm", :id, "--cpus", "1"]
+    tw_config.vm.customize ["modifyvm", :id, "--memory", "512"]
+    tw_config.vm.customize ["modifyvm", :id, "--cpus", "1"]
 
-  Vagrant::Config.run do |config|
-    config.vm.provision :shell, :path => "tw-setup.sh"
+    tw_config.vm.provision :shell, :path => "tw-setup.sh"
   end
-
 end
