@@ -10,7 +10,6 @@
 
 body {
   background-color: #eeeeee;
-  background: url(../images/light-noise.png) repeat;
 }
 
 .yellow-btn {
@@ -58,7 +57,6 @@ dt, dd {
 }
 
 .logo {
-  background: url(../images/tw-logo-header.svg) no-repeat;
   font-size: $base-font-size * 2;
   color: $white;
   text-decoration: none;
@@ -190,13 +188,22 @@ dt, dd {
       text-align: right;
       font-size: $h4-font-size;
       font-family: $opensans;
+      span {
+        vertical-align: top;
+        display: inline-block;
+        padding-top: 10px;
+      }
     }
+  }
+  hr {
+  border-top: 1px solid $mediumGray;
+  margin: 2em inherit;
   }
 }
 
 //Default Input Fields
 
-.ember-text-field {
+.ember-text-field, .ember-text-area {
   @include border-radius(4px);
   font-size: $h4-font-size;
   font-family: $opensans;
@@ -219,7 +226,7 @@ dt, dd {
     }
 }
 
-//Default Submit Buttons
+//Default Submit / Cancel Buttons
 
 .submit {
       @include button-make($yellow);
@@ -229,3 +236,78 @@ dt, dd {
       width: 150px;
       display: block;
     }
+    
+.cancel {
+      //@include button-make($lightGray);
+      padding: $base-line-height / 2 $base-line-height /2;
+      font-size: 16px;
+      margin: 0 auto 0 0;
+      //width: 150px;
+      display: block;
+}
+
+//alertify
+
+/**
+ * Default Look and Feel
+ */
+.alertify,
+.alertify-log {
+  font-family: $opensans;
+}
+.alertify {
+	background: $white;
+	border: none; /* browsers that don't support rgba */
+	border-radius: 7px;
+	box-shadow: 0 3px 3px rgba(0,0,0,.3);
+	-webkit-background-clip: padding;     /* Safari 4? Chrome 6? */
+	   -moz-background-clip: padding;     /* Firefox 3.6 */
+	        background-clip: padding-box; /* Firefox 4, Safari 5, Opera 10, IE 9 */
+}
+.alertify-text {
+	border: none;
+	padding: 10px;
+	border-radius: 4px;
+}
+.alertify-button {
+  @include button-make($yellow);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 16px;
+  width: 50px;
+  text-shadow: none;
+}
+.alertify-button:hover,
+.alertify-button:focus {
+	background-image: none;
+	color: $darkGray;
+}
+.alertify-button:active {
+	position: relative;
+	top: 1px;
+}
+.alertify-button-cancel {
+  @include button-make($mediumGray);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 16px;
+  width: 50px;
+}
+.alertify-button-ok {
+  @include button-make($yellow);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 16px;
+  width: 50px;
+}
+.alertify-log {
+	background: $yellow;
+	padding: 15px;
+	border-radius: 7px;
+	color: $darkGray;
+	text-shadow: -1px -1px 0 rgba(0,0,0,0);
+}
+	.alertify-log-error {
+		background: $darkGray;
+		color: $white;
+	}
+	.alertify-log-success {
+		background: $yellow;
+	}
