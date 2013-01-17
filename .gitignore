@@ -3,4 +3,4 @@ controller/vendor
 controller/web/development.log
 controller/web/.sass-cache
 controller/log/*.log
-playbooks/ec2-build/ec2-hostname
+ec2-build/ec2-hostname

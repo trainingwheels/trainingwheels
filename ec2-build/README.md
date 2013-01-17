@@ -70,5 +70,5 @@ Jenkins
 1. Under 'Source Code Management', enter the Training Wheels git repository details.
 2. Under 'Build', execute Shell with the following:
 
-    cd playbooks/ec2-build
+    cd ec2-build
     ./rebuild-server
