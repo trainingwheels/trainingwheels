@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 define('HTTP_OK', 200);
 define('HTTP_CREATED', 201);
+define('HTTP_NO_CONTENT', 204);
 define('HTTP_BAD_REQUEST', 400);
 define('HTTP_NOT_FOUND', 404);
 define('HTTP_CONFLICT', 409);
@@ -224,7 +225,7 @@ class REST implements ControllerProviderInterface {
       catch (Exception $e) {
         return $app->json(array('messages' => 'Could not delete job ' . $id . '.'), HTTP_SERVER_ERROR);
       }
-      return $app->json(array('messages' => 'success'), HTTP_OK);
+      return $app->json('', HTTP_NO_CONTENT);
     });
 
     return $controllers;
