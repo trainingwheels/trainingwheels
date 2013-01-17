@@ -120,6 +120,9 @@
       var model = App.CourseSummary.createRecord(newCourse);
       model.store.commit();
       this.transitionToRoute('courses');
+    },
+    cancelCourseAdd: function() {
+      this.transitionToRoute('courses');
     }
   });
   App.CoursesAddView = Ember.View.extend({

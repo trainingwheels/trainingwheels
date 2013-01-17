@@ -31,10 +31,7 @@
 }
 
 .logo {
-  width: 50px;
-  height: 40px;
-  margin-left: 16px;
-  padding-left: 60px;
+  padding-left: 1em;
 }
 
 //Footer
@@ -152,7 +149,7 @@
 
 #course-form {
   margin: 0 auto;
-  max-width: 500px;
+  max-width: 550px;
   padding: $base-line-height;
   #course-form-title {
     padding-bottom: 25px;
@@ -163,4 +160,9 @@
       margin-bottom: $base-line-height/2;
     }
   }
+  #course-tools {
+    button {
+    margin-bottom: $base-line-height/2;
+    }  
+  }  
 }

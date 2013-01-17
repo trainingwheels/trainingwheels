@@ -50,8 +50,8 @@
   
   &:hover, &.hover, &:focus, &.focus {
     text-decoration: none;
-    background-color: $blue;
-    *background-color: darken($color, 25%); /* Buttons in IE7 don't get borders, so darken on hover */
+    background-color: darken($color, 10%);
+    *background-color: darken($color, 10%); /* Buttons in IE7 don't get borders, so darken on hover */
     outline: 0;
   }
   
