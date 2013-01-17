@@ -4,6 +4,8 @@ Setup Vagrant Dev Environment
 1. Download and install Vagrant and VirtualBox as per the Vagrant "Getting started" page.
 2. Run `vagrant up`
 
+A new Vagrant virtual machine is started up, using the standard Ubuntu 12.04 base box. Ansible is installed on the box, and the setup playbooks for both the controller and classroom are run.
+
 Why not use the Vagrant Ansible plugin?
 ---------------------------------------
 
