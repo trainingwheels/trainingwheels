@@ -131,6 +131,9 @@
     - name: Private tmp directory for root
       action: file path=/root/tmp state=directory owner=root group=root mode=700
 
+    - name: Home directory for Training Wheels users
+      action: file path=/twhome state=directory owner=root group=root mode=755
+
     ##
     # Node.js install
     #

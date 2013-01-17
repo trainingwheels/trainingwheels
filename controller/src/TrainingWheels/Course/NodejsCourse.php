@@ -18,7 +18,7 @@ class NodejsCourse extends TrainingCourse {
 
     $user_obj->resources = array(
       'nodejs_files' => new GitFilesResource($this->env, 'Code', $user_name, $this->course_name, $this->course_name, $this->repo, 'master'),
-      'drupal_db' => new MySQLDatabaseResource($this->env, 'MySQLDatabase', $user_name, $this->course_name, "/home/$user_name/$this->course_name/exercises/drupal/database.sql.gz"),
+      'drupal_db' => new MySQLDatabaseResource($this->env, 'MySQLDatabase', $user_name, $this->course_name, "/twhome/$user_name/$this->course_name/exercises/drupal/database.sql.gz"),
     );
 
     return $user_obj;
@@ -60,7 +60,7 @@ class NodejsCourse extends TrainingCourse {
         // suffice for both.
         $source_db = $source_user_obj->resourceGet('drupal_db');
         $target_db = $target_user_obj->resourceGet('drupal_db');
-        $settings_file = "/home/$user_name/$this->course_name/exercises/drupal/sites/default/settings.php";
+        $settings_file = "/twhome/$user_name/$this->course_name/exercises/drupal/sites/default/settings.php";
         $this->env->fileStrReplace($source_db->dbNameGet(), $target_db->dbNameGet(), $settings_file);
         $this->env->fileStrReplace($source_db->passwdGet(), $target_db->passwdGet(), $settings_file);
       }
@@ -84,11 +84,11 @@ class NodejsCourse extends TrainingCourse {
       // Now customize for this course.
       $db = $user_obj->resourceGet('drupal_db');
       if ($db && $db->exists()) {
-        $this->drupalDBSettingsAdd($db->db_name, $db->mysql_username, $db->passwdGet(), "/home/$user_name/$this->course_name/exercises/drupal/sites/default/settings.php");
+        $this->drupalDBSettingsAdd($db->db_name, $db->mysql_username, $db->passwdGet(), "/twhome/$user_name/$this->course_name/exercises/drupal/sites/default/settings.php");
       }
 
       // Grant the group all access to files, which allows Apache to write.
-      $files_dir = "/home/$user_name/$this->course_name/exercises/drupal/sites/default/files";
+      $files_dir = "/twhome/$user_name/$this->course_name/exercises/drupal/sites/default/files";
       $this->env->dirChmod('g+rwx', $files_dir);
 
       $this->nodejsClientConfigAdd($user_name);
@@ -111,7 +111,7 @@ class NodejsCourse extends TrainingCourse {
 
     // The client config.
     $contents = "define({\n  url: 'http://$user.4ktraining.com:$port_num'\n});\n";
-    $this->env->filePutContents("/home/$user/$this->course_name/client/app/training-config.js", $contents);
+    $this->env->filePutContents("/twhome/$user/$this->course_name/client/app/training-config.js", $contents);
   }
 
   /**
@@ -122,10 +122,10 @@ class NodejsCourse extends TrainingCourse {
 
     // The server config.
     $file = "\"module.exports = {\n  port: " . $port_num . ",\n  feed: 'http://localhost:3001'\n};\n\"";
-    $this->env->fileCreate($file, "/home/$user/config.json", $user);
+    $this->env->fileCreate($file, "/twhome/$user/config.json", $user);
 
     // Useful file in the home directory, name is the port number.
-    $this->env->fileCreate("\"$port_num\"", "/home/$user/port-$port_num", $user);
+    $this->env->fileCreate("\"$port_num\"", "/twhome/$user/port-$port_num", $user);
   }
 
   /**
