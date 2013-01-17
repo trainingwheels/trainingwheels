@@ -1,0 +1,51 @@
+# Settings that are applied to the templates.
+
+---
+# Hostname is important as we need to delete an anonymous MySQL
+# user that is created with this name, make sure you match this
+# up.
+server_hostname: 'training.wheels'
+
+# php.ini for apache2
+php_max_execution_time: '90'
+php_display_errors: 'On'
+php_display_startup_errors: 'On'
+php_html_errors: 'On'
+php_post_max_size: '32M'
+php_upload_max_filesize: '32M'
+php_date_timezone: 'America/Chicago'
+php_short_open_tag: 'Off'
+
+# apc.ini
+apc_rfc1867: '1'
+apc_shm_size: '70M'
+apc_shm_segments: '1'
+apc_num_files_hint: '0'
+
+# my.cnf
+mysql_max_allowed_packet: '128M'
+mysql_character_set_server: 'utf8'
+mysql_collation_server: 'utf8_general_ci'
+
+# mysql
+mysql_root_password: 'password'
+
+# apache
+apache_server_admin: 'admin@training.wheels'
+apache_server_alias: '*.*.training.wheels'
+apache_servername: 'training.wheels'
+
+# apache virtual document roots, these two are closely related.
+# Note that the -4 and -3 correspond to the number of segments
+# in the domain name you choose above. So /home/%-4/%-3 results
+# in /home/mark/course when visiting mark.course.training.wheels.
+# You may have to change these if you use a longer or shorter base
+# domain.
+apache_virtual_docroot: '/home/%-4/%-3'
+apache_directory: '/home/*/*'
+
+# vsftpd
+vsftpd_anonymous_enable: 'NO'
+vsftpd_local_enable: 'YES'
+vsftpd_write_enable: 'YES'
+vsftpd_local_umask: '002'
