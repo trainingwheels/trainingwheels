@@ -6,6 +6,11 @@ Setup Vagrant Dev Environment
 
 A new Vagrant virtual machine is started up, using the standard Ubuntu 12.04 base box. Ansible is installed on the box, and the setup playbooks for both the controller and classroom are run.
 
+Vagrant commands
+----------------
+
+`vagrant reload` to reload a changed VagrantFile config
+
 Why not use the Vagrant Ansible plugin?
 ---------------------------------------
 
