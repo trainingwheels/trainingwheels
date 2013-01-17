@@ -22,8 +22,12 @@ SLEEP='3'
 CUSTOM_HOST='tw-build.com'
 
 echo ''
-echo 'Terminating all existing build instances...'
+echo 'Finding all existing build instances...'
 OBSOLETE_INSTANCES=`euca-describe-instances --filter tag-value=$TAG_VAL | grep INSTANCE | cut -f 2`
+
+echo ''
+echo "The following instances will be terminated:"
+echo "$OBSOLETE_INSTANCES"
 euca-terminate-instances $OBSOLETE_INSTANCES
 
 echo ''
@@ -33,11 +37,9 @@ if ! timeout $RUNNING_TIMEOUT sh -c "while euca-describe-instances --filter tag-
   exit 1
 fi
 
-# Start a new Training Wheels server, using the standard Ubuntu 12.04.1 server image.
 echo ''
 echo 'Creating new instance...'
 NEW_INSTANCE_ID=`euca-run-instances --key $KEY_NAME --region $REGION --instance-type $INSTANCE_TYPE --group default $AMI | grep INSTANCE | cut -f 2`
-euca-create-tags --tag tw-usage=$TAG_VAL $NEW_INSTANCE_ID
 
 echo ''
 echo "Waiting for the instance to have state 'running'..."
@@ -45,6 +47,10 @@ if ! timeout $RUNNING_TIMEOUT sh -c "while ! euca-describe-instances $NEW_INSTAN
   echo "server didn't become active within $RUNNING_TIMEOUT seconds"
   exit 1
 fi
+
+echo ''
+echo "Tagging new instance $NEW_INSTANCE_ID with tag $TAG_VAL..."
+euca-create-tags --tag tw-usage=$TAG_VAL $NEW_INSTANCE_ID
 
 # We keep a single elastic public IP address. Assign this address to the instance.
 echo ''
