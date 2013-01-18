@@ -99,7 +99,7 @@ ol.unstyled {
 }
 
 ul.menu li {
-  margin: 0 .5em 0 0em;
+  margin: 0 0.5em 0 0em;
 }
 
 /**
@@ -141,7 +141,7 @@ button {
   margin-bottom: .5em;
   *display: inline;
   *zoom: 1;
-  padding: 6px 6px 0 6px;
+  padding: 6px;
   font-size: 16px;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
@@ -214,12 +214,14 @@ button:active, button.active {
 }
 
 #footer {
+  float: left;
   bottom: 0;
   width: 100%;
   position: relative;
   z-index: 4;
   padding: 10px;
   margin: 22px;
+  margin-left: 0;
   border-top: 1px solid #d9d6d6;
   border-bottom: 1px solid #d9d6d6;
 }
@@ -260,6 +262,10 @@ button:active, button.active {
   margin-bottom: 0;
 }
 #course-users #course-users-top-tools, #course-instructor #course-users-top-tools {
+  width: 100%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
   padding-top: 3em;
   padding-bottom: 1em;
 }
@@ -269,7 +275,17 @@ button:active, button.active {
 #course-users #course-users-top-tools #user-view-tools .ss-rows, #course-instructor #course-users-top-tools #user-view-tools .ss-rows {
   border-radius-right: 1px;
 }
+#course-users #course-users-list, #course-instructor #course-users-list {
+  width: 100%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+}
 #course-users #course-users-bottom-tools, #course-instructor #course-users-bottom-tools {
+  width: 100%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
   border-top: 1px solid white;
   padding-top: 2em;
 }
@@ -284,7 +300,7 @@ button:active, button.active {
 }
 
 .user-info h3 {
-  margin: .5em 0;
+  margin: 0.5em 0;
   display: inline-block;
 }
 .user-info .indicators-summary-users {
@@ -330,6 +346,16 @@ button:active, button.active {
   margin-bottom: 11px;
 }
 
+.sync-wrapper {
+  width: 22px;
+  height: 22px;
+}
+.sync-wrapper .ss-sync {
+  line-height: 16px;
+  text-align: center;
+  vertical-align: middle;
+}
+
 body {
   background-color: #eeeeee;
 }
@@ -339,7 +365,7 @@ body {
   margin-bottom: .5em;
   *display: inline;
   *zoom: 1;
-  padding: 6px 6px 0 6px;
+  padding: 6px;
   font-size: 16px;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
@@ -411,7 +437,7 @@ dd {
 }
 
 dt, dd {
-  border-top: solid 1px #DDD;
+  border-top: solid 1px #dddddd;
   padding-bottom: 5px;
   padding-top: 5px;
 }
@@ -476,7 +502,7 @@ dt, dd {
   margin-bottom: .5em;
   *display: inline;
   *zoom: 1;
-  padding: 6px 6px 0 6px;
+  padding: 6px;
   font-size: 16px;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
@@ -625,7 +651,7 @@ dt, dd {
   margin-bottom: .5em;
   *display: inline;
   *zoom: 1;
-  padding: 6px 6px 0 6px;
+  padding: 6px;
   font-size: 16px;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
@@ -718,7 +744,7 @@ dt, dd {
   margin-bottom: .5em;
   *display: inline;
   *zoom: 1;
-  padding: 6px 6px 0 6px;
+  padding: 6px;
   font-size: 16px;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
@@ -786,7 +812,7 @@ dt, dd {
   margin-bottom: .5em;
   *display: inline;
   *zoom: 1;
-  padding: 6px 6px 0 6px;
+  padding: 6px;
   font-size: 16px;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
@@ -842,7 +868,7 @@ dt, dd {
   margin-bottom: .5em;
   *display: inline;
   *zoom: 1;
-  padding: 6px 6px 0 6px;
+  padding: 6px;
   font-size: 16px;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
@@ -1079,7 +1105,7 @@ dt, dd {
   }
 
   ul.menu li {
-    margin: 0 .5em 0 0em;
+    margin: 0 0.5em 0 0em;
   }
 
   /**
@@ -1121,7 +1147,7 @@ dt, dd {
     margin-bottom: .5em;
     *display: inline;
     *zoom: 1;
-    padding: 6px 6px 0 6px;
+    padding: 6px;
     font-size: 16px;
     font-weight: 600;
     font-family: "Open Sans", sans-serif;
