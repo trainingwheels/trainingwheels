@@ -189,6 +189,75 @@
       }
     },
 
+    syncAll: function(callback) {
+      var course_id = this.get('course_id');
+      var users = App.UserSummary
+        .filter(function (data) {
+          if (data.get('course_id') == course_id &&
+            data.get('user_name') != 'instructor'
+          ) {
+            return true;
+          }
+        })
+        .map(function(item, index, enumerable) {
+          return item.get('user_name');
+        });
+      var job = App.Job.createRecord({
+        course_id: this.controllerFor('course').get('course_id'),
+        type: 'resource',
+        action: 'resourceSync',
+        params: JSON.stringify({
+          source_user: 'instructor',
+          target_users: users
+        })
+      });
+      job.store.commit();
+      job.on('didCreate', function(record) {
+        // Artificially defer the delete callback so ember can
+        // finish updating the model before we remove it.
+        setTimeout(function() {
+          job.deleteRecord();
+          job.store.commit();
+        }, 1);
+        callback(null);
+      });
+      job.on('becameError', function(record) {
+        callback('Job could not be executed.');
+      });
+    },
+
+    /**
+     * Helper function to reload user data from the server.
+     *
+     * @param {bool} instructor
+     *   true if the instructor user should be reloaded.
+     *   Defaults to true.
+     */
+    reloadUsers: function(instructor) {
+      var users;
+      var course_id = this.get('course_id');
+
+      if (typeof instructor === 'undefined') {
+        instructor = true;
+      }
+
+      // Find the already loaded users so we can reload them.
+      var users = App.User.filter(function(data) {
+        if (data.get('course_id') != course_id) {
+          return false;
+        }
+
+        if (!instructor && data.get('user_name') === 'instructor') {
+          return false;
+        }
+
+        return true;
+      });
+      users.forEach(function(user) {
+        user.reload();
+      });
+    },
+
     resetUsers: function() {
       var course_id = this.get('course_id');
       var users = App.UserSummary.filter(function (data) {
@@ -219,7 +288,26 @@
   });
   App.CourseView = Ember.View.extend({
     templateName: 'course',
-    sortOptions: ['name', 'id']
+    sortOptions: ['name', 'id'],
+    css_class_sync_button: function() {
+      return 'ss-sync' + (this.get('syncing') ? ' syncing' : '');
+    }.property('syncing'),
+
+    syncAll: function(user_name) {
+      var self = this;
+      self.set('syncing', true);
+
+      self.controller.syncAll(function usersSynced(err) {
+        self.set('syncing', false);
+        if (!err) {
+          self.controller.reloadUsers(false);
+          alertify.success("Successfully synced resources from 'instructor' to all users.");
+        }
+        else {
+          alertify.error(err);
+        }
+      });
+    }
   });
 
   App.UserSummaryController = Ember.ObjectController.extend();

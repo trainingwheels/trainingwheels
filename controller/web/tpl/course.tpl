@@ -3,7 +3,7 @@
     <div id="course-info">
       <h1><a href="#" {{action "returnToCourse"}}>{{title}}</a></h1>
       <!-- Not yet implemented  -->
-      <!-- <button class="refresh-button ss-refresh" action refreshCourse target="controller" ></button>
+      <!--<button class="refresh-button ss-refresh"></button>
       <a class="course-lock">
         <div class="ss-lock"></div>
         <div class="course-lock-text">Course in session</div>
@@ -31,11 +31,13 @@
         <!-- Not yet implemented  -->
         <!-- <button class="ss-rows" action collapseAll target="controller" ></button>
         <button class="ss-users" action selectAll target="controller" ></button>
-        Sort by: view Ember.Select contentBinding="view.sortOptions"
+        Sort by: view Ember.Select contentBinding="view.sortOptions" -->
         <div class="tools-right">
-          <button class="ss-sync" action syncAll target="controller" ></button>
-          <button class="ss-trash" action deleteSelected target="controller" ></button>
-        </div> -->
+          <button {{action syncAll target="view"}}>
+            <span {{bindAttr class="view.css_class_sync_button"}}></span>
+          </button>
+          <!-- <button class="ss-trash" action deleteSelected target="controller" ></button> -->
+        </div>
       </div>
       <div id="course-users-list">
 
