@@ -86,10 +86,11 @@
       }
   }
   #course-users-top-tools {
+    @include span-columns(12);
     padding-top: 3em;
     padding-bottom: 1em;
     .tools-right {
-      float:right;
+      float: right;
     }
     #user-view-tools {
       .ss-rows {
