@@ -8,10 +8,10 @@
 
   tasks:
     - name: Upload sample course data
-      action: copy src=sample-data-mongo.js dest=/tmp/sample-data-mongo.js
+      action: copy src=mongo-reset-data.js dest=/tmp/mongo-reset-data.js
 
     - name: Insert sample Mongo course data
-      action: command mongo trainingwheels /tmp/sample-data-mongo.js
+      action: command mongo trainingwheels /tmp/mongo-reset-data.js
 
     - name: Create instructor
       action: "command ./tw u:c 1 instructor chdir=/var/trainingwheels-source/controller/cli creates=/twhome/instructor"
