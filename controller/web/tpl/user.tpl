@@ -11,9 +11,15 @@
   </div>
   <div class="user-tools">
     <a href="#" {{action "copyPassword" user.password}}>copy password</a>
-    <button {{action "syncUser" user.user_name target="view"}}><span {{bindAttr class="view.css_class_sync_button"}}></span></button>
+    {{#if user.is_student }}
+    <button {{action "syncUser" user.user_name target="view"}}>
+      <div {{bindAttr class="view.css_class_syncing"}}>
+        <span class="ss-sync"></span>
+      </div>
+    </button>
     <!-- Not yet implemented  -->
     <!-- <button class="ss-trash"{{action deleteUser target="controller"}}></button> -->
+    {{/if}}
   </div>
   <div class="user-resources">
     {{#each resource in controller.resources}}

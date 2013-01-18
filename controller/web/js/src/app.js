@@ -8,6 +8,23 @@
   var App = win.App;
 
   ////
+  // Private helper functions.
+  //
+  function jobComplete(job, callback) {
+    // Artificially defer the delete callback so ember can
+    // finish updating the model before we remove it.
+    setTimeout(function() {
+      job.deleteRecord();
+      job.store.commit();
+    }, 1);
+    callback(null);
+  }
+
+  function jobError(callback) {
+    callback('Job could not be executed.');
+  }
+
+  ////
   // Ember Data Store and Models.
   //
   DS.RESTAdapter.configure('App.UserSummary', {
@@ -64,6 +81,9 @@
     logged_in: DS.attr('boolean'),
     course_id: DS.attr('number'),
     resource_status: DS.attr('string'),
+    is_student: function() {
+      return this.get('user_name') !== 'instructor';
+    }.property('user_name'),
     css_class_login_status: function() {
       return 'user-login-status ss-user ' + (this.get('logged_in') ? 'logged_in' : 'logged_out');
     }.property('logged_in'),
@@ -186,6 +206,73 @@
       }
     },
 
+    syncAll: function(callback) {
+      var course_id = this.get('course_id');
+
+      // Collect all of the students to have their resources synced.
+      var users = App.UserSummary
+        .filter(function (data) {
+          if (data.get('course_id') == course_id && data.get('is_student')) {
+            return true;
+          }
+        })
+        .map(function(item, index, enumerable) {
+          return item.get('user_name');
+        });
+
+      // Create the sync job.
+      var job = App.Job.createRecord({
+        course_id: this.controllerFor('course').get('course_id'),
+        type: 'resource',
+        action: 'resourceSync',
+        params: JSON.stringify({
+          source_user: 'instructor',
+          target_users: users
+        })
+      });
+      job.store.commit();
+      job.on('didCreate', function(record) {
+        jobComplete(job, callback);
+      });
+      job.on('becameError', function(record) {
+        jobError(callback);
+      });
+    },
+
+    /**
+     * Helper function to reload user data from the server.
+     *
+     * @param {bool} instructor
+     *   true if the instructor user should be reloaded.
+     *   Defaults to true.
+     */
+    reloadUsers: function(instructor) {
+      var users;
+      var course_id = this.get('course_id');
+
+      if (typeof instructor === 'undefined') {
+        instructor = true;
+      }
+
+      // Find the already loaded users so we can reload them.
+      var users = App.User.filter(function(data) {
+        if (data.get('course_id') != course_id) {
+          return false;
+        }
+
+        if (!instructor && data.get('user_name') === 'instructor') {
+          return false;
+        }
+
+        return true;
+      });
+      users.forEach(function(user) {
+        user.reload();
+      });
+
+      this.get('model').reload();
+    },
+
     resetUsers: function() {
       var course_id = this.get('course_id');
       var users = App.UserSummary.filter(function (data) {
@@ -216,7 +303,26 @@
   });
   App.CourseView = Ember.View.extend({
     templateName: 'course',
-    sortOptions: ['name', 'id']
+    sortOptions: ['name', 'id'],
+    css_class_syncing: function() {
+      return 'sync-wrapper' + (this.get('syncing') ? ' syncing' : '');
+    }.property('syncing'),
+
+    syncAll: function(user_name) {
+      var self = this;
+      self.set('syncing', true);
+
+      self.controller.syncAll(function usersSynced(err) {
+        self.set('syncing', false);
+        if (!err) {
+          self.controller.reloadUsers(false);
+          alertify.success("Successfully synced resources from 'instructor' to all users.");
+        }
+        else {
+          alertify.error(err);
+        }
+      });
+    }
   });
 
   App.UserSummaryController = Ember.ObjectController.extend();
@@ -242,6 +348,11 @@
       setTimeout(function () { $('#selected-password').selectText(); }, 50);
     },
 
+    reload: function() {
+      this.get('model').reload();
+      this.controllerFor('course').get('model').reload();
+    },
+
     syncUser: function(user_name, callback) {
       var job = App.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),
@@ -254,16 +365,10 @@
       });
       job.store.commit();
       job.on('didCreate', function(record) {
-        // Artificially defer the delete callback so ember can
-        // finish updating the model before we remove it.
-        setTimeout(function() {
-          job.deleteRecord();
-          job.store.commit();
-        }, 1);
-        callback(null);
+        jobComplete(job, callback);
       });
       job.on('becameError', function(record) {
-        callback('Job could not be executed.');
+        jobError(callback);
       });
     },
 
@@ -277,17 +382,18 @@
     templateName: 'user',
     syncing: false,
 
-    css_class_sync_button: function() {
-      return 'ss-sync' + (this.get('syncing') ? ' syncing' : '');
+    css_class_syncing: function() {
+      return 'sync-wrapper' + (this.get('syncing') ? ' syncing' : '');
     }.property('syncing'),
 
     syncUser: function(user_name) {
-      this.set('syncing', true);
       var self = this;
+      self.set('syncing', true);
 
-      this.controller.syncUser(user_name, function userSynced(err) {
+      self.controller.syncUser(user_name, function userSynced(err) {
         self.set('syncing', false);
         if (!err) {
+          self.controller.reload();
           alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
         }
         else {

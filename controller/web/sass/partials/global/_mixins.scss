@@ -29,7 +29,7 @@
   display: inline-block;
   margin-bottom: .5em;
   @include ie7-inline-block();
-  padding: 6px 6px 0 6px;
+  padding: 6px;
   font-size: $base-font-size;
   font-weight:600;
   font-family: $opensans;
