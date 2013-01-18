@@ -64,6 +64,9 @@
     logged_in: DS.attr('boolean'),
     course_id: DS.attr('number'),
     resource_status: DS.attr('string'),
+    is_student: function() {
+      return this.get('user_name') !== 'instructor';
+    }.property('user_name'),
     css_class_login_status: function() {
       return 'user-login-status ss-user ' + (this.get('logged_in') ? 'logged_in' : 'logged_out');
     }.property('logged_in'),
