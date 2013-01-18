@@ -33,7 +33,7 @@
         <button class="ss-users" action selectAll target="controller" ></button>
         Sort by: view Ember.Select contentBinding="view.sortOptions" -->
         <div class="tools-right">
-          <button {{action syncAll target="view"}}>
+          <button {{action "syncAll" target="view"}}>
             <div {{bindAttr class="view.css_class_syncing"}}>
               <span class="ss-sync"></span>
             </div>

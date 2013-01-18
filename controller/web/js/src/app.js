@@ -8,6 +8,23 @@
   var App = win.App;
 
   ////
+  // Private helper functions.
+  //
+  function jobComplete(job, callback) {
+    // Artificially defer the delete callback so ember can
+    // finish updating the model before we remove it.
+    setTimeout(function() {
+      job.deleteRecord();
+      job.store.commit();
+    }, 1);
+    callback(null);
+  }
+
+  function jobError(callback) {
+    callback('Job could not be executed.');
+  }
+
+  ////
   // Ember Data Store and Models.
   //
   DS.RESTAdapter.configure('App.UserSummary', {
@@ -191,17 +208,19 @@
 
     syncAll: function(callback) {
       var course_id = this.get('course_id');
+
+      // Collect all of the students to have their resources synced.
       var users = App.UserSummary
         .filter(function (data) {
-          if (data.get('course_id') == course_id &&
-            data.get('user_name') != 'instructor'
-          ) {
+          if (data.get('course_id') == course_id && data.get('is_student')) {
             return true;
           }
         })
         .map(function(item, index, enumerable) {
           return item.get('user_name');
         });
+
+      // Create the sync job.
       var job = App.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),
         type: 'resource',
@@ -213,16 +232,10 @@
       });
       job.store.commit();
       job.on('didCreate', function(record) {
-        // Artificially defer the delete callback so ember can
-        // finish updating the model before we remove it.
-        setTimeout(function() {
-          job.deleteRecord();
-          job.store.commit();
-        }, 1);
-        callback(null);
+        jobComplete(job, callback);
       });
       job.on('becameError', function(record) {
-        callback('Job could not be executed.');
+        jobError(callback);
       });
     },
 
@@ -256,6 +269,8 @@
       users.forEach(function(user) {
         user.reload();
       });
+
+      this.get('model').reload();
     },
 
     resetUsers: function() {
@@ -335,6 +350,7 @@
 
     reload: function() {
       this.get('model').reload();
+      this.controllerFor('course').get('model').reload();
     },
 
     syncUser: function(user_name, callback) {
@@ -349,16 +365,10 @@
       });
       job.store.commit();
       job.on('didCreate', function(record) {
-        // Artificially defer the delete callback so ember can
-        // finish updating the model before we remove it.
-        setTimeout(function() {
-          job.deleteRecord();
-          job.store.commit();
-        }, 1);
-        callback(null);
+        jobComplete(job, callback);
       });
       job.on('becameError', function(record) {
-        callback('Job could not be executed.');
+        jobError(callback);
       });
     },
 
