@@ -3,6 +3,12 @@
 echo ''
 echo '======================================================================='
 echo 'Setting up Ansible...'
+
+if [ `which ansible` ]; then
+  echo 'Ansible already installed.'
+  exit;
+fi
+
 sudo aptitude -q=2 update
 sudo aptitude -q=2 -y install git python-jinja2 python-yaml python-paramiko python-software-properties
 sudo add-apt-repository -y ppa:rquillo/ansible/ubuntu
