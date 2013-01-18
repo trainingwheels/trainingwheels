@@ -11,7 +11,7 @@ fi
 
 sudo aptitude -q=2 update
 sudo aptitude -q=2 -y install git python-jinja2 python-yaml python-paramiko python-software-properties
-sudo add-apt-repository -y ppa:rquillo/ansible/ubuntu
+sudo add-apt-repository -y ppa:rquillo/ansible/ubuntu 2>&1
 sudo aptitude -q=2 update
 sudo aptitude -q=2 -y install ansible
 echo "localhost" > /tmp/ansible-hosts
