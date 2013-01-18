@@ -242,6 +242,10 @@
       setTimeout(function () { $('#selected-password').selectText(); }, 50);
     },
 
+    reload: function() {
+      this.get('model').reload();
+    },
+
     syncUser: function(user_name, callback) {
       var job = App.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),
@@ -282,12 +286,13 @@
     }.property('syncing'),
 
     syncUser: function(user_name) {
-      this.set('syncing', true);
       var self = this;
+      self.set('syncing', true);
 
-      this.controller.syncUser(user_name, function userSynced(err) {
+      self.controller.syncUser(user_name, function userSynced(err) {
         self.set('syncing', false);
         if (!err) {
+          self.controller.reload();
           alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
         }
         else {
