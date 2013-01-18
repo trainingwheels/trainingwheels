@@ -289,8 +289,8 @@
   App.CourseView = Ember.View.extend({
     templateName: 'course',
     sortOptions: ['name', 'id'],
-    css_class_sync_button: function() {
-      return 'ss-sync' + (this.get('syncing') ? ' syncing' : '');
+    css_class_syncing: function() {
+      return 'sync-wrapper' + (this.get('syncing') ? ' syncing' : '');
     }.property('syncing'),
 
     syncAll: function(user_name) {
@@ -372,8 +372,8 @@
     templateName: 'user',
     syncing: false,
 
-    css_class_sync_button: function() {
-      return 'ss-sync' + (this.get('syncing') ? ' syncing' : '');
+    css_class_syncing: function() {
+      return 'sync-wrapper' + (this.get('syncing') ? ' syncing' : '');
     }.property('syncing'),
 
     syncUser: function(user_name) {

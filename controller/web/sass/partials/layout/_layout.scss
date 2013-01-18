@@ -37,12 +37,14 @@
 //Footer
 
 #footer {
+  float: left;
   bottom: 0;
   width: 100%;
   position: relative;
   z-index: 4;
   padding: 10px;
   margin:$base-line-height;
+  margin-left: 0;
   border-top: 1px solid $border;
   border-bottom: 1px solid $border;
 }
@@ -77,13 +79,13 @@
 }
 
 #course-users, #course-instructor {
-    .user-tools, .resource {
-      padding-left: 12px;
-      padding-right: 12px;
-      margin-bottom: $base-line-height;
-      h4 {
-        margin-bottom: 0;
-      }
+  .user-tools, .resource {
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: $base-line-height;
+    h4 {
+      margin-bottom: 0;
+    }
   }
   #course-users-top-tools {
     @include span-columns(12);
@@ -98,7 +100,11 @@
       }
     }
   }
+  #course-users-list {
+    @include span-columns(12);
+  }
   #course-users-bottom-tools {
+    @include span-columns(12);
     border-top: 1px solid $white;
     padding-top: 2em;
     .ember-text-field {
@@ -166,4 +172,17 @@
     margin-bottom: $base-line-height/2;
     }  
   }  
+}
+
+///////////////////
+// Syncing buttons.
+///////////////////
+.sync-wrapper {
+  width: 22px;
+  height: 22px;
+  .ss-sync {
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+  }
 }

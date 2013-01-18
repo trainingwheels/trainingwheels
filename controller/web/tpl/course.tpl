@@ -34,7 +34,9 @@
         Sort by: view Ember.Select contentBinding="view.sortOptions" -->
         <div class="tools-right">
           <button {{action syncAll target="view"}}>
-            <span {{bindAttr class="view.css_class_sync_button"}}></span>
+            <div {{bindAttr class="view.css_class_syncing"}}>
+              <span class="ss-sync"></span>
+            </div>
           </button>
           <!-- <button class="ss-trash" action deleteSelected target="controller" ></button> -->
         </div>
