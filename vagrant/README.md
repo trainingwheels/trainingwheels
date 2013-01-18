@@ -15,7 +15,17 @@ Vagrant commands
 
 `vagrant reload` to reload a changed VagrantFile config
 
+If you accidentally delete your .vagrant file or this directory, use the VirtualBox commands to recover:
+
+    VBoxManage list runningvms
+    VBoxManage list vms
+
+Make a new .vagrant if necessary. Looks like:
+
+    {"active":{"trainingwheels":"ec426377-dbe6-4be7-4751-766956e44958"}}
+
 Why not use the Vagrant Ansible plugin?
 ---------------------------------------
 
 The problem is the setup of Ansible on the host Mac OSX machine. It's not straightforward as it requires Python modules be built. It's far simpler on Linux, but we must support OSX.
+
