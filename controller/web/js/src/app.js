@@ -175,7 +175,7 @@
       var newUserName = this.get('newUserName');
       this.set('newUserName', '');
       var course_id = this.get('course_id');
-      var model = App.UserSummary.createRecord({user_name: newUserName, course_id: 1});
+      var model = App.UserSummary.createRecord({user_name: newUserName, course_id: 1, resource_status: "resource-missing"});
       model.store.commit();
       this.resetUsers();
       this.transitionToRoute('course');
