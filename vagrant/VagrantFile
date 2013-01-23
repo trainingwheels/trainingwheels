@@ -10,6 +10,7 @@ Vagrant::Config.run do |config|
     tw_config.vm.customize ["modifyvm", :id, "--cpus", "1"]
 
     # Shared folders through NFS. This is supported in Mac and Windows.
+    config.vm.network :hostonly, "10.1.0.1"
     config.vm.share_folder("twdir", "/var/trainingwheels", "../", :nfs => true)
 
     # 80 runs Apache, 8000 is the controller, and 22 ssh.
@@ -18,8 +19,8 @@ Vagrant::Config.run do |config|
     tw_config.vm.forward_port 22, 2222
 
     tw_config.vm.provision :shell, :path => "ansible-setup.sh"
-    tw_config.vm.provision :shell, :path => "classroom-setup.sh"
-    tw_config.vm.provision :shell, :path => "controller-setup.sh"
+    # tw_config.vm.provision :shell, :path => "classroom-setup.sh"
+    # tw_config.vm.provision :shell, :path => "controller-setup.sh"
     tw_config.vm.provision :shell, :path => "dev-setup.sh"
   end
 end
