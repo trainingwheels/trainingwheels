@@ -132,7 +132,7 @@
     # Get the Training Wheels app from Github
     #
     - name: Clone the Training Wheels project
-      action: git repo=https://github.com/fourkitchens/trainingwheels.git dest=/var/trainingwheels-source version=vagrant
+      action: git repo=https://github.com/trainingwheels/trainingwheels.git dest=/var/trainingwheels-source version=master
       tags: dev
 
     - name: Install Composer - create directory
