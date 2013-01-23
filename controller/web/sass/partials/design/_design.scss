@@ -290,13 +290,15 @@ dt, dd {
   @include button-make($mediumGray);
   padding: $base-line-height / 2 $base-line-height /2;
   font-size: 16px;
-  width: 50px;
+  min-width: 50px;
+  width: auto;
 }
 .alertify-button-ok {
   @include button-make($yellow);
   padding: $base-line-height / 2 $base-line-height /2;
   font-size: 16px;
-  width: 50px;
+  min-width: 50px;
+  width: auto;
 }
 .alertify-log {
 	background: $yellow;
