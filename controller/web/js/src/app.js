@@ -7,6 +7,10 @@
   win.App = Ember.Application.create({LOG_TRANSITIONS: true});
   var App = win.App;
 
+  // Global strings.
+  var confirmSync = 'Are you sure you want to sync resources to this user? This will overwrite any changes the user has made to their environment.';
+  var confirmSyncAll = 'Are you sure you want to sync resources to all users? This will overwrite any changes users have made to their environments.';
+
   ////
   // Private helper functions.
   //
@@ -310,16 +314,20 @@
 
     syncAll: function(user_name) {
       var self = this;
-      self.set('syncing', true);
+      alertify.confirm(confirmSyncAll, function confirmedSync(e) {
+        if (e) {
+          self.set('syncing', true);
 
-      self.controller.syncAll(function usersSynced(err) {
-        self.set('syncing', false);
-        if (!err) {
-          self.controller.reloadUsers(false);
-          alertify.success("Successfully synced resources from 'instructor' to all users.");
-        }
-        else {
-          alertify.error(err);
+          self.controller.syncAll(function usersSynced(err) {
+            self.set('syncing', false);
+            if (!err) {
+              self.controller.reloadUsers(false);
+              alertify.success("Successfully synced resources from 'instructor' to all users.");
+            }
+            else {
+              alertify.error(err);
+            }
+          });
         }
       });
     }
@@ -388,16 +396,20 @@
 
     syncUser: function(user_name) {
       var self = this;
-      self.set('syncing', true);
+      alertify.confirm(confirmSync, function syncConfirmed(e) {
+        if (e) {
+          self.set('syncing', true);
 
-      self.controller.syncUser(user_name, function userSynced(err) {
-        self.set('syncing', false);
-        if (!err) {
-          self.controller.reload();
-          alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
-        }
-        else {
-          alertify.error(err);
+          self.controller.syncUser(user_name, function userSynced(err) {
+            self.set('syncing', false);
+            if (!err) {
+              self.controller.reload();
+              alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
+            }
+            else {
+              alertify.error(err);
+            }
+          });
         }
       });
     }
