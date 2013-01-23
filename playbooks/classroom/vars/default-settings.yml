@@ -37,12 +37,12 @@ apache_servername: 'training.wheels'
 
 # apache virtual document roots, these two are closely related.
 # Note that the -4 and -3 correspond to the number of segments
-# in the domain name you choose above. So /home/%-4/%-3 results
-# in /home/mark/course when visiting mark.course.training.wheels.
+# in the domain name you choose above. So /twhome/%-4/%-3 results
+# in /twhome/mark/course when visiting mark.course.training.wheels.
 # You may have to change these if you use a longer or shorter base
 # domain.
-apache_virtual_docroot: '/home/%-4/%-3'
-apache_directory: '/home/*/*'
+apache_virtual_docroot: '/twhome/%-4/%-3'
+apache_directory: '/twhome/*/*'
 
 # vsftpd
 vsftpd_anonymous_enable: 'NO'

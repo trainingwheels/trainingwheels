@@ -17,7 +17,7 @@ class GitFilesResource extends Resource {
   public function __construct(\TrainingWheels\Environment\TrainingEnv $env, $res_id, $title, $user_name, $course_name, $subdir, $repo, $default_branch = 'master') {
     parent::__construct($env, $title, $user_name);
     $this->subdir = $subdir;
-    $this->fullpath = "/home/$user_name/$subdir";
+    $this->fullpath = "/twhome/$user_name/$subdir";
     $this->repo = $repo;
     $this->course_name = $course_name;
     $this->default_branch = $default_branch;

@@ -201,7 +201,7 @@ class LinuxEnv implements TrainingEnv {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "groupadd $user",
-      "rsync -ah --delete /var/trainingwheels/skel/skel_user/ /tmp/skel_user/",
+      "rsync -ah --delete /etc/trainingwheels/skel/skel_user/ /tmp/skel_user/",
       // "sudo echo 'hello' > /tmp/filename" doesn't work if the file is owned by root, need to
       // do a 2 step process.
       "echo $pass > /root/tmp/.password",

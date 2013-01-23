@@ -99,7 +99,7 @@ class MySQLDatabaseResource extends Resource {
   protected function credentialsCreate() {
     $dbuser = $this->getUserName();
     $pass = $this->getPasswd();
-    $this->env->fileCreate("\"[client]\nuser=$dbuser\npass=$pass\n\"", "/home/$this->user_name/.my.cnf", $this->user_name);
+    $this->env->fileCreate("\"[client]\nuser=$dbuser\npass=$pass\n\"", "/twhome/$this->user_name/.my.cnf", $this->user_name);
   }
 
   /**
@@ -154,8 +154,8 @@ class MySQLDatabaseResource extends Resource {
    */
   public function getPasswd() {
     if (empty($this->mysql_password)) {
-      if ($this->env->fileExists("/home/$this->user_name/.my.cnf")) {
-        $cnf = $this->env->fileGetContents("/home/$this->user_name/.my.cnf");
+      if ($this->env->fileExists("/twhome/$this->user_name/.my.cnf")) {
+        $cnf = $this->env->fileGetContents("/twhome/$this->user_name/.my.cnf");
 
         if (!empty($cnf)) {
           $ini = parse_ini_string($cnf);

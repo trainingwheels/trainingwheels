@@ -46,7 +46,7 @@
       tags: common
 
     - name: Copy MySQL config from root so phpfpm can easily administer the database
-      action: shell cp ~/.my.cnf $phpfpmhome/.my.cnf creates=$phpfpmhome/.my.cnf
+      action: shell cp /root/.my.cnf $phpfpmhome/.my.cnf creates=$phpfpmhome/.my.cnf
       tags: common
 
     - name: Check permissions of MySQL config
