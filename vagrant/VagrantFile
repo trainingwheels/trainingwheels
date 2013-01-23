@@ -20,6 +20,6 @@ Vagrant::Config.run do |config|
     tw_config.vm.provision :shell, :path => "ansible-setup.sh"
     tw_config.vm.provision :shell, :path => "classroom-setup.sh"
     tw_config.vm.provision :shell, :path => "controller-setup.sh"
-    tw_config.vm.provision :shell, :path => "tw-dev-setup.sh"
+    tw_config.vm.provision :shell, :path => "dev-setup.sh"
   end
 end
