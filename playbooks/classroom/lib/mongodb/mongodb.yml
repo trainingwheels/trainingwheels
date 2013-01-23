@@ -17,5 +17,17 @@
   with_items:
     - mongodb-10gen
 
-- name: Restart Mongo
+- name: MongoDB | Restart Mongo
+  action: service name=mongodb state=restarted
+
+- name: MongoDB | Create root user
+  action: shell echo db.addUser('root', $mongo_root_password) | mongo admin
+
+- name: MongoDB | Create app user
+  action: shell echo db.addUser('trainingwheels', $mongo_app_password) | mongo trainingwheels
+
+- name: MongoDB | Configuration file mongodb.conf
+  action: template src=templates/etc-mongodb-conf.j2 dest=/etc/mongodb.conf
+
+- name: MongoDB | Restart Mongo
   action: service name=mongodb state=restarted
