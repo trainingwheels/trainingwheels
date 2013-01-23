@@ -1,0 +1,20 @@
+##
+# Ansible playbook setting up developer tools used in building Training Wheels
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    ##
+    # Install compass and animation gems for theming
+    #
+    - name: CSS | Install rubygems package
+      action: apt pkg=rubygems state=installed
+
+    - name: CSS | Install Aurora
+      action: command gem install compass-aurora
+
+    - name: CSS | Install Animation
+      action: command gem install animation --pre

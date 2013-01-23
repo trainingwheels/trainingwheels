@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables.
-TW_DIR='/tmp/trainingwheels'
+TW_DIR='/var/trainingwheels'
 
 echo ''
 echo '======================================================================='
@@ -12,7 +12,7 @@ echo ''
 echo '======================================================================='
 echo 'Running controller setup...'
 cd $TW_DIR/playbooks/controller
-ansible-playbook -c local --tags="common,dev" --user=root setup.yml
+ansible-playbook -c local --user=root setup.yml
 
 echo ''
 echo '======================================================================='

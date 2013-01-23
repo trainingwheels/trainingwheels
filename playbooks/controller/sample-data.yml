@@ -6,6 +6,10 @@
 - hosts: all
   gather_facts: False
 
+  vars:
+    twcli: '/var/trainingwheels/controller/cli'
+    twhome: '/twhome'
+
   tasks:
     - name: Upload sample course data
       action: copy src=mongo-reset-data.js dest=/tmp/mongo-reset-data.js
@@ -14,13 +18,13 @@
       action: command mongo trainingwheels /tmp/mongo-reset-data.js
 
     - name: Create instructor
-      action: "command ./tw u:c 1 instructor chdir=/var/trainingwheels-source/controller/cli creates=/twhome/instructor"
+      action: "command ./tw u:c 1 instructor chdir=$twcli creates=$twhome/instructor"
 
     - name: Create bobby
-      action: "command ./tw u:c 1 bobby chdir=/var/trainingwheels-source/controller/cli creates=/twhome/bobby"
+      action: "command ./tw u:c 1 bobby chdir=$twcli creates=$twhome/bobby"
 
     - name: Create sally
-      action: "command ./tw u:c 1 sally chdir=/var/trainingwheels-source/controller/cli creates=/twhome/sally"
+      action: "command ./tw u:c 1 sally chdir=$twcli creates=$twhome/sally"
 
     - name: Create instructor resources
-      action: "command ./tw r:c 1 instructor chdir=/var/trainingwheels-source/controller/cli creates=/twhome/instructor/mycourse"
+      action: "command ./tw r:c 1 instructor chdir=$twcli creates=$twhome/instructor/mycourse"

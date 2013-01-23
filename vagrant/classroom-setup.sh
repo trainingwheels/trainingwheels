@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables.
-TW_DIR='/tmp/trainingwheels'
+TW_DIR='/var/trainingwheels'
 
 echo ''
 echo '======================================================================='

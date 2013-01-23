@@ -10,6 +10,7 @@
   vars:
     # This must also appear in the classroom settings file, classroom-settings.yml
     mysql_root_password: 'tplqomnscy323e'
+    twdir: '/var/trainingwheels'
 
   tasks:
     ##
@@ -52,3 +53,10 @@
 
     - name: Copy authorized keys for bender
       action: copy src=bender_authorized_keys dest=/adminhome/bender/.ssh/authorized_keys owner=bender group=bender mode=644
+
+    # Training Wheels app download and setup
+    - name: Clone the repo
+      action: git repo=https://github.com/trainingwheels/trainingwheels.git dest=$twdir version=master
+
+    - name: Let web user write to log file directory
+      action: file state=directory path=$twdir/controller/log mode=0777

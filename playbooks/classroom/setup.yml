@@ -7,6 +7,9 @@
 - hosts: all
   gather_facts: False
 
+  vars:
+    twskel: '/etc/trainingwheels/skel/skel_user'
+
   vars_files:
     - settings.yml
 
@@ -114,16 +117,16 @@
     # Training Wheels user skeleton directory
     #
     - name: Create the skel directory
-      action: file path=/var/trainingwheels/skel/skel_user state=directory
+      action: file path=$twskel state=directory
 
     - name: Copy the skel files
-      action: copy src=files/var-trainingwheels-skel-skel-user-bash-logout dest=/var/trainingwheels/skel/skel_user/.bash_logout
+      action: copy src=files/etc-trainingwheels-skel-skel-user-bash-logout dest=$twskel/.bash_logout
 
     - name: Copy the skel files
-      action: copy src=files/var-trainingwheels-skel-skel-user-bashrc dest=/var/trainingwheels/skel/skel_user/.bashrc
+      action: copy src=files/etc-trainingwheels-skel-skel-user-bashrc dest=$twskel/.bashrc
 
     - name: Copy the skel files
-      action: copy src=files/var-trainingwheels-skel-skel-user-profile dest=/var/trainingwheels/skel/skel_user/.profile
+      action: copy src=files/etc-trainingwheels-skel-skel-user-profile dest=$twskel/.profile
 
     ##
     # Training Wheels app setup
