@@ -6,21 +6,27 @@ Vagrant::Config.run do |config|
     tw_config.vm.box_url     = "http://files.vagrantup.com/precise64.box"
     tw_config.vm.host_name   = "training.wheels"
 
+    # Don't auto-update the additions, rather run this manually as it should be
+    # done after any new kernel is downloaded, rather than before.
+    if defined? config.vbguest
+      config.vbguest.auto_update = false
+    end
+
     tw_config.vm.customize ["modifyvm", :id, "--memory", "512"]
     tw_config.vm.customize ["modifyvm", :id, "--cpus", "1"]
 
     # Shared folders through NFS. This is supported in Mac and Windows.
-    config.vm.network :hostonly, "10.1.0.1"
+    config.vm.network :hostonly, "10.1.0.2"
     config.vm.share_folder("twdir", "/var/trainingwheels", "../", :nfs => true)
 
-    # 80 runs Apache, 8000 is the controller, and 22 ssh.
-    tw_config.vm.forward_port 80, 8888
-    tw_config.vm.forward_port 8000, 8000
-    tw_config.vm.forward_port 22, 2222
+    tw_config.vm.forward_port 80, 8888 # Apache webserver
+    tw_config.vm.forward_port 8000, 8000 # Controller (nginx)
+    tw_config.vm.forward_port 22, 2222 # SSH
+    tw_config.vm.forward_port 21, 2121 # FTP
 
     tw_config.vm.provision :shell, :path => "ansible-setup.sh"
-    # tw_config.vm.provision :shell, :path => "classroom-setup.sh"
-    # tw_config.vm.provision :shell, :path => "controller-setup.sh"
+    tw_config.vm.provision :shell, :path => "classroom-setup.sh"
+    tw_config.vm.provision :shell, :path => "controller-setup.sh"
     tw_config.vm.provision :shell, :path => "dev-setup.sh"
   end
 end

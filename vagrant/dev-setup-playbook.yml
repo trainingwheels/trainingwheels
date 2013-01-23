@@ -10,11 +10,11 @@
     ##
     # Install compass and animation gems for theming
     #
-    - name: CSS | Install rubygems package
+    - name: Install rubygems package
       action: apt pkg=rubygems state=installed
 
-    - name: CSS | Install Aurora
-      action: command gem install compass-aurora
+    - name: Install Aurora
+      action: command gem install compass-aurora creates=/var/lib/gems/1.8/specifications/compass-aurora-1.1.1.gemspec
 
-    - name: CSS | Install Animation
-      action: command gem install animation --pre
+    - name: Install Animation
+      action: command gem install animation --pre creates=/var/lib/gems/1.8/specifications/animation-0.1.alpha.3.gemspec
