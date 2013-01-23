@@ -14,4 +14,4 @@ if [ -d $TW_DIR ]; then
   exit;
 fi
 
-git clone --branch vagrant https://github.com/fourkitchens/trainingwheels.git $TW_DIR
+git clone --branch vagrant https://github.com/trainingwheels/trainingwheels.git $TW_DIR
