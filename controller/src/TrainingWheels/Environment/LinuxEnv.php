@@ -52,7 +52,8 @@ class LinuxEnv implements TrainingEnv {
     $commands = array(
       "TW_TMP=`mktemp`",
       "echo \"$contents\" > \$TW_TMP",
-      "mv \$TW_TMP $file_path",
+      "cp --no-preserve=mode,ownership \$TW_TMP $file_path",
+      "rm \$TW_TMP",
     );
     $this->conn->exec_success($commands);
   }
