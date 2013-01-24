@@ -28,6 +28,8 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 Log::$instance = new Log($app['monolog']);
 Log::log('Initializing web application', L_INFO);
 
+$app->register(New Igorw\Silex\ConfigServiceProvider(__DIR__ . '/../config/config.yml'));
+
 /**
  * The REST service endpoints.
  */

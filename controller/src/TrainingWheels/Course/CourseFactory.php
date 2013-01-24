@@ -20,11 +20,11 @@ class CourseFactory extends Factory {
   /**
    * Return the singleton.
    */
-  public static function singleton() {
+  public static function singleton($dbUrl) {
     if (!isset(self::$instance)) {
       $className = get_called_class();
       self::$instance = new $className;
-      self::$instance->data = new DataStore();
+      self::$instance->data = new DataStore($dbUrl);
     }
     return self::$instance;
   }

@@ -32,7 +32,7 @@ class REST implements ControllerProviderInterface {
     $parseID = function ($id) {
       $parts = explode('-', $id);
       if (isset($parts[0]) && isset($parts[1])) {
-        $course = CourseFactory::singleton()->get($parts[0]);
+        $course = CourseFactory::singleton($app['connections']['mongo'])->get($parts[0]);
         return array(
           'course' => $course,
           'user_name' => $parts[1],
@@ -89,7 +89,7 @@ class REST implements ControllerProviderInterface {
         return $app->json(array('messages' => 'Invalid parameters passed, check JSON formatting is strict.'), HTTP_BAD_REQUEST);
       }
 
-      $course = CourseFactory::singleton()->get($course_id);
+      $course = CourseFactory::singleton($app['connections']['mongo'])->get($course_id);
       $result = $course->usersCreate($user_name);
       if (!$result) {
         return $app->json(array('messages' => 'User already exists.'), HTTP_CONFLICT);
@@ -150,7 +150,7 @@ class REST implements ControllerProviderInterface {
      * Get course summaries
      */
     $controllers->get('/course_summaries', function() use ($app) {
-      $courses = CourseFactory::singleton()->getAllSummaries();
+      $courses = CourseFactory::singleton($app['connections']['mongo'])->getAllSummaries();
       $return = new \stdClass;
       $return->course_summaries = $courses;
       return $app->json($return, HTTP_OK);
@@ -161,7 +161,7 @@ class REST implements ControllerProviderInterface {
      */
     $controllers->post('/course_summaries', function (Request $request) use ($app) {
       $newCourse = $request->request->get('course_summary');
-      $savedCourse = CourseFactory::singleton()->save($newCourse);
+      $savedCourse = CourseFactory::singleton($app['connections']['mongo'])->save($newCourse);
 
       $return = new \stdClass;
       $return->course_summary = $savedCourse;
@@ -173,7 +173,7 @@ class REST implements ControllerProviderInterface {
      * Retrieve a course.
      */
     $controllers->get('/courses/{id}', function ($id) use ($app) {
-      $course = CourseFactory::singleton()->get($id);
+      $course = CourseFactory::singleton($app['connections']['mongo'])->get($id);
       if (!$course) {
         return $app->json(array('messages' => 'Course with id ' . $id . ' does not exist.'), HTTP_NOT_FOUND);
       }
