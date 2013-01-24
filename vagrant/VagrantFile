@@ -15,7 +15,8 @@ Vagrant::Config.run do |config|
     tw_config.vm.customize ["modifyvm", :id, "--memory", "512"]
     tw_config.vm.customize ["modifyvm", :id, "--cpus", "1"]
 
-    # Shared folders through NFS. This is supported in Mac and Windows.
+    # Shared folders through NFS. This is supported in Mac and Linux. Windows may have
+    # issues, see Vagrant site for documentation.
     config.vm.network :hostonly, "10.1.0.2"
     config.vm.share_folder("twdir", "/var/trainingwheels", "../", :nfs => true)
 

@@ -3,12 +3,20 @@ Setup Vagrant Dev Environment
 
 1. Download and install Vagrant and VirtualBox as per the Vagrant "Getting started" page.
 2. Run `vagrant up`
-3. Add to your /etc/hosts:
+3. Add to your /etc/hosts, to get started:
 
     # Training Wheels
     127.0.0.1  training.wheels instructor.mycourse.training.wheels bobby.mycourse.training.wheels sally.mycourse.training.wheels
 
-A new Vagrant virtual machine is started up, using the standard Ubuntu 12.04 base box. Ansible is installed on the box, and the setup playbooks for both the controller and classroom are run.
+4. Run `vagrant ssh` to connect.
+
+What is all this magic?
+-----------------------
+
+* A new VirtualBox virtual machine is started up in 'headless' mode, using the standard Ubuntu 12.04 base box.
+* Ansible is then installed on the box, and the setup playbooks for both the controller and classroom are run, followed by the developer setup playbook.
+* You can then connect to the virtual machine by going to http://training.wheels:8000/ in your browser, or http://instructor.mycourse.training.wheels:8888/. This domain is 127.0.0.1 in your /etc/hosts, and Vagrant is forwarding the port from localhost to the virtual machine. This port mapping is defined in the file called `VagrantFile`.
+* Vagrant mounts the current clone of the Github repository on your host, at `/var/trainingwheels` in the virtual machine. This is done using NFS, rather than the VirtualBox shared folders, which are documented as being far, far slower. You can develop on your host in your clone, and have the files served instantly and transparently through the VM.
 
 Vagrant commands
 ----------------
@@ -27,12 +35,12 @@ Make a new .vagrant if necessary. Looks like:
 Why not use the Vagrant Ansible plugin?
 ---------------------------------------
 
-The problem is the setup of Ansible on the host Mac OSX machine. It's not straightforward as it requires Python modules be built. It's far simpler on Linux, but we must support OSX.
+The problem is the setup of Ansible on the host Mac OSX machine. It's not straightforward as it requires Python modules be built. It's far simpler on Linux, but we must support OSX. Secondly, we need Ansible installed on the guest machine running the controller, as our roadmap has the controller executing Ansible commands directly.
 
 Shared folders
 --------------
 
-Currently we use NFS, be sure to check /etc/exports, make sure you don't export a parent of this directory, as that prevents this one from beign exported.
+Currently we use NFS, be sure to check /etc/exports, make sure you don't export a parent of this directory, as that prevents this one from being exported.
 
 Package updates (optional)
 --------------------------
