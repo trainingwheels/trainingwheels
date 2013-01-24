@@ -150,6 +150,10 @@
       action: file state=directory path=/var/trainingwheels-source/controller/log mode=0777
       tags: dev
 
+    - name: Copy app config file
+      action: template src=templates/var-trainingwheels-source-controller-config-config-yml.j2 dest=/var/trainingwheels-source/controller/config/config.yml
+      tags: dev
+
     #####################################################################
 
     ##
