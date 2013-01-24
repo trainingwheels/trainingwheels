@@ -293,6 +293,11 @@ class LinuxEnv implements TrainingEnv {
    */
   public function mySQLUserDBCreate($user, $pass, $db, $dump_path = 'none') {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    // Because of the way the 'sudo ' part is added to each command, we can't do
+    // 'zcat db | mysql' directly as mysql will then try read credentials from whatever the
+    // current user's account it, and fail. Instead grab the credentials from root and save
+    // them temporarily. This is faster than the alternative which is to not use zcat and
+    // instead copy/move the database dump before unzipping it.
     $commands = array(
       "TW_MYSQL_CREDS=`mktemp`",
       "cat /root/.my.cnf > \$TW_MYSQL_CREDS",
@@ -302,11 +307,6 @@ class LinuxEnv implements TrainingEnv {
     );
 
     if (!empty($dump_path) && $dump_path !== 'none') {
-      // Because of the way the 'sudo ' part is added to each command, we can't do
-      // 'zcat db | mysql' directly as mysql will then try read credentials from whatever the
-      // current user's account it, and fail. Instead grab the credentials and save
-      // them temporarily. This is faster than the alternative which is to not use zcat and
-      // instead copy/move the database dump before unzipping it.
       $commands = array_merge($commands, array(
         "test -f $dump_path",
         "zcat $dump_path | mysql --defaults-extra-file=\$TW_MYSQL_CREDS $db",
