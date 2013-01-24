@@ -19,9 +19,19 @@ Vagrant::Config.run do |config|
     tw_config.vm.forward_port 22, 2222 # SSH
     tw_config.vm.forward_port 21, 2121 # FTP
 
-    tw_config.vm.provision :shell, :path => "ansible-setup.sh"
-    tw_config.vm.provision :shell, :path => "classroom-setup.sh"
-    tw_config.vm.provision :shell, :path => "controller-setup.sh"
-    tw_config.vm.provision :shell, :path => "dev-setup.sh"
+    # tw_config.vm.provision :shell, :path => "provision/ansible-setup.sh"
+    # tw_config.vm.provision :shell, :path => "provision/classroom-setup.sh"
+    # tw_config.vm.provision :shell, :path => "provision/controller-setup.sh"
+    # tw_config.vm.provision :shell, :path => "provision/dev-setup.sh"
+
+    # Load a local VagrantFile that you can use to provide additional config
+    # or setup steps.
+    if File.exist?('./VagrantFile.local')
+      load './VagrantFile.local'
+
+      $local[:provision].each do |prov|
+        tw_config.vm.provision :shell, :path => prov
+      end
+    end
   end
 end

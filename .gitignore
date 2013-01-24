@@ -5,3 +5,4 @@ controller/web/.sass-cache
 controller/log/*.log
 ec2-build/ec2-hostname
 vagrant/.vagrant
+vagrant/*.local
