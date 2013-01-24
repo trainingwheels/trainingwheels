@@ -16,7 +16,7 @@ What is all this magic?
 * A new VirtualBox virtual machine is started up in 'headless' mode, using the standard Ubuntu 12.04 base box.
 * Ansible is then installed on the box, and the setup playbooks for both the controller and classroom are run, followed by the developer setup playbook.
 * You can then connect to the virtual machine by going to http://training.wheels:8000/ in your browser, or http://instructor.mycourse.training.wheels:8888/. This domain is 127.0.0.1 in your /etc/hosts, and Vagrant is forwarding the port from localhost to the virtual machine. This port mapping is defined in the file called `VagrantFile`.
-* Vagrant mounts the current clone of the Github repository on your host, at `/var/trainingwheels` in the virtual machine. This is done using NFS, rather than the VirtualBox shared folders, which are documented as being far, far slower. You can develop on your host in your clone, and have the files served instantly and transparently through the VM.
+* Vagrant mounts the current clone of the Github repository on your host, at `/var/trainingwheels` in the virtual machine. This is done using NFS, rather than the VirtualBox shared folders, which are documented as being far, far slower. You can develop on your host in your clone, and have the files served instantly and transparently through the VM. The mount point is defined in /etc/exports on your host.
 
 Vagrant commands
 ----------------
