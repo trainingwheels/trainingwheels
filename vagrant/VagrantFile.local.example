@@ -1,7 +1,0 @@
-#!/usr/bin/env ruby
-
-# Here is an example of how I add mark-setup.sh as a custom provisioning step.
-# Note that the extension .local is ignored in this directory.
-$local = {
-  provision: ['mark-setup.sh.local']
-}

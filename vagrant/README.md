@@ -26,7 +26,12 @@ Commands
 
 * Try `vagrant destroy` then `vagrant up` to completely rebuild the VM.
 
-Vagrant advanced
+Additional provisioning
+-----------------------
+
+If you want special provisioning steps taken, you can place a setup.local bash script in this directory and it will be run after the other provisioning steps.
+
+Vagrant recovery
 ----------------
 
 If you accidentally delete your .vagrant file or this directory, use the VirtualBox commands to recover:

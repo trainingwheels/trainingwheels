@@ -6,7 +6,7 @@ TW_DIR='/var/trainingwheels'
 echo ''
 echo '======================================================================='
 echo 'Copying the settings files for the controller playbooks...'
-cp $TW_DIR/vagrant/controller-settings-vagrant.yml $TW_DIR/playbooks/controller/settings.yml
+cp $TW_DIR/vagrant/provision/controller-settings-vagrant.yml $TW_DIR/playbooks/controller/settings.yml
 
 echo ''
 echo '======================================================================='
