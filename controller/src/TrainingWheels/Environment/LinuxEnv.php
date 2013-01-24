@@ -89,10 +89,11 @@ class LinuxEnv implements TrainingEnv {
    */
   public function fileCreate($text, $file_path, $user = NULL) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
-    $file = basename($file_path);
     $commands = array(
-      "echo $text > /root/tmp/$file",
-      "cp /root/tmp/$file $file_path",
+      "\$TW_TMP=`mktemp`",
+      "echo $text > \$TW_TMP",
+      "cp \$TW_TMP $file_path",
+      "rm \$TW_TMP",
     );
     if ($user) {
       $commands[] = "chown $user: $file_path";
@@ -199,18 +200,22 @@ class LinuxEnv implements TrainingEnv {
    */
   public function userCreate($user, $pass) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+
     $commands = array(
+      "TW_SKEL_TMP=`mktemp -d`",
+      "TW_PWD_TMP=`mktemp`",
       "groupadd $user",
-      "rsync -ah --delete /etc/trainingwheels/skel/skel_user/ /tmp/skel_user/",
+      "rsync -ah --delete /etc/trainingwheels/skel/skel_user/ \$TW_SKEL_TMP/",
       // "sudo echo 'hello' > /tmp/filename" doesn't work if the file is owned by root, need to
       // do a 2 step process.
-      "echo $pass > /root/tmp/.password",
-      "cp /root/tmp/.password /tmp/skel_user/.password",
-      "useradd -m -p`openssl passwd -1 $pass` -d/twhome/$user -k/tmp/skel_user -s/bin/bash -g$user $user",
+      "echo $pass > \$TW_PWD_TMP",
+      "cp \$TW_PWD_TMP \$TW_SKEL_TMP/.password",
+      "useradd -m -p`openssl passwd -1 $pass` -d/twhome/$user -k\$TW_SKEL_TMP -s/bin/bash -g$user $user",
       "chmod o-rwx /twhome/$user",
       "chown root: /twhome/$user/.password",
       "chmod 400 /twhome/$user/.password",
-      "rm -rf /tmp/skel_user",
+      "rm -rf \$TW_SKEL_TMP",
+      "rm \$TW_PWD_TMP",
     );
     $this->conn->exec_success($commands);
   }
@@ -325,6 +330,9 @@ class LinuxEnv implements TrainingEnv {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $cmd = "echo \"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$db';\" | mysql -s";
     $output = $this->conn->exec_get($cmd);
+    if (!empty($output) && $output !== $db) {
+      throw new Exception("MySQLDBExists command returned invalid data \"$output\".");
+    }
     return $output === $db;
   }
 
