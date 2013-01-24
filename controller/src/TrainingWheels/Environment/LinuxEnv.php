@@ -170,8 +170,8 @@ class LinuxEnv implements TrainingEnv {
    */
   public function dirDelete($dir_path) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
-    if (substr($dir_path, 0, 6) !== '/twhome/') {
-      throw new Exception("Cannot delete a folder outside of /twhome");
+    if (substr($dir_path, 0, 8) !== '/twhome/') {
+      throw new Exception("Cannot delete a folder outside of /twhome, attempting to delete $dir_path");
     }
     $commands = array(
       "rm -rf $dir_path",
