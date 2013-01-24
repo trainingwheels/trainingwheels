@@ -6,12 +6,6 @@ Vagrant::Config.run do |config|
     tw_config.vm.box_url     = "http://files.vagrantup.com/precise64.box"
     tw_config.vm.host_name   = "training.wheels"
 
-    # Don't auto-update the Guest Additions, rather run this manually as it should be
-    # done after any new kernel is downloaded, rather than before.
-    if defined? config.vbguest
-      config.vbguest.auto_update = false
-    end
-
     tw_config.vm.customize ["modifyvm", :id, "--memory", "512"]
     tw_config.vm.customize ["modifyvm", :id, "--cpus", "1"]
 

@@ -10,7 +10,7 @@
   action: copy src=lib/mongodb/etc-apt-sources-list-d-mongodb-list dest=/etc/apt/sources.list.d/mongodb.list
 
 - name: MongoDB | Update the apt cache for the new repository
-  action: apt update-cache=yes
+  action: command aptitude -y update creates=/usr/bin/mongo
 
 - name: MongoDB | Install Mongo
   action: apt pkg=$item state=installed

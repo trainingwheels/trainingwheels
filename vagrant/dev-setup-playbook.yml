@@ -18,3 +18,9 @@
 
     - name: Install Animation
       action: command gem install animation --pre creates=/var/lib/gems/1.8/specifications/animation-0.1.alpha.3.gemspec
+
+    ##
+    # Misc fixes
+    #
+    - name: Prevent the stdin is not a tty error from appearing in Vagrant
+      action: copy src=root-profile dest=/root/.profile owner=root group=root mode=644

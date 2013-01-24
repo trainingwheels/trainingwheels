@@ -9,19 +9,25 @@ Setup Vagrant Dev Environment
     127.0.0.1  training.wheels instructor.mycourse.training.wheels bobby.mycourse.training.wheels sally.mycourse.training.wheels
 
 4. Run `vagrant ssh` to connect.
+5. Visit the controller at http://training.wheels:8000/
+6. See sample course student at http://instructor.mycourse.training.wheels:8888/
 
 What is all this magic?
 -----------------------
 
-* A new VirtualBox virtual machine is started up in 'headless' mode, using the standard Ubuntu 12.04 base box.
+* A new VirtualBox virtual machine is started up in 'headless' mode, using the standard Ubuntu 12.04 base box. This base box is downloaded and stored in a shared location for use by other Vagrant profiles.
 * Ansible is then installed on the box, and the setup playbooks for both the controller and classroom are run, followed by the developer setup playbook.
-* You can then connect to the virtual machine by going to http://training.wheels:8000/ in your browser, or http://instructor.mycourse.training.wheels:8888/. This domain is 127.0.0.1 in your /etc/hosts, and Vagrant is forwarding the port from localhost to the virtual machine. This port mapping is defined in the file called `VagrantFile`.
+* Vagrant is forwarding the ports from localhost to the virtual machine. This port mapping is defined in the file called `VagrantFile`.
 * Vagrant mounts the current clone of the Github repository on your host, at `/var/trainingwheels` in the virtual machine. This is done using NFS, rather than the VirtualBox shared folders, which are documented as being far, far slower. You can develop on your host in your clone, and have the files served instantly and transparently through the VM. The mount point is defined in /etc/exports on your host.
+* You can type `vagrant reload` to reload a changed VagrantFile config, or re-run the playbooks if they've been updated.
 
-Vagrant commands
+Commands
+--------
+
+* Try `vagrant destroy` then `vagrant up` to completely rebuild the VM.
+
+Vagrant advanced
 ----------------
-
-`vagrant reload` to reload a changed VagrantFile config
 
 If you accidentally delete your .vagrant file or this directory, use the VirtualBox commands to recover:
 
@@ -61,4 +67,4 @@ Guest additions can be upgraded by doing the following (make sure you reboot if 
 1. `vagrant gem install vagrant-vbguest` installs [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest).
 2. `vagrant vbguest --do install`
 
-In usual operation, the vbguest plugin will automatically try upgrade the additions, this is not enabled in this VagrantFile because we don't want to compile the upgraded additions before updating the kernel.
+If you have this plugin installed, it will update guest additions automatically. Just make sure that you always compile them when your kernel changes.
