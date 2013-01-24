@@ -25,7 +25,9 @@ class LocalServerConn extends ServerConn {
       // is still the fastest and works as long as you don't use pipe or redirections
       // incorrectly. We specifically cannot use sudo if we're doing a mktemp command,
       // as it does a variable assignment like TW_TMP=`mktemp` which fails through sudo.
+      //
       // TODO: We should have an API for creating temporary files and directories.
+      //
       if (substr($command, 0, 5) != 'sudo ' && strpos($command, '`mktemp') === FALSE) {
         $commands[$key] = 'sudo ' . $command . ' 2>&1';
       }
