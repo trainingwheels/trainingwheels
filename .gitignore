@@ -6,3 +6,4 @@ controller/log/*.log
 ec2-build/ec2-hostname
 vagrant/.vagrant
 vagrant/setup.local.sh
+vagrant/*.local.yml

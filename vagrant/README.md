@@ -1,7 +1,7 @@
 Setup Vagrant Dev Environment
 -----------------------------
 
-1. Download and install Vagrant and VirtualBox as per the Vagrant "Getting started" page.
+1. Download and install [Vagrant](http://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/) as per the Vagrant "Getting started" page.
 2. Run `vagrant up`
 3. Add to your /etc/hosts, to get started:
 
@@ -30,6 +30,8 @@ Additional provisioning
 -----------------------
 
 If you want special provisioning steps taken, you can place a setup.local.sh bash script in this directory and it will be run after the other provisioning steps.
+
+If you want to run a custom Ansible playbook from this script, name it (or them) *.local.yml, which is ignored in this repo's .gitignore.
 
 Vagrant recovery
 ----------------
