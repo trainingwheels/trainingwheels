@@ -8,7 +8,7 @@
   gather_facts: False
 
   vars:
-    phpfpmhome: '/home/phpfpm'
+    phpfpm_home: '/home/phpfpm'
     twdir: '/var/trainingwheels'
 
   vars_files:
@@ -31,19 +31,19 @@
       action: group name=phpfpm system=yes
 
     - name: Create a user for phpfpm
-      action: user name=phpfpm group=phpfpm createhome=yes home=$phpfpmhome system=yes shell=/bin/false
+      action: user name=phpfpm group=phpfpm createhome=yes home=$phpfpm_home system=yes shell=/bin/false
 
     - name: Create phpfpm home
-      action: file path=$phpfpmhome state=directory owner=phpfpm group=phpfpm mode=700
+      action: file path=$phpfpm_home state=directory owner=phpfpm group=phpfpm mode=700
 
     - name: Private tmp directory for php-fpm needed by Training Wheels
-      action: file path=$phpfpmhome/tmp state=directory owner=phpfpm group=phpfpm mode=700
+      action: file path=$phpfpm_home/tmp state=directory owner=phpfpm group=phpfpm mode=700
 
     - name: Copy MySQL config from root so phpfpm can easily administer the database
-      action: shell cp /root/.my.cnf $phpfpmhome/.my.cnf creates=$phpfpmhome/.my.cnf
+      action: shell cp /root/.my.cnf $phpfpm_home/.my.cnf creates=$phpfpm_home/.my.cnf
 
     - name: Check permissions of MySQL config
-      action: file path=$phpfpmhome/.my.cnf owner=phpfpm group=phpfpm mode=600
+      action: file path=$phpfpm_home/.my.cnf owner=phpfpm group=phpfpm mode=600
 
     ##
     # Apt package installation of required software.
@@ -114,13 +114,13 @@
     # Handy shortcuts
     #
     - name: Link to the webroot
-      action: file state=link src=$twdir/controller/web dest=/root/tw-webroot
+      action: file state=link src=$twdir/controller/web dest=$admin_user_home/tw-webroot
 
     - name: Link to the CLI application
       action: file state=link src=$twdir/controller/cli/tw dest=/usr/local/bin/tw
 
     - name: Link to the Training Wheels directory
-      action: file state=link src=$twdir dest=/root/trainingwheels
+      action: file state=link src=$twdir dest=$admin_user_home/trainingwheels
 
     ##
     # Restart services

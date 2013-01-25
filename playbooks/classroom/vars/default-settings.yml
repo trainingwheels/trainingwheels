@@ -6,6 +6,10 @@
 # up.
 server_hostname: 'training'
 
+# The 'admin' user's home. This is the user that has passwordless sudo,
+# on EC2 it's 'ubuntu', on Vagrant it's 'vagrant'
+admin_user_home: '/home/ubuntu'
+
 # php.ini for apache2
 php_max_execution_time: '90'
 php_display_errors: 'On'

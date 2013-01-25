@@ -1,6 +1,10 @@
 # Settings that are applied to the templates.
 
 ---
+# The 'admin' user's home. This is the user that has passwordless sudo,
+# on EC2 it's 'ubuntu', on Vagrant it's 'vagrant'
+admin_user_home: '/home/vagrant'
+
 # www.conf for php-fpm
 # Only the nginx user is allowed to write or read from the php-fpm socket.
 phpfpm_user: 'phpfpm'
