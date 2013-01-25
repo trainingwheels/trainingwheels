@@ -85,12 +85,6 @@ class CourseFactory extends Factory {
         $object->env_type = 'ubuntu';
       break;
 
-      case 'ubuntu-local':
-        $conn = new LocalServerConn(TRUE);
-        $object->env = new UbuntuEnv($conn);
-        $object->env_type = 'ubuntu';
-      break;
-
       case 'centos':
         $conn = new SSHServerConn($host, 22, $user, $pass, TRUE);
         if (!$conn->connect()) {
@@ -98,13 +92,6 @@ class CourseFactory extends Factory {
         }
         $object->env = new CentosEnv($conn);
         $object->env_type = 'centos';
-      break;
-
-      case 'dev':
-        $conn = new LocalServerConn(TRUE);
-        $base_path = '/root/tw';
-        $object->env = new DevEnv($conn, $base_path);
-        $object->env_type = 'dev';
       break;
 
       default:
@@ -126,17 +113,6 @@ class CourseFactory extends Factory {
       case 'nodejs':
         $course = new NodejsCourse();
         $course->course_type = 'nodejs';
-      break;
-
-      case 'drupal-multisite':
-        $course = new DrupalMultiSiteCourse();
-        $course->course_type = 'drupal-multisite';
-      break;
-
-      case 'dev':
-        $base_path = '/root/tw';
-        $course = new DevCourse($base_path);
-        $course->course_type = 'dev';
       break;
 
       default:
