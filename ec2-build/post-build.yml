@@ -9,4 +9,4 @@
 
   tasks:
     - name: Bender user should own the source
-      action: command chown -R bender:bender /var/trainingwheels-source
+      action: command chown -R bender:bender /var/trainingwheels

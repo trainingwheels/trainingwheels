@@ -23,7 +23,11 @@ class LinuxEnv implements TrainingEnv {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
       "test -f $file_path",
-      "echo \"$text\" >> $file_path"
+      "TW_TMP=`mktemp`",
+      "cp $file_path \$TW_TMP",
+      "echo \"$text\" >> \$TW_TMP",
+      "cp --no-preserve=mode,ownership \$TW_TMP $file_path",
+      "rm \$TW_TMP",
     );
     $this->conn->exec_success($commands);
   }
@@ -45,8 +49,13 @@ class LinuxEnv implements TrainingEnv {
    */
   public function filePutContents($file_path, $contents) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
-    $out = $this->conn->exec_eq("echo \"$contents\" > $file_path");
-    return $out;
+    $commands = array(
+      "TW_TMP=`mktemp`",
+      "echo \"$contents\" > \$TW_TMP",
+      "cp --no-preserve=mode,ownership \$TW_TMP $file_path",
+      "rm \$TW_TMP",
+    );
+    $this->conn->exec_success($commands);
   }
 
   /**
@@ -56,8 +65,8 @@ class LinuxEnv implements TrainingEnv {
   public function fileSyncUserFolder($source_user, $target_user, $folder) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
 
-    $source_path = "/home/$source_user/$folder";
-    $target_path = "/home/$target_user/$folder";
+    $source_path = "/twhome/$source_user/$folder";
+    $target_path = "/twhome/$target_user/$folder";
 
     if ($source_path == $target_path) {
       throw new Exception("Source and target cannot be equal: $source_path");
@@ -89,10 +98,11 @@ class LinuxEnv implements TrainingEnv {
    */
   public function fileCreate($text, $file_path, $user = NULL) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
-    $file = basename($file_path);
     $commands = array(
-      "echo $text > ~/tmp/$file",
-      "cp ~/tmp/$file $file_path",
+      "TW_TMP=`mktemp`",
+      "echo $text > \$TW_TMP",
+      "cp \$TW_TMP $file_path",
+      "rm \$TW_TMP",
     );
     if ($user) {
       $commands[] = "chown $user: $file_path";
@@ -129,7 +139,7 @@ class LinuxEnv implements TrainingEnv {
    * Get all Linux users, just the ones with home directories.
    */
   public function usersGetAll() {
-    $output = $this->conn->exec_get('ls /home');
+    $output = $this->conn->exec_get('ls /twhome');
     if (!empty($output)) {
       return explode("\n", $output);
     }
@@ -170,8 +180,8 @@ class LinuxEnv implements TrainingEnv {
    */
   public function dirDelete($dir_path) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
-    if (substr($dir_path, 0, 6) !== '/home/') {
-      throw new Exception("Cannot delete a folder outside of /home");
+    if (substr($dir_path, 0, 8) !== '/twhome/') {
+      throw new Exception("Cannot delete a folder outside of /twhome, attempting to delete $dir_path");
     }
     $commands = array(
       "rm -rf $dir_path",
@@ -199,18 +209,22 @@ class LinuxEnv implements TrainingEnv {
    */
   public function userCreate($user, $pass) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+
     $commands = array(
+      "TW_SKEL_TMP=`mktemp -d`",
+      "TW_PWD_TMP=`mktemp`",
       "groupadd $user",
-      "rsync -ah --delete /var/trainingwheels/skel/skel_user/ /tmp/skel_user/",
+      "rsync -ah --delete /etc/trainingwheels/skel/skel_user/ \$TW_SKEL_TMP/",
       // "sudo echo 'hello' > /tmp/filename" doesn't work if the file is owned by root, need to
       // do a 2 step process.
-      "echo $pass > ~/tmp/.password",
-      "cp ~/tmp/.password /tmp/skel_user/.password",
-      "useradd -m -p`openssl passwd -1 $pass` -d/home/$user -k/tmp/skel_user -s/bin/bash -g$user $user",
-      "chmod o-rwx /home/$user",
-      "chown root: /home/$user/.password",
-      "chmod 400 /home/$user/.password",
-      "rm -rf /tmp/skel_user",
+      "echo $pass > \$TW_PWD_TMP",
+      "cp \$TW_PWD_TMP \$TW_SKEL_TMP/.password",
+      "useradd -m -p`openssl passwd -1 $pass` -d/twhome/$user -k\$TW_SKEL_TMP -s/bin/bash -g$user $user",
+      "chmod o-rwx /twhome/$user",
+      "chown root: /twhome/$user/.password",
+      "chmod 400 /twhome/$user/.password",
+      "rm -rf \$TW_SKEL_TMP",
+      "rm \$TW_PWD_TMP",
     );
     $this->conn->exec_success($commands);
   }
@@ -223,7 +237,7 @@ class LinuxEnv implements TrainingEnv {
     $commands = array(
       "userdel $user",
       "groupdel $user",
-      "rm -rf /home/$user",
+      "rm -rf /twhome/$user",
     );
     $this->conn->exec_success($commands);
   }
@@ -261,7 +275,7 @@ class LinuxEnv implements TrainingEnv {
    */
   public function userPasswdGet($user) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
-    return $this->fileGetContents("/home/$user/.password");
+    return $this->fileGetContents("/twhome/$user/.password");
   }
 
   /**
@@ -279,18 +293,30 @@ class LinuxEnv implements TrainingEnv {
    */
   public function mySQLUserDBCreate($user, $pass, $db, $dump_path = 'none') {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
+    // Because of the way the 'sudo ' part is added to each command, we can't do
+    // 'zcat db | mysql' directly as mysql will then try read credentials from whatever the
+    // current user's account it, and fail. Instead grab the credentials from root and save
+    // them temporarily. This is faster than the alternative which is to not use zcat and
+    // instead copy/move the database dump before unzipping it.
     $commands = array(
-      "echo \"CREATE USER '$user'@'localhost' IDENTIFIED BY '$pass';\" | mysql",
-      "echo \"CREATE DATABASE $db;\" | mysql",
-      "echo \"GRANT ALL PRIVILEGES on $db.* to '$user'@'localhost';\" | mysql",
+      "TW_MYSQL_CREDS=`mktemp`",
+      "cat /root/.my.cnf > \$TW_MYSQL_CREDS",
+      "mysql --defaults-extra-file=\$TW_MYSQL_CREDS -e \"CREATE USER '$user'@'localhost' IDENTIFIED BY '$pass';\"",
+      "mysql --defaults-extra-file=\$TW_MYSQL_CREDS -e \"CREATE DATABASE $db;\"",
+      "mysql --defaults-extra-file=\$TW_MYSQL_CREDS -e \"GRANT ALL PRIVILEGES on $db.* to '$user'@'localhost';\"",
     );
 
     if (!empty($dump_path) && $dump_path !== 'none') {
       $commands = array_merge($commands, array(
         "test -f $dump_path",
-        "zcat $dump_path | mysql $db",
+        "zcat $dump_path | mysql --defaults-extra-file=\$TW_MYSQL_CREDS $db",
       ));
     }
+
+    $commands = array_merge($commands, array(
+      "rm \$TW_MYSQL_CREDS",
+    ));
+
     $this->conn->exec_success($commands);
   }
 
@@ -300,8 +326,8 @@ class LinuxEnv implements TrainingEnv {
   public function mySQLUserDBDelete($user, $db) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
-      "echo \"DROP DATABASE $db;\" | mysql",
-      "echo \"DROP USER '$user'@'localhost';\" | mysql",
+      "sudo -i mysql -e \"DROP DATABASE $db;\"",
+      "sudo -i mysql -e \"DROP USER '$user'@'localhost';\"",
     );
     $this->conn->exec_success($commands);
   }
@@ -312,7 +338,7 @@ class LinuxEnv implements TrainingEnv {
   public function mySQLDumpToFile($db, $target_file) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $commands = array(
-      "mysqldump --result-file=$target_file $db",
+      "sudo -i mysqldump --result-file=$target_file $db",
       "gzip -f $target_file",
     );
     $this->conn->exec_success($commands);
@@ -323,8 +349,11 @@ class LinuxEnv implements TrainingEnv {
    */
   public function mySQLDBExists($db) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
-    $cmd = "echo \"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$db';\" | mysql -s";
+    $cmd = "sudo -i mysql -s -e \"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$db';\"";
     $output = $this->conn->exec_get($cmd);
+    if (!empty($output) && $output !== $db) {
+      throw new Exception("MySQLDBExists command returned invalid data \"$output\".");
+    }
     return $output === $db;
   }
 
