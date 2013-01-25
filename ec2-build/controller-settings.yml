@@ -16,7 +16,7 @@ nginx_user: 'nginx'
 nginx_server_name: 'tw-build.com'
 nginx_lan_subnet: '192.168.0.0/16'
 nginx_worker_processes: '1'
-nginx_webroot: '/var/trainingwheels-source/controller/web'
+nginx_webroot: '/var/trainingwheels/controller/web'
 
 # php.ini for php-fpm
 php_max_execution_time: '90'

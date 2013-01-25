@@ -49,7 +49,7 @@ Some command examples:
 
 To reset the backend data, use:
 
-    mongo trainingwheels trainingwheels/playbooks/controller/sample-data-mongo.js
+    mongo trainingwheels trainingwheels/playbooks/controller/mongo-reset-data.js
 
 Working with Web Inspector and Ember.js
 ---------------------------------------

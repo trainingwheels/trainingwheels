@@ -4,8 +4,7 @@
 $autoloader_path = __DIR__.'/../vendor/autoload.php';
 
 if (!file_exists($autoloader_path)) {
-  print 'Unable to find the class autoloader, are you sure you have run "composer install"? See README.md for more information.';
-  print "\n";
+  print 'Unable to find the class autoloader, are you sure you have run "composer install"? See README.md for more information.' . "\n";
   exit;
 }
 
@@ -20,10 +19,14 @@ use TrainingWheels\Console\ResourceSync;
 use TrainingWheels\Log\Log;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Formatter\LineFormatter;
 use Symfony\Component\Console\Application;
 
+$formatter = new LineFormatter("[%datetime%] %channel%.%level_name%: %message% \n");
+$stream = new StreamHandler(__DIR__.'/../log/cli.log', Logger::DEBUG);
+$stream->setFormatter($formatter);
 $log = new Logger('tw');
-$log->pushHandler(new StreamHandler('../log/cli.log', Logger::DEBUG));
+$log->pushHandler($stream);
 
 Log::$instance = new Log($log);
 Log::log('Initializing CLI application', L_INFO);
