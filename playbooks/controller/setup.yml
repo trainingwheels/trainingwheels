@@ -114,13 +114,13 @@
     # Handy shortcuts
     #
     - name: Link to the webroot
-      action: file state=link src=$twdir/controller/web dest=/root/tw-webroot owner=root group=root
+      action: file state=link src=$twdir/controller/web dest=/root/tw-webroot
 
     - name: Link to the CLI application
-      action: file state=link src=$twdir/controller/cli/tw dest=/usr/local/bin/tw owner=root group=root
+      action: file state=link src=$twdir/controller/cli/tw dest=/usr/local/bin/tw
 
     - name: Link to the Training Wheels directory
-      action: file state=link src=$twdir dest=/root/trainingwheels owner=root group=root
+      action: file state=link src=$twdir dest=/root/trainingwheels
 
     ##
     # Restart services
