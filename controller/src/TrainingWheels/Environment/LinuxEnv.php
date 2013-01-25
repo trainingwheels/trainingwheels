@@ -1,9 +1,11 @@
 <?php
 
 namespace TrainingWheels\Environment;
-use \TrainingWheels\Conn\ServerConn;
-use \TrainingWheels\Environment\TrainingEnv;
-use \TrainingWheels\Common\Util;
+use TrainingWheels\Conn\ServerConn;
+use TrainingWheels\Conn\LocalServerConn;
+use TrainingWheels\Environment\TrainingEnv;
+use TrainingWheels\Common\Util;
+use TrainingWheels\Plugin\PluginManager;
 use Exception;
 
 class LinuxEnv implements TrainingEnv {
@@ -14,6 +16,42 @@ class LinuxEnv implements TrainingEnv {
     if (!$this->conn->exec_eq('sudo whoami', 'root')) {
       throw new Exception('The connection needs to have root or sudo access to the server.');
     }
+  }
+
+  /**
+   * Run the classroom ansible playbooks.
+   */
+  public function configure() {
+    $commands = array(
+      'TW_INV=`mktemp`',
+    );
+
+    // Grab a connection to the controller machine.
+    if (get_class($this->conn) == 'TrainingWheels\Conn\LocalServerConn') {
+      $local = $this->conn;
+    }
+    else {
+      $local = new LocalServerConn();
+    }
+
+    // Get a list of the playbooks to be run.
+    $plugins = PluginManager::singleton();
+    $playbooks = $plugins->getPlaybooks();
+
+    $ansible_args_array = array(
+      // TODO: Make ssh connections work.
+      //'--inventory-file=$TW_INV',
+      '-c local',
+      '--sudo',
+    );
+    $ansible_args = implode(' ', $ansible_args_array);
+
+    foreach ($playbooks as $play) {
+      $commands[] = 'ansible-playbook ' . $ansible_args . ' ' . $play;
+    }
+    $commands[] = 'rm $TW_INV';
+
+    $local->exec_get($commands);
   }
 
   /**

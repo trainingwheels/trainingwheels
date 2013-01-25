@@ -37,6 +37,13 @@ abstract class TrainingCourse {
   }
 
   /**
+   * Configure the environment.
+   */
+  public function configure() {
+    $this->env->configure();
+  }
+
+  /**
    * Get multiple users in this course. Will return summarised versions of users.
    */
   public function usersGet($users = '*') {

@@ -1,6 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+$whoami = trim(shell_exec('sudo whoami'));
+if ($whoami != 'root') {
+  print 'Please run this as root or a user with password-less sudo access.' . "\n";
+  exit;
+}
+
 $autoloader_path = __DIR__.'/../vendor/autoload.php';
 
 if (!file_exists($autoloader_path)) {
@@ -10,6 +16,7 @@ if (!file_exists($autoloader_path)) {
 
 require_once $autoloader_path;
 
+use TrainingWheels\Console\ClassroomConfigure;
 use TrainingWheels\Console\UserRetrieve;
 use TrainingWheels\Console\UserCreate;
 use TrainingWheels\Console\UserDelete;
@@ -32,6 +39,7 @@ Log::$instance = new Log($log);
 Log::log('Initializing CLI application', L_INFO);
 
 $application = new Application();
+$application->add(new ClassroomConfigure);
 $application->add(new UserRetrieve);
 $application->add(new UserCreate);
 $application->add(new UserDelete);

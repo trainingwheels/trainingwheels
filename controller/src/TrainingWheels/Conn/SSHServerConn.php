@@ -8,6 +8,8 @@ set_include_path(get_include_path() . PATH_SEPARATOR . 'sites/all/libraries/phps
 require_once('Net/SSH2.php');
 
 class SSHServerConn implements ServerConn {
+
+  // TODO: Switch to using keys.
   protected $ip;
   protected $port;
   protected $user;

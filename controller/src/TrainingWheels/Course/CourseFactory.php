@@ -48,8 +48,9 @@ class CourseFactory extends Factory {
 
       return $course;
     }
-
-    return FALSE;
+    else {
+      throw new Exception("Course with id $course_id does not exist.");
+    }
   }
 
   /**

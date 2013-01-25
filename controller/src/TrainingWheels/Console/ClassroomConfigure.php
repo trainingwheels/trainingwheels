@@ -9,8 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ClassroomConfigure extends Command
-{
+class ClassroomConfigure extends Command {
   protected function configure() {
     $this->setName('classroom:configure')
          ->setDescription('Configure classroom.')

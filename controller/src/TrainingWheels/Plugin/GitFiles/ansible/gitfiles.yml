@@ -1,0 +1,17 @@
+##
+# Ansible playbook plugin for MySQL resource.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  vars_files:
+    - mysql-default-settings.yml
+
+  tasks:
+    ##
+    # Do stuff.
+    #
+    - name: Delete anonymous MySQL server user for localhost
+      action: mysql_user user="" host=localhost state=absent

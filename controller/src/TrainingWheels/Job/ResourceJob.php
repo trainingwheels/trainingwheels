@@ -15,9 +15,6 @@ class ResourceJob extends Job {
    */
   protected function resourceCreate() {
     $course = CourseFactory::singleton()->get($this->course_id);
-    if (!$course) {
-      throw new Exception("Course with id $this->course_id does not exist.");
-    }
     $resources = empty($this->params['resources']) ? '*' : $this->params['resources'];
     $course->usersResourcesCreate($this->params['user_names'], $resources);
   }
@@ -31,9 +28,6 @@ class ResourceJob extends Job {
    */
   protected function resourceDelete() {
     $course = CourseFactory::singleton()->get($this->course_id);
-    if (!$course) {
-      throw new Exception("Course with id $this->course_id does not exist.");
-    }
     $resources = empty($this->params['resources']) ? '*' : $this->params['resources'];
     $course->usersResourcesDelete($this->params['user_names'], $resources);
   }
@@ -48,9 +42,6 @@ class ResourceJob extends Job {
    */
   protected function resourceSync() {
     $course = CourseFactory::singleton()->get($this->course_id);
-    if (!$course) {
-      throw new Exception("Course with id $this->course_id does not exist.");
-    }
     $resources = empty($this->params['resources']) ? '*' : $this->params['resources'];
     $course->usersResourcesSync($this->params['source_user'], $this->params['target_users'], $resources);
   }
