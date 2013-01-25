@@ -8,8 +8,6 @@
   gather_facts: False
 
   vars:
-    # This must also appear in the classroom settings file, classroom-settings-ec2.yml
-    mysql_root_password: 'tplqomnscy323e'
     twdir: '/var/trainingwheels'
 
   tasks:
