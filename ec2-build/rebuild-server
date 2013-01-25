@@ -90,7 +90,9 @@ fi
 
 echo ''
 echo "Running initial build and setup phase playbook..."
-ansible-playbook $ANS_ARGS ./prep-server.yml
+if ! ansible-playbook $ANS_ARGS ./prep-server.yml; then
+  exit 1
+fi
 
 echo ''
 echo 'Copying the settings files for the controller and classroom playbooks...'
@@ -100,19 +102,25 @@ cp $BASE_DIR/controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/setti
 echo ''
 echo 'Running classroom setup playbook...'
 cd ../playbooks/classroom
-ansible-playbook $ANS_ARGS setup.yml
+if ! ansible-playbook $ANS_ARGS setup.yml; then
+  exit 1
+fi
 
 echo ''
 echo 'Running controller setup and sample data playbooks...'
 cd ../controller
-ansible-playbook $ANS_ARGS setup.yml
-ansible-playbook $ANS_ARGS sample-data.yml
-
+if ! ansible-playbook $ANS_ARGS setup.yml; then
+  exit 1
+fi
+if ! ansible-playbook $ANS_ARGS sample-data.yml; then
+  exit 1
+fi
 echo ''
 echo 'Running the post build playbook...'
 cd $BASE_DIR
-ansible-playbook $ANS_ARGS post-build.yml
-
+if ! ansible-playbook $ANS_ARGS post-build.yml; then
+  exit 1
+fi
 echo ''
 echo 'done.'
 echo ''
