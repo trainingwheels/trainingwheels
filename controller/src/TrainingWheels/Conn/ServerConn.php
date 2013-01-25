@@ -20,7 +20,7 @@ class ServerConn {
     $result = $this->exec($command);
     $success = $result == 'training_wheels_success';
     if (!$success) {
-      throw new Exception('exec_success: One of the commands failed with an exit code of 0.');
+      throw new Exception('exec_success: One of the commands failed.');
     }
     return $success;
   }

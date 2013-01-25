@@ -98,23 +98,23 @@ ansible-playbook -c ssh $ANS_ARGS --user=root ./prep-server.yml
 
 echo ''
 echo 'Copying the settings files for the controller and classroom playbooks...'
-cp $BASE_DIR/classroom-settings.yml $BASE_DIR/../classroom/settings.yml
-cp $BASE_DIR/controller-settings.yml $BASE_DIR/../controller/settings.yml
+cp $BASE_DIR/classroom-settings.yml $BASE_DIR/../playbooks/classroom/settings.yml
+cp $BASE_DIR/controller-settings.yml $BASE_DIR/../playbooks/controller/settings.yml
 
 echo ''
 echo 'Running classroom setup playbook...'
-cd ../classroom
+cd ../playbooks/classroom
 ansible-playbook -c ssh $ANS_ARGS --user=root setup.yml
 
 echo ''
 echo 'Running controller setup and sample data playbooks...'
 cd ../controller
-ansible-playbook -c ssh $ANS_ARGS --tags="common,dev" --user=root setup.yml
+ansible-playbook -c ssh $ANS_ARGS --user=root setup.yml
 ansible-playbook -c ssh $ANS_ARGS --user=root sample-data.yml
 
 echo ''
 echo 'Running the post build playbook...'
-cd ../ec2-build
+cd $BASE_DIR
 ansible-playbook -c ssh $ANS_ARGS --user=root post-build.yml
 
 echo ''

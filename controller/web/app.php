@@ -4,6 +4,8 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use TrainingWheels\Log\Log;
 use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Formatter\LineFormatter;
 
 $app = new Silex\Application();
 
@@ -29,6 +31,13 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.name' => 'tw',
     'monolog.level' => $app['debug'] ? Logger::DEBUG : Logger::INFO,
 ));
+$app['monolog'] = $app->share($app->extend('monolog', function($monolog, $app) {
+  $handler = $monolog->popHandler();
+  $formatter = new LineFormatter("[%datetime%] %channel%.%level_name%: %message% \n");
+  $handler->setFormatter($formatter);
+  $monolog->pushHandler($handler);
+  return $monolog;
+}));
 Log::$instance = new Log($app['monolog']);
 Log::log('Initializing web application', L_INFO);
 

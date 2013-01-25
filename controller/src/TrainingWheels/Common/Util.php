@@ -1,12 +1,15 @@
 <?php
 
 namespace TrainingWheels\Common;
+use TrainingWheels\Log\Log;
 
 class Util {
   /**
    * Ensure parameters are passed as actual strings.
    */
   public static function assertValidStrings($function, $params) {
+    Log::log($function, L_DEBUG);
+
     if (is_string($params)) {
       $params = array($params);
     }

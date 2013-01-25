@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# If you have custom provisioning you would like done, make a copy of this and
+# name it setup.local.sh.
+
+# Variables.
+TW_DIR='/var/trainingwheels'
+
+echo ''
+echo '======================================================================='
+echo 'Custom provisioning steps playbook...'
+cd $TW_DIR/vagrant
+ansible-playbook -c local --user=root setup.local.yml

@@ -30,7 +30,5 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.name' => 'tw',
     'monolog.level' => $app['debug'] ? Logger::DEBUG : Logger::INFO,
 ));
-Log::$instance = new Log($app['monolog']);
-Log::log('Initializing web application', L_INFO);
 
 return $app;
