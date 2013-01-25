@@ -8,6 +8,8 @@ use MongoId;
 use Exception;
 
 class JobFactory extends Factory {
+  private static $dbUrl;
+
   // Singleton instance.
   protected static $instance;
 
@@ -16,6 +18,7 @@ class JobFactory extends Factory {
    */
   public static function singleton($dbUrl) {
     if (!isset(self::$instance)) {
+      self::$dbUrl = $dbUrl;
       $className = get_called_class();
       self::$instance = new $className;
       self::$instance->data = new DataStore($dbUrl);
@@ -67,7 +70,7 @@ class JobFactory extends Factory {
   protected function buildJob($job) {
     switch ($job->type) {
       case 'resource':
-        $job = new ResourceJob($job->job_id, $job->course_id, $job->action, $job->params);
+        $job = new ResourceJob(self::$dbUrl, $job->job_id, $job->course_id, $job->action, $job->params);
       break;
 
       default:

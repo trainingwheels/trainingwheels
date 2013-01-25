@@ -1,26 +1,22 @@
 #!/usr/bin/env php
 <?php
 
-$autoloader_path = __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__ . '/bootstrap.php';
 
-if (!file_exists($autoloader_path)) {
-  print 'Unable to find the class autoloader, are you sure you have run "composer install"? See README.md for more information.';
-  print "\n";
-  exit;
-}
-
-require_once $autoloader_path;
-
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use TrainingWheels\Log\Log;
 use TrainingWheels\Console\UserRetrieve;
 use TrainingWheels\Console\UserCreate;
 use TrainingWheels\Console\UserDelete;
 use TrainingWheels\Console\ResourceCreate;
 use TrainingWheels\Console\ResourceDelete;
 use TrainingWheels\Console\ResourceSync;
-use TrainingWheels\Log\Log;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Symfony\Component\Console\Application;
 
 $log = new Logger('tw');
 $log->pushHandler(new StreamHandler('../log/cli.log', Logger::DEBUG));
@@ -28,11 +24,12 @@ $log->pushHandler(new StreamHandler('../log/cli.log', Logger::DEBUG));
 Log::$instance = new Log($log);
 Log::log('Initializing CLI application', L_INFO);
 
-$application = new Application();
-$application->add(new UserRetrieve);
-$application->add(new UserCreate);
-$application->add(new UserDelete);
-$application->add(new ResourceCreate);
-$application->add(new ResourceDelete);
-$application->add(new ResourceSync);
-$application->run();
+$console = new Application();
+$console->add(new UserRetrieve($app));
+$console->add(new UserCreate($app));
+$console->add(new UserDelete($app));
+$console->add(new ResourceCreate($app));
+$console->add(new ResourceDelete($app));
+$console->add(new ResourceSync($app));
+
+$console->run();

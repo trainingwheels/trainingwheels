@@ -29,7 +29,7 @@ class REST implements ControllerProviderInterface {
      * Conversion function to convert ids from the format '1-name' to a Course
      * object and a user name.
      */
-    $parseID = function ($id) {
+    $parseID = function ($id) use ($app) {
       $parts = explode('-', $id);
       if (isset($parts[0]) && isset($parts[1])) {
         $course = CourseFactory::singleton($app['connections']['mongo'])->get($parts[0]);
@@ -200,7 +200,7 @@ class REST implements ControllerProviderInterface {
     $controllers->post('/jobs', function (Request $request) use ($app) {
       $job = (object)$request->request->get('job');
       $job->params = (array)json_decode($job->params);
-      $job = JobFactory::singleton()->save($job);
+      $job = JobFactory::singleton($app['connections']['mongo'])->save($job);
 
       try {
         $job->execute();
@@ -220,7 +220,7 @@ class REST implements ControllerProviderInterface {
       }
 
       try {
-        JobFactory::singleton()->remove($id);
+        JobFactory::singleton($app['connections']['mongo'])->remove($id);
       }
       catch (Exception $e) {
         return $app->json(array('messages' => 'Could not delete job ' . $id . '.'), HTTP_SERVER_ERROR);

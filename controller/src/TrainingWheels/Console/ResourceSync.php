@@ -3,21 +3,29 @@
 namespace TrainingWheels\Console;
 use TrainingWheels\Job\JobFactory;
 use TrainingWheels\Log\Log;
+use Silex\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ResourceSync extends Command
-{
+class ResourceSync extends Command {
+  private $app;
+
+  public function __construct(Application $app) {
+    parent::__construct();
+
+    $this->app = $app;
+  }
+
   protected function configure() {
     $this->setName('resource:sync')
-         ->setDescription('Sync resource(s).')
-         ->addArgument('course_id', InputArgument::REQUIRED,'The course id.')
-         ->addArgument('source_user', InputArgument::REQUIRED,'The source user name.')
-         ->addArgument('target_users', InputArgument::REQUIRED,'The target user names, comma-separated.')
-         ->addArgument('resources', InputArgument::OPTIONAL,'The resource names, comma-separated.');
+      ->setDescription('Sync resource(s).')
+      ->addArgument('course_id', InputArgument::REQUIRED,'The course id.')
+      ->addArgument('source_user', InputArgument::REQUIRED,'The source user name.')
+      ->addArgument('target_users', InputArgument::REQUIRED,'The target user names, comma-separated.')
+      ->addArgument('resources', InputArgument::OPTIONAL,'The resource names, comma-separated.');
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
@@ -34,9 +42,9 @@ class ResourceSync extends Command
       'target_users' => explode(',', $input->getArgument('target_users')),
       'resources' => $resources,
     );
-    $job = JobFactory::singleton()->save($job);
+    $job = JobFactory::singleton($this->app['connections']['mongo'])->save($job);
     $job->execute();
-    JobFactory::singleton()->remove($job->get('id'));
+    JobFactory::singleton($this->app['connections']['mongo'])->remove($job->get('id'));
 
     $output->writeln('User(s) synced.');
   }

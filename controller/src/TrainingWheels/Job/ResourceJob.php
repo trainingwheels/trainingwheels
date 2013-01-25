@@ -6,6 +6,13 @@ use TrainingWheels\Course\CourseFactory;
 use Exception;
 
 class ResourceJob extends Job {
+  private $dbUrl;
+
+  public function __construct($dbUrl, $id, $course_id, $action, $params) {
+    parent::__construct($id, $course_id, $action, $params);
+    $this->dbUrl = $dbUrl;
+  }
+
   /**
    * Creates given resources.
    *
@@ -14,7 +21,7 @@ class ResourceJob extends Job {
    *   resources - an array of resources to sync.
    */
   protected function resourceCreate() {
-    $course = CourseFactory::singleton()->get($this->course_id);
+    $course = CourseFactory::singleton($this->dbUrl)->get($this->course_id);
     if (!$course) {
       throw new Exception("Course with id $this->course_id does not exist.");
     }
@@ -30,7 +37,7 @@ class ResourceJob extends Job {
    *   resources - an array of resources to sync.
    */
   protected function resourceDelete() {
-    $course = CourseFactory::singleton()->get($this->course_id);
+    $course = CourseFactory::singleton($this->dbUrl)->get($this->course_id);
     if (!$course) {
       throw new Exception("Course with id $this->course_id does not exist.");
     }
@@ -47,7 +54,7 @@ class ResourceJob extends Job {
    *   resources - an array of resources to sync.
    */
   protected function resourceSync() {
-    $course = CourseFactory::singleton()->get($this->course_id);
+    $course = CourseFactory::singleton($this->dbUrl)->get($this->course_id);
     if (!$course) {
       throw new Exception("Course with id $this->course_id does not exist.");
     }
