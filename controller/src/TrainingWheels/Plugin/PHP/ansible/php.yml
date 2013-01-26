@@ -1,0 +1,34 @@
+##
+# Ansible playbook for PHP plugin.
+#
+# Vars passed in are:
+#
+# $admin_user
+# $admin_user_home
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: PHP | Install required packages.
+      action: apt pkg=$item state=installed
+      with_items:
+        - php5
+        - php5-mysql
+        - php-apc
+        - php5-xmlrpc
+        - php-soap
+        - php5-gd
+        - php-pear
+        - php5-intl
+
+    ##
+    # PHP Setup.
+    #
+    - name: PHP | PHP configuration file php.ini
+      action: template src=templates/etc-php5-apache2-php-ini.j2 dest=/etc/php5/apache2/php.ini
+
+    - name: PHP | APC cache configuration file apc.ini
+      action: template src=templates/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/conf.d/apc.ini

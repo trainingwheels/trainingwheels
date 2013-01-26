@@ -17,4 +17,4 @@ ansible-playbook -c local --user=root setup.yml
 echo ''
 echo '======================================================================='
 echo 'Running sample data playbooks...'
-ansible-playbook -c local --user=root sample-data.yml
+#ansible-playbook -c local --user=root sample-data.yml

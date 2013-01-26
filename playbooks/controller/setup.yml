@@ -1,6 +1,6 @@
 ##
 # Ansible playbook for setting up a Training Wheels controller on an
-# Ubuntu 12.04 server that is already setup as a student server.
+# Ubuntu 12.04 server.
 #
 
 ---
@@ -18,31 +18,28 @@
     ##
     # Setup a user for nginx
     #
-    - name: Create nginx group
+    - name: Nginx | Create nginx group
       action: group name=nginx system=yes
 
-    - name: Create a user for nginx otherwise www-data is shared with Apache
+    - name: Nginx | Create a user for nginx otherwise www-data is shared with Apache
       action: user name=nginx group=nginx createhome=no system=yes
 
     ##
     # Setup a user for php-fpm
     #
-    - name: Create phpfpm group
+    - name: PHP-FPM | Create phpfpm group
       action: group name=phpfpm system=yes
 
-    - name: Create a user for phpfpm
+    - name: PHP-FPM | Create a user for phpfpm
       action: user name=phpfpm group=phpfpm createhome=yes home=$phpfpm_home system=yes shell=/bin/false
 
-    - name: Create phpfpm home
+    - name: PHP-FPM | Create phpfpm home
       action: file path=$phpfpm_home state=directory owner=phpfpm group=phpfpm mode=700
 
-    - name: Private tmp directory for php-fpm needed by Training Wheels
-      action: file path=$phpfpm_home/tmp state=directory owner=phpfpm group=phpfpm mode=700
-
-    - name: Copy MySQL config from root so phpfpm can easily administer the database
+    - name: PHP-FPM | Copy MySQL config from root so phpfpm can easily administer the database
       action: shell cp /root/.my.cnf $phpfpm_home/.my.cnf creates=$phpfpm_home/.my.cnf
 
-    - name: Check permissions of MySQL config
+    - name: PHP-FPM | Check permissions of MySQL config
       action: file path=$phpfpm_home/.my.cnf owner=phpfpm group=phpfpm mode=600
 
     ##
@@ -50,77 +47,97 @@
     #
     - name: Install required packages.
       action: apt pkg=$item state=installed
-
       with_items:
         - nginx
         - php5-fpm
         - php5-intl
         - unzip
+        - php-apc
         - python-mysqldb
         - curl
 
     ##
     # Configuration for php-fpm
     #
-    - name: Configure php-fpm
+    - name: PHP-FPM | Configure php-fpm
       action: template src=templates/etc-php5-fpm-pool-d-www-conf.j2 dest=/etc/php5/fpm/pool.d/www.conf
 
-    - name: PHP configuration file php.ini for php-fpm
+    - name: PHP-FPM | PHP configuration file php.ini for php-fpm
       action: template src=templates/etc-php5-fpm-php-ini.j2 dest=/etc/php5/fpm/php.ini
 
-    - name: Sudoers file allowing the phpfpm user to administer the server
+    - name: PHP-FPM | Sudoers file allowing the phpfpm user to administer the server
       action: copy src=files/etc-sudoers-d-phpfpm dest=/etc/sudoers.d/phpfpm mode=0440
+
+    - name: PHP-FPM | APC cache configuration file apc.ini
+      action: template src=templates/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/conf.d/apc.ini
 
     ##
     # Configuration for MongoDB database
     #
-    - name: Install the PECL MongoDB extension
+    - name: MongoDB | Add the key
+      action: command apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+
+    - name: MongoDB | Add the MongoDB repo
+      action: copy src=files/etc-apt-sources-list-d-mongodb-list dest=/etc/apt/sources.list.d/mongodb.list
+
+    - name: MongoDB | Update the apt cache for the new repository
+      action: apt update-cache=yes
+
+    - name: MongoDB | Install Mongo
+      action: apt pkg=$item state=installed
+      with_items:
+        - mongodb-10gen
+
+    - name: MongoDB | Install the PECL MongoDB extension
       action: command pecl install mongo creates=/usr/lib/php5/20090626/mongo.so
 
-    - name: Configure PHP to use PECL MongoDB extension
+    - name: MongoDB | Configure PHP to use PECL MongoDB extension
       action: copy dest=/etc/php5/conf.d/mongo.ini src=files/etc-php5-conf-d-mongo-ini
 
     ##
     # Configuration for nginx
     #
-    - name: Add mime types for nginx including our font type WOFF
+    - name: Nginx | Add mime types for nginx including our font type WOFF
       action: copy src=files/etc-nginx-mime-types dest=/etc/nginx/mime.types
 
-    - name: Configure nginx
+    - name: Nginx | Configure nginx
       action: template src=templates/etc-nginx-nginx-conf.j2 dest=/etc/nginx/nginx.conf
 
-    - name: Remove default site
+    - name: Nginx | Remove default site
       action: file path=/etc/nginx/sites-enabled/default state=absent
 
-    - name: Copy our nginx site configuration
+    - name: Nginx | Copy our nginx site configuration
       action: template src=templates/etc-nginx-sites-available-twcontrol.j2 dest=/etc/nginx/sites-available/twcontrol
 
-    - name: Make site available
+    - name: Nginx | Make site available
       action: file dest=/etc/nginx/sites-enabled/twcontrol state=link src=/etc/nginx/sites-available/twcontrol
 
     ##
     # Install Composer to build Training Wheels
     #
-    - name: Install Composer - create directory
+    - name: Composer | Install Composer - create directory
       action: file path=/usr/local/bin state=directory owner=root group=root
 
-    - name: Install Composer
+    - name: Composer | Install Composer
       action: shell curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin creates=/usr/local/bin/composer.phar
 
-    - name: Install dependencies
+    - name: Composer | Install dependencies
       action: command composer.phar install -d $twdir/controller/ creates=$twdir/controller/vendor
 
     ##
     # Handy shortcuts
     #
-    - name: Link to the webroot
+    - name: Training Wheels | Link to the webroot
       action: file state=link src=$twdir/controller/web dest=$admin_user_home/tw-webroot
 
-    - name: Link to the CLI application
+    - name: Training Wheels | Link to the CLI application
       action: file state=link src=$twdir/controller/cli/tw dest=/usr/local/bin/tw
 
-    - name: Link to the Training Wheels directory
+    - name: Training Wheels | Link to the Training Wheels directory
       action: file state=link src=$twdir dest=$admin_user_home/trainingwheels
+
+    - name: Training Wheels | Link to the log directory
+      action: file state=link src=$twdir/controller/log dest=$admin_user_home/tw-log
 
     ##
     # Restart services
@@ -130,3 +147,6 @@
 
     - name: Restart php-fpm
       action: service name=php5-fpm state=restarted
+
+    - name: Restart Mongo
+      action: service name=mongodb state=restarted

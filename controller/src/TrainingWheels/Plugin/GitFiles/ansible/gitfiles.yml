@@ -1,17 +1,18 @@
 ##
-# Ansible playbook plugin for MySQL resource.
+# Ansible playbook for GitFiles plugin.
+#
+# Vars passed in are:
+#
+# $admin_user
+# $admin_user_home
 #
 
 ---
 - hosts: all
   gather_facts: False
 
-  vars_files:
-    - mysql-default-settings.yml
-
   tasks:
-    ##
-    # Do stuff.
-    #
-    - name: Delete anonymous MySQL server user for localhost
-      action: mysql_user user="" host=localhost state=absent
+    - name: GitFiles | Install required packages.
+      action: apt pkg=$item state=installed
+      with_items:
+        - git

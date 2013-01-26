@@ -18,8 +18,9 @@ abstract class PluginBase {
   public function set($data) {
     $this->title = $data['title'];
 
-    if (method_exists($this, 'getAnsibleConfig')) {
-      $ansible_config = $this->getAnsibleConfig();
+    $ansible_config = $this->getAnsibleConfig();
+
+    if ($ansible_config) {
       foreach($ansible_config['vars'] as $key => $var) {
 
         // If the default config has the value NULL then we
@@ -50,5 +51,9 @@ abstract class PluginBase {
       $output .= "$key=$value ";
     }
     return trim($output);
+  }
+
+  public function getAnsibleConfig() {
+    return FALSE;
   }
 }

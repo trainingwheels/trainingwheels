@@ -1,5 +1,5 @@
 ##
-# Ansible playbook plugin for MySQL resource.
+# Ansible playbook for MySQL plugin.
 #
 # Vars passed in are:
 #
@@ -24,41 +24,41 @@
     ##
     # MySQL database setup.
     #
-    - name: MySQL configuration file my.cnf
+    - name: MySQL | Configuration file my.cnf
       action: template src=templates/etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf
 
-    - name: Set the root password.
+    - name: MySQL | Set the root password.
       action: mysql_user user=root password=$mysql_root_password host=localhost
 
-    - name: MySQL config for easy access as root user.
+    - name: MySQL | Config for easy access as root user.
       action: template src=templates/root-my-cnf.j2 dest=/root/.my.cnf
 
-    - name: MySQL config for easy access as admin user and so that this playbook can be run again.
+    - name: MySQL | Config for easy access as admin user and so that this playbook can be run again.
       action: template src=templates/root-my-cnf.j2 dest=$admin_user_home/.my.cnf
 
-    - name: Delete anonymous MySQL server user for full qualified domain
+    - name: MySQL | Delete anonymous user for full qualified domain
       action: mysql_user user="" host=$ansible_fqdn state=absent
 
-    - name: Delete anonymous MySQL server user for localhost
+    - name: MySQL | Delete anonymous user for localhost
       action: mysql_user user="" state=absent
 
-    - name: Secure the MySQL root user for IPV6 localhost (::1)
+    - name: MySQL | Secure the root user for IPV6 localhost (::1)
       action: mysql_user user=root password=$mysql_root_password host=::1
 
-    - name: Secure the MySQL root user for IPV4 localhost (127.0.0.1)
+    - name: MySQL | Secure the root user for IPV4 localhost (127.0.0.1)
       action: mysql_user user=root password=$mysql_root_password host=127.0.0.1
 
-    - name: Secure the MySQL root user for localhost domain (localhost)
+    - name: MySQL | Secure the root user for localhost domain (localhost)
       action: mysql_user user=root password=$mysql_root_password host=localhost
 
-    - name: Secure the MySQL root user for full qualified domain
+    - name: MySQL | Secure the root user for full qualified domain
       action: mysql_user user=root password=$mysql_root_password host=$ansible_fqdn
 
-    - name: Remove the MySQL test database
+    - name: MySQL | Remove the test database
       action: mysql_db db=test state=absent
 
     ##
     # Restart services
     #
-    - name: Restart MySQL
+    - name: MySQL | Restart MySQL
       action: service name=mysql state=restarted
