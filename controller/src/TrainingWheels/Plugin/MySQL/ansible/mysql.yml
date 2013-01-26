@@ -1,13 +1,14 @@
 ##
 # Ansible playbook plugin for MySQL resource.
 #
+# Vars passed in are:
+#
+# $admin_user
+# $admin_user_home
+#
 
 ---
 - hosts: all
-  gather_facts: False
-
-  vars_files:
-    - mysql-default-settings.yml
 
   tasks:
     ##
@@ -29,11 +30,14 @@
     - name: Set the root password.
       action: mysql_user user=root password=$mysql_root_password host=localhost
 
-    - name: MySQL config for easy access as root user and so that this playbook can be run again.
+    - name: MySQL config for easy access as root user.
       action: template src=templates/root-my-cnf.j2 dest=/root/.my.cnf
 
-    - name: Delete anonymous MySQL server user for $server_hostname
-      action: mysql_user user="" host=$server_hostname state=absent
+    - name: MySQL config for easy access as admin user and so that this playbook can be run again.
+      action: template src=templates/root-my-cnf.j2 dest=$admin_user_home/.my.cnf
+
+    - name: Delete anonymous MySQL server user for full qualified domain
+      action: mysql_user user="" host=$ansible_fqdn state=absent
 
     - name: Delete anonymous MySQL server user for localhost
       action: mysql_user user="" state=absent
@@ -47,8 +51,8 @@
     - name: Secure the MySQL root user for localhost domain (localhost)
       action: mysql_user user=root password=$mysql_root_password host=localhost
 
-    - name: Secure the MySQL root user for $server_hostname domain
-      action: mysql_user user=root password=$mysql_root_password host=$server_hostname
+    - name: Secure the MySQL root user for full qualified domain
+      action: mysql_user user=root password=$mysql_root_password host=$ansible_fqdn
 
     - name: Remove the MySQL test database
       action: mysql_db db=test state=absent

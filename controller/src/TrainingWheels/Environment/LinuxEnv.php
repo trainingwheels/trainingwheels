@@ -21,37 +21,37 @@ class LinuxEnv implements TrainingEnv {
   /**
    * Run the classroom ansible playbooks.
    */
-  public function configure() {
-    $commands = array(
-      'TW_INV=`mktemp`',
-    );
-
-    // Grab a connection to the controller machine.
+  public function configure($plugins) {
+    // Grab a connection to the local controller.
     if (get_class($this->conn) == 'TrainingWheels\Conn\LocalServerConn') {
       $local = $this->conn;
+      $this_user = trim(shell_exec('whoami'));
     }
     else {
       $local = new LocalServerConn();
+      // TODO: Make ssh connections work.
+      //$this_user = $this->conn->user;
     }
 
-    // Get a list of the playbooks to be run.
-    $plugins = PluginManager::singleton();
-    $playbooks = $plugins->getPlaybooks();
-
     $ansible_args_array = array(
-      // TODO: Make ssh connections work.
-      //'--inventory-file=$TW_INV',
       '-c local',
       '--sudo',
     );
     $ansible_args = implode(' ', $ansible_args_array);
 
-    foreach ($playbooks as $play) {
-      $commands[] = 'ansible-playbook ' . $ansible_args . ' ' . $play;
+    foreach ($plugins as $plugin) {
+      $play = $plugin->getAnsiblePlay();
+      if ($play) {
+        $vars = $plugin->formatAnsibleVars();
+        $vars .= " admin_user=$this_user admin_user_home=/home/$this_user";
+        $vars = '--extra-vars="' . $vars . '"';
+        $commands[] = 'ansible-playbook ' . $ansible_args . ' ' . $vars . ' ' . $play;
+      }
     }
-    $commands[] = 'rm $TW_INV';
 
-    $local->exec_get($commands);
+    if (!empty($commands)) {
+      $local->exec_get($commands);
+    }
   }
 
   /**

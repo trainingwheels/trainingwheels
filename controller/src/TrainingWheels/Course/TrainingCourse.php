@@ -14,6 +14,9 @@ abstract class TrainingCourse {
   // The course id.
   public $course_id;
 
+  // Plugins associated with this course.
+  public $plugins;
+
   // Factory method for creating user objects, needs to be provided by subclass.
   abstract protected function userFactory($user_name);
 
@@ -40,7 +43,7 @@ abstract class TrainingCourse {
    * Configure the environment.
    */
   public function configure() {
-    $this->env->configure();
+    $this->env->configure($this->plugins);
   }
 
   /**

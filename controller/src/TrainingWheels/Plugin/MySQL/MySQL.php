@@ -4,11 +4,21 @@ namespace TrainingWheels\Plugin\MySQL;
 use TrainingWheels\Plugin\PluginBase;
 
 class MySQL extends PluginBase {
-  public function getConfig() {
+
+  public function __construct() {
+    parent::__construct();
+    $this->name = 'MySQL';
+    $this->ansible_play = __DIR__ . '/ansible/mysql.yml';
+  }
+
+  public function getAnsibleConfig() {
     return array(
-      'name' => 'MySQL',
-      'location' => __DIR__,
-      'playbook' => __DIR__ . '/ansible/mysql.yml',
+      'vars' => array(
+        'mysql_root_password' => NULL,
+        'mysql_max_allowed_packet' => '128M',
+        'mysql_character_set_server' => 'utf8',
+        'mysql_collation_server' => 'utf8_general_ci',
+      ),
     );
   }
 }

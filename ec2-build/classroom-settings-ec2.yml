@@ -32,7 +32,6 @@ mysql_character_set_server: 'utf8'
 mysql_collation_server: 'utf8_general_ci'
 
 # mysql
-# this password must also appear in the prep-server.yml file.
 mysql_root_password: 'tplqomnscy323e'
 
 # apache

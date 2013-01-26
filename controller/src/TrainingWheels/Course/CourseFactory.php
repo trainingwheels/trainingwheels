@@ -45,11 +45,27 @@ class CourseFactory extends Factory {
       $course->repo = $params['repo'];
       $course->course_name = $params['course_name'];
       $course->uri = '/course/' . $params['id'];
-
+      $this->buildPlugins($course, $params['plugin_ids']);
       return $course;
     }
     else {
       throw new Exception("Course with id $course_id does not exist.");
+    }
+  }
+
+  /**
+   * Attach plugins.
+   */
+  protected function buildPlugins(&$course, $plugin_ids) {
+    if (!empty($plugin_ids)) {
+      $course->plugins = array();
+      foreach ($plugin_ids as $plugin_id) {
+        $plugin_data = $this->data->find('plugin', array('id' => (int)$plugin_id));
+        $class = '\TrainingWheels\Plugin\\' . $plugin_data['type'] . '\\' . $plugin_data['type'];
+        $plugin = new $class();
+        $plugin->set($plugin_data);
+        $course->plugins[] = $plugin;
+      }
     }
   }
 

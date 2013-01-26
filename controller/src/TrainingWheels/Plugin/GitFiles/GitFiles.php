@@ -4,11 +4,9 @@ namespace TrainingWheels\Plugin\GitFiles;
 use TrainingWheels\Plugin\PluginBase;
 
 class GitFiles extends PluginBase {
-  public function getConfig() {
-    return array(
-      'name' => 'GitFiles',
-      'location' => __DIR__,
-      //'playbook' => __DIR__ . '/ansible/gitfiles.yml',
-    );
+
+  public function __construct() {
+    parent::__construct();
+    $this->name = 'GitFiles';
   }
 }
