@@ -59,8 +59,11 @@
     - name: Set the root password.
       action: mysql_user user=root password=$mysql_root_password host=localhost
 
-    - name: MySQL config for easy access as root user and so that this playbook can be run again.
+    - name: MySQL config for easy access as root user.
       action: template src=templates/root-my-cnf.j2 dest=/root/.my.cnf
+
+    - name: MySQL config for easy access as admin user and so that this playbook can be run again.
+      action: template src=templates/root-my-cnf.j2 dest=$admin_user_home/.my.cnf
 
     - name: Delete anonymous MySQL server user for $server_hostname
       action: mysql_user user="" host=$server_hostname state=absent

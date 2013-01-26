@@ -8,8 +8,6 @@
   gather_facts: False
 
   vars:
-    # This must also appear in the classroom settings file, classroom-settings.yml
-    mysql_root_password: 'tplqomnscy323e'
     twdir: '/var/trainingwheels'
 
   tasks:
@@ -28,12 +26,6 @@
     - name: Change the hostname using the hostname command
       action: command hostname tw-build.com
 
-    - name: Create new place for Ubuntu home directory.
-      action: file state=directory path=/adminhome
-
-    - name: Move the ubuntu user home directory.
-      action: command usermod -d /adminhome/ubuntu -m ubuntu
-
     - name: Install required packages for Jenkins slave and general use
       action: apt pkg=$item state=installed
       with_items:
@@ -46,13 +38,13 @@
       action: group name=bender
 
     - name: Create bender user for Jenkins to connect with
-      action: "user name=bender home=/adminhome/bender groups=admin,bender group=bender shell=/bin/bash"
+      action: "user name=bender home=/home/bender groups=admin,bender group=bender shell=/bin/bash"
 
     - name: SSH folder for bender
-      action: file path=/adminhome/bender/.ssh state=directory owner=bender group=bender mode=755
+      action: file path=/home/bender/.ssh state=directory owner=bender group=bender mode=755
 
     - name: Copy authorized keys for bender
-      action: copy src=bender_authorized_keys dest=/adminhome/bender/.ssh/authorized_keys owner=bender group=bender mode=644
+      action: copy src=bender_authorized_keys dest=/home/bender/.ssh/authorized_keys owner=bender group=bender mode=644
 
     # Training Wheels app download and setup
     - name: Clone the repo
