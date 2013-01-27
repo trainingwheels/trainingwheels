@@ -43,6 +43,10 @@
         - php5-intl
         - unzip
         - php-apc
+        - php5-xmlrpc
+        - php-soap
+        - php5-gd
+        - php-pear
         - python-mysqldb
         - curl
 
