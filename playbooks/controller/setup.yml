@@ -9,13 +9,14 @@
 
   vars:
     twdir: '/var/trainingwheels'
+    phpfpm_home: '/home/phpfpm'
 
   vars_files:
     - settings.yml
 
   tasks:
     ##
-    # Setup a user for nginx
+    # Setup a user for nginx.
     #
     - name: Nginx | Create nginx group
       action: group name=nginx system=yes
@@ -24,13 +25,19 @@
       action: user name=nginx group=nginx createhome=no system=yes shell=/bin/false
 
     ##
-    # Setup a user for php-fpm
+    # Setup a user for php-fpm. We require the user to have a home directory, so that
+    # we can execute ansible playbooks locally, either running configuring the current
+    # machine (in the case of classroom being on same machine as controller) or configuring
+    # a remote machine.
     #
     - name: PHP-FPM | Create phpfpm group
       action: group name=phpfpm system=yes
 
     - name: PHP-FPM | Create a user for phpfpm
-      action: user name=phpfpm group=phpfpm createhome=no system=yes shell=/bin/false
+      action: user name=phpfpm group=phpfpm createhome=yes home=$phpfpm_home system=yes shell=/bin/false
+
+    - name: PHP-FPM | Create phpfpm home
+      action: file path=$phpfpm_home state=directory owner=phpfpm group=phpfpm mode=700
 
     ##
     # Apt package installation of required software.

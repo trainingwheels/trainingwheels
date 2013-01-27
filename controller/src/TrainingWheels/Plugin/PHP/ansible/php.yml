@@ -1,11 +1,6 @@
 ##
 # Ansible playbook for PHP plugin.
 #
-# Vars passed in are:
-#
-# $admin_user
-# $admin_user_home
-#
 
 ---
 - hosts: all
@@ -27,8 +22,14 @@
     ##
     # PHP Setup.
     #
-    - name: PHP | PHP configuration file php.ini
+    - name: PHP | Create a directory for PHP Apache configuration
+      action: file path=/etc/php5/apache2 state=directory owner=root group=root mode=755
+
+    - name: PHP | PHP configuration file for Apache
       action: template src=templates/etc-php5-apache2-php-ini.j2 dest=/etc/php5/apache2/php.ini
+
+    - name: PHP | PHP configuration file for CLI
+      action: template src=templates/etc-php5-cli-php-ini.j2 dest=/etc/php5/cli/php.ini
 
     - name: PHP | APC cache configuration file apc.ini
       action: template src=templates/etc-php5-conf-d-apc-ini.j2 dest=/etc/php5/conf.d/apc.ini

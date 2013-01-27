@@ -6,6 +6,7 @@ use TrainingWheels\Conn\LocalServerConn;
 use TrainingWheels\Environment\TrainingEnv;
 use TrainingWheels\Common\Util;
 use TrainingWheels\Plugin\PluginManager;
+use TrainingWheels\Log\Log;
 use Exception;
 
 class LinuxEnv implements TrainingEnv {
@@ -22,35 +23,32 @@ class LinuxEnv implements TrainingEnv {
    * Run the classroom ansible playbooks.
    */
   public function configure($plugins) {
-    // Grab a connection to the local controller.
-    if (get_class($this->conn) == 'TrainingWheels\Conn\LocalServerConn') {
-      $local = $this->conn;
-      $this_user = trim(shell_exec('whoami'));
-    }
-    else {
-      $local = new LocalServerConn();
-      // TODO: Make ssh connections work.
-      //$this_user = $this->conn->user;
-    }
-
     $ansible_args_array = array(
       '-c local',
       '--sudo',
     );
     $ansible_args = implode(' ', $ansible_args_array);
 
+    // Get the playbooks that need to be run to configure this course.
     foreach ($plugins as $plugin) {
       $play = $plugin->getAnsiblePlay();
-      if ($play) {
-        $vars = $plugin->formatAnsibleVars();
-        $vars .= " admin_user=$this_user admin_user_home=/home/$this_user";
-        $vars = '--extra-vars="' . $vars . '"';
-        $commands[] = 'ansible-playbook ' . $ansible_args . ' ' . $vars . ' ' . $play;
-      }
-    }
 
-    if (!empty($commands)) {
-      $local->exec_get($commands);
+      if ($play) {
+        $vars = '--extra-vars="' . $plugin->formatAnsibleVars() . '"';
+        $command = 'ansible-playbook ' . $ansible_args . ' ' . $vars . ' ' . $play;
+        $output = array();
+        $return = FALSE;
+
+        Log::log('=====================================================================', L_DEBUG);
+        Log::log("$plugin->name::configure:exec: $command", L_DEBUG);
+        exec($command, $output, $return);
+        $output_nice = implode("\n", $output);
+        Log::log("$plugin->name::configure:resp: $output_nice", L_DEBUG);
+
+        if ($return != 0) {
+          throw new Exception("Unable to run configuration for plugin \"$plugin->name\", see logs for more info.");
+        }
+      }
     }
   }
 

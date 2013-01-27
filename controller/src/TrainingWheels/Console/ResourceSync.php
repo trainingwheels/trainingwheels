@@ -35,9 +35,15 @@ class ResourceSync extends Command
       'resources' => $resources,
     );
     $job = JobFactory::singleton()->save($job);
-    $job->execute();
-    JobFactory::singleton()->remove($job->get('id'));
+    try {
+      $job->execute();
+      JobFactory::singleton()->remove($job->get('id'));
+    }
+    catch (Exception $e) {
+      JobFactory::singleton()->remove($job->get('id'));
+      throw $e;
+    }
 
-    $output->writeln('User(s) synced.');
+    $output->writeln('<info>User(s) synced.</info>');
   }
 }

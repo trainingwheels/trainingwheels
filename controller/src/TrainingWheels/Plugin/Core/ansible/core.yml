@@ -1,11 +1,6 @@
 ##
 # Ansible playbook for Core plugin.
 #
-# Vars passed in are:
-#
-# $admin_user
-# $admin_user_home
-#
 
 ---
 - hosts: all

@@ -3,7 +3,7 @@
 namespace TrainingWheels\Plugin;
 
 abstract class PluginBase {
-  protected $name;
+  public $name;
   protected $location;
   protected $title;
 
