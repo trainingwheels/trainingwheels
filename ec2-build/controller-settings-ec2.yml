@@ -1,6 +1,9 @@
 # Controller settings for EC2.
 
 ---
+# The vagrant provisioner logs in as root, so we need to specify the admin
+# user's home location.
+admin_user_home: '/home/ubuntu'
 
 # www.conf for php-fpm
 # Only the nginx user is allowed to write or read from the php-fpm socket.

@@ -131,21 +131,17 @@
     ##
     # Handy shortcuts
     #
-    - name: MySQL | Get the current users home
-      action: shell echo $HOME
-      register: user_home
-
     - name: Training Wheels | Link to the webroot
-      action: file state=link src=$twdir/controller/web dest=$user_home/tw-webroot
+      action: file state=link src=$twdir/controller/web dest=$admin_user_home/tw-webroot
 
     - name: Training Wheels | Link to the CLI application
       action: file state=link src=$twdir/controller/cli/tw dest=/usr/local/bin/tw
 
     - name: Training Wheels | Link to the Training Wheels directory
-      action: file state=link src=$twdir dest=$user_home/trainingwheels
+      action: file state=link src=$twdir dest=$admin_user_home/trainingwheels
 
     - name: Training Wheels | Link to the log directory
-      action: file state=link src=$twdir/controller/log dest=$user_home/tw-log
+      action: file state=link src=$twdir/controller/log dest=$admin_user_home/tw-log
 
     ##
     # Restart services
