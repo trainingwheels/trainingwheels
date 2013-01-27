@@ -34,7 +34,7 @@ class UserRetrieve extends Command
       $output->writeln(print_r($users, TRUE));
     }
     else {
-      $output->writeln("User(s) not found.");
+      $output->writeln("<info>User(s) not found.</info>");
     }
   }
 }

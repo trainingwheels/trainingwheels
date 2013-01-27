@@ -40,7 +40,7 @@ class LocalServerConn extends ServerConn {
     // It would be awesome to use the actual return codes, but the SSH server
     // connection plugin doesn't give us those codes, so for compatibility
     // with that plugin, we don't either.
-    Log::log('LocalServerConn::exec: ' . $command, L_DEBUG);
+    Log::log('LocalServerConn::exec: ' . "\n" . $command, L_DEBUG);
     $result = trim(shell_exec($command));
     Log::log('LocalServerConn::resp: ' . $result, L_DEBUG);
     Log::log('=====================================================================', L_DEBUG);
