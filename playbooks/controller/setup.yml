@@ -26,7 +26,7 @@
 
     ##
     # Setup a user for php-fpm. We require the user to have a home directory, so that
-    # we can execute ansible playbooks locally, either running configuring the current
+    # we can execute ansible playbooks locally, either running against and configuring the current
     # machine (in the case of classroom being on same machine as controller) or configuring
     # a remote machine.
     #
@@ -42,7 +42,7 @@
     ##
     # Apt package installation of required software.
     #
-    - name: Install required packages.
+    - name: All | Install required packages.
       action: apt pkg=$item state=installed
       with_items:
         - nginx
@@ -65,6 +65,9 @@
 
     - name: PHP-FPM | PHP configuration file php.ini for php-fpm
       action: template src=templates/etc-php5-fpm-php-ini.j2 dest=/etc/php5/fpm/php.ini
+
+    - name: PHP-FPM | PHP configuration file for CLI
+      action: template src=templates/etc-php5-cli-php-ini.j2 dest=/etc/php5/cli/php.ini
 
     - name: PHP-FPM | Sudoers file allowing the phpfpm user to administer the server
       action: copy src=files/etc-sudoers-d-phpfpm dest=/etc/sudoers.d/phpfpm mode=0440
@@ -128,17 +131,21 @@
     ##
     # Handy shortcuts
     #
+    - name: MySQL | Get the current users home
+      action: shell echo $HOME
+      register: user_home
+
     - name: Training Wheels | Link to the webroot
-      action: file state=link src=$twdir/controller/web dest=$admin_user_home/tw-webroot
+      action: file state=link src=$twdir/controller/web dest=$user_home/tw-webroot
 
     - name: Training Wheels | Link to the CLI application
       action: file state=link src=$twdir/controller/cli/tw dest=/usr/local/bin/tw
 
     - name: Training Wheels | Link to the Training Wheels directory
-      action: file state=link src=$twdir dest=$admin_user_home/trainingwheels
+      action: file state=link src=$twdir dest=$user_home/trainingwheels
 
     - name: Training Wheels | Link to the log directory
-      action: file state=link src=$twdir/controller/log dest=$admin_user_home/tw-log
+      action: file state=link src=$twdir/controller/log dest=$user_home/tw-log
 
     ##
     # Restart services
