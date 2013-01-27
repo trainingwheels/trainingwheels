@@ -33,9 +33,6 @@
     - name: MySQL | Config for easy access as root user.
       action: template src=templates/root-my-cnf.j2 dest=/root/.my.cnf
 
-    - name: MySQL | Config for easy access as admin user and so that this playbook can be run again.
-      action: template src=templates/root-my-cnf.j2 dest=$admin_user_home/.my.cnf
-
     - name: MySQL | Delete anonymous user for full qualified domain
       action: mysql_user user="" host=$ansible_fqdn state=absent
 

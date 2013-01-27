@@ -8,7 +8,6 @@
   gather_facts: False
 
   vars:
-    phpfpm_home: '/home/phpfpm'
     twdir: '/var/trainingwheels'
 
   vars_files:
@@ -22,7 +21,7 @@
       action: group name=nginx system=yes
 
     - name: Nginx | Create a user for nginx otherwise www-data is shared with Apache
-      action: user name=nginx group=nginx createhome=no system=yes
+      action: user name=nginx group=nginx createhome=no system=yes shell=/bin/false
 
     ##
     # Setup a user for php-fpm
@@ -31,16 +30,7 @@
       action: group name=phpfpm system=yes
 
     - name: PHP-FPM | Create a user for phpfpm
-      action: user name=phpfpm group=phpfpm createhome=yes home=$phpfpm_home system=yes shell=/bin/false
-
-    - name: PHP-FPM | Create phpfpm home
-      action: file path=$phpfpm_home state=directory owner=phpfpm group=phpfpm mode=700
-
-    - name: PHP-FPM | Copy MySQL config from root so phpfpm can easily administer the database
-      action: shell cp /root/.my.cnf $phpfpm_home/.my.cnf creates=$phpfpm_home/.my.cnf
-
-    - name: PHP-FPM | Check permissions of MySQL config
-      action: file path=$phpfpm_home/.my.cnf owner=phpfpm group=phpfpm mode=600
+      action: user name=phpfpm group=phpfpm createhome=no system=yes shell=/bin/false
 
     ##
     # Apt package installation of required software.
