@@ -1,11 +1,8 @@
 ////////////////////////
-// Design Partials
+// Application Partials
 //
-// Seperate your layout from design, building sub folders and partials
-//  in this folder, with everything being imported, in casading order,
-//  into this file.
+// Includes Header, Footer, Container and other general site SASS
 //
-// All styling, non box model properties go here
 ////////////////////////
 
 @import 'animation';
@@ -49,16 +46,8 @@ dt, dd {
 
 //Header
 
-#top-header {
-  @include gradient(darken($darkGray, 0%), darken($darkGray, 10%));
-  background: url(../images/dark-noise.png) repeat;
-}
-
-#top-rule {
-  @include gradient(saturate($yellow, 10%), darken($yellow, 20%));
-}
-
 .logo {
+  padding-left: 1em;
   font-size: $base-font-size * 2;
   color: $white;
   text-decoration: none;
@@ -68,9 +57,41 @@ dt, dd {
   }
 }
 
+#top-rule {
+  @include gradient(saturate($yellow, 10%), darken($yellow, 20%));
+  top: 0;
+  width: 100%;
+  min-height: 6px;
+  position: relative;
+  border-top: 1px solid $yellow;
+  border-bottom: 1px solid $darkGray;
+}
+
+#top-header {
+  @include gradient(darken($darkGray, 0%), darken($darkGray, 10%));
+  background: url(../images/dark-noise.png) repeat;
+  top: 0;
+  width: 100%;
+  min-height: 50px;
+  position: relative;
+  z-index: 4;
+  padding-top: 15px;
+  margin-bottom: $base-line-height;
+  border-bottom: 1px solid $mediumGray;
+}
+
 //Footer
 
 #footer {
+  float: left;
+  bottom: 0;
+  width: 100%;
+  position: relative;
+  z-index: 4;
+  margin:$base-line-height;
+  margin-left: 0;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
   background: url(../images/az_subtle.png) repeat;
   color: $darkGray;
   padding:$base-line-height;
@@ -98,109 +119,6 @@ dt, dd {
   width: 31px;
   margin-left: auto;
   margin-right: auto;
-}
-
-//User Listing
-
-#course-info {
-  a {
-    color: $darkGray;
-    font-size: 38px;
-  }
-  .refresh-button {
-    @include button-make($lightGray);
-    font-size: $base-font-size * 2;
-    line-height: 32px;
-    padding: 10px 8px 2px 6px;
-  }
-  .course-lock {
-      font-size: 16px;
-      &.hover, &:hover {
-      color: $yellowDark;
-      }
-    .course-lock-text{
-    }
-  }
-}
-
-#course-users, #course-instructor {
-  .user-selected {
-    background-color: $whiteGray;
-  }
-  #course-users-bottom-tools {
-    .ember-text-field {
-      font-size: 20px;
-      padding-left: 10px;
-      color: $darkGray;
-    }
-  }
-}
-
-.user-info {
-  h3 {
-    .user-name {
-      font-size: 18px;
-      color: $darkGray;
-      &:hover {
-        color:$mediumGray;
-      }
-    }
-  }
-  .indicators-summary-users {
-    .resource-ready {
-      color: $darkGray;
-    }
-    .resource-missing {
-      color: $red;
-    }
-    .logged_out {
-      color: $mediumGray;
-    }
-  }
-  .ss-icon {
-    font-size: 14px;
-    color: $darkGray;
-  }
-}
-
-.resource-info {
-  h4 {
-    display: inline;
-  }
-  .indicators-summary-users {
-    .resource-ready {
-      color: $darkGray;
-    }
-    .resource-missing {
-      color: $red;
-    }
-  }
-}
-
-//Course Form
-
-#course-form {
-  #course-form-title {
-    font-family: $opensans;
-    font-weight: 600;
-    font-size: $h2-font-size;
-  }
-  #course-fields {
-    .field {
-      text-align: right;
-      font-size: $h4-font-size;
-      font-family: $opensans;
-      span {
-        vertical-align: top;
-        display: inline-block;
-        padding-top: 10px;
-      }
-    }
-  }
-  hr {
-  border-top: 1px solid $mediumGray;
-  margin: 2em inherit;
-  }
 }
 
 //Default Input Fields
@@ -315,18 +233,3 @@ dt, dd {
 	background: $yellow;
 }
 
-///////////////////
-// Syncing buttons.
-///////////////////
-@include keyframes(rotate) {
-  from {
-    @include rotate(0deg);
-  }
-  to {
-    @include rotate(360deg);
-  }
-}
-.syncing {
-  display: inline-block;
-  @include animation(rotate 1s linear infinite);
-}
