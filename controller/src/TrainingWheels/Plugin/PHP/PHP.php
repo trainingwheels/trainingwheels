@@ -7,7 +7,6 @@ class PHP extends PluginBase {
 
   public function __construct() {
     parent::__construct();
-    $this->name = 'PHP';
     $this->ansible_play = __DIR__ . '/ansible/php.yml';
   }
 

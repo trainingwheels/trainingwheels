@@ -7,7 +7,6 @@ class Core extends PluginBase {
 
   public function __construct() {
     parent::__construct();
-    $this->name = 'Core';
     $this->ansible_play = __DIR__ . '/ansible/core.yml';
   }
 

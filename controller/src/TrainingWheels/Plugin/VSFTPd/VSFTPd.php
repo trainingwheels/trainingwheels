@@ -7,7 +7,6 @@ class VSFTPd extends PluginBase {
 
   public function __construct() {
     parent::__construct();
-    $this->name = 'VSFTPd';
     $this->ansible_play = __DIR__ . '/ansible/vsftpd.yml';
   }
 

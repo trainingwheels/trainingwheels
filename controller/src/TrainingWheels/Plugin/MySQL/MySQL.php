@@ -7,7 +7,6 @@ class MySQL extends PluginBase {
 
   public function __construct() {
     parent::__construct();
-    $this->name = 'MySQL';
     $this->ansible_play = __DIR__ . '/ansible/mysql.yml';
   }
 

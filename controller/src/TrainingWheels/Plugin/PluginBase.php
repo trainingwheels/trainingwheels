@@ -3,18 +3,33 @@
 namespace TrainingWheels\Plugin;
 
 abstract class PluginBase {
-  public $name;
   protected $location;
   protected $title;
 
   protected $ansible_play;
   protected $ansible_vars;
 
+  /**
+   * Constructor.
+   */
   public function __construct() {
     $this->ansible_vars = array();
     $this->ansible_play = FALSE;
   }
 
+  /**
+   * Return the short type of this plugin, e.g. 'MySQL'
+   */
+  public function getType() {
+    $pieces = explode('\\', get_class($this));
+    return $pieces[count($pieces)-1];
+  }
+
+  /**
+   * Given the data loaded from the DataStore, setup the instance
+   * of this plugin correctly. This allows config in the database to
+   * override the default config the plugin provides.
+   */
   public function set($data) {
     $this->title = $data['title'];
 
@@ -41,10 +56,16 @@ abstract class PluginBase {
     }
   }
 
+  /**
+   * Return the Ansible playbook.
+   */
   public function getAnsiblePlay() {
     return $this->ansible_play;
   }
 
+  /**
+   * Format the Ansible variables for inclusion in the play.
+   */
   public function formatAnsibleVars() {
     $output = '';
     foreach ($this->ansible_vars as $key => $value) {
@@ -53,6 +74,9 @@ abstract class PluginBase {
     return trim($output);
   }
 
+  /**
+   * Override in sub class if you provide Ansible playbook.
+   */
   public function getAnsibleConfig() {
     return FALSE;
   }

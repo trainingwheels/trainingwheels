@@ -28,7 +28,21 @@ class PluginManager {
   }
 
   /**
-   * Possibly add more custom locations.
+   * Invoke a method on all plugins that support it.
+   */
+  public function invokeAll($method, $plugins) {
+    $args = func_get_args();
+    array_shift($args);
+    array_shift($args);
+    foreach ($plugins as $plugin) {
+      if (method_exists($plugin, $method)) {
+        $plugin->$method($args);
+      }
+    }
+  }
+
+  /**
+   * TODO: Custom user location supported for plugins.
    */
   public function getPluginDirs() {
     return array(__DIR__);
@@ -46,27 +60,14 @@ class PluginManager {
         $plugin_dir = $dir . '/' . $item;
         if (!in_array($item, array('.', '..')) && is_dir($plugin_dir)) {
           $class = '\TrainingWheels\Plugin\\' . $item . '\\' . $item;
+          if (!class_exists($class)) {
+            throw new Exception("The directory \"$plugin_dir\" does not contain a properly defined plugin class \"$class\".");
+          }
           $plugins[] = new $class();
         }
       }
     }
 
     return $plugins;
-  }
-
-  /**
-   * Return the playbooks for each plugin.
-   */
-  public function getPlaybooks() {
-    $plays = array();
-    foreach ($this->plugins as $plugin) {
-      $config = $plugin->getConfig();
-      if (isset($config['playbook'])) {
-        $play = $config['playbook'];
-        $plays[] = $play;
-      }
-    }
-
-    return $plays;
   }
 }

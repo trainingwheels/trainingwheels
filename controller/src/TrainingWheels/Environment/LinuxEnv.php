@@ -34,19 +34,20 @@ class LinuxEnv implements TrainingEnv {
       $play = $plugin->getAnsiblePlay();
 
       if ($play) {
+        $type = $plugin->getType();
         $vars = '--extra-vars="' . $plugin->formatAnsibleVars() . '"';
         $command = 'ansible-playbook ' . $ansible_args . ' ' . $vars . ' ' . $play;
         $output = array();
         $return = FALSE;
 
         Log::log('=====================================================================', L_DEBUG);
-        Log::log("$plugin->name::configure:exec: $command", L_DEBUG);
+        Log::log("$type::configure:exec: $command", L_DEBUG);
         exec($command, $output, $return);
         $output_nice = implode("\n", $output);
-        Log::log("$plugin->name::configure:resp: $output_nice", L_DEBUG);
+        Log::log("$type::configure:resp: $output_nice", L_DEBUG);
 
         if ($return != 0) {
-          throw new Exception("Unable to run configuration for plugin \"$plugin->name\", see logs for more info.");
+          throw new Exception("Unable to run configuration for plugin \"$type\", see logs for more info.");
         }
       }
     }

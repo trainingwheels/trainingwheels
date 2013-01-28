@@ -45,7 +45,9 @@ class CourseFactory extends Factory {
       $course->repo = $params['repo'];
       $course->course_name = $params['course_name'];
       $course->uri = '/course/' . $params['id'];
+
       $this->buildPlugins($course, $params['plugin_ids']);
+
       return $course;
     }
     else {
@@ -61,7 +63,15 @@ class CourseFactory extends Factory {
       $course->plugins = array();
       foreach ($plugin_ids as $plugin_id) {
         $plugin_data = $this->data->find('plugin', array('id' => (int)$plugin_id));
-        $class = '\TrainingWheels\Plugin\\' . $plugin_data['type'] . '\\' . $plugin_data['type'];
+        if (!$plugin_data) {
+          throw new Exception("The course references a plugin with id \"$plugin_id\" that doesn't exist in the data store.");
+        }
+
+        $type = $plugin_data['type'];
+        $class = '\TrainingWheels\Plugin\\' . $type . '\\' . $type;
+        if (!class_exists($class)) {
+          throw new Exception("The plugin with id \"$plugin_id\" has type \"$type\", but this class cannot be loaded at \"$class\".");
+        }
         $plugin = new $class();
         $plugin->set($plugin_data);
         $course->plugins[] = $plugin;
@@ -86,7 +96,7 @@ class CourseFactory extends Factory {
   /**
    * Environment buider.
    */
-  protected function buildEnv(&$object, $type, $host, $user, $pass) {
+  protected function buildEnv(&$course, $type, $host, $user, $pass) {
     switch ($type) {
       case 'ubuntu':
         if ($host == 'localhost') {
@@ -98,8 +108,8 @@ class CourseFactory extends Factory {
             throw new Exception("Unable to connect/login to server $host on port 22");
           }
         }
-        $object->env = new UbuntuEnv($conn);
-        $object->env_type = 'ubuntu';
+        $course->env = new UbuntuEnv($conn);
+        $course->env_type = 'ubuntu';
       break;
 
       case 'centos':
@@ -107,8 +117,8 @@ class CourseFactory extends Factory {
         if (!$conn->connect()) {
           throw new Exception("Unable to connect/login to server $host on port 22");
         }
-        $object->env = new CentosEnv($conn);
-        $object->env_type = 'centos';
+        $course->env = new CentosEnv($conn);
+        $course->env_type = 'centos';
       break;
 
       default:
