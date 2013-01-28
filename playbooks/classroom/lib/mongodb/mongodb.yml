@@ -21,10 +21,10 @@
   action: service name=mongodb state=restarted
 
 - name: MongoDB | Create root user
-  action: mongodb_user user=root password=$mongo_root_password
+  action: mongodb_user database=admin user=root password=$mongo_root_password
 
 - name: MongoDB | Create app user
-  action: mongodb_user user=trainingwheels password=$mongo_app_password
+  action: mongodb_user database=trainingwheels user=trainingwheels password=$mongo_app_password
 
 - name: MongoDB | Configuration file mongodb.conf
   action: template src=templates/etc-mongodb-conf.j2 dest=/etc/mongodb.conf
