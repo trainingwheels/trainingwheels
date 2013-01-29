@@ -78,6 +78,7 @@ def user_add(client, db_name, user, password):
     except OperationFailure:
         return False
 
+
     return True
 
 def user_remove(client, db_name, user):
@@ -138,18 +139,18 @@ def main():
 
     try:
         client = MongoClient(login_host, int(login_port))
-        if login_user is not None and login_password is not None:
+        if login_user is None and login_password is None:
             mongocnf_creds = load_mongocnf()
             if mongocnf_creds is not False:
                 login_user = mongocnf_creds['user']
                 login_password = mongocnf_creds['password']
-
-            admin_db = client.admin
-            admin_db.authenticate(login_user, login_password)
         elif login_password is None and login_user is not None:
             module.fail_json(msg='when supplying login arguments, both login_user and login_password must be provided')
 
-    except ConnectionFailure:
+        if login_user is not None and login_password is not None:
+            client.admin.authenticate(login_user, login_password)
+
+    except ConnectionFailure as e:
         module.fail_json(msg='unable to connect to database, check login_user and login_password are correct')
 
     if state == 'present':
