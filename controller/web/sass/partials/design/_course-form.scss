@@ -1,0 +1,41 @@
+////////////////////////
+// Course Form
+//
+// Form used when Adding a new course
+//
+////////////////////////
+
+#course-form {
+  margin: 0 auto;
+  max-width: 550px;
+  padding: $base-line-height;
+  #course-form-title {
+    padding-bottom: 25px;
+    padding-left: 25px;
+    font-family: $opensans;
+    font-weight: 600;
+    font-size: $h2-font-size;
+  }
+  #course-fields {
+    .field {
+      margin-bottom: $base-line-height/2;
+      text-align: right;
+      font-size: $h4-font-size;
+      font-family: $opensans;
+      span {
+        vertical-align: top;
+        display: inline-block;
+        padding-top: 10px;
+      }
+    }
+  }
+  #course-tools {
+    button {
+    margin-bottom: $base-line-height/2;
+    }  
+  }
+  hr {
+  border-top: 1px solid $mediumGray;
+  margin: 2em inherit;
+  }
+}

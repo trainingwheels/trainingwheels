@@ -1,0 +1,115 @@
+////////////////////////
+// Course Partial
+//
+// Includes title, summary, and tools (refresh, lock, sync), user rows (structure, not content)
+// Does not include User-Summary, User (expanded view), or Resources (expanded view)
+//
+////////////////////////
+
+#course-view {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: $base-line-height;
+}
+
+#course-info {
+  border-bottom: 1px solid $border;
+  h1 {
+    display: inline-block;
+    padding-right: 10px;
+  }
+  a {
+    color: $darkGray;
+    font-size: 38px;
+  }
+  .refresh-button {
+    @include button-make($lightGray);
+    font-size: $base-font-size * 2;
+    line-height: 32px;
+    padding: 10px 8px 2px 6px;
+    display: inline-block;
+  }
+  .course-lock {
+    float: right;
+    font-size: 16px;
+    &.hover, &:hover {
+      color: $yellowDark;
+    }
+    .course-lock-text{
+      display: inline-block;
+    }
+    .ss-lock {
+      display: inline-block;
+    }
+  }
+}
+
+#course-users, #course-instructor {
+  .user-selected {
+    background-color: $whiteGray;
+  }
+  .user-tools, .resource {
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-bottom: $base-line-height;
+    h4 {
+      margin-bottom: 0;
+    }
+  }
+  #course-users-top-tools {
+    @include span-columns(12);
+    padding-top: 3em;
+    padding-bottom: 1em;
+    .tools-right {
+      float: right;
+    }
+    #user-view-tools {
+      .ss-rows {
+        border-radius-right: 1px;
+      }
+    }
+  }
+  #course-users-list {
+    @include span-columns(12);
+  }
+  #course-users-bottom-tools {
+    @include span-columns(12);
+    border-top: 1px solid $white;
+    padding-top: 2em;
+    .ember-text-field {
+      height: $base-line-height * 2;
+      width: 300px;
+      font-size: 20px;
+      padding-left: 10px;
+      color: $darkGray;
+    }
+  }
+}
+
+///////////////////
+// Syncing buttons
+///////////////////
+
+.sync-wrapper {
+  width: 22px;
+  height: 22px;
+  .ss-sync {
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+@include keyframes(rotate) {
+  from {
+    @include rotate(0deg);
+  }
+  to {
+    @include rotate(360deg);
+  }
+}
+.syncing {
+  display: inline-block;
+  @include animation(rotate 1s linear infinite);
+}
+
