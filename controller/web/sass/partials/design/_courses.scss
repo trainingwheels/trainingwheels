@@ -17,12 +17,10 @@
   #course-list {
     .course-summary {
       border: 1px solid $border;
-      position: relative;
-      min-width: 500px;
+      width: 500px;
       background-color: $white;
       margin-bottom: 1em;
       padding: 1.5em;
-      display: inline-block;
       span {
       font-weight: 600;
       }
@@ -38,13 +36,10 @@
       }
       .course-description {
         margin-bottom: 1em;
-        //color: $Gray;
       }
       .course-name {
-        //color: $Gray;
       }
       .course-host {
-        //color: $Gray;
       }
     } 
   }

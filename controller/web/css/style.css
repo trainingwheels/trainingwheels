@@ -923,12 +923,10 @@ dt, dd {
 }
 #courses-dashboard #course-list .course-summary {
   border: 1px solid #d9d6d6;
-  position: relative;
-  min-width: 500px;
+  width: 500px;
   background-color: white;
   margin-bottom: 1em;
   padding: 1.5em;
-  display: inline-block;
 }
 #courses-dashboard #course-list .course-summary span {
   font-weight: 600;
