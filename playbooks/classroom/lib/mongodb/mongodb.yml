@@ -28,6 +28,9 @@
 
 - name: MongoDB | Configuration file mongodb.conf
   action: template src=templates/etc-mongodb-conf.j2 dest=/etc/mongodb.conf
+
+- name: MongoDB | .mongodb.cnf
+  action: template src=templates/root-mongodb-cnf.j2 dest=/root/.mongodb.cnf
   notify:
     - MongoDB | Restart Mongo
 

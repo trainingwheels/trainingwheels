@@ -89,6 +89,23 @@ def user_remove(client, db_name, user):
 
     return True
 
+def load_mongocnf():
+    config = ConfigParser.RawConfigParser()
+    mongocnf = os.path.expanduser('~/.mongodb.cnf')
+    if not os.path.exists(mongocnf):
+      return False
+
+    try:
+        config.readfp(open(mongocnf))
+        creds = dict(
+          user=config.get('client', 'user'),
+          password=config.get('client', 'pass')
+        )
+    except (ConfigParser.NoOptionError, IOError):
+        return False
+
+    return creds
+
 # =========================================
 # Module execution.
 #
@@ -122,8 +139,13 @@ def main():
     try:
         client = MongoClient(login_host, int(login_port))
         if login_user is not None and login_password is not None:
-          admin_db = client.admin
-          admin_db.authenticate(login_user, login_password)
+            mongocnf_creds = load_mongocnf()
+            if mongocnf_creds is not False:
+                login_user = mongocnf_creds['user']
+                login_password = mongocnf_creds['password']
+
+            admin_db = client.admin
+            admin_db.authenticate(login_user, login_password)
         elif login_password is None and login_user is not None:
             module.fail_json(msg='when supplying login arguments, both login_user and login_password must be provided')
 
