@@ -1,0 +1,56 @@
+////////////////////////
+// Courses Partial
+//
+// Includes how each course is presented on the Courses Dashboard, the listing of all created Courses.
+//
+////////////////////////
+
+#courses-dashboard {
+  margin: 0 auto;
+  max-width: 900px;
+  padding: $base-line-height;
+  h1 {
+    font-size: 1.25 * $base-font-size;;
+    font-weight: 600;
+    color: $Gray;
+  }
+  #course-list {
+    .course-summary {
+      border: 1px solid $border;
+      position: relative;
+      min-width: 500px;
+      background-color: $white;
+      margin-bottom: 1em;
+      padding: 1.5em;
+      display: inline-block;
+      span {
+      font-weight: 600;
+      }
+      h2 {
+        font-family: $bebas;
+        margin-bottom: .1em;
+        a {
+          color: $darkGray;
+          &:hover, &.hover, &:focus, &.focus {
+            color: $yellow;
+          }
+        }
+      }
+      .course-description {
+        margin-bottom: 1em;
+        //color: $Gray;
+      }
+      .course-name {
+        //color: $Gray;
+      }
+      .course-host {
+        //color: $Gray;
+      }
+    } 
+  }
+  #course-tools {
+    button {
+      margin-left: 0;
+    }
+  }
+}
