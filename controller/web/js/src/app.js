@@ -133,8 +133,6 @@
   // Controllers & Views
   //
   App.CoursesAddController = Ember.ObjectController.extend({
-    // It seems like there should be a way to get the view parameter
-    // without passing it from the {{action}}.
     saveCourse: function(view) {
       var newCourse = {
         title: view.get('titleTextField').get('value'),
@@ -147,7 +145,6 @@
         user: view.get('userTextField').get('value'),
         pass: view.get('passTextField').get('value'),
       }
-      // There should be a better way to commit the new record.
       var model = App.CourseSummary.createRecord(newCourse);
       model.store.commit();
       this.transitionToRoute('courses');
