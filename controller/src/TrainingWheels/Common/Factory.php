@@ -8,12 +8,13 @@ abstract class Factory {
   abstract public function get($id);
   abstract public function save($object);
 
+  // The DataStore object.
   protected $data;
 
   /**
    * Constructor.
    */
-  public function __construct($dbUrl) {
-    $this->data = new DataStore($dbUrl);
+  public function __construct(DataStore $data) {
+    $this->data = $data;
   }
 }

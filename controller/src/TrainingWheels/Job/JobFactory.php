@@ -4,6 +4,7 @@ namespace TrainingWheels\Job;
 use TrainingWheels\Common\Factory;
 use TrainingWheels\Course\CourseFactory;
 use TrainingWheels\Job\ResourceJob;
+use TrainingWheels\Store\DataStore;
 use MongoId;
 use Exception;
 
@@ -13,8 +14,8 @@ class JobFactory extends Factory {
   /**
    * Constructor.
    */
-  public function __construct($dbUrl, CourseFactory $courseFactory) {
-    parent::__construct($dbUrl);
+  public function __construct(DataStore $data, CourseFactory $courseFactory) {
+    parent::__construct($data);
     $this->courseFactory = $courseFactory;
   }
 

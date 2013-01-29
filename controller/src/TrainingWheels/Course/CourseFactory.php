@@ -10,16 +10,9 @@ use TrainingWheels\Course\NodejsCourse;
 use TrainingWheels\Environment\DevEnv;
 use TrainingWheels\Environment\CentosEnv;
 use TrainingWheels\Environment\UbuntuEnv;
-use TrainingWheels\Store\DataStore;
 use Exception;
 
 class CourseFactory extends Factory {
-  /**
-   * Constructor.
-   */
-  public function __construct($dbUrl) {
-    parent::__construct($dbUrl);
-  }
 
   /**
    * Create Course object given a course id.

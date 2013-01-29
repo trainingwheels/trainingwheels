@@ -1,17 +1,37 @@
 #!/usr/bin/env php
 <?php
 
-$app = require_once __DIR__ . '/bootstrap.php';
+$autoloader_path = __DIR__ . '/../vendor/autoload.php';
+if (!file_exists($autoloader_path)) {
+  print 'Unable to find the class autoloader, are you sure you have run "composer install"? See README.md for more information.' . "\n";
+  exit(1);
+}
+require_once $autoloader_path;
 
-use Monolog\Logger;
-use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\StreamHandler;
+use TrainingWheels\Common\BootstrapServiceProvider;
+
+/**
+ * Create the main Silex application.
+ */
+$app = new Silex\Application();
+
+/**
+ * Inject the Training Wheels application as a provider in Silex.
+ */
+try {
+  $app->register(new BootstrapServiceProvider());
+}
+catch (Exception $e) {
+  print $e->getMessage();
+  exit(1);
+}
+TrainingWheels\Log\Log::log('Initialized console application', L_INFO);
+
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use TrainingWheels\Log\Log;
 use TrainingWheels\Console\UserRetrieve;
 use TrainingWheels\Console\UserCreate;
 use TrainingWheels\Console\UserDelete;
@@ -19,21 +39,12 @@ use TrainingWheels\Console\ResourceCreate;
 use TrainingWheels\Console\ResourceDelete;
 use TrainingWheels\Console\ResourceSync;
 
-$formatter = new LineFormatter("[%datetime%] %channel%.%level_name%: %message% \n");
-$stream = new StreamHandler(__DIR__.'/../log/cli.log', Logger::DEBUG);
-$stream->setFormatter($formatter);
-$log = new Logger('tw');
-$log->pushHandler($stream);
-
-Log::$instance = new Log($log);
-Log::log('Initializing CLI application', L_INFO);
-
 $console = new Application();
-$console->add(new UserRetrieve($app['course_factory']));
-$console->add(new UserCreate($app['course_factory']));
-$console->add(new UserDelete($app['course_factory']));
-$console->add(new ResourceCreate($app['job_factory']));
-$console->add(new ResourceDelete($app['job_factory']));
-$console->add(new ResourceSync($app['job_factory']));
+$console->add(new UserRetrieve($app['tw.course_factory']));
+$console->add(new UserCreate($app['tw.course_factory']));
+$console->add(new UserDelete($app['tw.course_factory']));
+$console->add(new ResourceCreate($app['tw.job_factory']));
+$console->add(new ResourceDelete($app['tw.job_factory']));
+$console->add(new ResourceSync($app['tw.job_factory']));
 
 $console->run();
