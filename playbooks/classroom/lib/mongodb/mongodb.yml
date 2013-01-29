@@ -29,9 +29,15 @@
 - name: MongoDB | Configuration file mongodb.conf
   action: template src=templates/etc-mongodb-conf.j2 dest=/etc/mongodb.conf
 
-- name: MongoDB | .mongodb.cnf
+- name: MongoDB | .mongodb.cnf for root
   action: template src=templates/root-mongodb-cnf.j2 dest=/root/.mongodb.cnf
+
+- name: MongoDB | Get the current users home
+  action: shell echo $HOME
+  register: user_home
+
+- name: MongoDB | .mongodb.cnf for admin user
+  action: template src=templates/root-mongodb-cnf.j2 dest={user_home.stdout}/.mongodb.cnf
 
 - name: MongoDB | Restart Mongo
   action: service name=mongodb state=restarted
-
