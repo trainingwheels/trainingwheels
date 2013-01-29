@@ -5,8 +5,14 @@
     {{#with course}}
       <div class="course-summary">
         <h2>{{#linkTo "course" course}}{{title}}{{/linkTo}}</h2>
-        <div "course-description">
+        <div class="course-description">
           {{description}}
+        </div>
+        <div class="course-name">
+          {{course_name}}
+        </div>
+        <div class="course-host">
+          {{host}}
         </div>
       </div>
     {{/with}}
