@@ -1,0 +1,22 @@
+////////////////////////
+// Resource Partial
+//
+// Includes Resource Content and Status Indicators
+//
+////////////////////////
+
+.resource-info {
+  display: inline;
+  h4 {
+    display: inline;
+  }
+  .indicators-summary-users {
+    float:right;
+    .resource-ready {
+      color: $darkGray;
+    }
+    .resource-missing {
+      color: $red;
+    }
+  }
+}
