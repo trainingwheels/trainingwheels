@@ -12,7 +12,6 @@ use TrainingWheels\Environment\CentosEnv;
 use TrainingWheels\Environment\UbuntuEnv;
 use TrainingWheels\Store\DataStore;
 use Exception;
-use MongoId;
 
 class CourseFactory extends Factory {
   // Singleton instance.
