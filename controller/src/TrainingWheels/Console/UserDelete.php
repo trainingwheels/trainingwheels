@@ -3,7 +3,6 @@
 namespace TrainingWheels\Console;
 use TrainingWheels\Course\CourseFactory;
 use TrainingWheels\Log\Log;
-use Silex\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,12 +10,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UserDelete extends Command {
-  private $app;
+  private $courseFactory;
 
-  public function __construct(Application $app) {
+  public function __construct(CourseFactory $courseFactory) {
     parent::__construct();
 
-    $this->app = $app;
+    $this->courseFactory = $courseFactory;
   }
 
   protected function configure() {
@@ -28,8 +27,7 @@ class UserDelete extends Command {
 
   protected function execute(InputInterface $input, OutputInterface $output) {
     Log::log('CLI command: UserDelete', L_INFO);
-    $course = CourseFactory::singleton($this->app['connections']['mongo'])
-      ->get($input->getArgument('course_id'));
+    $course = $this->courseFactory->get($input->getArgument('course_id'));
     $user_names = $input->getArgument('user_names');
 
     $result = $course->usersDelete(explode(',', $user_names));

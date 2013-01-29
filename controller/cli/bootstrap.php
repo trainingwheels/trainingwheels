@@ -21,6 +21,11 @@ $app = new Silex\Application();
 $app->register(New Igorw\Silex\ConfigServiceProvider(__DIR__ . '/../config/config.yml'));
 
 /**
+ * Create global app objects.
+ */
+$app->register(new TrainingWheels\Common\BootstrapServiceProvider());
+
+/**
  * Currently we have monolog logging from both a Silex Provider for
  * the web app messages, and internally in Training Wheels from the
  * Log class.

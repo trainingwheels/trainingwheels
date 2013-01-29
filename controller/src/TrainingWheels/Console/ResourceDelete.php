@@ -3,7 +3,6 @@
 namespace TrainingWheels\Console;
 use TrainingWheels\Job\JobFactory;
 use TrainingWheels\Log\Log;
-use Silex\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,12 +10,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ResourceDelete extends Command {
-  private $app;
+  private $jobFactory;
 
-  public function __construct(Application $app) {
+  public function __construct(JobFactory $jobFactory) {
     parent::__construct();
 
-    $this->app = $app;
+    $this->jobFactory = $jobFactory;
   }
 
   protected function configure() {
@@ -40,9 +39,9 @@ class ResourceDelete extends Command {
       'user_names' => explode(',', $input->getArgument('user_names')),
       'resources' => $resources,
     );
-    $job = JobFactory::singleton($this->app['connections']['mongo'])->save($job);
+    $job = $this->jobFactory->save($job);
     $job->execute();
-    JobFactory::singleton($this->app['connections']['mongo'])->remove($job->get('id'));
+    $this->jobFactory->remove($job->get('id'));
 
     $output->writeln('Resource(s) deleted.');
   }

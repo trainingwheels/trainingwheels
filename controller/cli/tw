@@ -29,11 +29,11 @@ Log::$instance = new Log($log);
 Log::log('Initializing CLI application', L_INFO);
 
 $console = new Application();
-$console->add(new UserRetrieve($app));
-$console->add(new UserCreate($app));
-$console->add(new UserDelete($app));
-$console->add(new ResourceCreate($app));
-$console->add(new ResourceDelete($app));
-$console->add(new ResourceSync($app));
+$console->add(new UserRetrieve($app['course_factory']));
+$console->add(new UserCreate($app['course_factory']));
+$console->add(new UserDelete($app['course_factory']));
+$console->add(new ResourceCreate($app['job_factory']));
+$console->add(new ResourceDelete($app['job_factory']));
+$console->add(new ResourceSync($app['job_factory']));
 
 $console->run();

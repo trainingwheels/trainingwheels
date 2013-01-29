@@ -14,19 +14,11 @@ use TrainingWheels\Store\DataStore;
 use Exception;
 
 class CourseFactory extends Factory {
-  // Singleton instance.
-  protected static $instance;
-
   /**
-   * Return the singleton.
+   * Constructor.
    */
-  public static function singleton($dbUrl) {
-    if (!isset(self::$instance)) {
-      $className = get_called_class();
-      self::$instance = new $className;
-      self::$instance->data = new DataStore($dbUrl);
-    }
-    return self::$instance;
+  public function __construct($dbUrl) {
+    parent::__construct($dbUrl);
   }
 
   /**

@@ -2,10 +2,10 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use TrainingWheels\Log\Log;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
+use TrainingWheels\Log\Log;
 
 $app = new Silex\Application();
 
@@ -41,6 +41,10 @@ $app['monolog'] = $app->share($app->extend('monolog', function($monolog, $app) {
 Log::$instance = new Log($app['monolog']);
 Log::log('Initializing web application', L_INFO);
 
+/**
+ * Create global app objects.
+ */
+$app->register(new TrainingWheels\Common\BootstrapServiceProvider());
 
 /**
  * The REST service endpoints.
