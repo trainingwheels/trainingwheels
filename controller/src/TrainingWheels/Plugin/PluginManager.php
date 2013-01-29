@@ -3,22 +3,8 @@
 namespace TrainingWheels\Plugin;
 
 class PluginManager {
-  // Singleton instance.
-  protected static $instance;
-
   // Plugins.
   protected $plugins;
-
-  /**
-   * Return the singleton.
-   */
-  public static function singleton() {
-    if (!isset(self::$instance)) {
-      $className = get_called_class();
-      self::$instance = new $className;
-    }
-    return self::$instance;
-  }
 
   /**
    * Constructor.

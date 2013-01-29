@@ -5,7 +5,6 @@ use TrainingWheels\Conn\ServerConn;
 use TrainingWheels\Conn\LocalServerConn;
 use TrainingWheels\Environment\TrainingEnv;
 use TrainingWheels\Common\Util;
-use TrainingWheels\Plugin\PluginManager;
 use TrainingWheels\Log\Log;
 use Exception;
 
