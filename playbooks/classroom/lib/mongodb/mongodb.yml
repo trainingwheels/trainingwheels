@@ -40,7 +40,7 @@
   register: user_home
 
 - name: MongoDB | .mongodb.cnf for admin user
-  action: template src=templates/root-mongodb-cnf.j2 dest={user_home.stdout}/.mongodb.cnf
+  action: template src=templates/root-mongodb-cnf.j2 dest=${user_home.stdout}/.mongodb.cnf
 
 - name: MongoDB | Restart Mongo
   action: service name=mongodb state=restarted
