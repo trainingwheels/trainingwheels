@@ -12,6 +12,7 @@ use TrainingWheels\Environment\CentosEnv;
 use TrainingWheels\Environment\UbuntuEnv;
 use TrainingWheels\Store\DataStore;
 use Exception;
+use MongoId;
 
 class CourseFactory extends Factory {
   // Singleton instance.
@@ -58,11 +59,11 @@ class CourseFactory extends Factory {
   /**
    * Attach plugins.
    */
-  protected function buildPlugins(&$course, $plugin_ids) {
+  protected function buildPlugins(&$course, array $plugin_ids = array()) {
     if (!empty($plugin_ids)) {
-      $course->plugins = array();
+      $plugins = array();
       foreach ($plugin_ids as $plugin_id) {
-        $plugin_data = $this->data->find('plugin', array('id' => (int)$plugin_id));
+        $plugin_data = $this->data->find('plugin', array('_id' => $plugin_id));
         if (!$plugin_data) {
           throw new Exception("The course references a plugin with id \"$plugin_id\" that doesn't exist in the data store.");
         }
@@ -74,8 +75,9 @@ class CourseFactory extends Factory {
         }
         $plugin = new $class();
         $plugin->set($plugin_data);
-        $course->plugins[] = $plugin;
+        $plugins[] = $plugin;
       }
+      $course->setPlugins($plugins);
     }
   }
 

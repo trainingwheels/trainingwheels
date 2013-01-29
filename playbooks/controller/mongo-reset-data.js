@@ -13,16 +13,18 @@ db.course.insert({
     "host": "localhost",
     "user": "",
     "pass": "",
-    "plugin_ids": [1,2,3,4,5,6,7]
+    "plugin_ids": []
 })
+
+db.counters.remove()
+db.counters.insert({ "_id": "course_id", "seq": 1 })
+
 db.plugin.remove()
 db.plugin.insert({
-  "id": 1,
   "type": "Core",
   "title": "Training Wheels Core",
 })
 db.plugin.insert({
-  "id": 2,
   "type": "MySQL",
   "title": "Database",
   "key": "drupal_db",
@@ -30,42 +32,46 @@ db.plugin.insert({
   "mysql_root_password": "tplqomnscy323e"
 })
 db.plugin.insert({
-  "id": 3,
   "type": "GitFiles",
   "title": "Files",
   "key": "drupal_files",
   "repo_url": "https://github.com/fourkitchens/trainingwheels-drupal-files-example.git"
 })
 db.plugin.insert({
-  "id": 4,
   "type": "ApacheHTTPd",
   "title": "Webroot",
 })
 db.plugin.insert({
-  "id": 5,
   "type": "VSFTPd",
   "title": "FTP Server",
 })
 db.plugin.insert({
-  "id": 6,
   "type": "Drupal",
   "title": "Drupal",
 })
 db.plugin.insert({
-  "id": 7,
   "type": "PHP",
   "title": "PHP",
   "apc_shm_size": "89M"
 })
-db.plugin.insert({
-  "id": 8,
-  "type": "MongoDB",
-  "title": "MongoDB",
-})
-db.plugin.insert({
-  "id": 9,
-  "type": "Nodejs",
-  "title": "Nodejs",
-})
-db.counters.remove()
-db.counters.insert({ "_id": "course_id", "seq": 1 })
+// Not using Mongo and Nodejs right now. They work, but cause issues because
+// the controller uses Mongo too, and the playbook restarts it, throwing an
+// exception.
+// db.plugin.insert({
+//   "type": "MongoDB",
+//   "title": "MongoDB",
+// })
+// db.plugin.insert({
+//   "type": "Nodejs",
+//   "title": "Nodejs",
+// })
+
+// Associate all plugins with the course.
+var allPlugins = db.plugin.find({}, { _id: 1})
+do {
+  var plugin = allPlugins.next()
+  var id = plugin._id
+  db.course.update({id: 1}, {$push: { plugin_ids: id}})
+}
+while (allPlugins.hasNext())
+

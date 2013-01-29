@@ -22,7 +22,7 @@ class LinuxEnv implements TrainingEnv {
   /**
    * Run the classroom ansible playbooks.
    */
-  public function configure($plugins) {
+  public function configure(array $plugins) {
     $ansible_args_array = array(
       '-c local',
       '--sudo',
