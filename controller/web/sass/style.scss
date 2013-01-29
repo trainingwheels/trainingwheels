@@ -17,14 +17,15 @@
 @import 'partials/styleguide/style-guide';
 
 ////////////////////////
-// Import Layout
-////////////////////////
-@import 'partials/layout/layout';
-
-////////////////////////
 // Import Design
 ////////////////////////
-@import 'partials/design/design';
+@import 'partials/design/application';
+@import 'partials/design/course-form';
+@import 'partials/design/course';
+@import 'partials/design/courses';
+@import 'partials/design/resource';
+@import 'partials/design/user';
+
 
 @media print {
   @import "_print.scss";
