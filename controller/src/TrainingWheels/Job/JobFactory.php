@@ -8,15 +8,13 @@ use MongoId;
 use Exception;
 
 class JobFactory extends Factory {
-  private $dbUrl;
   private $courseFactory;
 
   /**
    * Constructor.
    */
   public function __construct($dbUrl, CourseFactory $courseFactory) {
-    parent::__construct();
-    $this->dbUrl = $dbUrl;
+    parent::__construct($dbUrl);
     $this->courseFactory = $courseFactory;
   }
 
