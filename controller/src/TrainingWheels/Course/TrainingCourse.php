@@ -48,14 +48,14 @@ abstract class TrainingCourse {
   }
 
   /**
-   * Configure the environment.
+   * Configure the environment. Typically runs the playbooks.
    */
   public function configure() {
     $this->env->configure($this->plugins);
   }
 
   /**
-   * Get multiple users in this course. Will return summarised versions of users.
+   * Get multiple users in this course. Will return summarized versions of users.
    */
   public function usersGet($users = '*') {
     $users = $this->userNormalizeParam($users);

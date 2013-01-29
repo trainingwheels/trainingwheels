@@ -14,20 +14,6 @@ class PluginManager {
   }
 
   /**
-   * Invoke a method on all plugins that support it.
-   */
-  public function invokeAll($method, $plugins) {
-    $args = func_get_args();
-    array_shift($args);
-    array_shift($args);
-    foreach ($plugins as $plugin) {
-      if (method_exists($plugin, $method)) {
-        $plugin->$method($args);
-      }
-    }
-  }
-
-  /**
    * TODO: Custom user location supported for plugins.
    */
   public function getPluginDirs() {
