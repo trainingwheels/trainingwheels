@@ -50,7 +50,6 @@
     #
     - name: Install required packages.
       action: apt pkg=$item state=installed
-
       with_items:
         - nginx
         - php5-fpm

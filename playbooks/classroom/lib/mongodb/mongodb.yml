@@ -3,6 +3,9 @@
 # MongoDB install.
 #
 ##
+- name: MongoDB | Install the pip MongoDB library pymongo for the mongodb_user module
+  action: pip name=pymongo
+
 - name: MongoDB | Add the key
   action: command apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
 
