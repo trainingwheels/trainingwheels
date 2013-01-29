@@ -5,7 +5,6 @@ Setup Vagrant Dev Environment
 2. Run `vagrant up`
 3. Add to your /etc/hosts, to get started:
 
-    # Training Wheels
     127.0.0.1  training.wheels instructor.mycourse.training.wheels bobby.mycourse.training.wheels sally.mycourse.training.wheels
 
 4. Run `vagrant ssh` to connect.
