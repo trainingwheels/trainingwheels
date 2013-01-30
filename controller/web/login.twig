@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Login | Training Wheels Controller</title>
+  <meta name="description" content="Training Wheels is an application for managing training environments.">
+  <meta name="author" content="Four Kitchens">
+  <link href="/css/alertify.css" type="text/css" rel="stylesheet" />
+  <link href="/css/style.css" type="text/css" rel="stylesheet" />
+  <link href="/fonts/ss-social/ss-social.css" rel="stylesheet" />
+  <link href="/fonts/ss-symbolicons-block/ss-symbolicons-block.css" rel="stylesheet" />
+  <link href="/fonts/ss-standard/ss-standard.css" rel="stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' type='text/css' rel='stylesheet' />
+</head>
+<body>
+
+  <div id="top-rule">
+  </div>
+  <div id="top-header">
+    <a href="/" class="logo">Training Wheels</a>
+  </div>
+
+  <form action="#" method="post" id="login-form">
+    <div id="form-title">Log in</div>
+    {{ form_widget(form) }}
+
+    <input class="submit" type="submit" name="submit" value="Log in" />
+  </form>
+
+  <div id="footer">
+    <ul>
+      <li> <a href="http://gettrainingwheels.org/">Learn more about Training Wheels</a></li>
+      <li> <a href="http://fourkitchens.com/contact">Contact Us</a></li>
+    </ul>
+    <div class="attribution-info">
+      &copy; Training Wheels is a trademark of
+      <a href="http://fourkitchens.com">Four Kitchens</a>, home of the <a href="http://fourkitchens.com/about/team">Web Chefs</a>.
+    </div>
+  </div>
+
+  {% for j in js %}
+  <script src="{{ j|raw }}" type="text/javascript"></script>
+  {% endfor %}
+
+  {% for msg in messages %}
+  <script type="text/javascript">
+    alertify.error('{{ msg }}');
+  </script>
+  {% endfor %}
+</body>
+</html>

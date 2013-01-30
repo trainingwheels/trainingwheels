@@ -8,6 +8,7 @@ if (!is_file($autoloader_path)) {
 require_once $autoloader_path;
 
 use Silex\Application;
+use Silex\Provider\FormServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,9 +33,17 @@ catch (Exception $e) {
 }
 Log::log('Initialized web application', L_INFO);
 
-// Sessions are only needed for the web endpoints, so register
-// the provider here rather than in bootstrap.
+/**
+ * Session provider.
+ * Sessions are only needed for the web endpoints, so register
+ * the provider here rather than in bootstrap.
+ */
 $app->register(new Silex\Provider\SessionServiceProvider());
+
+/**
+ * Form service provider.
+ */
+$app->register(new Silex\Provider\FormServiceProvider());
 
 /**
  * Use Twig for templating, although the majority is done client-side.
@@ -109,19 +118,39 @@ $app->get('/', function () use ($app, $jsGet, $tplGet) {
 /**
  * Login page for the application.
  */
-$app->get('/login', function () use ($app) {
-  $user = $app['request']->server->get('PHP_AUTH_USER', false);
-  $pass = $app['request']->server->get('PHP_AUTH_PW');
-
-  if ($user === $app['user']['name'] && $pass === $app['user']['pass']) {
-    $app['session']->set('user', array('username' => $username));
+$app->match('/login', function (Request $request) use ($app, $jsGet) {
+  // No need to log in if we're already authenticated.
+  if ($app['session']->get('user') !== NULL) {
     return $app->redirect('/');
   }
 
-  $response = new Response();
-  $response->headers->set('WWW-Authenticate', sprintf('Basic realm="%s"', 'site_login'));
-  $response->setStatusCode(401, 'Please sign in.');
-  return $response;
+  $messages = array();
+  $form = $app['form.factory']->createBuilder('form')
+    ->add('name', 'text', array('required' => TRUE))
+    ->add('pass', 'password', array('required' => TRUE))
+    ->getForm();
+
+  if ($request->getMethod() == 'POST') {
+    $form->bind($request);
+
+    $data = $form->getData();
+    if ($data['name'] === $app['user']['name'] && $data['pass'] === $app['user']['pass']) {
+      $app['session']->set('user', array('username' => $username));
+      return $app->redirect('/');
+    }
+    else {
+      $messages[] = 'Invalid user name or password.';
+    }
+  }
+
+  $vars = array(
+    'js' => array(
+      '/js/vendor/alertify/alertify.min.js',
+    ),
+    'messages' => $messages,
+    'form' => $form->createView()
+  );
+  return $app['twig']->render('login.twig', $vars);
 });
 
 /**
