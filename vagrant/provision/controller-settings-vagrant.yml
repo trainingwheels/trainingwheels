@@ -18,6 +18,9 @@ nginx_lan_subnet: '192.168.0.0/16'
 nginx_worker_processes: '1'
 nginx_webroot: '/var/trainingwheels/controller/web'
 
+# mongodb
+mongo_app_password: 'trainingwheelsApp'
+
 # php.ini for php-fpm
 php_max_execution_time: '90'
 php_display_errors: 'On'
@@ -29,5 +32,6 @@ php_date_timezone: 'America/Chicago'
 php_cgi_fix_pathinfo: '0'
 php_short_open_tag: 'Off'
 
-# mongodb
-mongo_app_password: 'trainingwheelsApp'
+# application
+app_user: 'tw'
+app_pass: 'admin'

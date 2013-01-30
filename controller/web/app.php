@@ -9,6 +9,8 @@ require_once $autoloader_path;
 
 use Silex\Application;
 use Silex\Provider\TwigServiceProvider;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use TrainingWheels\Common\BootstrapServiceProvider;
 use TrainingWheels\Controller\RESTControllerProvider;
 use TrainingWheels\Log\Log;
@@ -29,6 +31,10 @@ catch (Exception $e) {
   exit(1);
 }
 Log::log('Initialized web application', L_INFO);
+
+// Sessions are only needed for the web endpoints, so register
+// the provider here rather than in bootstrap.
+$app->register(new Silex\Provider\SessionServiceProvider());
 
 /**
  * Use Twig for templating, although the majority is done client-side.
@@ -98,6 +104,41 @@ $app->get('/', function () use ($app, $jsGet, $tplGet) {
     'tpl' => $tplGet(),
   );
   return $app['twig']->render('index.twig', $vars);
+});
+
+/**
+ * Login page for the application.
+ */
+$app->get('/login', function () use ($app) {
+  $user = $app['request']->server->get('PHP_AUTH_USER', false);
+  $pass = $app['request']->server->get('PHP_AUTH_PW');
+
+  if ($user === $app['user']['name'] && $pass === $app['user']['pass']) {
+    $app['session']->set('user', array('username' => $username));
+    return $app->redirect('/');
+  }
+
+  $response = new Response();
+  $response->headers->set('WWW-Authenticate', sprintf('Basic realm="%s"', 'site_login'));
+  $response->setStatusCode(401, 'Please sign in.');
+  return $response;
+});
+
+/**
+ * Bail on non-authenticated requests.
+ */
+$app->before(function (Request $request) use ($app) {
+  if ($request->getPathInfo() !== '/login' && $app['session']->get('user') === NULL) {
+    // For the front page, redirect to the login page.
+    if ($request->getPathInfo() == '/') {
+      return $app->redirect('/login');
+    }
+
+    // Otherwise 401.
+    $response = new Response();
+    $response->setStatusCode(401, 'Please sign in.');
+    return $response;
+  }
 });
 
 $app->run();

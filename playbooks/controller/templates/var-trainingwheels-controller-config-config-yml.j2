@@ -1,3 +1,6 @@
 debug: true
+user:
+  name: {{ app_user }}
+  pass: {{ app_pass }}
 connections:
   mongo: mongodb://trainingwheels:{{ mongo_app_password }}@localhost:27017/trainingwheels

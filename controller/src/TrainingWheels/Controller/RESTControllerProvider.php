@@ -7,6 +7,7 @@ use TrainingWheels\Job\JobFactory;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 define('HTTP_OK', 200);
