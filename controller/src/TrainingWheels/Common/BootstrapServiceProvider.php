@@ -5,6 +5,7 @@ namespace TrainingWheels\Common;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Silex\Provider\MonologServiceProvider;
+use Silex\Provider\TranslationServiceProvider;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
@@ -50,6 +51,13 @@ class BootstrapServiceProvider implements ServiceProviderInterface {
       $monolog->pushHandler($handler);
       return $monolog;
     }));
+
+    // Locale - needed for twig forms.
+    $app->register(new TranslationServiceProvider(), array(
+      'locale' => 'en',
+      'translation.class_path' => $base_path . 'vendor/symfony',
+      'translator.messages' => array(),
+    ));
 
     // We then use the same Monolog instance on the Training Wheels Log object,
     // so that our application logs all end up in the same place.
