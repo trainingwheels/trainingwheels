@@ -31,3 +31,7 @@ php_short_open_tag: 'Off'
 
 # mongodb
 mongo_app_password: 'aYP0k8GQTQ'
+
+# application
+app_user: 'tw'
+app_pass: 'bIvymOPiWShE1Xj'
