@@ -99,10 +99,6 @@ $tplGet = function() {
  * Main entry point for the application.
  */
 $app->get('/', function () use ($app, $jsGet, $tplGet) {
-  if ($app['session']->get('user') === NULL) {
-    return $app->redirect('/login');
-  }
-
   $vars = array(
     'js' => $jsGet($app['debug']),
     'tpl' => $tplGet(),
@@ -110,6 +106,9 @@ $app->get('/', function () use ($app, $jsGet, $tplGet) {
   return $app['twig']->render('index.twig', $vars);
 });
 
+/**
+ * Login page for the application.
+ */
 $app->get('/login', function () use ($app) {
   $user = $app['request']->server->get('PHP_AUTH_USER', false);
   $pass = $app['request']->server->get('PHP_AUTH_PW');
@@ -125,8 +124,17 @@ $app->get('/login', function () use ($app) {
   return $response;
 });
 
+/**
+ * Bail on non-authenticated requests.
+ */
 $app->before(function (Request $request) use ($app) {
-  if ($request->getPathInfo() !== '/' && $request->getPathInfo() !== '/login' && $app['session']->get('user') === NULL) {
+  if ($request->getPathInfo() !== '/login' && $app['session']->get('user') === NULL) {
+    // For the front page, redirect to the login page.
+    if ($request->getPathInfo() == '/') {
+      return $app->redirect('/login');
+    }
+
+    // Otherwise 401.
     $response = new Response();
     $response->setStatusCode(401, 'Please sign in.');
     return $response;

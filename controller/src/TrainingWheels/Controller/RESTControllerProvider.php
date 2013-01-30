@@ -43,7 +43,7 @@ class RESTControllerProvider implements ControllerProviderInterface {
     };
 
     /**
-     * Bail on unauthenticated requests and handle JSON automatically.
+     * Handle JSON automatically.
      */
     $app->before(function (Request $request) {
       if (strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
