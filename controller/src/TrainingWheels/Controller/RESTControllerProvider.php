@@ -7,6 +7,7 @@ use TrainingWheels\Job\JobFactory;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 define('HTTP_OK', 200);
@@ -42,7 +43,7 @@ class RESTControllerProvider implements ControllerProviderInterface {
     };
 
     /**
-     * Handle JSON automatically.
+     * Bail on unauthenticated requests and handle JSON automatically.
      */
     $app->before(function (Request $request) {
       if (strpos($request->headers->get('Content-Type'), 'application/json') === 0) {
