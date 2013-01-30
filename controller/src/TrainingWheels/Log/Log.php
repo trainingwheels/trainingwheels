@@ -16,7 +16,7 @@ define('L_CRITICAL', 4);
 define('L_ALERT', 5);
 
 class Log {
-  public static $instance = NULL;
+  protected static $instance = NULL;
   private $monolog = NULL;
 
   /**
@@ -24,10 +24,11 @@ class Log {
    */
   public function __construct($monolog) {
     $this->monolog = $monolog;
+    self::$instance = $this;
   }
 
   /**
-   * Create the logger if it's not there yet, and log.
+   * Static logging method.
    */
   public static function log($message, $level) {
     if (!isset(self::$instance)) {
@@ -54,19 +55,5 @@ class Log {
         $self->monolog->addAlert($message);
         break;
     }
-  }
-
-  /**
-   * Prevent people creating objects of this type instead of using singleton.
-   */
-  public function __clone() {
-    trigger_error('Clone is not allowed.', E_USER_ERROR);
-  }
-
-  /**
-   * Prevent people serializing which would be another way to clone the object.
-   */
-  public function __wakeup() {
-    trigger_error('Unserializing is not allowed.', E_USER_ERROR);
   }
 }

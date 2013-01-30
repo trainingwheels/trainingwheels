@@ -1,46 +1,46 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+$autoloader_path = __DIR__ . '/../vendor/autoload.php';
+if (!is_file($autoloader_path)) {
+  print 'Unable to find the class autoloader, are you sure you have run "composer install"? See README.md for more information.';
+  exit(1);
+}
+require_once $autoloader_path;
 
+use Silex\Application;
+use Silex\Provider\TwigServiceProvider;
+use TrainingWheels\Common\BootstrapServiceProvider;
+use TrainingWheels\Controller\RESTControllerProvider;
 use TrainingWheels\Log\Log;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Formatter\LineFormatter;
 
-$app = new Silex\Application();
-$app['debug'] = TRUE;
+/**
+ * Create the main Silex application.
+ */
+$app = new Application();
+
+/**
+ * Inject the Training Wheels application as a provider in Silex.
+ */
+try {
+  $app->register(new BootstrapServiceProvider());
+}
+catch (Exception $e) {
+  print $e->getMessage();
+  exit(1);
+}
+Log::log('Initialized web application', L_INFO);
 
 /**
  * Use Twig for templating, although the majority is done client-side.
  */
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
+$app->register(new TwigServiceProvider(), array(
   'twig.path' => __DIR__ . '/',
 ));
 
 /**
- * Currently we have monolog logging from both a Silex Provider for
- * the web app messages, and internally in Training Wheels from the
- * Log class.
- */
-$app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__ . '/../log/messages.log',
-    'monolog.name' => 'tw',
-    'monolog.level' => $app['debug'] ? Logger::DEBUG : Logger::INFO,
-));
-$app['monolog'] = $app->share($app->extend('monolog', function($monolog, $app) {
-  $handler = $monolog->popHandler();
-  $formatter = new LineFormatter("[%datetime%] %channel%.%level_name%: %message% \n");
-  $handler->setFormatter($formatter);
-  $monolog->pushHandler($handler);
-  return $monolog;
-}));
-Log::$instance = new Log($app['monolog']);
-Log::log('Initializing web application', L_INFO);
-
-/**
  * The REST service endpoints.
  */
-$app->mount('/rest', new TrainingWheels\Controller\REST());
+$app->mount('/rest', new RESTControllerProvider());
 
 /**
  * Client-side JavaScript includes.

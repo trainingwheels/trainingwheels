@@ -2,25 +2,21 @@
 
 namespace TrainingWheels\Job;
 use TrainingWheels\Common\Factory;
+use TrainingWheels\Course\CourseFactory;
 use TrainingWheels\Job\ResourceJob;
 use TrainingWheels\Store\DataStore;
 use MongoId;
 use Exception;
 
 class JobFactory extends Factory {
-  // Singleton instance.
-  protected static $instance;
+  private $courseFactory;
 
   /**
-   * Return the singleton.
+   * Constructor.
    */
-  public static function singleton() {
-    if (!isset(self::$instance)) {
-      $className = get_called_class();
-      self::$instance = new $className;
-      self::$instance->data = new DataStore();
-    }
-    return self::$instance;
+  public function __construct(DataStore $data, CourseFactory $courseFactory) {
+    parent::__construct($data);
+    $this->courseFactory = $courseFactory;
   }
 
   /**
@@ -67,7 +63,7 @@ class JobFactory extends Factory {
   protected function buildJob($job) {
     switch ($job->type) {
       case 'resource':
-        $job = new ResourceJob($job->job_id, $job->course_id, $job->action, $job->params);
+        $job = new ResourceJob($this->courseFactory, $job->job_id, $job->course_id, $job->action, $job->params);
       break;
 
       default:

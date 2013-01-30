@@ -3,6 +3,9 @@
 # MongoDB install.
 #
 ##
+- name: MongoDB | Install the pip MongoDB library pymongo for the mongodb_user module
+  action: pip name=pymongo
+
 - name: MongoDB | Add the key
   action: command apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
 
@@ -17,5 +20,27 @@
   with_items:
     - mongodb-10gen
 
-- name: Restart Mongo
+- name: MongoDB | Wait for Mongo to be listening for connections. It preallocates some space that takes a while.
+  action: wait_for port=27017 delay=4 timeout=60
+
+- name: MongoDB | Create root user
+  action: mongodb_user database=admin user=root password=$mongo_root_password
+
+- name: MongoDB | Create app user
+  action: mongodb_user database=trainingwheels user=trainingwheels password=$mongo_app_password
+
+- name: MongoDB | Configuration file mongodb.conf
+  action: template src=templates/etc-mongodb-conf.j2 dest=/etc/mongodb.conf
+
+- name: MongoDB | .mongodb.cnf for root
+  action: template src=templates/root-mongodb-cnf.j2 dest=/root/.mongodb.cnf
+
+- name: MongoDB | Get the current users home
+  action: shell echo $HOME
+  register: user_home
+
+- name: MongoDB | .mongodb.cnf for admin user
+  action: template src=templates/root-mongodb-cnf.j2 dest=${user_home.stdout}/.mongodb.cnf
+
+- name: MongoDB | Restart Mongo
   action: service name=mongodb state=restarted
