@@ -20,8 +20,8 @@
   with_items:
     - mongodb-10gen
 
-- name: MongoDB | Restart Mongo
-  action: service name=mongodb state=restarted
+- name: MongoDB | Wait for Mongo to be listening for connections. It preallocates some space that takes a while.
+  action: wait_for port=27017 delay=4 timeout=60
 
 - name: MongoDB | Create root user
   action: mongodb_user database=admin user=root password=$mongo_root_password
