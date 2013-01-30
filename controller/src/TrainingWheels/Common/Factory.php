@@ -1,18 +1,20 @@
 <?php
 
 namespace TrainingWheels\Common;
+use TrainingWheels\Store\DataStore;
 
 abstract class Factory {
   // Abstract functions.
   abstract public function get($id);
   abstract public function save($object);
 
-  /**
-   * Additionally each implementing class should contain
-   * a protected static $instance variable and a public
-   * static singleton function to return a static instance
-   * of the class.
-   */
+  // The DataStore object.
+  protected $data;
 
-  protected static $data;
+  /**
+   * Constructor.
+   */
+  public function __construct(DataStore $data) {
+    $this->data = $data;
+  }
 }

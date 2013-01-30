@@ -31,6 +31,10 @@ mysql_collation_server: 'utf8_general_ci'
 # this password must also appear in the prep-server.yml file.
 mysql_root_password: 'tplqomnscy323e'
 
+# mongodb
+mongo_root_password: '5gjfs6y3T2'
+mongo_app_password: 'aYP0k8GQTQ'
+
 # apache
 apache_server_admin: 'mark@fourkitchens.com'
 apache_server_alias: '*.*.tw-build.com'

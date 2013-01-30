@@ -50,7 +50,6 @@
     #
     - name: Install required packages.
       action: apt pkg=$item state=installed
-
       with_items:
         - nginx
         - php5-fpm
@@ -109,6 +108,12 @@
 
     - name: Install dependencies
       action: command composer.phar install -d $twdir/controller/ creates=$twdir/controller/vendor
+
+    ##
+    # Copy app config file.
+    #
+    - name: Copy app config file
+      action: template src=templates/var-trainingwheels-controller-config-config-yml.j2 dest=$twdir/controller/config/config.yml
 
     ##
     # Handy shortcuts
