@@ -44,6 +44,40 @@ dt, dd {
   padding-top: 5px;
 }
 
+textarea,
+input:not([type=submit]):not([type=file]) {
+  @include border-radius(4px);
+  font-size: $h4-font-size;
+  font-family: $opensans;
+  padding: $base-line-height/4 $base-line-height/3;
+  color: $darkGray;
+  margin-left: 5px;
+  border: 1px solid $mediumGray;
+  background-color: $lightGray;
+  box-shadow: 0px 0px 0px rgb(0, 0, 0), 0px 3px 3px rgb(238, 238, 238) inset;
+
+  &:hover {
+    border: 1px solid $Gray;
+  }
+  &:focus {
+    border: 1px solid $Gray;
+    background-color: $whiteGray;
+    outline: medium none;
+    &:hover {
+      border: 1px solid $Gray;
+    }
+  }
+}
+
+input[type=submit] {
+  @include button-make($yellow);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 16px;
+  margin: 0 0 0 auto;
+  width: 150px;
+  display: block;
+}
+
 //Header
 
 .logo {
@@ -121,48 +155,17 @@ dt, dd {
   margin-right: auto;
 }
 
-//Default Input Fields
-
-.ember-text-field, .ember-text-area {
-  @include border-radius(4px);
-  font-size: $h4-font-size;
-  font-family: $opensans;
-  padding: $base-line-height/4 $base-line-height/3;
-  color: $darkGray;
-  margin-left: 5px;
-  border: 1px solid $mediumGray;
-  background-color: $lightGray;
-  box-shadow: 0px 0px 0px rgb(0, 0, 0), 0px 3px 3px rgb(238, 238, 238) inset;
-    &:hover {
-      border: 1px solid $Gray;
-    }
-    &:focus {
-      border: 1px solid $Gray;
-      background-color: $whiteGray;
-      outline: medium none;
-      &:hover {
-        border: 1px solid $Gray;
-      }
-    }
-}
-
 //Default Submit / Cancel Buttons
-
 .submit {
-      @include button-make($yellow);
-      padding: $base-line-height / 2 $base-line-height /2;
-      font-size: 16px;
-      margin: 0 0 0 auto;
-      width: 150px;
-      display: block;
-    }
+  @extend input[type=submit];
+}
 .cancel {
-      //@include button-make($lightGray);
-      padding: $base-line-height / 2 $base-line-height /2;
-      font-size: 16px;
-      margin: 0 auto 0 0;
-      //width: 150px;
-      display: block;
+  //@include button-make($lightGray);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 16px;
+  margin: 0 auto 0 0;
+  //width: 150px;
+  display: block;
 }
 
 // Alertify

@@ -6,9 +6,7 @@
 ////////////////////////
 
 #course-form {
-  margin: 0 auto;
-  max-width: 550px;
-  padding: $base-line-height;
+  @extend #tw-form;
   #course-form-title {
     padding-bottom: 25px;
     padding-left: 25px;
@@ -18,24 +16,12 @@
   }
   #course-fields {
     .field {
-      margin-bottom: $base-line-height/2;
-      text-align: right;
-      font-size: $h4-font-size;
-      font-family: $opensans;
-      span {
-        vertical-align: top;
-        display: inline-block;
-        padding-top: 10px;
-      }
+      @extend #tw-form-field;
     }
   }
   #course-tools {
     button {
-    margin-bottom: $base-line-height/2;
-    }  
-  }
-  hr {
-  border-top: 1px solid $mediumGray;
-  margin: 2em inherit;
+      margin-bottom: $base-line-height/2;
+    }
   }
 }

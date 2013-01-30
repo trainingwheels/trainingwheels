@@ -1,0 +1,18 @@
+////////////////////////
+// Login form
+////////////////////////
+#login-form {
+  @extend #tw-form;
+
+  #form-title {
+    padding-bottom: 25px;
+    padding-left: 25px;
+    font-family: $opensans;
+    font-weight: 600;
+    font-size: $h2-font-size;
+  }
+
+  #form div {
+    @extend #tw-form-field;
+  }
+}
