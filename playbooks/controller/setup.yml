@@ -94,7 +94,7 @@
         - mongodb-10gen
 
     - name: MongoDB | Wait for Mongo to be listening for connections. It preallocates some space that takes a while.
-      action: wait_for port=27017 delay=4 timeout=60
+      action: wait_for port=27017 delay=4 timeout=$mongo_restart_timeout
 
     - name: MongoDB | Install pymongo
       action: pip name=pymongo state=present
