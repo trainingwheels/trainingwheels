@@ -38,7 +38,7 @@ db.plugin.insert({
   "repo_url": "https://github.com/fourkitchens/trainingwheels-drupal-files-example.git"
 })
 db.plugin.insert({
-  "type": "ApacheHTTPd",
+  "type": "ApacheHTTPD",
   "title": "Webroot",
 })
 db.plugin.insert({
