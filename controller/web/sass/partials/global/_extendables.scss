@@ -4,3 +4,26 @@
 // All of your extendable classes, ids, and placeholder extendables
 //   should go in this file.
 ////////////////////////
+
+#tw-form {
+  margin: 0 auto;
+  max-width: 550px;
+  padding: $base-line-height;
+  hr {
+    border-top: 1px solid $mediumGray;
+    margin: 2em inherit;
+  }
+}
+
+#tw-form-field {
+  margin-bottom: $base-line-height/2;
+  text-align: right;
+  font-size: $h4-font-size;
+  font-family: $opensans;
+  span {
+    vertical-align: top;
+    display: inline-block;
+    padding-top: 10px;
+  }
+}
+

@@ -3,46 +3,53 @@
 $whoami = trim(shell_exec('sudo whoami'));
 if ($whoami != 'root') {
   print 'Please run this as root or a user with password-less sudo access.' . "\n";
-  exit;
+  exit(1);
 }
 
-$autoloader_path = __DIR__.'/../vendor/autoload.php';
-
+$autoloader_path = __DIR__ . '/../vendor/autoload.php';
 if (!file_exists($autoloader_path)) {
   print 'Unable to find the class autoloader, are you sure you have run "composer install"? See README.md for more information.' . "\n";
-  exit;
+  exit(1);
 }
-
 require_once $autoloader_path;
 
-use TrainingWheels\Console\ClassroomConfigure;
+use TrainingWheels\Common\BootstrapServiceProvider;
+
+/**
+ * Create the main Silex application.
+ */
+$app = new Silex\Application();
+
+/**
+ * Inject the Training Wheels application as a provider in Silex.
+ */
+try {
+  $app->register(new BootstrapServiceProvider());
+}
+catch (Exception $e) {
+  print $e->getMessage();
+  exit(1);
+}
+TrainingWheels\Log\Log::log('Initialized console application', L_INFO);
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use TrainingWheels\Console\UserRetrieve;
 use TrainingWheels\Console\UserCreate;
 use TrainingWheels\Console\UserDelete;
 use TrainingWheels\Console\ResourceCreate;
 use TrainingWheels\Console\ResourceDelete;
 use TrainingWheels\Console\ResourceSync;
-use TrainingWheels\Log\Log;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Formatter\LineFormatter;
-use Symfony\Component\Console\Application;
 
-$formatter = new LineFormatter("[%datetime%] %channel%.%level_name%: %message% \n");
-$stream = new StreamHandler(__DIR__.'/../log/cli.log', Logger::DEBUG);
-$stream->setFormatter($formatter);
-$log = new Logger('tw');
-$log->pushHandler($stream);
+$console = new Application();
+$console->add(new UserRetrieve($app['tw.course_factory']));
+$console->add(new UserCreate($app['tw.course_factory']));
+$console->add(new UserDelete($app['tw.course_factory']));
+$console->add(new ResourceCreate($app['tw.job_factory']));
+$console->add(new ResourceDelete($app['tw.job_factory']));
+$console->add(new ResourceSync($app['tw.job_factory']));
 
-Log::$instance = new Log($log);
-Log::log('Initializing CLI application', L_INFO);
-
-$application = new Application();
-$application->add(new ClassroomConfigure);
-$application->add(new UserRetrieve);
-$application->add(new UserCreate);
-$application->add(new UserDelete);
-$application->add(new ResourceCreate);
-$application->add(new ResourceDelete);
-$application->add(new ResourceSync);
-$application->run();
+$console->run();

@@ -93,6 +93,28 @@
       with_items:
         - mongodb-10gen
 
+    - name: MongoDB | Wait for Mongo to be listening for connections. It preallocates some space that takes a while.
+      action: wait_for port=27017 delay=4 timeout=60
+
+    - name: MongoDB | Create root user
+      action: mongodb_user database=admin user=root password=$mongo_root_password
+
+    - name: MongoDB | Create app user
+      action: mongodb_user database=trainingwheels user=trainingwheels password=$mongo_app_password
+
+    - name: MongoDB | Configuration file mongodb.conf
+      action: template src=templates/etc-mongodb-conf.j2 dest=/etc/mongodb.conf
+
+    - name: MongoDB | .mongodb.cnf for root
+      action: template src=templates/root-mongodb-cnf.j2 dest=/root/.mongodb.cnf
+
+    - name: MongoDB | Get the current users home
+      action: shell echo $HOME
+      register: user_home
+
+    - name: MongoDB | .mongodb.cnf for admin user
+      action: template src=templates/root-mongodb-cnf.j2 dest=${user_home.stdout}/.mongodb.cnf
+
     - name: MongoDB | Install the PECL MongoDB extension
       action: command pecl install mongo creates=/usr/lib/php5/20090626/mongo.so
 
@@ -128,6 +150,12 @@
 
     - name: Composer | Install dependencies
       action: command composer.phar install -d $twdir/controller/ creates=$twdir/controller/vendor
+
+    ##
+    # Copy app config file.
+    #
+    - name: Copy app config file
+      action: template src=templates/var-trainingwheels-controller-config-config-yml.j2 dest=$twdir/controller/config/config.yml
 
     ##
     # Handy shortcuts

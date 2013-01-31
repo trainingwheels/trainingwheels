@@ -1,0 +1,238 @@
+////////////////////////
+// Application Partials
+//
+// Includes Header, Footer, Container and other general site SASS
+//
+////////////////////////
+
+@import 'animation';
+
+body {
+  background-color: #eeeeee;
+}
+
+.yellow-btn {
+  @include button-make($yellow);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 20px;
+}
+
+a {
+  color: darkGray;
+  text-decoration: none;
+  &:hover, &.hover {
+    color: $mediumGray;
+    text-decoration: none;
+  }
+}
+
+dt {
+  width: 200px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+dd {
+  margin: 0;
+  display: inline-block;
+  width: 66%;
+}
+
+dt, dd {
+  border-top: solid 1px #DDD;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+textarea,
+input:not([type=submit]):not([type=file]) {
+  @include border-radius(4px);
+  font-size: $h4-font-size;
+  font-family: $opensans;
+  padding: $base-line-height/4 $base-line-height/3;
+  color: $darkGray;
+  margin-left: 5px;
+  border: 1px solid $mediumGray;
+  background-color: $lightGray;
+  box-shadow: 0px 0px 0px rgb(0, 0, 0), 0px 3px 3px rgb(238, 238, 238) inset;
+
+  &:hover {
+    border: 1px solid $Gray;
+  }
+  &:focus {
+    border: 1px solid $Gray;
+    background-color: $whiteGray;
+    outline: medium none;
+    &:hover {
+      border: 1px solid $Gray;
+    }
+  }
+}
+
+input[type=submit] {
+  @include button-make($yellow);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 16px;
+  margin: 0 0 0 auto;
+  width: 150px;
+  display: block;
+}
+
+//Header
+
+.logo {
+  padding-left: 1em;
+  font-size: $base-font-size * 2;
+  color: $white;
+  text-decoration: none;
+  font-family: $bebas;
+  &:hover {
+    color: $yellow;
+  }
+}
+
+#top-rule {
+  @include gradient(saturate($yellow, 10%), darken($yellow, 20%));
+  top: 0;
+  width: 100%;
+  min-height: 6px;
+  position: relative;
+  border-top: 1px solid $yellow;
+  border-bottom: 1px solid $darkGray;
+}
+
+#top-header {
+  @include gradient(darken($darkGray, 0%), darken($darkGray, 10%));
+  background: url(../images/dark-noise.png) repeat;
+  top: 0;
+  width: 100%;
+  min-height: 50px;
+  position: relative;
+  z-index: 4;
+  padding-top: 15px;
+  margin-bottom: $base-line-height;
+  border-bottom: 1px solid $mediumGray;
+}
+
+//Footer
+
+#footer {
+  float: left;
+  bottom: 0;
+  width: 100%;
+  position: relative;
+  z-index: 4;
+  margin:$base-line-height;
+  margin-left: 0;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
+  background: url(../images/az_subtle.png) repeat;
+  color: $darkGray;
+  padding:$base-line-height;
+  font-size: 12px;
+  a {
+    color: $darkGray;
+    &:hover {
+      color: $yellowDark;
+    }
+  }
+  ul {
+    list-style-type: none;
+    margin: 0;
+    li {
+      display: inline;
+    }
+  }
+}
+
+//Misc
+
+.tw-loading {
+  background: url(../images/loading.gif) no-repeat;
+  height: 31px;
+  width: 31px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+//Default Submit / Cancel Buttons
+.submit {
+  @extend input[type=submit];
+}
+.cancel {
+  //@include button-make($lightGray);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 16px;
+  margin: 0 auto 0 0;
+  //width: 150px;
+  display: block;
+}
+
+// Alertify
+
+/**
+ * Default Look and Feel
+ */
+.alertify,
+.alertify-log {
+  font-family: $opensans;
+}
+.alertify {
+	background: $white;
+	border: none; /* browsers that don't support rgba */
+	border-radius: 7px;
+	box-shadow: 0 3px 3px rgba(0,0,0,.3);
+	-webkit-background-clip: padding;     /* Safari 4? Chrome 6? */
+	   -moz-background-clip: padding;     /* Firefox 3.6 */
+	        background-clip: padding-box; /* Firefox 4, Safari 5, Opera 10, IE 9 */
+}
+.alertify-text {
+	border: none;
+	padding: 10px;
+	border-radius: 4px;
+}
+.alertify-button {
+  @include button-make($yellow);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 16px;
+  width: 50px;
+  text-shadow: none;
+}
+.alertify-button:hover,
+.alertify-button:focus {
+	background-image: none;
+	color: $darkGray;
+}
+.alertify-button:active {
+	position: relative;
+	top: 1px;
+}
+.alertify-button-cancel {
+  @include button-make($mediumGray);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 16px;
+  min-width: 50px;
+  width: auto;
+}
+.alertify-button-ok {
+  @include button-make($yellow);
+  padding: $base-line-height / 2 $base-line-height /2;
+  font-size: 16px;
+  min-width: 50px;
+  width: auto;
+}
+.alertify-log {
+	background: $yellow;
+	padding: 15px;
+	border-radius: 7px;
+	color: $darkGray;
+	text-shadow: -1px -1px 0 rgba(0,0,0,0);
+}
+.alertify-log-error {
+	background: $darkGray;
+	color: $white;
+}
+.alertify-log-success {
+	background: $yellow;
+}
+

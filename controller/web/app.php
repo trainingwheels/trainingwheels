@@ -1,46 +1,61 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+$autoloader_path = __DIR__ . '/../vendor/autoload.php';
+if (!is_file($autoloader_path)) {
+  print 'Unable to find the class autoloader, are you sure you have run "composer install"? See README.md for more information.';
+  exit(1);
+}
+require_once $autoloader_path;
 
+use Silex\Application;
+use Silex\Provider\FormServiceProvider;
+use Silex\Provider\TwigServiceProvider;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use TrainingWheels\Common\BootstrapServiceProvider;
+use TrainingWheels\Controller\RESTControllerProvider;
 use TrainingWheels\Log\Log;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Formatter\LineFormatter;
 
-$app = new Silex\Application();
-$app['debug'] = TRUE;
+/**
+ * Create the main Silex application.
+ */
+$app = new Application();
+
+/**
+ * Inject the Training Wheels application as a provider in Silex.
+ */
+try {
+  $app->register(new BootstrapServiceProvider());
+}
+catch (Exception $e) {
+  print $e->getMessage();
+  exit(1);
+}
+Log::log('Initialized web application', L_INFO);
+
+/**
+ * Session provider.
+ * Sessions are only needed for the web endpoints, so register
+ * the provider here rather than in bootstrap.
+ */
+$app->register(new Silex\Provider\SessionServiceProvider());
+
+/**
+ * Form service provider.
+ */
+$app->register(new Silex\Provider\FormServiceProvider());
 
 /**
  * Use Twig for templating, although the majority is done client-side.
  */
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
+$app->register(new TwigServiceProvider(), array(
   'twig.path' => __DIR__ . '/',
 ));
 
 /**
- * Currently we have monolog logging from both a Silex Provider for
- * the web app messages, and internally in Training Wheels from the
- * Log class.
- */
-$app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__ . '/../log/messages.log',
-    'monolog.name' => 'tw',
-    'monolog.level' => $app['debug'] ? Logger::DEBUG : Logger::INFO,
-));
-$app['monolog'] = $app->share($app->extend('monolog', function($monolog, $app) {
-  $handler = $monolog->popHandler();
-  $formatter = new LineFormatter("[%datetime%] %channel%.%level_name%: %message% \n");
-  $handler->setFormatter($formatter);
-  $monolog->pushHandler($handler);
-  return $monolog;
-}));
-Log::$instance = new Log($app['monolog']);
-Log::log('Initializing web application', L_INFO);
-
-/**
  * The REST service endpoints.
  */
-$app->mount('/rest', new TrainingWheels\Controller\REST());
+$app->mount('/rest', new RESTControllerProvider());
 
 /**
  * Client-side JavaScript includes.
@@ -98,6 +113,61 @@ $app->get('/', function () use ($app, $jsGet, $tplGet) {
     'tpl' => $tplGet(),
   );
   return $app['twig']->render('index.twig', $vars);
+});
+
+/**
+ * Login page for the application.
+ */
+$app->match('/login', function (Request $request) use ($app, $jsGet) {
+  // No need to log in if we're already authenticated.
+  if ($app['session']->get('user') !== NULL) {
+    return $app->redirect('/');
+  }
+
+  $messages = array();
+  $form = $app['form.factory']->createBuilder('form')
+    ->add('name', 'text', array('required' => TRUE))
+    ->add('pass', 'password', array('required' => TRUE))
+    ->getForm();
+
+  if ($request->getMethod() == 'POST') {
+    $form->bind($request);
+
+    $data = $form->getData();
+    if ($data['name'] === $app['user']['name'] && $data['pass'] === $app['user']['pass']) {
+      $app['session']->set('user', array('username' => $username));
+      return $app->redirect('/');
+    }
+    else {
+      $messages[] = 'Invalid user name or password.';
+    }
+  }
+
+  $vars = array(
+    'js' => array(
+      '/js/vendor/alertify/alertify.min.js',
+    ),
+    'messages' => $messages,
+    'form' => $form->createView()
+  );
+  return $app['twig']->render('login.twig', $vars);
+});
+
+/**
+ * Bail on non-authenticated requests.
+ */
+$app->before(function (Request $request) use ($app) {
+  if ($request->getPathInfo() !== '/login' && $app['session']->get('user') === NULL) {
+    // For the front page, redirect to the login page.
+    if ($request->getPathInfo() == '/') {
+      return $app->redirect('/login');
+    }
+
+    // Otherwise 401.
+    $response = new Response();
+    $response->setStatusCode(401, 'Please sign in.');
+    return $response;
+  }
 });
 
 $app->run();

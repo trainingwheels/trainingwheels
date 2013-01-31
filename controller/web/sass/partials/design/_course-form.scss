@@ -1,0 +1,27 @@
+////////////////////////
+// Course Form
+//
+// Form used when Adding a new course
+//
+////////////////////////
+
+#course-form {
+  @extend #tw-form;
+  #course-form-title {
+    padding-bottom: 25px;
+    padding-left: 25px;
+    font-family: $opensans;
+    font-weight: 600;
+    font-size: $h2-font-size;
+  }
+  #course-fields {
+    .field {
+      @extend #tw-form-field;
+    }
+  }
+  #course-tools {
+    button {
+      margin-bottom: $base-line-height/2;
+    }
+  }
+}

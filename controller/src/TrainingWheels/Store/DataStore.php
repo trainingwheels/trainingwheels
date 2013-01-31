@@ -10,8 +10,8 @@ class DataStore {
   /**
    * Constructor.
    */
-  public function __construct() {
-    $connection = new MongoClient();
+  public function __construct($dbUrl) {
+    $connection = new MongoClient($dbUrl);
     $this->db = $connection->trainingwheels;
   }
 

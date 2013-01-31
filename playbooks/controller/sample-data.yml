@@ -9,12 +9,15 @@
   vars:
     twhome: '/twhome'
 
+  vars_files:
+    - settings.yml
+
   tasks:
     - name: Upload sample course data
       action: copy src=mongo-reset-data.js dest=/tmp/mongo-reset-data.js
 
     - name: Insert sample Mongo course data
-      action: command mongo trainingwheels /tmp/mongo-reset-data.js
+      action: command mongo -u trainingwheels -p $mongo_app_password trainingwheels /tmp/mongo-reset-data.js
 
     - name: Configure the classroom for course 1 on localhost
       action: "command tw c:c 1"

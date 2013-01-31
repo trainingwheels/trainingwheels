@@ -1,0 +1,52 @@
+////////////////////////
+// Users Partial
+//
+// User Listing and User Summary (does not include resources)
+//
+////////////////////////
+
+.user-summary, .user-full, #course-users-top-tools {
+  border-bottom: 1px solid $border;
+  border-top: 1px solid $white;
+}
+
+.user-info {
+  h3 {
+    margin: .5em 0;
+    display: inline-block;
+    .user-name {
+      font-size: 18px;
+      color: $darkGray;
+      &:hover {
+        color:$mediumGray;
+      }
+    }
+  }
+  .indicators-summary-users {
+    float:right;
+    padding-top: 13px;
+    .ss-folder{
+      display: inline-block;
+      padding-right: 12px;
+    }
+    .ss-user{
+      display: inline-block;
+      padding-right: 12px;
+    }
+    .resource-ready {
+      color: $darkGray;
+    }
+    .resource-missing {
+      color: $red;
+    }
+    .logged_out {
+      color: $mediumGray;
+    }
+  }
+  .ss-icon {
+    font-size: 14px;
+    color: $darkGray;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

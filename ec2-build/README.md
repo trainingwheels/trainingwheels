@@ -21,10 +21,11 @@ Ansible
 
 On Ubuntu 12.04:
 
-    aptitude -y install git python-jinja2 python-yaml python-paramiko python-software-properties
+    aptitude -y install build-essential git python-dev python-jinja2 python-yaml python-paramiko python-software-properties python-pip
 
 Then:
 
+    sudo pip install pymongo
     add-apt-repository -y ppa:rquillo/ansible/ubuntu
     aptitude update
     aptitude install ansible

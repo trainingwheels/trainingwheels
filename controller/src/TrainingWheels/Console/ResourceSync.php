@@ -9,15 +9,22 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ResourceSync extends Command
-{
+class ResourceSync extends Command {
+  private $jobFactory;
+
+  public function __construct(JobFactory $jobFactory) {
+    parent::__construct();
+
+    $this->jobFactory = $jobFactory;
+  }
+
   protected function configure() {
     $this->setName('resource:sync')
-         ->setDescription('Sync resource(s).')
-         ->addArgument('course_id', InputArgument::REQUIRED,'The course id.')
-         ->addArgument('source_user', InputArgument::REQUIRED,'The source user name.')
-         ->addArgument('target_users', InputArgument::REQUIRED,'The target user names, comma-separated.')
-         ->addArgument('resources', InputArgument::OPTIONAL,'The resource names, comma-separated.');
+      ->setDescription('Sync resource(s).')
+      ->addArgument('course_id', InputArgument::REQUIRED,'The course id.')
+      ->addArgument('source_user', InputArgument::REQUIRED,'The source user name.')
+      ->addArgument('target_users', InputArgument::REQUIRED,'The target user names, comma-separated.')
+      ->addArgument('resources', InputArgument::OPTIONAL,'The resource names, comma-separated.');
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
@@ -34,13 +41,13 @@ class ResourceSync extends Command
       'target_users' => explode(',', $input->getArgument('target_users')),
       'resources' => $resources,
     );
-    $job = JobFactory::singleton()->save($job);
+    $job = $this->jobFactory->save($job);
     try {
       $job->execute();
-      JobFactory::singleton()->remove($job->get('id'));
+      $this->jobFactory->remove($job->get('id'));
     }
     catch (Exception $e) {
-      JobFactory::singleton()->remove($job->get('id'));
+      $this->jobFactory->remove($job->get('id'));
       throw $e;
     }
 
