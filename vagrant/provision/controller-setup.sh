@@ -12,9 +12,9 @@ echo ''
 echo '======================================================================='
 echo 'Running controller setup...'
 cd $TW_DIR/playbooks/controller
-ansible-playbook -c local --user=root setup.yml
+ansible-playbook --sudo -c local setup.yml
 
 echo ''
 echo '======================================================================='
 echo 'Running sample data playbooks...'
-ansible-playbook -c local --user=root sample-data.yml
+ansible-playbook --sudo -c local sample-data.yml

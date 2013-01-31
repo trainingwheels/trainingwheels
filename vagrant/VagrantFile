@@ -20,7 +20,6 @@ Vagrant::Config.run do |config|
     tw_config.vm.forward_port 21, 2121 # FTP
 
     tw_config.vm.provision :shell, :path => "provision/ansible-setup.sh"
-    tw_config.vm.provision :shell, :path => "provision/classroom-setup.sh"
     tw_config.vm.provision :shell, :path => "provision/controller-setup.sh"
     tw_config.vm.provision :shell, :path => "provision/dev-setup.sh"
 

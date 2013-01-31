@@ -1,0 +1,13 @@
+##
+# Ansible playbook for GitFiles plugin.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: GitFiles | Install required packages.
+      action: apt pkg=$item state=installed
+      with_items:
+        - git

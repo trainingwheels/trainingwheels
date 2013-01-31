@@ -1,0 +1,17 @@
+##
+# Ansible playbook for Drupal plugin.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    ##
+    # Drush install, a Drupal shell tool.
+    #
+    - name: Drupal | Setup PEAR channel for drush
+      action: command pear channel-discover pear.drush.org creates=/usr/share/php/.channels/pear.drush.org.reg
+
+    - name: Drupal | Install drush for Drupal
+      action: command pear install drush/drush creates=/usr/bin/drush

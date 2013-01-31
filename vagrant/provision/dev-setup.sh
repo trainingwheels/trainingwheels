@@ -7,4 +7,4 @@ echo ''
 echo '======================================================================='
 echo 'Setting up the Training Wheels developer environment...'
 cd $TW_DIR/vagrant/provision
-ansible-playbook -c local --user=root dev-setup-playbook.yml
+ansible-playbook --sudo -c local dev-setup-playbook.yml

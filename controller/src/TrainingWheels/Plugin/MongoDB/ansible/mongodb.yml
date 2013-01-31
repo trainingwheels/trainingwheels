@@ -1,0 +1,25 @@
+##
+# Ansible playbook for MongoDB plugin.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: MongoDB | Add the key
+      action: command apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+
+    - name: MongoDB | Add the MongoDB repo
+      action: copy src=files/etc-apt-sources-list-d-mongodb-list dest=/etc/apt/sources.list.d/mongodb.list
+
+    - name: MongoDB | Update the apt cache for the new repository
+      action: apt update-cache=yes
+
+    - name: MongoDB | Install Mongo
+      action: apt pkg=$item state=installed
+      with_items:
+        - mongodb-10gen
+
+    - name: MongoDB | Restart Mongo
+      action: service name=mongodb state=restarted

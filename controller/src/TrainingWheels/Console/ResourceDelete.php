@@ -40,9 +40,15 @@ class ResourceDelete extends Command {
       'resources' => $resources,
     );
     $job = $this->jobFactory->save($job);
-    $job->execute();
-    $this->jobFactory->remove($job->get('id'));
+    try {
+      $job->execute();
+      $this->jobFactory->remove($job->get('id'));
+    }
+    catch (Exception $e) {
+      $this->jobFactory->remove($job->get('id'));
+      throw $e;
+    }
 
-    $output->writeln('Resource(s) deleted.');
+    $output->writeln('<info>Resource(s) deleted.</info>');
   }
 }

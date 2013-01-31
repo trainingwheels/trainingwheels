@@ -14,6 +14,17 @@ abstract class TrainingCourse {
   // The course id.
   public $course_id;
 
+  // Plugins associated with this course.
+  protected $plugins;
+
+  public function setPlugins(array $plugins) {
+    $this->plugins = $plugins;
+  }
+
+  public function getPlugins(array $plugins) {
+    return $this->plugins;
+  }
+
   // Factory method for creating user objects, needs to be provided by subclass.
   abstract protected function userFactory($user_name);
 
@@ -37,7 +48,14 @@ abstract class TrainingCourse {
   }
 
   /**
-   * Get multiple users in this course. Will return summarised versions of users.
+   * Configure the environment. Typically runs the playbooks.
+   */
+  public function configure() {
+    $this->env->configure($this->plugins);
+  }
+
+  /**
+   * Get multiple users in this course. Will return summarized versions of users.
    */
   public function usersGet($users = '*') {
     $users = $this->userNormalizeParam($users);

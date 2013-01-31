@@ -1,0 +1,19 @@
+##
+# Ansible playbook for VSFTPd plugin.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: VSFTPd | Install required packages.
+      action: apt pkg=$item state=installed
+      with_items:
+        - vsftpd
+
+    - name: VSFTPd | Server configuration file
+      action: template src=templates/etc-vsftpd-conf.j2 dest=/etc/vsftpd.conf
+
+    - name: VSFTPd | Restart vsftpd
+      action: service name=vsftpd state=restarted

@@ -42,9 +42,15 @@ class ResourceSync extends Command {
       'resources' => $resources,
     );
     $job = $this->jobFactory->save($job);
-    $job->execute();
-    $this->jobFactory->remove($job->get('id'));
+    try {
+      $job->execute();
+      $this->jobFactory->remove($job->get('id'));
+    }
+    catch (Exception $e) {
+      $this->jobFactory->remove($job->get('id'));
+      throw $e;
+    }
 
-    $output->writeln('User(s) synced.');
+    $output->writeln('<info>User(s) synced.</info>');
   }
 }

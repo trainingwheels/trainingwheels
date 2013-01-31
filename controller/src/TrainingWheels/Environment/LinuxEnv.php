@@ -1,9 +1,11 @@
 <?php
 
 namespace TrainingWheels\Environment;
-use \TrainingWheels\Conn\ServerConn;
-use \TrainingWheels\Environment\TrainingEnv;
-use \TrainingWheels\Common\Util;
+use TrainingWheels\Conn\ServerConn;
+use TrainingWheels\Conn\LocalServerConn;
+use TrainingWheels\Environment\TrainingEnv;
+use TrainingWheels\Common\Util;
+use TrainingWheels\Log\Log;
 use Exception;
 
 class LinuxEnv implements TrainingEnv {
@@ -13,6 +15,40 @@ class LinuxEnv implements TrainingEnv {
     $this->conn = $conn;
     if (!$this->conn->exec_eq('sudo whoami', 'root')) {
       throw new Exception('The connection needs to have root or sudo access to the server.');
+    }
+  }
+
+  /**
+   * Run the classroom ansible playbooks.
+   */
+  public function configure(array $plugins) {
+    $ansible_args_array = array(
+      '-c local',
+      '--sudo',
+    );
+    $ansible_args = implode(' ', $ansible_args_array);
+
+    // Get the playbooks that need to be run to configure this course.
+    foreach ($plugins as $plugin) {
+      $play = $plugin->getAnsiblePlay();
+
+      if ($play) {
+        $type = $plugin->getType();
+        $vars = '--extra-vars="' . $plugin->formatAnsibleVars() . '"';
+        $command = 'ansible-playbook ' . $ansible_args . ' ' . $vars . ' ' . $play;
+        $output = array();
+        $return = FALSE;
+
+        Log::log('=====================================================================', L_DEBUG);
+        Log::log("$type::configure:exec: $command", L_DEBUG);
+        exec($command, $output, $return);
+        $output_nice = implode("\n", $output);
+        Log::log("$type::configure:resp: $output_nice", L_DEBUG);
+
+        if ($return != 0) {
+          throw new Exception("Unable to run configuration for plugin \"$type\", see logs for more info.");
+        }
+      }
     }
   }
 

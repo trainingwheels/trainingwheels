@@ -31,6 +31,6 @@ class UserDelete extends Command {
     $user_names = $input->getArgument('user_names');
 
     $result = $course->usersDelete(explode(',', $user_names));
-    $output->writeln("User(s) deleted.");
+    $output->writeln("<info>User(s) deleted.</info>");
   }
 }

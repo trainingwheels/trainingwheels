@@ -32,8 +32,8 @@ class UserCreate extends Command {
 
     $result = $course->usersCreate(explode(',', $user_names));
     if (!$result) {
-      return $output->writeln('User already exists.');
+      return $output->writeln('<comment>User already exists.</comment>');
     }
-    $output->writeln("User(s) created.");
+    $output->writeln("<info>User(s) created.</info>");
   }
 }
