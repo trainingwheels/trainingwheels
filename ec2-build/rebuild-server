@@ -100,7 +100,7 @@ cp $BASE_DIR/controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/setti
 
 echo ''
 echo 'Running controller setup and sample data playbooks...'
-cd ../controller
+cd $BASE_DIR/../playbooks/controller
 if ! ansible-playbook $ANS_ARGS setup.yml; then
   exit 1
 fi
