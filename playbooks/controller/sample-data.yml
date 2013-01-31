@@ -7,7 +7,6 @@
   gather_facts: False
 
   vars:
-    twcli: '/var/trainingwheels/controller/cli'
     twhome: '/twhome'
 
   vars_files:
@@ -17,17 +16,23 @@
     - name: Upload sample course data
       action: copy src=mongo-reset-data.js dest=/tmp/mongo-reset-data.js
 
+    - name: MongoDB | Wait for Mongo to be listening for connections. It preallocates some space that takes a while.
+      action: wait_for port=27017 delay=4 timeout=$mongo_restart_timeout
+
     - name: Insert sample Mongo course data
       action: command mongo -u trainingwheels -p $mongo_app_password trainingwheels /tmp/mongo-reset-data.js
 
+    - name: Configure the classroom for course 1 on localhost
+      action: "command tw c:c 1"
+
     - name: Create instructor
-      action: "command ./tw u:c 1 instructor chdir=$twcli creates=$twhome/instructor"
+      action: "command tw u:c 1 instructor creates=$twhome/instructor"
 
     - name: Create bobby
-      action: "command ./tw u:c 1 bobby chdir=$twcli creates=$twhome/bobby"
+      action: "command tw u:c 1 bobby creates=$twhome/bobby"
 
     - name: Create sally
-      action: "command ./tw u:c 1 sally chdir=$twcli creates=$twhome/sally"
+      action: "command tw u:c 1 sally creates=$twhome/sally"
 
     - name: Create instructor resources
-      action: "command ./tw r:c 1 instructor chdir=$twcli creates=$twhome/instructor/mycourse"
+      action: "command tw r:c 1 instructor creates=$twhome/instructor/mycourse"

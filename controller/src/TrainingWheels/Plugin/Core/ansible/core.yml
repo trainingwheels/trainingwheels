@@ -1,0 +1,51 @@
+##
+# Ansible playbook for Core plugin.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    - name: Core | Install required packages.
+      action: apt pkg=$item state=installed
+      with_items:
+        - unzip
+        - curl
+        - sendmail
+
+    ##
+    # Message of the day explaining server purpose.
+    #
+    - name: Core | Friendly message of the day
+      action: copy src=files/etc-update-motd-d-95-trainingwheels dest=/etc/update-motd.d/95-trainingwheels mode=755
+
+    ##
+    # Training Wheels user skeleton directory
+    #
+    - name: Core | Create the skel directory
+      action: file path=$twskel state=directory
+
+    - name: Core | Copy the skel files
+      action: copy src=files/etc-trainingwheels-skel-skel-user-bash-logout dest=$twskel/.bash_logout
+
+    - name: Core | Copy the skel files
+      action: copy src=files/etc-trainingwheels-skel-skel-user-bashrc dest=$twskel/.bashrc
+
+    - name: Core | Copy the skel files
+      action: copy src=files/etc-trainingwheels-skel-skel-user-profile dest=$twskel/.profile
+
+    ##
+    # Training Wheels app setup
+    #
+    - name: Core | Home directory for Training Wheels users
+      action: file path=/twhome state=directory owner=root group=root mode=755
+
+    ##
+    # SSH Setup
+    #
+    - name: Core | Allow password authentication
+      action: lineinfile dest=/etc/ssh/sshd_config regexp=^PasswordAuthentication line='PasswordAuthentication yes'
+
+    - name: Core | Restart sshd
+      action: service name=ssh state=restarted
