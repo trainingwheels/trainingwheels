@@ -68,7 +68,7 @@ class JobFactory extends Factory {
       break;
 
       case 'classroom':
-        $job = new ClassroomJob($job->job_id, $job->course_id, $job->action, $job->params);
+        $job = new ClassroomJob($this->courseFactory, $job->job_id, $job->course_id, $job->action, $job->params);
       break;
 
       default:

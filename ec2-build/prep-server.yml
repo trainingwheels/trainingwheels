@@ -31,6 +31,7 @@
       with_items:
         - git
         - openjdk-7-jre-headless
+        - python-pip
 
     # We must setup the bender user after doing the Java install, otherwise
     # Jenkins will build it's own version of Java as the slave connects.

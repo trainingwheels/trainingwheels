@@ -11,6 +11,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Exception;
 
 class ClassroomConfigure extends Command {
+  private $jobFactory;
+
+  public function __construct(JobFactory $jobFactory) {
+    parent::__construct();
+
+    $this->jobFactory = $jobFactory;
+  }
+
   protected function configure() {
     $this->setName('classroom:configure')
          ->setDescription('Configure classroom.')
@@ -25,13 +33,13 @@ class ClassroomConfigure extends Command {
     $job->course_id = $input->getArgument('course_id');
     $job->action = 'classroomConfigure';
     $job->params = array();
-    $job = JobFactory::singleton()->save($job);
+    $job = $this->jobFactory->save($job);
     try {
       $job->execute();
-      JobFactory::singleton()->remove($job->get('id'));
+      $this->jobFactory->remove($job->get('id'));
     }
     catch (Exception $e) {
-      JobFactory::singleton()->remove($job->get('id'));
+      $this->jobFactory->remove($job->get('id'));
       throw $e;
     }
     $output->writeln('<info>Classroom configured.</info>');
