@@ -16,6 +16,14 @@
 
   tasks:
     ##
+    # Add ansible repository
+    - name: Add ansible repository
+      action: apt_repository repo=ppa:rquillo/ansible/ubuntu state=present
+
+    - name: Update the apt cache for the new repository
+      action: apt update-cache=yes
+
+    ##
     # Setup a user for nginx.
     #
     - name: Nginx | Create nginx group
@@ -57,6 +65,10 @@
         - python-mysqldb
         - curl
         - build-essential
+        - ansible
+
+    - name: Copy ansible hosts file
+      action: copy src=files/etc-ansible-hosts dest=/etc/ansible/hosts
 
     ##
     # Configuration for php-fpm
