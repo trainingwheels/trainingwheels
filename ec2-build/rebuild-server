@@ -95,16 +95,8 @@ if ! ansible-playbook $ANS_ARGS ./prep-server.yml; then
 fi
 
 echo ''
-echo 'Copying the settings files for the controller and classroom playbooks...'
-cp $BASE_DIR/classroom-settings-ec2.yml $BASE_DIR/../playbooks/classroom/settings.yml
+echo 'Copying the settings files for the controller playbooks...'
 cp $BASE_DIR/controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/settings.yml
-
-echo ''
-echo 'Running classroom setup playbook...'
-cd ../playbooks/classroom
-if ! ansible-playbook $ANS_ARGS setup.yml; then
-  exit 1
-fi
 
 echo ''
 echo 'Running controller setup and sample data playbooks...'
