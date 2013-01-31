@@ -25,7 +25,7 @@ nginx_webroot: '/var/trainingwheels/controller/web'
 # mongodb
 mongo_root_password: 'rLiNC7jGeV'
 mongo_app_password: 'aYP0k8GQTQ'
-mongo_restart_timeout: 120
+mongo_restart_timeout: 300
 
 # php.ini for php-fpm
 php_max_execution_time: '90'
