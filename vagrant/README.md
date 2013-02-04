@@ -8,7 +8,7 @@ Setup Vagrant Dev Environment
     127.0.0.1  training.wheels instructor.mycourse.training.wheels bobby.mycourse.training.wheels sally.mycourse.training.wheels
 
 4. Run `vagrant ssh` to connect.
-5. Visit the controller at http://training.wheels:8000/
+5. Visit the controller at http://training.wheels:8000/, the username and password are ```tw``` / ```admin```, unless you changed them in ```provision/controller-settings-vagrant.yml```
 6. See sample course student at http://instructor.mycourse.training.wheels:8888/
 
 What is all this magic?
