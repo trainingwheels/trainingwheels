@@ -44,6 +44,6 @@ apc_shm_size: '96M'
 apc_shm_segments: '1'
 apc_num_files_hint: '0'
 
-# application
+# application authentication credentials
 app_user: 'admin'
 app_pass: 'admin'
