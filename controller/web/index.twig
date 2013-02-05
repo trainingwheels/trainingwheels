@@ -23,5 +23,11 @@
   <script src="{{ j|raw }}" type="text/javascript"></script>
   {% endfor %}
 
+  {% for j in inline_js %}
+  <script type="text/javascript">
+    {{ j|raw }}
+  </script>
+  {% endfor %}
+
 </body>
 </html>

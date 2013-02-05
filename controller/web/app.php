@@ -73,6 +73,7 @@ $jsGet = function($debug) {
       '/js/vendor/handlebars/handlebars-1.0.rc.1.min.js',
       '/js/vendor/ember/ember.min.js',
       '/js/vendor/ember-data/ember-data.min.js',
+      '/js/vendor/socket.io/socket.io.min.js',
     );
     $js = array_merge($js_min, $js);
   }
@@ -84,6 +85,7 @@ $jsGet = function($debug) {
       '/js/vendor/handlebars/handlebars-1.0.rc.1.js',
       '/js/vendor/ember/ember.js',
       '/js/vendor/ember-data/ember-data.js',
+      '/js/vendor/socket.io/socket.io.js',
     );
     $js = array_merge($js_full, $js);
   }
@@ -110,6 +112,14 @@ $tplGet = function() {
 $app->get('/', function () use ($app, $jsGet, $tplGet) {
   $vars = array(
     'js' => $jsGet($app['debug']),
+    'inline_js' => array(
+      // TODO - this should probably be replaced with a grunt style
+      // build rather than an on-the-fly template, but we'll leave
+      // that for another day.
+      $app['twig']->render('tpl/settings.tpl', array(
+        'sentinel' => $app['sentinel']
+      ))
+    ),
     'tpl' => $tplGet(),
   );
   return $app['twig']->render('index.twig', $vars);

@@ -1,0 +1,3 @@
+window.TrainingWheels = {
+  sentinel: "{{ sentinel }}"
+};
