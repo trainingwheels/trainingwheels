@@ -1,0 +1,26 @@
+# upstart script for TrainingWheels sentinel
+description "start and stop the TrainingWheels sentinel server."
+version "0.1"
+author "Four Kitchens"
+
+env SENTINEL_HOME={{ twdir }}/sentinel
+export SENTINEL_HOME
+
+env HOME={{ twdir }}/sentinel
+export HOME
+
+# start after all filesystems & network interfae are available
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+
+pre-start script
+chdir $SENTINEL_HOME
+exec /usr/local/bin/npm install
+emit sentinel_starting
+end script
+
+script
+chdir $SENTINEL_HOME
+exec /usr/local/bin/forever start app.js
+emit sentinel_running
+end script
