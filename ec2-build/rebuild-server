@@ -1,15 +1,22 @@
 #!/bin/bash
 
 # User input
+# Server to build, either build or stable.
+SERVER="$1"
 # EC2_EXTERNAL: if this is being run from a server within EC2, say a control box,
 # it's faster to use the internal IP address, so the default behavior is to assume
 # internal. However, for testing, it may be necessary to run from outside of EC2
 # so you can override by passing the parameter 'external'.
-EC2_EXTERNAL="$1"
+EC2_EXTERNAL="$2"
 
 # Vars
-TAG_VAL='trainingwheels-autobuild'
-IP_ADDRESS='184.73.222.124'
+if [ "$SERVER" == 'build' ]; then
+  TAG_VAL='trainingwheels-autobuild'
+  IP_ADDRESS='184.73.222.124'
+else; then
+  TAG_VAL='trainingwheels-stable'
+  IP_ADDRESS='54.235.131.197'
+fi
 KEY_NAME='tw'
 RUNNING_TIMEOUT='300'
 INSTANCE_TYPE='m1.small'
