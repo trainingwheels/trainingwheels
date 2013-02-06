@@ -13,7 +13,7 @@ EC2_EXTERNAL="$2"
 if [ "$SERVER" == 'build' ]; then
   TAG_VAL='trainingwheels-autobuild'
   IP_ADDRESS='184.73.222.124'
-else; then
+else
   TAG_VAL='trainingwheels-stable'
   IP_ADDRESS='54.235.131.197'
 fi
