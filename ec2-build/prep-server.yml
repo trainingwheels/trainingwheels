@@ -24,7 +24,7 @@
       action: template src=etc-hostname.j2 dest=/etc/hostname owner=root group=root mode=0644
 
     - name: Change the hostname using the hostname command
-      action: command hostname tw-build.com
+      action: command hostname tw-$server.com
 
     - name: Install required packages for Jenkins slave and general use
       action: apt pkg=$item state=installed
@@ -37,15 +37,19 @@
     # Jenkins will build it's own version of Java as the slave connects.
     - name: Create bender group
       action: group name=bender
+      when_string: $server == 'build'
 
     - name: Create bender user for Jenkins to connect with
       action: "user name=bender home=/home/bender groups=admin,bender group=bender shell=/bin/bash"
+      when_string: $server == 'build'
 
     - name: SSH folder for bender
       action: file path=/home/bender/.ssh state=directory owner=bender group=bender mode=755
+      when_string: $server == 'build'
 
     - name: Copy authorized keys for bender
       action: copy src=bender_authorized_keys dest=/home/bender/.ssh/authorized_keys owner=bender group=bender mode=644
+      when_string: $server == 'build'
 
     # Training Wheels app download and setup
     - name: Clone the repo
