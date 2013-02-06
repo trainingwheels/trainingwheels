@@ -5,6 +5,7 @@ controller/web/.sass-cache
 controller/log/*.log
 ec2-build/ec2-hostname
 sentinel/.forever
+sentinel/node_modules
 vagrant/.vagrant
 vagrant/setup.local.sh
 vagrant/*.local.yml
