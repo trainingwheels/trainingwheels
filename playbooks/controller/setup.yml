@@ -16,12 +16,42 @@
 
   tasks:
     ##
-    # Add ansible repository
-    - name: Add ansible repository
-      action: apt_repository repo=ppa:rquillo/ansible/ubuntu state=present
+    # Install Ansible. Depending on how this playbook is being run, this may be done already -
+    # as is the case for Vagrant. EC2 requires this step as this playbook is run from a build
+    # control machine, and the controller machine is a newly provisioned EC2 box.
+    #
+    # We build a .deb as we don't necessarily want the latest version of Ansible as breaking
+    # changes are sometimes introduced.
+    #
+    - name: Ansible | Install package dependencies
+      action: apt pkg=$item state=installed
+      with_items:
+        - build-essential
+        - git
+        - python-dev
+        - python-jinja2
+        - python-yaml
+        - python-paramiko
+        - python-software-properties
+        - python-pip
+        - debhelper
+        - python-support
+        - cdbs
 
-    - name: Update the apt cache for the new repository
-      action: apt update-cache=yes
+    - name: Ansible | Clone Ansible repository at tag 0.9
+      action: git repo=https://github.com/ansible/ansible.git dest=/usr/local/src/ansible version=v0.9
+
+    - name: Ansible | Create the .deb file
+      action: command make deb chdir=/usr/local/src/ansible creates=/usr/bin/ansible
+
+    - name: Ansible | Install the .deb file
+      action: command dpkg -i /usr/local/src/ansible_0.9_all.deb creates=/usr/bin/ansible
+
+    - name: Ansible | Remove the .deb file
+      action: file path=/usr/local/src/ansible_0.9_all.deb state=absent
+
+    - name: Ansible | Copy ansible hosts file
+      action: copy src=files/etc-ansible-hosts dest=/etc/ansible/hosts
 
     ##
     # Setup a user for nginx.
@@ -64,11 +94,6 @@
         - php-pear
         - python-mysqldb
         - curl
-        - build-essential
-        - ansible
-
-    - name: Copy ansible hosts file
-      action: copy src=files/etc-ansible-hosts dest=/etc/ansible/hosts
 
     ##
     # Configuration for php-fpm
@@ -163,17 +188,22 @@
     - name: Composer | Install Composer
       action: shell curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin creates=/usr/local/bin/composer.phar
 
+    ##
+    # Don't use the creates=controller/vendor flag here, as in the Vagrant build, the /vendor
+    # directory likely already exists as there are shared folders with the host. We thus would
+    # skip re-running the install of the dependencies, potentially missing any updated ones.
+    #
     - name: Composer | Install dependencies
-      action: command composer.phar install -d $twdir/controller/ creates=$twdir/controller/vendor
+      action: command composer.phar install -d $twdir/controller/
 
     ##
     # Copy app config file.
     #
-    - name: Copy app config file
+    - name: Training Wheels | Copy app config file
       action: template src=templates/var-trainingwheels-controller-config-config-yml.j2 dest=$twdir/controller/config/config.yml
 
     ##
-    # Handy shortcuts
+    # Handy shortcuts for command line user.
     #
     - name: Training Wheels | Link to the webroot
       action: file state=link src=$twdir/controller/web dest=$admin_user_home/tw-webroot
@@ -190,11 +220,11 @@
     ##
     # Restart services
     #
-    - name: Restart nginx
+    - name: Restart | nginx
       action: service name=nginx state=restarted
 
-    - name: Restart php-fpm
+    - name: Restart | php-fpm
       action: service name=php5-fpm state=restarted
 
-    - name: Restart Mongo
+    - name: Restart | MongoDB
       action: service name=mongodb state=restarted
