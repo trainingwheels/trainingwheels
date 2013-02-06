@@ -200,7 +200,7 @@
       action: command npm install -d $twdir/sentinel/ creates=$twdir/sentinel/node_modules
 
     - name: Daemonize sentinel
-      action: template src=templates/etc-init-tw-sentinel-conf dest=/etc/init/tw-sentinel.com
+      action: template src=templates/etc-init-tw-sentinel-conf dest=/etc/init/tw-sentinel.conf
 
     - name: Start sentinel
       action: service name=tw-sentinel state=started
