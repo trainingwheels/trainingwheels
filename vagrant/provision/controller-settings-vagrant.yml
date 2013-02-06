@@ -47,3 +47,6 @@ apc_num_files_hint: '0'
 # application authentication credentials
 app_user: 'tw'
 app_pass: 'admin'
+
+# sentinel socket.io server
+sentinel_server: 'http://training.wheels:3000'

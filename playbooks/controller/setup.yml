@@ -137,6 +137,27 @@
       action: copy dest=/etc/php5/conf.d/mongo.ini src=files/etc-php5-conf-d-mongo-ini
 
     ##
+    # Node.js install.
+    #
+    - name: Node.js | Package prerequisites for node.js
+      action: apt pkg=python-software-properties state=installed
+
+    - name: Node.js | Add the node.js PPA
+      action: command add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
+
+    - name: Node.js | Update the apt cache for the new repository
+      action: apt update-cache=yes
+
+    - name: Node.js | Install nodejs and npm
+      action: apt pkg=$item state=installed
+      with_items:
+        - nodejs
+        - npm
+
+    - name: Node.js | Install forever
+      action: command npm install -g forever creates=/usr/local/bin/forever
+
+    ##
     # Configuration for nginx
     #
     - name: Nginx | Add mime types for nginx including our font type WOFF
@@ -171,6 +192,15 @@
     #
     - name: Copy app config file
       action: template src=templates/var-trainingwheels-controller-config-config-yml.j2 dest=$twdir/controller/config/config.yml
+
+    ##
+    # Sentinel setup
+    #
+    - name: Daemonize sentinel
+      action: template src=templates/etc-init-tw-sentinel-conf dest=/etc/init/tw-sentinel.conf
+
+    - name: Start sentinel
+      action: service name=tw-sentinel state=started
 
     ##
     # Handy shortcuts

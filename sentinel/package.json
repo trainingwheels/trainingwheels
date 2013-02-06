@@ -1,0 +1,21 @@
+{
+  "description": "Socket based watching process for trainingwheels.",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "union": "0.3.5",
+    "flatiron": "0.3.3",
+    "socket.io": "~0.9.13"
+  },
+  "devDependencies": {
+    "api-easy": "0.3.2",
+    "vows": "0.6.x"
+  },
+  "scripts": {
+    "test": "vows --spec",
+    "start": "node app.js"
+  },
+  "author": "Four Kitchens",
+  "name": "sentinel",
+  "homepage": "http://gettrainingwheels.org"
+}

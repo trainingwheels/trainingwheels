@@ -12,6 +12,13 @@
   var confirmSyncAll = 'Are you sure you want to sync resources to all users? This will overwrite any changes users have made to their environments.';
 
   ////
+  // Init function
+  //
+  App.ready = function() {
+    App.socket = io.connect(win.TrainingWheels.sentinel);
+  };
+
+  ////
   // Private helper functions.
   //
   function jobComplete(job, callback) {
