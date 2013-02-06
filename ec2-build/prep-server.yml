@@ -18,10 +18,10 @@
       action: apt update-cache=yes
 
     - name: Change the hostname in /etc/hosts
-      action: copy src=etc-hosts dest=/etc/hosts owner=root group=root mode=0644
+      action: template src=etc-hosts.j2 dest=/etc/hosts owner=root group=root mode=0644
 
     - name: Change the hostname in /etc/hostname
-      action: copy src=etc-hostname dest=/etc/hostname owner=root group=root mode=0644
+      action: template src=etc-hostname.j2 dest=/etc/hostname owner=root group=root mode=0644
 
     - name: Change the hostname using the hostname command
       action: command hostname tw-build.com
@@ -49,7 +49,7 @@
 
     # Training Wheels app download and setup
     - name: Clone the repo
-      action: git repo=https://github.com/trainingwheels/trainingwheels.git dest=$twdir version=master
+      action: git repo=https://github.com/trainingwheels/trainingwheels.git dest=$twdir version=$branch
 
     - name: Let web user write to log file directory
       action: file state=directory path=$twdir/controller/log mode=0777

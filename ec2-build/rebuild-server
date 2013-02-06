@@ -11,10 +11,12 @@ EC2_EXTERNAL="$2"
 
 # Vars
 if [ "$SERVER" == 'stable' ]; then
+  BRANCH='stable'
   TAG_VAL='trainingwheels-stable'
   IP_ADDRESS='54.235.131.197'
 else
   SERVER='build'
+  BRANCH='master'
   TAG_VAL='trainingwheels-autobuild'
   IP_ADDRESS='184.73.222.124'
 fi
@@ -98,7 +100,7 @@ fi
 
 echo ''
 echo "Running initial build and setup phase playbook..."
-if ! ansible-playbook $ANS_ARGS ./prep-server.yml; then
+if ! ansible-playbook $ANS_ARGS ./prep-server.yml --extra-vars "server=$SERVER branch=$BRANCH"; then
   exit 1
 fi
 
