@@ -196,9 +196,6 @@
     ##
     # Sentinel setup
     #
-    - name: Configure sentinel
-      action: command npm install -d $twdir/sentinel/ creates=$twdir/sentinel/node_modules
-
     - name: Daemonize sentinel
       action: template src=templates/etc-init-tw-sentinel-conf dest=/etc/init/tw-sentinel.conf
 
