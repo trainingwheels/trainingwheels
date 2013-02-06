@@ -120,7 +120,7 @@ fi
 echo ''
 echo 'Running the post build playbook...'
 cd $BASE_DIR
-if ! ansible-playbook $ANS_ARGS post-build.yml; then
+if ! ansible-playbook $ANS_ARGS post-build.yml --extra-vars "server=$SERVER"; then
   exit 1
 fi
 echo ''
