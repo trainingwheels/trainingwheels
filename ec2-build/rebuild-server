@@ -103,7 +103,7 @@ fi
 
 echo ''
 echo 'Copying the settings files for the controller playbooks...'
-cp $BASE_DIR/controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/settings.yml
+cp $BASE_DIR/$SERVER-controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/settings.yml
 
 echo ''
 echo 'Running controller setup and sample data playbooks...'
