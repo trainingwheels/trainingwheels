@@ -18,7 +18,7 @@
     ##
     # Install Ansible. Depending on how this playbook is being run, this may be done already -
     # as is the case for Vagrant. EC2 requires this step as this playbook is run from a build
-    # control machine, and the controller machine doesn't have Ansible yet.
+    # control machine, and the controller machine is a newly provisioned EC2 box.
     #
     # We build a .deb as we don't necessarily want the latest version of Ansible as breaking
     # changes are sometimes introduced.
@@ -203,7 +203,7 @@
       action: template src=templates/var-trainingwheels-controller-config-config-yml.j2 dest=$twdir/controller/config/config.yml
 
     ##
-    # Handy shortcuts
+    # Handy shortcuts for command line user.
     #
     - name: Training Wheels | Link to the webroot
       action: file state=link src=$twdir/controller/web dest=$admin_user_home/tw-webroot
@@ -220,11 +220,11 @@
     ##
     # Restart services
     #
-    - name: Cleanup | Restart nginx
+    - name: Restart | nginx
       action: service name=nginx state=restarted
 
-    - name: Cleanup |Restart php-fpm
+    - name: Restart | php-fpm
       action: service name=php5-fpm state=restarted
 
-    - name: Cleanup |Restart Mongo
+    - name: Restart | MongoDB
       action: service name=mongodb state=restarted
