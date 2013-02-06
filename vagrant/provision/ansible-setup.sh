@@ -9,11 +9,14 @@ if [ `which ansible` ]; then
   exit;
 fi
 
-sudo aptitude -q=2 update
-sudo aptitude -q=2 -y install build-essential git python-dev python-jinja2 python-yaml python-paramiko python-software-properties python-pip
-sudo add-apt-repository -y ppa:rquillo/ansible/ubuntu 2>&1
-sudo aptitude -q=2 update
-sudo aptitude -q=2 -y install ansible
-echo "localhost" > /tmp/ansible-hosts
-sudo chown root: /tmp/ansible-hosts
-sudo mv /tmp/ansible-hosts /etc/ansible/hosts
+aptitude -q=2 update
+aptitude -q=2 -y install build-essential git python-dev python-jinja2 python-yaml python-paramiko python-software-properties python-pip debhelper python-support cdbs
+
+git clone https://github.com/ansible/ansible.git /tmp/ansible
+cd /tmp/ansible
+git checkout v0.9 2>&1
+make deb 2>&1
+cd /tmp
+dpkg -i ansible_0.9_all.deb
+
+echo "localhost" > /etc/ansible/hosts
