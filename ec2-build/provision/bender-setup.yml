@@ -1,0 +1,23 @@
+##
+# Ansible playbook for setting up a Training Wheels server in EC2, for
+# our auto build system.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    # We must setup the bender user after doing the Java install, otherwise
+    # Jenkins will build it's own version of Java as the slave connects.
+    - name: Create bender group
+      action: group name=bender
+
+    - name: Create bender user for Jenkins to connect with
+      action: "user name=bender home=/home/bender groups=admin,bender group=bender shell=/bin/bash"
+
+    - name: SSH folder for bender
+      action: file path=/home/bender/.ssh state=directory owner=bender group=bender mode=755
+
+    - name: Copy authorized keys for bender
+      action: copy src=bender_authorized_keys dest=/home/bender/.ssh/authorized_keys owner=bender group=bender mode=644
