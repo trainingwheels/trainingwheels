@@ -8,7 +8,12 @@ if [ -z "$VARS_FILE" ]; then
   exit 1
 fi
 
-source "./$VARS_FILE"
+if [ ! -f "$VARS_FILE" ]; then
+  echo "The variable file '$VARS_FILE' was not found."
+  exit 1
+fi
+
+source "$VARS_FILE"
 
 # The following are common vars that could be moved into other build-specific files if required.
 KEY_NAME='tw'
