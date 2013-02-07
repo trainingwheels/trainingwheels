@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Variables for use in the ec2 rebuild script. Make a copy of this if you want to use it, and modify as required.
+
+# The server type / name
+SERVER='build'
+
+# The branch that is cloned
+BRANCH='master'
+
+# The EC2 tag used.
+TAG_VAL='trainingwheels-autobuild'
+
+# The elastic IP address.
+IP_ADDRESS='0.0.0.0'
+
+# If this is being run from a server within EC2, say a control box,
+# it's faster to use the internal IP address, so the default behavior is to assume
+# internal. However, for testing, it may be necessary to run from outside of EC2
+# so you can override by passing the parameter 'external'.
+EC2_EXTERNAL='internal'
+
+# Passwords
+MONGO_ROOT_PASSWORD=''
+MONGO_APP_PASSWORD=''
+APP_PASSWORD=''

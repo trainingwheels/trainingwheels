@@ -1,26 +1,16 @@
 #!/bin/bash
 
-# User input
-# Server to build, either build or stable.
-SERVER="$1"
+# Pull in file containing variables to be used in this build.
+VARS_FILE="$1"
 
-# EC2_EXTERNAL: if this is being run from a server within EC2, say a control box,
-# it's faster to use the internal IP address, so the default behavior is to assume
-# internal. However, for testing, it may be necessary to run from outside of EC2
-# so you can override by passing the parameter 'external'.
-EC2_EXTERNAL="$2"
-
-# Vars
-if [ "$SERVER" == 'stable' ]; then
-  BRANCH='stable'
-  TAG_VAL='trainingwheels-stable'
-  IP_ADDRESS='54.235.131.197'
-else
-  SERVER='build'
-  BRANCH='master'
-  TAG_VAL='trainingwheels-autobuild'
-  IP_ADDRESS='184.73.222.124'
+if [ -z "$VARS_FILE" ]; then
+  echo "Please pass a variable file as a parameter. See ec-params.sample to get started."
+  exit 1
 fi
+
+source "./$VARS_FILE"
+
+# The following are common vars that could be moved into other build-specific files if required.
 KEY_NAME='tw'
 RUNNING_TIMEOUT='300'
 INSTANCE_TYPE='m1.small'
@@ -30,8 +20,8 @@ AMI='ami-3d4ff254'
 ID_FILE="${HOME}/.ssh/tw.pem"
 ANS_ARGS="-c ssh -s --timeout=$RUNNING_TIMEOUT --private-key=$ID_FILE --inventory-file=$BASE_DIR/ec2-hostname"
 SLEEP='3'
-CUSTOM_HOST='tw-build.com'
 
+# If Ansible ever gets a good euca2ools module, we may be able to move some of this out of bash.
 echo ''
 echo 'Finding all existing build instances...'
 OBSOLETE_INSTANCES=`euca-describe-instances --filter tag-value=$TAG_VAL | grep INSTANCE | cut -f 2`
@@ -70,10 +60,10 @@ euca-associate-address -i $NEW_INSTANCE_ID $IP_ADDRESS
 
 echo ''
 echo 'Grabbing the internal host name if required, else the external...'
-if [ "$EC2_EXTERNAL" != 'external' ]; then
+if [ "$EC2_EXTERNAL" == 'internal' ]; then
   HOST=`euca-describe-instances $NEW_INSTANCE_ID | grep internal | cut -f 5`
 else
-  HOST="$CUSTOM_HOST"
+  HOST="$EC2_EXTERNAL"
 fi
 echo "$HOST" > $BASE_DIR/ec2-hostname
 echo "$HOST"
