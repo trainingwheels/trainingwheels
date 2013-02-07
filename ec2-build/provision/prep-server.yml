@@ -1,0 +1,41 @@
+##
+# Ansible playbook for setting up a Training Wheels server in EC2, for
+# our auto build system.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  vars:
+    twdir: '/var/trainingwheels'
+
+  tasks:
+    ##
+    # Update the machine
+    #
+    - name: Update apt
+      action: apt update-cache=yes
+
+    - name: Change the hostname in /etc/hosts
+      action: template src=etc-hosts.j2 dest=/etc/hosts owner=root group=root mode=0644
+
+    - name: Change the hostname in /etc/hostname
+      action: template src=etc-hostname.j2 dest=/etc/hostname owner=root group=root mode=0644
+
+    - name: Change the hostname using the hostname command
+      action: command hostname tw-$server.com
+
+    - name: Install required packages for Jenkins slave and general use
+      action: apt pkg=$item state=installed
+      with_items:
+        - git
+        - openjdk-7-jre-headless
+        - python-pip
+
+    # Training Wheels app download and setup
+    - name: Clone the repo
+      action: git repo=https://github.com/trainingwheels/trainingwheels.git dest=$twdir version=$branch
+
+    - name: Let web user write to log file directory
+      action: file state=directory path=$twdir/controller/log mode=0777

@@ -4,6 +4,8 @@ controller/web/development.log
 controller/web/.sass-cache
 controller/log/*.log
 ec2-build/ec2-hostname
+ec2-build/ec2-params.build.sh
+ec2-build/ec2-params.stable.sh
 vagrant/.vagrant
 vagrant/setup.local.sh
 vagrant/*.local.yml
