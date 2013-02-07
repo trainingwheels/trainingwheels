@@ -110,8 +110,10 @@ cp $BASE_DIR/$SERVER-controller-settings-ec2.yml $BASE_DIR/../playbooks/controll
 
 echo ''
 echo 'Running controller setup and sample data playbooks...'
+echo "mongo_root_password=$MONGO_ROOT_PASSWORD mongo_app_password=$MONGO_APP_PASSWORD app_pass=$APP_PASSWORD"
 cd $BASE_DIR/../playbooks/controller
-if ! ansible-playbook $ANS_ARGS setup.yml; then
+# These passwords are sent through the Jenkins jobs.
+if ! ansible-playbook $ANS_ARGS setup.yml --extra-vars "mongo_root_password=$MONGO_ROOT_PASSWORD mongo_app_password=$MONGO_APP_PASSWORD app_pass=$APP_PASSWORD"; then
   exit 1
 fi
 if ! ansible-playbook $ANS_ARGS sample-data.yml; then

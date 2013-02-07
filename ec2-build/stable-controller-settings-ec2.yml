@@ -23,8 +23,9 @@ nginx_worker_processes: '1'
 nginx_webroot: '/var/trainingwheels/controller/web'
 
 # mongodb
-mongo_root_password: 'rLiNC7jGeV'
-mongo_app_password: 'aYP0k8GQTQ'
+# The mongo pass is stored in the Jenkins job config and passed through rebuild-server script.
+# mongo_root_password: ''
+# mongo_app_password: ''
 mongo_restart_timeout: 300
 
 # php.ini for php-fpm
@@ -46,4 +47,5 @@ apc_num_files_hint: '0'
 
 # application
 app_user: 'tw'
-app_pass: 'bIvymOPiWShE1Xj'
+# The app pass is stored in the Jenkins job config and passed through rebuild-server script.
+# app_pass: ''
