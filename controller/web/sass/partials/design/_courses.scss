@@ -7,7 +7,7 @@
 
 #courses-dashboard {
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 550px;
   padding: $base-line-height;
   h1 {
     font-size: 1.25 * $base-font-size;;
@@ -30,7 +30,7 @@
         a {
           color: $darkGray;
           &:hover, &.hover, &:focus, &.focus {
-            color: $yellow;
+            color: $yellowDark;
           }
         }
       }
