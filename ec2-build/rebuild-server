@@ -3,6 +3,7 @@
 # User input
 # Server to build, either build or stable.
 SERVER="$1"
+
 # EC2_EXTERNAL: if this is being run from a server within EC2, say a control box,
 # it's faster to use the internal IP address, so the default behavior is to assume
 # internal. However, for testing, it may be necessary to run from outside of EC2
@@ -100,13 +101,14 @@ fi
 
 echo ''
 echo "Running initial build and setup phase playbook..."
+cd $BASE_DIR/provision
 if ! ansible-playbook $ANS_ARGS ./prep-server.yml --extra-vars "server=$SERVER branch=$BRANCH"; then
   exit 1
 fi
 
 echo ''
 echo 'Copying the settings files for the controller playbooks...'
-cp $BASE_DIR/$SERVER-controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/settings.yml
+cp $BASE_DIR/provision/$SERVER-controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/settings.yml
 
 echo ''
 echo 'Running controller setup and sample data playbooks...'
@@ -121,7 +123,7 @@ if ! ansible-playbook $ANS_ARGS sample-data.yml; then
 fi
 echo ''
 echo 'Running the post build playbook...'
-cd $BASE_DIR
+cd $BASE_DIR/provision
 if ! ansible-playbook $ANS_ARGS post-build.yml --extra-vars "server=$SERVER"; then
   exit 1
 fi
