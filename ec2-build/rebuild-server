@@ -91,7 +91,18 @@ fi
 echo ''
 echo "Running initial build and setup phase playbook..."
 cd $BASE_DIR/provision
-if ! ansible-playbook $ANS_ARGS ./prep-server.yml --extra-vars "branch=$BRANCH"; then
+if ! ansible-playbook $ANS_ARGS ./prep-server.yml --extra-vars "server=$SERVER branch=$BRANCH"; then
+  exit 1
+fi
+
+echo ''
+echo 'Copying the settings files for the controller playbooks...'
+cp $BASE_DIR/provision/$SERVER-controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/settings.yml
+
+echo ''
+echo 'Running controller setup...'
+cd $BASE_DIR/../playbooks/controller
+if ! ansible-playbook $ANS_ARGS setup.yml --extra-vars "mongo_root_password=$MONGO_ROOT_PASSWORD mongo_app_password=$MONGO_APP_PASSWORD app_pass=$APP_PASSWORD"; then
   exit 1
 fi
 
@@ -105,24 +116,12 @@ if [ "$SERVER" == 'build' ]; then
 fi
 
 echo ''
-echo 'Copying the settings files for the controller playbooks...'
-cp $BASE_DIR/provision/$SERVER-controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/settings.yml
-
-echo ''
-echo 'Running controller setup and sample data playbooks...'
+echo 'Running sample data playbook setup...'
 cd $BASE_DIR/../playbooks/controller
-if ! ansible-playbook $ANS_ARGS setup.yml --extra-vars "mongo_root_password=$MONGO_ROOT_PASSWORD mongo_app_password=$MONGO_APP_PASSWORD app_pass=$APP_PASSWORD"; then
-  exit 1
-fi
 if ! ansible-playbook $ANS_ARGS sample-data.yml --extra-vars "mongo_app_password=$MONGO_APP_PASSWORD"; then
   exit 1
 fi
-echo ''
-echo 'Running the post build playbook...'
-cd $BASE_DIR/provision
-if ! ansible-playbook $ANS_ARGS post-build.yml --extra-vars "server=$SERVER"; then
-  exit 1
-fi
+
 echo ''
 echo 'done.'
 echo ''

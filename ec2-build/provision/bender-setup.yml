@@ -21,3 +21,6 @@
 
     - name: Copy authorized keys for bender
       action: copy src=bender_authorized_keys dest=/home/bender/.ssh/authorized_keys owner=bender group=bender mode=644
+
+    - name: Bender user should own the source
+      action: command chown -R bender:bender /var/trainingwheels
