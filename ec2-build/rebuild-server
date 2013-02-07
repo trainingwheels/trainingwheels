@@ -1,15 +1,21 @@
 #!/bin/bash
 
-# User input
-# EC2_EXTERNAL: if this is being run from a server within EC2, say a control box,
-# it's faster to use the internal IP address, so the default behavior is to assume
-# internal. However, for testing, it may be necessary to run from outside of EC2
-# so you can override by passing the parameter 'external'.
-EC2_EXTERNAL="$1"
+# Pull in file containing variables to be used in this build.
+VARS_FILE="$1"
 
-# Vars
-TAG_VAL='trainingwheels-autobuild'
-IP_ADDRESS='184.73.222.124'
+if [ -z "$VARS_FILE" ]; then
+  echo "Please pass a variable file as a parameter. See ec-params.sample to get started."
+  exit 1
+fi
+
+if [ ! -f "$VARS_FILE" ]; then
+  echo "The variable file '$VARS_FILE' was not found."
+  exit 1
+fi
+
+source "$VARS_FILE"
+
+# The following are common vars that could be moved into other build-specific files if required.
 KEY_NAME='tw'
 RUNNING_TIMEOUT='300'
 INSTANCE_TYPE='m1.small'
@@ -19,8 +25,8 @@ AMI='ami-3d4ff254'
 ID_FILE="${HOME}/.ssh/tw.pem"
 ANS_ARGS="-c ssh -s --timeout=$RUNNING_TIMEOUT --private-key=$ID_FILE --inventory-file=$BASE_DIR/ec2-hostname"
 SLEEP='3'
-CUSTOM_HOST='tw-build.com'
 
+# If Ansible ever gets a good euca2ools module, we may be able to move some of this out of bash.
 echo ''
 echo 'Finding all existing build instances...'
 OBSOLETE_INSTANCES=`euca-describe-instances --filter tag-value=$TAG_VAL | grep INSTANCE | cut -f 2`
@@ -52,17 +58,16 @@ echo ''
 echo "Tagging new instance $NEW_INSTANCE_ID with tag $TAG_VAL..."
 euca-create-tags --tag tw-usage=$TAG_VAL $NEW_INSTANCE_ID
 
-# We keep a single elastic public IP address. Assign this address to the instance.
 echo ''
 echo 'Associating the elastic IP with the new instance...'
 euca-associate-address -i $NEW_INSTANCE_ID $IP_ADDRESS
 
 echo ''
 echo 'Grabbing the internal host name if required, else the external...'
-if [ "$EC2_EXTERNAL" != 'external' ]; then
+if [ "$EC2_EXTERNAL" == 'internal' ]; then
   HOST=`euca-describe-instances $NEW_INSTANCE_ID | grep internal | cut -f 5`
 else
-  HOST="$CUSTOM_HOST"
+  HOST="$EC2_EXTERNAL"
 fi
 echo "$HOST" > $BASE_DIR/ec2-hostname
 echo "$HOST"
@@ -90,29 +95,38 @@ fi
 
 echo ''
 echo "Running initial build and setup phase playbook..."
-if ! ansible-playbook $ANS_ARGS ./prep-server.yml; then
+cd $BASE_DIR/provision
+if ! ansible-playbook $ANS_ARGS ./prep-server.yml --extra-vars "server=$SERVER branch=$BRANCH"; then
   exit 1
 fi
 
 echo ''
 echo 'Copying the settings files for the controller playbooks...'
-cp $BASE_DIR/controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/settings.yml
+cp $BASE_DIR/provision/$SERVER-controller-settings-ec2.yml $BASE_DIR/../playbooks/controller/settings.yml
 
 echo ''
-echo 'Running controller setup and sample data playbooks...'
+echo 'Running controller setup...'
 cd $BASE_DIR/../playbooks/controller
-if ! ansible-playbook $ANS_ARGS setup.yml; then
+if ! ansible-playbook $ANS_ARGS setup.yml --extra-vars "mongo_root_password=$MONGO_ROOT_PASSWORD mongo_app_password=$MONGO_APP_PASSWORD app_pass=$APP_PASSWORD"; then
   exit 1
 fi
-if ! ansible-playbook $ANS_ARGS sample-data.yml; then
-  exit 1
+
+if [ "$SERVER" == 'build' ]; then
+  echo ''
+  echo "Setup the bender user so we can update checkout on every commit to the branch..."
+  cd $BASE_DIR/provision
+  if ! ansible-playbook $ANS_ARGS ./bender-setup.yml --extra-vars "branch=$BRANCH"; then
+    exit 1
+  fi
 fi
+
 echo ''
-echo 'Running the post build playbook...'
-cd $BASE_DIR
-if ! ansible-playbook $ANS_ARGS post-build.yml; then
+echo 'Running sample data playbook setup...'
+cd $BASE_DIR/../playbooks/controller
+if ! ansible-playbook $ANS_ARGS sample-data.yml --extra-vars "mongo_app_password=$MONGO_APP_PASSWORD"; then
   exit 1
 fi
+
 echo ''
 echo 'done.'
 echo ''
