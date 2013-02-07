@@ -275,7 +275,7 @@ a {
   text-decoration: none;
 }
 a:hover, a.hover {
-  color: #bebcba;
+  color: #938732;
   text-decoration: none;
 }
 
@@ -389,12 +389,12 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
 .logo {
   padding-left: 1em;
   font-size: 32px;
-  color: white;
+  color: #e5da55;
   text-decoration: none;
   font-family: "BebasNeueRegular", helvetica, arial, sans-serif;
 }
 .logo:hover {
-  color: #e5da55;
+  color: #938732;
 }
 
 #top-rule {
@@ -919,7 +919,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
 
 #courses-dashboard {
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 550px;
   padding: 22px;
 }
 #courses-dashboard h1 {
@@ -945,7 +945,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   color: #4a4545;
 }
 #courses-dashboard #course-list .course-summary h2 a:hover, #courses-dashboard #course-list .course-summary h2 a.hover, #courses-dashboard #course-list .course-summary h2 a:focus, #courses-dashboard #course-list .course-summary h2 a.focus {
-  color: #e5da55;
+  color: #938732;
 }
 #courses-dashboard #course-list .course-summary .course-description {
   margin-bottom: 1em;
@@ -992,7 +992,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   color: #4a4545;
 }
 .user-info h3 .user-name:hover {
-  color: #bebcba;
+  color: #938732;
 }
 .user-info .indicators-summary-users {
   float: right;
