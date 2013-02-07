@@ -339,13 +339,13 @@
           self.controller.syncAll(function usersSynced(err) {
             if (!err) {
               self.controller.reloadUsers(false,
-                function() {
+                function usersReloaded() {
                   self.set('syncing', false);
                   alertify.success("Successfully synced resources from 'instructor' to all users.");
                 },
-                function () {
+                function reloadError() {
                   self.set('syncing', false);
-                  alertify.error("There was a problem syncing resources to all users.");
+                  alertify.error("There was a problem syncing resources to one or more users.");
                 }
               );
             }
@@ -454,11 +454,11 @@
           self.controller.syncUser(user_name, function userSynced(err) {
             if (!err) {
               self.controller.reloadUser(
-                function() {
+                function userReloaded() {
                   self.set('syncing', false);
                   alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
                 },
-                function() {
+                function reloadError() {
                   self.set('syncing', false);
                   alertify.error("There was a problem syncing resources to '" + user_name + "'.");
                 }
