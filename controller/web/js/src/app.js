@@ -28,6 +28,41 @@
     callback('Job could not be executed.');
   }
 
+  /**
+   * Helper function to reload an array of models.
+   *
+   * @param {array} models
+   *   An array of modesl to be reloaded.
+   * @return {object} a jQuery promise object.
+   */
+  function reloadModels(models) {
+    var def = $.Deferred();
+    var promises = [];
+
+    models.forEach(function(model) {
+      var p = $.Deferred();
+      promises.push(p);
+      model.on('didReload', function() {
+        p.resolve();
+      });
+      model.on('becameError', function() {
+        p.reject();
+      });
+      model.reload();
+    });
+
+    $.when.apply($, promises).then(
+      function() {
+        def.resolve();
+      },
+      function() {
+        def.reject();
+      }
+    );
+
+    return def.promise();
+  }
+
   ////
   // Ember Data Store and Models.
   //
@@ -268,31 +303,11 @@
         return true;
       });
 
-      var promises = [];
-      users.forEach(function(user) {
-        var userPromise = $.Deferred();
-        promises.push(userPromise);
-        user.on('didReload', function() {
-          userPromise.resolve();
-        });
-        user.on('becameError', function() {
-          userPromise.reject();
-        });
-        user.reload();
-      });
-
-      var coursePromise = $.Deferred();
-      promises.push(coursePromise);
+      var models = users.toArray();
       var model = this.get('model');
-      model.on('didReload', function() {
-        coursePromise.resolve();
-      });
-      model.on('becameError', function() {
-        coursePromise.reject();
-      });
-      model.reload();
-
-      $.when.apply($, promises).then(callback, errorCallback);
+      models.push(model);
+      var promise = reloadModels(models);
+      $.when(promise).then(callback, errorCallback);
     },
 
     resetUsers: function() {
@@ -386,30 +401,12 @@
      * Helper function to reload user data from the server.
      */
     reloadUser: function(callback, errorCallback) {
-      var promises = [];
-      var userPromise = $.Deferred();
-      promises.push(userPromise);
-      var model = this.get('model');
-      model.on('didReload', function() {
-        userPromise.resolve();
-      });
-      model.on('becameError', function() {
-        userPromise.reject();
-      });
-      model.reload();
+      var models = [];
+      models.push(this.get('model'));
+      models.push(this.controllerFor('course').get('model'));
 
-      var coursePromise = $.Deferred();
-      promises.push(coursePromise);
-      var course = this.controllerFor('course').get('model');
-      course.on('didReload', function() {
-        coursePromise.resolve();
-      });
-      course.on('becameError', function() {
-        coursePromise.reject();
-      });
-      course.reload();
-
-      $.when.apply($, promises).then(callback, errorCallback);
+      var promise = reloadModels(models);
+      $.when(promise).then(callback, errorCallback);
     },
 
     syncUser: function(user_name, callback) {
