@@ -28,6 +28,41 @@
     callback('Job could not be executed.');
   }
 
+  /**
+   * Helper function to reload an array of models.
+   *
+   * @param {array} models
+   *   An array of modesl to be reloaded.
+   * @return {object} a jQuery promise object.
+   */
+  function reloadModels(models) {
+    var def = $.Deferred();
+    var promises = [];
+
+    models.forEach(function(model) {
+      var p = $.Deferred();
+      promises.push(p);
+      model.on('didReload', function() {
+        p.resolve();
+      });
+      model.on('becameError', function() {
+        p.reject();
+      });
+      model.reload();
+    });
+
+    $.when.apply($, promises).then(
+      function() {
+        def.resolve();
+      },
+      function() {
+        def.reject();
+      }
+    );
+
+    return def.promise();
+  }
+
   ////
   // Ember Data Store and Models.
   //
@@ -247,7 +282,7 @@
      *   true if the instructor user should be reloaded.
      *   Defaults to true.
      */
-    reloadUsers: function(instructor) {
+    reloadUsers: function(instructor, callback, errorCallback) {
       var users;
       var course_id = this.get('course_id');
 
@@ -267,11 +302,12 @@
 
         return true;
       });
-      users.forEach(function(user) {
-        user.reload();
-      });
 
-      this.get('model').reload();
+      var models = users.toArray();
+      var model = this.get('model');
+      models.push(model);
+      var promise = reloadModels(models);
+      $.when(promise).then(callback, errorCallback);
     },
 
     resetUsers: function() {
@@ -316,12 +352,20 @@
           self.set('syncing', true);
 
           self.controller.syncAll(function usersSynced(err) {
-            self.set('syncing', false);
             if (!err) {
-              self.controller.reloadUsers(false);
-              alertify.success("Successfully synced resources from 'instructor' to all users.");
+              self.controller.reloadUsers(false,
+                function usersReloaded() {
+                  self.set('syncing', false);
+                  alertify.success("Successfully synced resources from 'instructor' to all users.");
+                },
+                function reloadError() {
+                  self.set('syncing', false);
+                  alertify.error("There was a problem syncing resources to one or more users.");
+                }
+              );
             }
             else {
+              self.set('syncing', false);
               alertify.error(err);
             }
           });
@@ -353,9 +397,16 @@
       setTimeout(function () { $('#selected-password').selectText(); }, 50);
     },
 
-    reload: function() {
-      this.get('model').reload();
-      this.controllerFor('course').get('model').reload();
+    /**
+     * Helper function to reload user data from the server.
+     */
+    reloadUser: function(callback, errorCallback) {
+      var models = [];
+      models.push(this.get('model'));
+      models.push(this.controllerFor('course').get('model'));
+
+      var promise = reloadModels(models);
+      $.when(promise).then(callback, errorCallback);
     },
 
     syncUser: function(user_name, callback) {
@@ -398,12 +449,20 @@
           self.set('syncing', true);
 
           self.controller.syncUser(user_name, function userSynced(err) {
-            self.set('syncing', false);
             if (!err) {
-              self.controller.reload();
-              alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
+              self.controller.reloadUser(
+                function userReloaded() {
+                  self.set('syncing', false);
+                  alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
+                },
+                function reloadError() {
+                  self.set('syncing', false);
+                  alertify.error("There was a problem syncing resources to '" + user_name + "'.");
+                }
+              );
             }
             else {
+              self.set('syncing', false);
               alertify.error(err);
             }
           });
