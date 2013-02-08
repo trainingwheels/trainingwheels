@@ -13,14 +13,14 @@
     <div id="course-instructor">
       {{#each user in controller.instructorSummary}}
         {{#with user}}
-          {{view "App.UserSummaryView"}}
+          {{view "TW.UserSummaryView"}}
         {{/with}}
       {{/each}}
 
       <div class="user-selected">
         {{#each user in controller.instructorSelected}}
           {{#with user}}
-            {{view "App.UserView" controllerBinding="controller.userController"}}
+            {{view "TW.UserView" controllerBinding="controller.userController"}}
           {{/with}}
         {{/each}}
       </div>
@@ -45,21 +45,21 @@
 
         {{#each user in controller.userSummariesAbove}}
           {{#with user}}
-            {{view "App.UserSummaryView"}}
+            {{view "TW.UserSummaryView"}}
           {{/with}}
         {{/each}}
 
         <div class="user-selected">
           {{#each user in controller.userSelected}}
             {{#with user}}
-              {{view "App.UserView" controllerBinding="controller.userController"}}
+              {{view "TW.UserView" controllerBinding="controller.userController"}}
             {{/with}}
           {{/each}}
         </div>
 
         {{#each user in controller.userSummariesBelow}}
           {{#with user}}
-            {{view "App.UserSummaryView"}}
+            {{view "TW.UserSummaryView"}}
           {{/with}}
         {{/each}}
       </div>

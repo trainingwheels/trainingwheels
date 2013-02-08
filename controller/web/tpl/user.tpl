@@ -24,7 +24,7 @@
   <div class="user-resources">
     {{#each resource in controller.resources}}
       {{#with resource}}
-        {{view "App.ResourceView"}}
+        {{view "TW.ResourceView"}}
       {{/with}}
     {{/each}}
   </div>
