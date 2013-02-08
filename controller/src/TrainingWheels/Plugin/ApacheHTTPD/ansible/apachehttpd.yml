@@ -17,6 +17,13 @@
         - libapache2-mod-php5
 
     ##
+    # Get this server's hostname for use in the Apache config templates.
+    #
+    - name: ApacheHTTPD | Get the current hostname
+      action: shell hostname
+      register: apache_servername
+
+    ##
     # Apache2 setup.
     #
     - name: ApacheHTTPD | Enable rewrite module

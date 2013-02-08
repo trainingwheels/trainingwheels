@@ -1,7 +1,7 @@
-ServerName {{ apache_servername }}
+ServerName {{ apache_servername.stdout }}
 <VirtualHost *:80>
-	ServerAdmin {{ apache_server_admin }}
-	ServerAlias {{ apache_server_alias }}
+	ServerAdmin webmaster@{{ apache_servername.stdout }}
+	ServerAlias *.*.{{ apache_servername.stdout }}
 
 	VirtualDocumentRoot {{ apache_virtual_docroot }}
 
