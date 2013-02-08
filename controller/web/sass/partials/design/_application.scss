@@ -21,7 +21,7 @@ a {
   color: darkGray;
   text-decoration: none;
   &:hover, &.hover {
-    color: $mediumGray;
+    color: $yellowDark;
     text-decoration: none;
   }
 }
@@ -83,11 +83,11 @@ input[type=submit] {
 .logo {
   padding-left: 1em;
   font-size: $base-font-size * 2;
-  color: $white;
+  color: $yellow;
   text-decoration: none;
   font-family: $bebas;
   &:hover {
-    color: $yellow;
+    color: $yellowDark;
   }
 }
 
