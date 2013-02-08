@@ -31,6 +31,9 @@ class CourseFactory extends Factory {
       $course->course_name = $params['course_name'];
       $course->uri = '/course/' . $params['id'];
 
+      if (!isset($params['plugin_ids'])) {
+        throw new Exception("The course has no plugins associated with it and cannot be loaded.");
+      }
       $this->buildPlugins($course, $params['plugin_ids']);
 
       return $course;
@@ -76,6 +79,8 @@ class CourseFactory extends Factory {
    * Save a course.
    */
   public function save($course) {
+    $params = $this->data->find('course', array('id' => 1));
+    $course['plugin_ids'] = $params['plugin_ids'];
     return $this->data->insert('course', $course);
   }
 
