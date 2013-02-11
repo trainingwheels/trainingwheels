@@ -1,4 +1,4 @@
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/1\.8\/gems\/toolkit-0\.2\.3\/stylesheets\/toolkit\/_border-box\.scss}line{font-family:\0000310}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/lib\/gems\/1\.8\/gems\/toolkit-0\.2\.3\/stylesheets\/toolkit\/_border-box\.scss}line{font-family:\0000310}}
 *,
 *:after,
 *:before {
@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/1\.8\/gems\/toolkit-0\.2\.3\/stylesheets\/toolkit\/_fluid-media\.scss}line{font-family:\000034}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/lib\/gems\/1\.8\/gems\/toolkit-0\.2\.3\/stylesheets\/toolkit\/_fluid-media\.scss}line{font-family:\000034}}
 img, video {
   max-width: 100%;
   height: auto;
@@ -18,33 +18,33 @@ img, video {
   src: url(/fonts/bebas-neue/BebasNeue-webfont.woff) format('woff'), url(/fonts/bebas-neue/BebasNeue-webfont.ttf) format('truetype'), url(/fonts/bebas-neue/BebasNeue-webfont.eot) format('embedded-opentype'), url(/fonts/bebas-neue/BebasNeue-webfont.svg) format('svg');
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\000038}}
 #tw-form, #course-form, #login-form {
   margin: 0 auto;
   max-width: 550px;
   padding: 22px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000312}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000312}}
 #tw-form hr, #course-form hr, #login-form hr {
   border-top: 1px solid #bebcba;
   margin: 2em inherit;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000318}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000318}}
 #tw-form-field, #course-form #course-fields .field, #login-form #form div {
   margin-bottom: 11px;
   text-align: right;
   font-size: 18px;
   font-family: "Open Sans", sans-serif;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000323}}
 #tw-form-field span, #course-form #course-fields .field span, #login-form #form div span {
   vertical-align: top;
   display: inline-block;
   padding-top: 10px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\000037}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\000037}}
 body {
   margin: 0;
   font-family: helvetica, arial, sans-serif;
@@ -54,65 +54,65 @@ body {
   background-color: white;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000318}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000318}}
 p {
   margin-top: 0;
   margin-bottom: 1.375;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000325}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000325}}
 h1, h2, h3, h4, h5, h6 {
   font-family: "Open Sans", sans-serif;
   font-weight: normal;
   margin-top: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000331}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000331}}
 h1 {
   font-size: 48px;
   line-height: 1.1;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000336}}
 h2 {
   font-size: 32px;
   line-height: 1.2em;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000341}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000341}}
 h3 {
   font-size: 23.2px;
   color: #4a4545;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000347}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000347}}
 h4 {
   font-size: 18px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000352}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000352}}
 h5 {
   font-size: 18px;
   color: #bebcba;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000357}}
 h6 {
   font-size: 32px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000363}}
 .icon-symbolicons {
   font-size: 32px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000370}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000370}}
 ul, ol {
   padding: 0;
   margin: 0 0 11px 25px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000378}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000378}}
 ul ul,
 ul ol,
 ol ol,
@@ -120,29 +120,29 @@ ol ul {
   margin-bottom: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000382}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000382}}
 ul {
   list-style: square;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000386}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000386}}
 ol {
   list-style: decimal;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000390}}
 li {
   line-height: 22px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000395}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000395}}
 ul.unstyled,
 ol.unstyled {
   margin-left: 0;
   list-style: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003100}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003100}}
 ul.menu li {
   margin: 0 0.5em 0 0em;
 }
@@ -150,45 +150,45 @@ ul.menu li {
 /**
 * Misc
 */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003111}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003111}}
 hr {
   margin: 22px 0;
   border-top: 1px solid #f2f2f2;
   border-bottom: 1px solid white;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003119}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003119}}
 strong {
   font-weight: bold;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003123}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003123}}
 em {
   font-style: italic;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003129}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003129}}
 blockquote {
   padding: 0 0 0 15px;
   margin: 0 0 22px;
   border-left: 5px solid #bebcba;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003133}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003133}}
 blockquote p {
   margin-bottom: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003141}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003141}}
 a {
   color: #80a6fc;
   text-decoration: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003144}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003144}}
 a:hover {
   text-decoration: underline;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003150}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003150}}
 button {
   display: inline-block;
   margin-bottom: .5em;
@@ -220,11 +220,11 @@ button {
   -moz-box-shadow: inset 0 1px 0 0 white;
   box-shadow: inset 0 1px 0 0 white;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
 button:first-child {
   *margin-left: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
 button:hover, button.hover, button:focus, button.focus {
   text-decoration: none;
   background-color: #d8d8d8;
@@ -232,7 +232,7 @@ button:hover, button.hover, button:focus, button.focus {
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
 button:active, button.active {
   background-color: #d8d8d8;
   *background-color: #cccccc;
@@ -245,12 +245,12 @@ button:active, button.active {
   border-bottom: 1px solid #b2b2b2;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000310}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000310}}
 body {
   background-color: #eeeeee;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000314}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000314}}
 .yellow-btn {
   display: inline-block;
   margin-bottom: .5em;
@@ -284,11 +284,11 @@ body {
   padding: 11px 11px;
   font-size: 20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
 .yellow-btn:first-child {
   *margin-left: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
 .yellow-btn:hover, .yellow-btn.hover, .yellow-btn:focus, .yellow-btn.focus {
   text-decoration: none;
   background-color: #ded029;
@@ -296,7 +296,7 @@ body {
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
 .yellow-btn:active, .yellow-btn.active {
   background-color: #ded029;
   *background-color: #cec120;
@@ -309,39 +309,39 @@ body {
   border-bottom: 1px solid #a29719;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000320}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000320}}
 a {
   color: darkGray;
   text-decoration: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000323}}
 a:hover, a.hover {
   color: #938732;
   text-decoration: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000329}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000329}}
 dt {
   width: 200px;
   display: inline-block;
   vertical-align: top;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000335}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000335}}
 dd {
   margin: 0;
   display: inline-block;
   width: 66%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000341}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000341}}
 dt, dd {
   border-top: solid 1px #dddddd;
   padding-bottom: 5px;
   padding-top: 5px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000348}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000348}}
 textarea,
 input:not([type=submit]):not([type=file]) {
   -webkit-border-radius: 4px;
@@ -358,25 +358,25 @@ input:not([type=submit]):not([type=file]) {
   background-color: #f2f2f2;
   box-shadow: 0px 0px 0px black, 0px 3px 3px #eeeeee inset;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000359}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000359}}
 textarea:hover,
 input:not([type=submit]):not([type=file]):hover {
   border: 1px solid #85817d;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000362}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000362}}
 textarea:focus,
 input:not([type=submit]):not([type=file]):focus {
   border: 1px solid #85817d;
   background-color: #f8f8f8;
   outline: medium none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000366}}
 textarea:focus:hover,
 input:not([type=submit]):not([type=file]):focus:hover {
   border: 1px solid #85817d;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000372}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000372}}
 input[type=submit], .submit {
   display: inline-block;
   margin-bottom: .5em;
@@ -413,11 +413,11 @@ input[type=submit], .submit {
   width: 150px;
   display: block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
 input[type=submit]:first-child, .submit:first-child {
   *margin-left: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
 input[type=submit]:hover, .submit:hover, input[type=submit].hover, .hover.submit, input[type=submit]:focus, .submit:focus, input[type=submit].focus, .focus.submit {
   text-decoration: none;
   background-color: #ded029;
@@ -425,7 +425,7 @@ input[type=submit]:hover, .submit:hover, input[type=submit].hover, .hover.submit
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
 input[type=submit]:active, .submit:active, input[type=submit].active, .active.submit {
   background-color: #ded029;
   *background-color: #cec120;
@@ -438,7 +438,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   border-bottom: 1px solid #a29719;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000383}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000383}}
 .logo {
   padding-left: 1em;
   font-size: 32px;
@@ -446,12 +446,12 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   text-decoration: none;
   font-family: "BebasNeueRegular", helvetica, arial, sans-serif;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000389}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000389}}
 .logo:hover {
   color: #938732;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000394}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\0000394}}
 #top-rule {
   background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#b8ac1c));
   background: -moz-linear-gradient(top, #efe24b, #b8ac1c);
@@ -464,7 +464,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   border-bottom: 1px solid #4a4545;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003104}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003104}}
 #top-header {
   background: -webkit-gradient(linear, left top, left bottom, from(#4a4545), to(#302c2c));
   background: -moz-linear-gradient(top, #4a4545, #302c2c);
@@ -480,7 +480,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   border-bottom: 1px solid #bebcba;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003119}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003119}}
 #footer {
   float: left;
   bottom: 0;
@@ -496,25 +496,25 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   padding: 22px;
   font-size: 12px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003133}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003133}}
 #footer a {
   color: #4a4545;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003135}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003135}}
 #footer a:hover {
   color: #938732;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003139}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003139}}
 #footer ul {
   list-style-type: none;
   margin: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003142}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003142}}
 #footer ul li {
   display: inline;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003150}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003150}}
 .tw-loading {
   background: url('../../images/loading.gif') no-repeat;
   height: 31px;
@@ -523,7 +523,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   margin-right: auto;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003162}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003162}}
 .cancel {
   padding: 11px 11px;
   font-size: 16px;
@@ -534,13 +534,13 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
 /**
  * Default Look and Feel
  */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003177}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003177}}
 .alertify,
 .alertify-log {
   font-family: "Open Sans", sans-serif;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003180}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003180}}
 .alertify {
   background: white;
   border: none;
@@ -555,14 +555,14 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   /* Firefox 4, Safari 5, Opera 10, IE 9 */
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003189}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003189}}
 .alertify-text {
   border: none;
   padding: 10px;
   border-radius: 4px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003194}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003194}}
 .alertify-button {
   display: inline-block;
   margin-bottom: .5em;
@@ -598,11 +598,11 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   width: 50px;
   text-shadow: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
 .alertify-button:first-child {
   *margin-left: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
 .alertify-button:hover, .alertify-button.hover, .alertify-button:focus, .alertify-button.focus {
   text-decoration: none;
   background-color: #ded029;
@@ -610,7 +610,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
 .alertify-button:active, .alertify-button.active {
   background-color: #ded029;
   *background-color: #cec120;
@@ -623,20 +623,20 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   border-bottom: 1px solid #a29719;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003202}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003202}}
 .alertify-button:hover,
 .alertify-button:focus {
   background-image: none;
   color: #4a4545;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003206}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003206}}
 .alertify-button:active {
   position: relative;
   top: 1px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003210}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003210}}
 .alertify-button-cancel {
   display: inline-block;
   margin-bottom: .5em;
@@ -672,11 +672,11 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   min-width: 50px;
   width: auto;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
 .alertify-button-cancel:first-child {
   *margin-left: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
 .alertify-button-cancel:hover, .alertify-button-cancel.hover, .alertify-button-cancel:focus, .alertify-button-cancel.focus {
   text-decoration: none;
   background-color: #a5a3a0;
@@ -684,7 +684,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
 .alertify-button-cancel:active, .alertify-button-cancel.active {
   background-color: #a5a3a0;
   *background-color: #999693;
@@ -697,7 +697,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   border-bottom: 1px solid #807c79;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003217}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003217}}
 .alertify-button-ok {
   display: inline-block;
   margin-bottom: .5em;
@@ -733,11 +733,11 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   min-width: 50px;
   width: auto;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
 .alertify-button-ok:first-child {
   *margin-left: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
 .alertify-button-ok:hover, .alertify-button-ok.hover, .alertify-button-ok:focus, .alertify-button-ok.focus {
   text-decoration: none;
   background-color: #ded029;
@@ -745,7 +745,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
 .alertify-button-ok:active, .alertify-button-ok.active {
   background-color: #ded029;
   *background-color: #cec120;
@@ -758,7 +758,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   border-bottom: 1px solid #a29719;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003224}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003224}}
 .alertify-log {
   background: #e5da55;
   padding: 15px;
@@ -767,18 +767,18 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   text-shadow: -1px -1px 0 rgba(0, 0, 0, 0);
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003231}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003231}}
 .alertify-log-error {
   background: #4a4545;
   color: white;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003235}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_application\.scss}line{font-family:\00003235}}
 .alertify-log-success {
   background: #e5da55;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course-form\.scss}line{font-family:\0000310}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course-form\.scss}line{font-family:\0000310}}
 #course-form #course-form-title {
   padding-bottom: 25px;
   padding-left: 25px;
@@ -786,33 +786,33 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   font-weight: 600;
   font-size: 32px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course-form\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course-form\.scss}line{font-family:\0000323}}
 #course-form #course-tools button {
   margin-bottom: 11px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\000039}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\000039}}
 #course-view {
   margin: 0 auto;
   max-width: 900px;
   padding: 22px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000315}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000315}}
 #course-info {
   border-bottom: 1px solid #d9d6d6;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000317}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000317}}
 #course-info h1 {
   display: inline-block;
   padding-right: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000321}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000321}}
 #course-info a {
   color: #4a4545;
   font-size: 38px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000325}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000325}}
 #course-info .refresh-button {
   display: inline-block;
   margin-bottom: .5em;
@@ -848,11 +848,11 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   padding: 10px 8px 2px 6px;
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
 #course-info .refresh-button:first-child {
   *margin-left: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
 #course-info .refresh-button:hover, #course-info .refresh-button.hover, #course-info .refresh-button:focus, #course-info .refresh-button.focus {
   text-decoration: none;
   background-color: #d8d8d8;
@@ -860,7 +860,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   /* Buttons in IE7 don't get borders, so darken on hover */
   outline: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
 #course-info .refresh-button:active, #course-info .refresh-button.active {
   background-color: #d8d8d8;
   *background-color: #cccccc;
@@ -872,39 +872,39 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   border: 1px solid #cccccc;
   border-bottom: 1px solid #b2b2b2;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000332}}
 #course-info .course-lock {
   float: right;
   font-size: 16px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000335}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000335}}
 #course-info .course-lock.hover, #course-info .course-lock:hover {
   color: #938732;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000338}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000338}}
 #course-info .course-lock .course-lock-text {
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000341}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000341}}
 #course-info .course-lock .ss-lock {
   display: inline-block;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000348}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000348}}
 #course-users .user-selected, #course-instructor .user-selected {
   background-color: #f8f8f8;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000351}}
 #course-users .user-tools, #course-users .resource, #course-instructor .user-tools, #course-instructor .resource {
   padding-left: 12px;
   padding-right: 12px;
   margin-bottom: 22px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000355}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000355}}
 #course-users .user-tools h4, #course-users .resource h4, #course-instructor .user-tools h4, #course-instructor .resource h4 {
   margin-bottom: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000359}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000359}}
 #course-users #course-users-top-tools, #course-instructor #course-users-top-tools {
   width: 100%;
   float: left;
@@ -913,22 +913,22 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   padding-top: 3em;
   padding-bottom: 1em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000363}}
 #course-users #course-users-top-tools .tools-right, #course-instructor #course-users-top-tools .tools-right {
   float: right;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000367}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000367}}
 #course-users #course-users-top-tools #user-view-tools .ss-rows, #course-instructor #course-users-top-tools #user-view-tools .ss-rows {
   border-radius-right: 1px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000372}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000372}}
 #course-users #course-users-list, #course-instructor #course-users-list {
   width: 100%;
   float: left;
   margin-right: 1.69492%;
   display: inline;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000375}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000375}}
 #course-users #course-users-bottom-tools, #course-instructor #course-users-bottom-tools {
   width: 100%;
   float: left;
@@ -937,7 +937,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   border-top: 1px solid white;
   padding-top: 2em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000379}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000379}}
 #course-users #course-users-bottom-tools .ember-text-field, #course-instructor #course-users-bottom-tools .ember-text-field {
   height: 44px;
   width: 300px;
@@ -946,12 +946,12 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   color: #4a4545;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000393}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000393}}
 .sync-wrapper {
   width: 22px;
   height: 22px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\0000396}}
 .sync-wrapper .ss-sync {
   line-height: 16px;
   text-align: center;
@@ -1016,7 +1016,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   }
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\00003111}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_course\.scss}line{font-family:\00003111}}
 .syncing {
   display: inline-block;
   -webkit-animation: rotate 1s linear infinite;
@@ -1026,19 +1026,19 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   animation: rotate 1s linear infinite;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\000038}}
 #courses-dashboard {
   margin: 0 auto;
   max-width: 550px;
   padding: 22px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000312}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000312}}
 #courses-dashboard h1 {
   font-size: 20px;
   font-weight: 600;
   color: #85817d;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000318}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000318}}
 #courses-dashboard #course-list .course-summary {
   border: 1px solid #d9d6d6;
   width: 500px;
@@ -1046,33 +1046,33 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   margin-bottom: 1em;
   padding: 1.5em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000324}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000324}}
 #courses-dashboard #course-list .course-summary span {
   font-weight: 600;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000327}}
 #courses-dashboard #course-list .course-summary h2 {
   font-family: "BebasNeueRegular", helvetica, arial, sans-serif;
   margin-bottom: .1em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000330}}
 #courses-dashboard #course-list .course-summary h2 a {
   color: #4a4545;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000332}}
 #courses-dashboard #course-list .course-summary h2 a:hover, #courses-dashboard #course-list .course-summary h2 a.hover, #courses-dashboard #course-list .course-summary h2 a:focus, #courses-dashboard #course-list .course-summary h2 a.focus {
   color: #938732;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000337}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000337}}
 #courses-dashboard #course-list .course-summary .course-description {
   margin-bottom: 1em;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000347}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_courses\.scss}line{font-family:\0000347}}
 #courses-dashboard #course-tools button {
   margin-left: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_login-form\.scss}line{font-family:\000037}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_login-form\.scss}line{font-family:\000037}}
 #login-form #form-title {
   padding-bottom: 25px;
   padding-left: 25px;
@@ -1081,75 +1081,75 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   font-size: 32px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_resource\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_resource\.scss}line{font-family:\000038}}
 .resource-info {
   display: inline;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_resource\.scss}line{font-family:\0000310}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_resource\.scss}line{font-family:\0000310}}
 .resource-info h4 {
   display: inline;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_resource\.scss}line{font-family:\0000313}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_resource\.scss}line{font-family:\0000313}}
 .resource-info .indicators-summary-users {
   float: right;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_resource\.scss}line{font-family:\0000315}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_resource\.scss}line{font-family:\0000315}}
 .resource-info .indicators-summary-users .resource-ready {
   color: #4a4545;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_resource\.scss}line{font-family:\0000318}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_resource\.scss}line{font-family:\0000318}}
 .resource-info .indicators-summary-users .resource-missing {
   color: #a30006;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\000038}}
 .user-summary, .user-full, #course-users-top-tools {
   border-bottom: 1px solid #d9d6d6;
   border-top: 1px solid white;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000314}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000314}}
 .user-info h3 {
   margin: 0.5em 0;
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000317}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000317}}
 .user-info h3 .user-name {
   font-size: 18px;
   color: #4a4545;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000320}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000320}}
 .user-info h3 .user-name:hover {
   color: #938732;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000325}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000325}}
 .user-info .indicators-summary-users {
   float: right;
   padding-top: 13px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000328}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000328}}
 .user-info .indicators-summary-users .ss-folder {
   display: inline-block;
   padding-right: 12px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000332}}
 .user-info .indicators-summary-users .ss-user {
   display: inline-block;
   padding-right: 12px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000336}}
 .user-info .indicators-summary-users .resource-ready {
   color: #4a4545;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000339}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000339}}
 .user-info .indicators-summary-users .resource-missing {
   color: #a30006;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000342}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000342}}
 .user-info .indicators-summary-users .logged_out {
   color: #bebcba;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000346}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/design\/_user\.scss}line{font-family:\0000346}}
 .user-info .ss-icon {
   font-size: 14px;
   color: #4a4545;
@@ -1158,7 +1158,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
 }
 
 @media print {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/1\.8\/gems\/toolkit-0\.2\.3\/stylesheets\/toolkit\/_border-box\.scss}line{font-family:\0000310}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/lib\/gems\/1\.8\/gems\/toolkit-0\.2\.3\/stylesheets\/toolkit\/_border-box\.scss}line{font-family:\0000310}}
   *,
   *:after,
   *:before {
@@ -1167,7 +1167,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
     box-sizing: border-box;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Library\/Ruby\/Gems\/1\.8\/gems\/toolkit-0\.2\.3\/stylesheets\/toolkit\/_fluid-media\.scss}line{font-family:\000034}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/lib\/gems\/1\.8\/gems\/toolkit-0\.2\.3\/stylesheets\/toolkit\/_fluid-media\.scss}line{font-family:\000034}}
   img, video {
     max-width: 100%;
     height: auto;
@@ -1178,33 +1178,33 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
     src: url(/fonts/bebas-neue/BebasNeue-webfont.woff) format('woff'), url(/fonts/bebas-neue/BebasNeue-webfont.ttf) format('truetype'), url(/fonts/bebas-neue/BebasNeue-webfont.eot) format('embedded-opentype'), url(/fonts/bebas-neue/BebasNeue-webfont.svg) format('svg');
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\000038}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\000038}}
   #tw-form, #course-form, #login-form {
     margin: 0 auto;
     max-width: 550px;
     padding: 22px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000312}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000312}}
   #tw-form hr, #course-form hr, #login-form hr {
     border-top: 1px solid #bebcba;
     margin: 2em inherit;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000318}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000318}}
   #tw-form-field, #course-form #course-fields .field, #login-form #form div {
     margin-bottom: 11px;
     text-align: right;
     font-size: 18px;
     font-family: "Open Sans", sans-serif;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_extendables\.scss}line{font-family:\0000323}}
   #tw-form-field span, #course-form #course-fields .field span, #login-form #form div span {
     vertical-align: top;
     display: inline-block;
     padding-top: 10px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\000037}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\000037}}
   body {
     margin: 0;
     font-family: helvetica, arial, sans-serif;
@@ -1214,65 +1214,65 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
     background-color: white;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000318}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000318}}
   p {
     margin-top: 0;
     margin-bottom: 1.375;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000325}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000325}}
   h1, h2, h3, h4, h5, h6 {
     font-family: "Open Sans", sans-serif;
     font-weight: normal;
     margin-top: 0;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000331}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000331}}
   h1 {
     font-size: 48px;
     line-height: 1.1;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000336}}
   h2 {
     font-size: 32px;
     line-height: 1.2em;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000341}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000341}}
   h3 {
     font-size: 23.2px;
     color: #4a4545;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000347}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000347}}
   h4 {
     font-size: 18px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000352}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000352}}
   h5 {
     font-size: 18px;
     color: #bebcba;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000357}}
   h6 {
     font-size: 32px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000363}}
   .icon-symbolicons {
     font-size: 32px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000370}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000370}}
   ul, ol {
     padding: 0;
     margin: 0 0 11px 25px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000378}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000378}}
   ul ul,
   ul ol,
   ol ol,
@@ -1280,29 +1280,29 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
     margin-bottom: 0;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000382}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000382}}
   ul {
     list-style: square;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000386}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000386}}
   ol {
     list-style: decimal;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000390}}
   li {
     line-height: 22px;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000395}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\0000395}}
   ul.unstyled,
   ol.unstyled {
     margin-left: 0;
     list-style: none;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003100}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003100}}
   ul.menu li {
     margin: 0 0.5em 0 0em;
   }
@@ -1310,45 +1310,45 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   /**
   * Misc
   */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003111}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003111}}
   hr {
     margin: 22px 0;
     border-top: 1px solid #f2f2f2;
     border-bottom: 1px solid white;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003119}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003119}}
   strong {
     font-weight: bold;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003123}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003123}}
   em {
     font-style: italic;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003129}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003129}}
   blockquote {
     padding: 0 0 0 15px;
     margin: 0 0 22px;
     border-left: 5px solid #bebcba;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003133}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003133}}
   blockquote p {
     margin-bottom: 0;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003141}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003141}}
   a {
     color: #80a6fc;
     text-decoration: none;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003144}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003144}}
   a:hover {
     text-decoration: underline;
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003150}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_type\.scss}line{font-family:\00003150}}
   button {
     display: inline-block;
     margin-bottom: .5em;
@@ -1380,11 +1380,11 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
     -moz-box-shadow: inset 0 1px 0 0 white;
     box-shadow: inset 0 1px 0 0 white;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000396}}
   button:first-child {
     *margin-left: 0;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000351}}
   button:hover, button.hover, button:focus, button.focus {
     text-decoration: none;
     background-color: #d8d8d8;
@@ -1392,7 +1392,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
     /* Buttons in IE7 don't get borders, so darken on hover */
     outline: 0;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/elliotttf\/Documents\/dev\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/var\/trainingwheels\/controller\/web\/sass\/partials\/global\/_mixins\.scss}line{font-family:\0000358}}
   button:active, button.active {
     background-color: #d8d8d8;
     *background-color: #cccccc;
