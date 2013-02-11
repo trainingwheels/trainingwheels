@@ -45606,6 +45606,9 @@ define("ember-data", ["ember"], (function (global) {
     };
 }(this)));
 
+/**
+ * @fileoverview Training Wheels Ember.js application instantiation.
+ */
 define('app',['ember', 'jquery'], function(Ember, $) {
   var app = Ember.Application.create({LOG_TRANSITIONS: true});
 
@@ -46441,6 +46444,9 @@ define('modules/course',[
   });
 });
 
+/**
+ * @fileoverview Main Training Wheels application entry point.
+ */
 require([
   'ember',
   'ember-data',
@@ -46451,7 +46457,7 @@ require([
   'modules/resource',
   'modules/user',
   'modules/course'
-], function(Ember, DS, $, Handlebars, app, Job, Resource, User, Course) {
+], function(Ember, DS, $, Handlebars, app) {
   ////
   // Ember Data Store.
   //

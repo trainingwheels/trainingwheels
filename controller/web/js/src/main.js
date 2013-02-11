@@ -1,3 +1,6 @@
+/**
+ * @fileoverview Main Training Wheels application entry point.
+ */
 require([
   'ember',
   'ember-data',
@@ -8,7 +11,7 @@ require([
   'modules/resource',
   'modules/user',
   'modules/course'
-], function(Ember, DS, $, Handlebars, app, Job, Resource, User, Course) {
+], function(Ember, DS, $, Handlebars, app) {
   ////
   // Ember Data Store.
   //

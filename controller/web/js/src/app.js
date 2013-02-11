@@ -1,3 +1,6 @@
+/**
+ * @fileoverview Training Wheels Ember.js application instantiation.
+ */
 define(['ember', 'jquery'], function(Ember, $) {
   var app = Ember.Application.create({LOG_TRANSITIONS: true});
 
