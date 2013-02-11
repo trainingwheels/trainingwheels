@@ -63,6 +63,8 @@ class CourseFactory extends Factory {
         $plugin = new $class();
         $plugin->set($plugin_data);
         $plugins[] = $plugin;
+
+        $plugin->mixinEnvironment($course->env, 'ubuntu');
       }
       $course->setPlugins($plugins);
     }

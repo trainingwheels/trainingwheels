@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Common;
 use TrainingWheels\Log\Log;
+use Exception;
 
 class Util {
   /**

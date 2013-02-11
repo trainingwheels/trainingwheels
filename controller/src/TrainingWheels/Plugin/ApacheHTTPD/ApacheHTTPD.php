@@ -2,12 +2,29 @@
 
 namespace TrainingWheels\Plugin\ApacheHTTPD;
 use TrainingWheels\Plugin\PluginBase;
+use TrainingWheels\Common\Util;
 
 class ApacheHTTPD extends PluginBase {
 
   public function __construct() {
     parent::__construct();
     $this->ansible_play = __DIR__ . '/ansible/apachehttpd.yml';
+  }
+
+  public function getEnvMixins($type) {
+    $funcs = array(
+
+      'userExists' => function($env, $user) {
+        $args = func_get_args();
+        array_shift($args);
+        Util::assertValidStrings('ApacheHTTPD::userExists', $args);
+        $output = $env->getConn()->exec_get('grep "^' . $user . ':" /etc/passwd');
+        return substr($output, 0, strlen($user) + 1) == $user . ':';
+      },
+
+    );
+
+    return $funcs;
   }
 
   public function getAnsibleConfig() {

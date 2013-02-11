@@ -8,8 +8,12 @@ use TrainingWheels\Common\Util;
 use TrainingWheels\Log\Log;
 use Exception;
 
-class LinuxEnv implements TrainingEnv {
+class LinuxEnv extends TrainingEnv {
   protected $conn;
+
+  public function getConn() {
+    return $this->conn;
+  }
 
   public function __construct(ServerConn $conn) {
     $this->conn = $conn;
@@ -160,15 +164,6 @@ class LinuxEnv implements TrainingEnv {
   public function fileCopy($source, $target) {
     Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
     $this->conn->exec_eq("cp $source $target");
-  }
-
-  /**
-   * Check if a Linux user exists in the system.
-   */
-  public function userExists($user) {
-    Util::assertValidStrings(__CLASS__ . '::' . __FUNCTION__, func_get_args());
-    $output = $this->conn->exec_get('grep "^' . $user . ':" /etc/passwd');
-    return substr($output, 0, strlen($user) + 1) == $user . ':';
   }
 
   /**
