@@ -1,12 +1,14 @@
+/**
+ * @fileoverview Course models, views, and controllers.
+ */
 define([
-  'ember-shim',
+  'ember',
   'ember-data',
   'jquery',
   'alertify',
-], function(Ember, DS, $, alertify) {
-  var Course = {};
-
-  Course.CourseSummary = DS.Model.extend({
+  'app',
+], function(Ember, DS, $, alertify, app) {
+  app.CourseSummary = DS.Model.extend({
     course_name: DS.attr('string'),
     course_type: DS.attr('string'),
     description: DS.attr('string'),
@@ -25,16 +27,16 @@ define([
     }
   });
 
-  Course.Course = Course.CourseSummary.extend({
-    users: DS.hasMany('TW.User.UserSummary'),
+  app.Course = app.CourseSummary.extend({
+    users: DS.hasMany('App.UserSummary'),
     // TODO: Replace with hasOne when PR https://github.com/emberjs/data/pull/475 gets in.
-    instructor: DS.hasMany('TW.User.UserSummary'),
+    instructor: DS.hasMany('App.UserSummary'),
     didLoad: function() {
       alertify.success('Course "' + this.get('title') + '" loaded.');
     }
   });
 
-  Course.CoursesAddController = Ember.ObjectController.extend({
+  app.CoursesAddController = Ember.ObjectController.extend({
     saveCourse: function(view) {
       var newCourse = {
         title: view.get('titleTextField').get('value'),
@@ -47,7 +49,7 @@ define([
         user: view.get('userTextField').get('value'),
         pass: view.get('passTextField').get('value'),
       }
-      var model = Course.CourseSummary.createRecord(newCourse);
+      var model = app.CourseSummary.createRecord(newCourse);
       model.store.commit();
       this.transitionToRoute('courses');
     },
@@ -56,11 +58,11 @@ define([
     }
   });
 
-  Course.CoursesAddView = Ember.View.extend({
+  app.CoursesAddView = Ember.View.extend({
     templateName: 'course-form',
   });
 
-  Course.CourseController = Ember.ObjectController.extend({
+  app.CourseController = Ember.ObjectController.extend({
     course_id: 0,
     allUserSummaries: [],
     userSummariesAbove: [],
@@ -79,7 +81,7 @@ define([
       var newUserName = this.get('newUserName');
       this.set('newUserName', '');
       var course_id = this.get('course_id');
-      var model = User.UserSummary.createRecord({user_name: newUserName, course_id: course_id, resource_status: "resource-missing"});
+      var model = app.UserSummary.createRecord({user_name: newUserName, course_id: course_id, resource_status: "resource-missing"});
       model.store.commit();
       this.resetUsers();
       this.transitionToRoute('course');
@@ -114,7 +116,7 @@ define([
       var course_id = this.get('course_id');
 
       // Collect all of the students to have their resources synced.
-      var users = User.UserSummary
+      var users = app.UserSummary
         .filter(function (data) {
           if (data.get('course_id') == course_id && data.get('is_student')) {
             return true;
@@ -125,7 +127,7 @@ define([
         });
 
       // Create the sync job.
-      var job = Ember.TW.Job.createRecord({
+      var job = app.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),
         type: 'resource',
         action: 'resourceSync',
@@ -136,10 +138,10 @@ define([
       });
       job.store.commit();
       job.on('didCreate', function(record) {
-        Ember.TW.JobComplete(job, callback);
+        app.JobComplete(job, callback);
       });
       job.on('becameError', function(record) {
-        Ember.TW.JobError(callback);
+        app.JobError(callback);
       });
     },
 
@@ -159,7 +161,7 @@ define([
       }
 
       // Find the already loaded users so we can reload them.
-      var users = User.User.filter(function(data) {
+      var users = app.User.filter(function(data) {
         if (data.get('course_id') != course_id) {
           return false;
         }
@@ -174,13 +176,13 @@ define([
       var models = users.toArray();
       var model = this.get('model');
       models.push(model);
-      var promise = Ember.reloadModels(models);
+      var promise = app.reloadModels(models);
       $.when(promise).then(callback, errorCallback);
     },
 
     resetUsers: function() {
       var course_id = this.get('course_id');
-      var users = User.UserSummary.filter(function (data) {
+      var users = app.UserSummary.filter(function (data) {
         if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
           return true;
         }
@@ -190,7 +192,7 @@ define([
       this.set('userSummariesBelow', []);
       this.set('userSelected', []);
 
-      var instructor = User.UserSummary.filter(function (data) {
+      var instructor = app.UserSummary.filter(function (data) {
         if (data.get('user_name') == 'instructor' && data.get('course_id') == course_id) {
           return true;
         }
@@ -207,7 +209,7 @@ define([
     }
   });
 
-  Course.CourseView = Ember.View.extend({
+  app.CourseView = Ember.View.extend({
     templateName: 'course',
     sortOptions: ['name', 'id'],
     css_class_syncing: function() {
@@ -216,7 +218,7 @@ define([
 
     syncAll: function(user_name) {
       var self = this;
-      alertify.confirm(Ember.globalStrings.confirmSyncAll, function confirmedSync(e) {
+      alertify.confirm(app.globalStrings.confirmSyncAll, function confirmedSync(e) {
         if (e) {
           self.set('syncing', true);
 
@@ -242,6 +244,4 @@ define([
       });
     }
   });
-
-  return Course;
 });

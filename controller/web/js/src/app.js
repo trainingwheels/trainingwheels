@@ -1,5 +1,10 @@
-define(['ember'], function(Ember) {
-  Ember.globalStrings = {
+define(['ember', 'jquery'], function(Ember, $) {
+  var app = Ember.Application.create({LOG_TRANSITIONS: true});
+
+  // Expose the app to the global namespace to make Ember happy.
+  window.App = app;
+
+  app.globalStrings = {
     confirmSync: 'Are you sure you want to sync resources to this user? This will overwrite any changes the user has made to their environment.',
     confirmSyncAll: 'Are you sure you want to sync resources to all users? This will overwrite any changes users have made to their environments.'
   };
@@ -11,7 +16,7 @@ define(['ember'], function(Ember) {
    *   An array of modesl to be reloaded.
    * @return {object} a jQuery promise object.
    */
-  Ember.reloadModels = function(models) {
+  app.reloadModels = function(models) {
     var def = $.Deferred();
     var promises = [];
 
@@ -39,5 +44,5 @@ define(['ember'], function(Ember) {
     return def.promise();
   };
 
-  return Ember;
+  return app;
 });

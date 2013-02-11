@@ -1,13 +1,15 @@
+/**
+ * @fileoverview User models, views, and controllers.
+ */
 define([
-  'ember-shim',
+  'ember',
   'ember-data',
   'jquery',
-  'alertify'
-], function(Ember, DS, $, alertify) {
-  var User = {};
-
-  User.UserSummary = DS.Model.extend({
-    course: DS.belongsTo('TW.Course.Course'),
+  'alertify',
+  'app'
+], function(Ember, DS, $, alertify, app) {
+  app.UserSummary = DS.Model.extend({
+    course: DS.belongsTo('App.Course'),
     user_name: DS.attr('string'),
     password: DS.attr('string'),
     logged_in: DS.attr('boolean'),
@@ -30,22 +32,22 @@ define([
     }
   });
 
-  User.User = User.UserSummary.extend({
-    resources: DS.hasMany('TW.Resource.Resource')
+  app.User = app.UserSummary.extend({
+    resources: DS.hasMany('App.Resource')
   });
 
-  User.UserSummaryController = Ember.ObjectController.extend();
+  app.UserSummaryController = Ember.ObjectController.extend();
 
-  User.UserSummaryView = Ember.View.extend({
+  app.UserSummaryView = Ember.View.extend({
     templateName: 'user-summary',
   });
 
-  User.UserController = Ember.ObjectController.extend({
+  app.UserController = Ember.ObjectController.extend({
     user_logged_in_class: 'user-logged-in',
     resources: [],
 
     bindResources: function(user_id) {
-      var resources = Ember.TW.Resource.Resource.filter(function (data) {
+      var resources = app.Resource.filter(function (data) {
         if (data.get('user_id') == user_id) {
           return true;
         }
@@ -66,12 +68,12 @@ define([
       models.push(this.get('model'));
       models.push(this.controllerFor('course').get('model'));
 
-      var promise = Ember.reloadModels(models);
+      var promise = app.reloadModels(models);
       $.when(promise).then(callback, errorCallback);
     },
 
     syncUser: function(user_name, callback) {
-      var job = Ember.TW.Job.Job.createRecord({
+      var job = app.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),
         type: 'resource',
         action: 'resourceSync',
@@ -82,10 +84,10 @@ define([
       });
       job.store.commit();
       job.on('didCreate', function(record) {
-        Ember.TW.Job.JobComplete(job, callback);
+        app.JobComplete(job, callback);
       });
       job.on('becameError', function(record) {
-        Ember.TW.Job.JobError(callback);
+        app.JobError(callback);
       });
     },
 
@@ -96,7 +98,7 @@ define([
     }
   });
 
-  User.UserView = Ember.View.extend({
+  app.UserView = Ember.View.extend({
     templateName: 'user',
     syncing: false,
 
@@ -106,7 +108,7 @@ define([
 
     syncUser: function(user_name) {
       var self = this;
-      alertify.confirm(confirmSync, function syncConfirmed(e) {
+      alertify.confirm(app.globalStrings.confirmSync, function syncConfirmed(e) {
         if (e) {
           self.set('syncing', true);
 
@@ -132,6 +134,4 @@ define([
       });
     }
   });
-
-  return User;
 });

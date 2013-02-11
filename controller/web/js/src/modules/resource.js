@@ -1,7 +1,8 @@
-define(['ember-shim', 'ember-data', 'jquery'], function(Ember, DS, $) {
-  var Resource = {};
-
-  Resource.Resource = DS.Model.extend({
+/**
+ * @fileoverview Resource models, views, and controllers.
+ */
+define(['ember', 'ember-data', 'jquery', 'app'], function(Ember, DS, $, app) {
+  app.Resource = DS.Model.extend({
     key: DS.attr('string'),
     title: DS.attr('string'),
     exists: DS.attr('boolean'),
@@ -17,11 +18,9 @@ define(['ember-shim', 'ember-data', 'jquery'], function(Ember, DS, $) {
     }.property('status'),
   });
 
-  Resource.ResourceController = Ember.ObjectController.extend();
+  app.ResourceController = Ember.ObjectController.extend();
 
-  Resource.ResourceView = Ember.View.extend({
+  app.ResourceView = Ember.View.extend({
     templateName: 'resource',
   });
-
-  return Resource;
 });

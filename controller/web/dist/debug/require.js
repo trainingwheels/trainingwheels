@@ -37765,50 +37765,6 @@ define("ember", ["jquery","handlebars"], (function (global) {
     };
 }(this)));
 
-define('ember-shim',['ember'], function(Ember) {
-  Ember.globalStrings = {
-    confirmSync: 'Are you sure you want to sync resources to this user? This will overwrite any changes the user has made to their environment.',
-    confirmSyncAll: 'Are you sure you want to sync resources to all users? This will overwrite any changes users have made to their environments.'
-  };
-
-  /**
-   * Helper function to reload an array of models.
-   *
-   * @param {array} models
-   *   An array of modesl to be reloaded.
-   * @return {object} a jQuery promise object.
-   */
-  Ember.reloadModels = function(models) {
-    var def = $.Deferred();
-    var promises = [];
-
-    models.forEach(function(model) {
-      var p = $.Deferred();
-      promises.push(p);
-      model.on('didReload', function() {
-        p.resolve();
-      });
-      model.on('becameError', function() {
-        p.reject();
-      });
-      model.reload();
-    });
-
-    $.when.apply($, promises).then(
-      function() {
-        def.resolve();
-      },
-      function() {
-        def.reject();
-      }
-    );
-
-    return def.promise();
-  };
-
-  return Ember;
-});
-
 (function() {
 window.DS = Ember.Namespace.create({
   // this one goes to 11
@@ -45650,17 +45606,67 @@ define("ember-data", ["ember"], (function (global) {
     };
 }(this)));
 
-define('modules/job',['ember-shim', 'ember-data'], function(Ember, DS) {
-  var Job = {};
+define('app',['ember', 'jquery'], function(Ember, $) {
+  var app = Ember.Application.create({LOG_TRANSITIONS: true});
 
-  Job.Job = DS.Model.extend({
+  // Expose the app to the global namespace to make Ember happy.
+  window.App = app;
+
+  app.globalStrings = {
+    confirmSync: 'Are you sure you want to sync resources to this user? This will overwrite any changes the user has made to their environment.',
+    confirmSyncAll: 'Are you sure you want to sync resources to all users? This will overwrite any changes users have made to their environments.'
+  };
+
+  /**
+   * Helper function to reload an array of models.
+   *
+   * @param {array} models
+   *   An array of modesl to be reloaded.
+   * @return {object} a jQuery promise object.
+   */
+  app.reloadModels = function(models) {
+    var def = $.Deferred();
+    var promises = [];
+
+    models.forEach(function(model) {
+      var p = $.Deferred();
+      promises.push(p);
+      model.on('didReload', function() {
+        p.resolve();
+      });
+      model.on('becameError', function() {
+        p.reject();
+      });
+      model.reload();
+    });
+
+    $.when.apply($, promises).then(
+      function() {
+        def.resolve();
+      },
+      function() {
+        def.reject();
+      }
+    );
+
+    return def.promise();
+  };
+
+  return app;
+});
+
+/**
+ * @fileoverview Job models and helper functions.
+ */
+define('modules/job',['ember-data', 'app'], function(DS, app) {
+  app.Job = DS.Model.extend({
     course_id: DS.attr('number'),
     type: DS.attr('string'),
     action: DS.attr('string'),
     params: DS.attr('string'),
   });
 
-  Job.JobComplete = function(job, callback) {
+  app.JobComplete = function(job, callback) {
     // Artificially defer the delete callback so ember can
     // finish updating the model before we remove it.
     setTimeout(function() {
@@ -45670,17 +45676,16 @@ define('modules/job',['ember-shim', 'ember-data'], function(Ember, DS) {
     callback(null);
   };
 
-  Job.JobError = function(callback) {
+  app.JobError = function(callback) {
     callback('Job could not be executed.');
   };
-
-  return Job;
 });
 
-define('modules/resource',['ember-shim', 'ember-data', 'jquery'], function(Ember, DS, $) {
-  var Resource = {};
-
-  Resource.Resource = DS.Model.extend({
+/**
+ * @fileoverview Resource models, views, and controllers.
+ */
+define('modules/resource',['ember', 'ember-data', 'jquery', 'app'], function(Ember, DS, $, app) {
+  app.Resource = DS.Model.extend({
     key: DS.attr('string'),
     title: DS.attr('string'),
     exists: DS.attr('boolean'),
@@ -45696,13 +45701,11 @@ define('modules/resource',['ember-shim', 'ember-data', 'jquery'], function(Ember
     }.property('status'),
   });
 
-  Resource.ResourceController = Ember.ObjectController.extend();
+  app.ResourceController = Ember.ObjectController.extend();
 
-  Resource.ResourceView = Ember.View.extend({
+  app.ResourceView = Ember.View.extend({
     templateName: 'resource',
   });
-
-  return Resource;
 });
 
 /**
@@ -46052,16 +46055,18 @@ define('modules/resource',['ember-shim', 'ember-data', 'jquery'], function(Ember
 	}
 
 }(this));
+/**
+ * @fileoverview User models, views, and controllers.
+ */
 define('modules/user',[
-  'ember-shim',
+  'ember',
   'ember-data',
   'jquery',
-  'alertify'
-], function(Ember, DS, $, alertify) {
-  var User = {};
-
-  User.UserSummary = DS.Model.extend({
-    course: DS.belongsTo('TW.Course.Course'),
+  'alertify',
+  'app'
+], function(Ember, DS, $, alertify, app) {
+  app.UserSummary = DS.Model.extend({
+    course: DS.belongsTo('App.Course'),
     user_name: DS.attr('string'),
     password: DS.attr('string'),
     logged_in: DS.attr('boolean'),
@@ -46084,22 +46089,22 @@ define('modules/user',[
     }
   });
 
-  User.User = User.UserSummary.extend({
-    resources: DS.hasMany('TW.Resource.Resource')
+  app.User = app.UserSummary.extend({
+    resources: DS.hasMany('App.Resource')
   });
 
-  User.UserSummaryController = Ember.ObjectController.extend();
+  app.UserSummaryController = Ember.ObjectController.extend();
 
-  User.UserSummaryView = Ember.View.extend({
+  app.UserSummaryView = Ember.View.extend({
     templateName: 'user-summary',
   });
 
-  User.UserController = Ember.ObjectController.extend({
+  app.UserController = Ember.ObjectController.extend({
     user_logged_in_class: 'user-logged-in',
     resources: [],
 
     bindResources: function(user_id) {
-      var resources = Ember.TW.Resource.Resource.filter(function (data) {
+      var resources = app.Resource.filter(function (data) {
         if (data.get('user_id') == user_id) {
           return true;
         }
@@ -46120,12 +46125,12 @@ define('modules/user',[
       models.push(this.get('model'));
       models.push(this.controllerFor('course').get('model'));
 
-      var promise = Ember.reloadModels(models);
+      var promise = app.reloadModels(models);
       $.when(promise).then(callback, errorCallback);
     },
 
     syncUser: function(user_name, callback) {
-      var job = Ember.TW.Job.Job.createRecord({
+      var job = app.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),
         type: 'resource',
         action: 'resourceSync',
@@ -46136,10 +46141,10 @@ define('modules/user',[
       });
       job.store.commit();
       job.on('didCreate', function(record) {
-        Ember.TW.Job.JobComplete(job, callback);
+        app.JobComplete(job, callback);
       });
       job.on('becameError', function(record) {
-        Ember.TW.Job.JobError(callback);
+        app.JobError(callback);
       });
     },
 
@@ -46150,7 +46155,7 @@ define('modules/user',[
     }
   });
 
-  User.UserView = Ember.View.extend({
+  app.UserView = Ember.View.extend({
     templateName: 'user',
     syncing: false,
 
@@ -46160,7 +46165,7 @@ define('modules/user',[
 
     syncUser: function(user_name) {
       var self = this;
-      alertify.confirm(confirmSync, function syncConfirmed(e) {
+      alertify.confirm(app.globalStrings.confirmSync, function syncConfirmed(e) {
         if (e) {
           self.set('syncing', true);
 
@@ -46186,19 +46191,19 @@ define('modules/user',[
       });
     }
   });
-
-  return User;
 });
 
+/**
+ * @fileoverview Course models, views, and controllers.
+ */
 define('modules/course',[
-  'ember-shim',
+  'ember',
   'ember-data',
   'jquery',
   'alertify',
-], function(Ember, DS, $, alertify) {
-  var Course = {};
-
-  Course.CourseSummary = DS.Model.extend({
+  'app',
+], function(Ember, DS, $, alertify, app) {
+  app.CourseSummary = DS.Model.extend({
     course_name: DS.attr('string'),
     course_type: DS.attr('string'),
     description: DS.attr('string'),
@@ -46217,16 +46222,16 @@ define('modules/course',[
     }
   });
 
-  Course.Course = Course.CourseSummary.extend({
-    users: DS.hasMany('TW.User.UserSummary'),
+  app.Course = app.CourseSummary.extend({
+    users: DS.hasMany('App.UserSummary'),
     // TODO: Replace with hasOne when PR https://github.com/emberjs/data/pull/475 gets in.
-    instructor: DS.hasMany('TW.User.UserSummary'),
+    instructor: DS.hasMany('App.UserSummary'),
     didLoad: function() {
       alertify.success('Course "' + this.get('title') + '" loaded.');
     }
   });
 
-  Course.CoursesAddController = Ember.ObjectController.extend({
+  app.CoursesAddController = Ember.ObjectController.extend({
     saveCourse: function(view) {
       var newCourse = {
         title: view.get('titleTextField').get('value'),
@@ -46239,7 +46244,7 @@ define('modules/course',[
         user: view.get('userTextField').get('value'),
         pass: view.get('passTextField').get('value'),
       }
-      var model = Course.CourseSummary.createRecord(newCourse);
+      var model = app.CourseSummary.createRecord(newCourse);
       model.store.commit();
       this.transitionToRoute('courses');
     },
@@ -46248,11 +46253,11 @@ define('modules/course',[
     }
   });
 
-  Course.CoursesAddView = Ember.View.extend({
+  app.CoursesAddView = Ember.View.extend({
     templateName: 'course-form',
   });
 
-  Course.CourseController = Ember.ObjectController.extend({
+  app.CourseController = Ember.ObjectController.extend({
     course_id: 0,
     allUserSummaries: [],
     userSummariesAbove: [],
@@ -46271,7 +46276,7 @@ define('modules/course',[
       var newUserName = this.get('newUserName');
       this.set('newUserName', '');
       var course_id = this.get('course_id');
-      var model = User.UserSummary.createRecord({user_name: newUserName, course_id: course_id, resource_status: "resource-missing"});
+      var model = app.UserSummary.createRecord({user_name: newUserName, course_id: course_id, resource_status: "resource-missing"});
       model.store.commit();
       this.resetUsers();
       this.transitionToRoute('course');
@@ -46306,7 +46311,7 @@ define('modules/course',[
       var course_id = this.get('course_id');
 
       // Collect all of the students to have their resources synced.
-      var users = User.UserSummary
+      var users = app.UserSummary
         .filter(function (data) {
           if (data.get('course_id') == course_id && data.get('is_student')) {
             return true;
@@ -46317,7 +46322,7 @@ define('modules/course',[
         });
 
       // Create the sync job.
-      var job = Ember.TW.Job.createRecord({
+      var job = app.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),
         type: 'resource',
         action: 'resourceSync',
@@ -46328,10 +46333,10 @@ define('modules/course',[
       });
       job.store.commit();
       job.on('didCreate', function(record) {
-        Ember.TW.JobComplete(job, callback);
+        app.JobComplete(job, callback);
       });
       job.on('becameError', function(record) {
-        Ember.TW.JobError(callback);
+        app.JobError(callback);
       });
     },
 
@@ -46351,7 +46356,7 @@ define('modules/course',[
       }
 
       // Find the already loaded users so we can reload them.
-      var users = User.User.filter(function(data) {
+      var users = app.User.filter(function(data) {
         if (data.get('course_id') != course_id) {
           return false;
         }
@@ -46366,13 +46371,13 @@ define('modules/course',[
       var models = users.toArray();
       var model = this.get('model');
       models.push(model);
-      var promise = Ember.reloadModels(models);
+      var promise = app.reloadModels(models);
       $.when(promise).then(callback, errorCallback);
     },
 
     resetUsers: function() {
       var course_id = this.get('course_id');
-      var users = User.UserSummary.filter(function (data) {
+      var users = app.UserSummary.filter(function (data) {
         if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
           return true;
         }
@@ -46382,7 +46387,7 @@ define('modules/course',[
       this.set('userSummariesBelow', []);
       this.set('userSelected', []);
 
-      var instructor = User.UserSummary.filter(function (data) {
+      var instructor = app.UserSummary.filter(function (data) {
         if (data.get('user_name') == 'instructor' && data.get('course_id') == course_id) {
           return true;
         }
@@ -46399,7 +46404,7 @@ define('modules/course',[
     }
   });
 
-  Course.CourseView = Ember.View.extend({
+  app.CourseView = Ember.View.extend({
     templateName: 'course',
     sortOptions: ['name', 'id'],
     css_class_syncing: function() {
@@ -46408,7 +46413,7 @@ define('modules/course',[
 
     syncAll: function(user_name) {
       var self = this;
-      alertify.confirm(Ember.globalStrings.confirmSyncAll, function confirmedSync(e) {
+      alertify.confirm(app.globalStrings.confirmSyncAll, function confirmedSync(e) {
         if (e) {
           self.set('syncing', true);
 
@@ -46434,50 +46439,42 @@ define('modules/course',[
       });
     }
   });
-
-  return Course;
 });
 
 require([
-  'ember-shim',
+  'ember',
   'ember-data',
   'jquery',
   'handlebars',
+  'app',
   'modules/job',
   'modules/resource',
   'modules/user',
   'modules/course'
-], function(Ember, DS, $, Handlebars, Job, Resource, User, Course) {
-  var TW = Ember.Application.create({LOG_TRANSITIONS: true});
-
-  TW.Job = Job;
-  TW.Resource = Resource;
-  TW.User = User;
-  TW.Course = Course;
-
+], function(Ember, DS, $, Handlebars, app, Job, Resource, User, Course) {
   ////
   // Ember Data Store.
   //
-  DS.RESTAdapter.configure('TW.User.UserSummary', {
+  DS.RESTAdapter.configure('App.UserSummary', {
     sideloadAs: 'users'
   });
 
   // Plurals are used when formatting the URLs, so if you have a
-  // TW.Course.CourseSummary, and you attempt to populate it using findAll(),
+  // app.Course.CourseSummary, and you attempt to populate it using findAll(),
   // the actual request will be GET /rest/course_summaries
   DS.RESTAdapter.configure('plurals', {
     course_summary: 'course_summaries',
     user_summary: 'user_summaries'
   });
 
-  TW.Store = DS.Store.extend({
+  app.Store = DS.Store.extend({
     revision: 11,
     adapter: DS.RESTAdapter.extend({
       namespace: 'rest',
     })
   });
 
-  TW.Router.map(function() {
+  app.Router.map(function() {
     this.route('index', { path: '/' });
     this.route('courses', { path: '/courses' });
     this.route('coursesAdd', { path: '/courses/add' });
@@ -46486,15 +46483,15 @@ require([
     });
   });
 
-  TW.IndexRoute = Ember.Route.extend({
+  app.IndexRoute = Ember.Route.extend({
     redirect: function() {
       this.transitionTo('courses');
     }
   });
 
-  TW.CoursesRoute = Ember.Route.extend({
+  app.CoursesRoute = Ember.Route.extend({
     model: function() {
-      return TW.Course.CourseSummary.find();
+      return app.CourseSummary.find();
     },
     events: {
       coursesAddAction: function() {
@@ -46503,30 +46500,30 @@ require([
     }
   });
 
-  TW.CoursesAddRoute = Ember.Route.extend({
+  app.CoursesAddRoute = Ember.Route.extend({
     enter: function() {
       // If we navigate directly to /courses/add, we won't have a populated
       // CourseSummary store yet, which causes duplication on /courses when
       // this is saved. Workaround is to make sure that the CourseSummaries
       // are loaded here.
-      Course.CourseSummary.find();
+      app.CourseSummary.find();
     }
   });
 
-  TW.CourseRoute = Ember.Route.extend({
+  app.CourseRoute = Ember.Route.extend({
     setupController: function(controller, model) {
       this._super.apply(arguments);
-      controller.set('content', Course.Course.find(model.id));
+      controller.set('content', app.Course.find(model.id));
       controller.set('course_id', model.id);
       controller.resetUsers();
     }
   });
 
-  TW.CourseUserRoute = Ember.Route.extend({
+  app.CourseUserRoute = Ember.Route.extend({
     setupController: function(controller, model) {
       this._super.apply(arguments);
       var userController = this.controllerFor('user');
-      userController.set('content', User.User.find(model.id));
+      userController.set('content', app.User.find(model.id));
       userController.bindResources(model.id);
 
       var courseController = this.controllerFor('course');
@@ -46535,10 +46532,6 @@ require([
       courseController.set('userController', userController);
     }
   });
-
-  // Expose the application to the Ember namespace so Ember can
-  // do its magic.
-  Ember.TW = TW;
 });
 
 define("main", function(){});

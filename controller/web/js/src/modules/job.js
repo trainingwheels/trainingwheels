@@ -1,14 +1,15 @@
-define(['ember-shim', 'ember-data'], function(Ember, DS) {
-  var Job = {};
-
-  Job.Job = DS.Model.extend({
+/**
+ * @fileoverview Job models and helper functions.
+ */
+define(['ember-data', 'app'], function(DS, app) {
+  app.Job = DS.Model.extend({
     course_id: DS.attr('number'),
     type: DS.attr('string'),
     action: DS.attr('string'),
     params: DS.attr('string'),
   });
 
-  Job.JobComplete = function(job, callback) {
+  app.JobComplete = function(job, callback) {
     // Artificially defer the delete callback so ember can
     // finish updating the model before we remove it.
     setTimeout(function() {
@@ -18,9 +19,7 @@ define(['ember-shim', 'ember-data'], function(Ember, DS) {
     callback(null);
   };
 
-  Job.JobError = function(callback) {
+  app.JobError = function(callback) {
     callback('Job could not be executed.');
   };
-
-  return Job;
 });
