@@ -134,7 +134,7 @@ $app->match('/login', function (Request $request) use ($app, $jsGet) {
     $form->bind($request);
 
     $data = $form->getData();
-    if ($data['name'] === $app['user']['name'] && $data['pass'] === $app['user']['pass']) {
+    if ($data['name'] === $app['tw.config']['user']['name'] && $data['pass'] === $app['tw.config']['user']['pass']) {
       $app['session']->set('user', array('username' => $username));
       return $app->redirect('/');
     }

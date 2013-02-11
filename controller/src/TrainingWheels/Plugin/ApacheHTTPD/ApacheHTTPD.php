@@ -15,9 +15,6 @@ class ApacheHTTPD extends PluginBase {
     $funcs = array(
 
       'userExists' => function($env, $user) {
-        $args = func_get_args();
-        array_shift($args);
-        Util::assertValidStrings('ApacheHTTPD::userExists', $args);
         $output = $env->getConn()->exec_get('grep "^' . $user . ':" /etc/passwd');
         return substr($output, 0, strlen($user) + 1) == $user . ':';
       },

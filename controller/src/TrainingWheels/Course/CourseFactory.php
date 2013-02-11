@@ -101,7 +101,7 @@ class CourseFactory extends Factory {
             throw new Exception("Unable to connect/login to server $host on port 22");
           }
         }
-        $course->env = new UbuntuEnv($conn);
+        $course->env = new UbuntuEnv($conn, $this->config['debug']);
         $course->env_type = 'ubuntu';
       break;
 
@@ -110,7 +110,7 @@ class CourseFactory extends Factory {
         if (!$conn->connect()) {
           throw new Exception("Unable to connect/login to server $host on port 22");
         }
-        $course->env = new CentosEnv($conn);
+        $course->env = new CentosEnv($conn, $this->config['debug']);
         $course->env_type = 'centos';
       break;
 

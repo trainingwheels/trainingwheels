@@ -15,7 +15,8 @@ class LinuxEnv extends TrainingEnv {
     return $this->conn;
   }
 
-  public function __construct(ServerConn $conn) {
+  public function __construct(ServerConn $conn, $debug) {
+    parent::__construct($debug);
     $this->conn = $conn;
     if (!$this->conn->exec_eq('sudo whoami', 'root')) {
       throw new Exception('The connection needs to have root or sudo access to the server.');
