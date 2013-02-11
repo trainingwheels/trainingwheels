@@ -74,5 +74,3 @@ Guest additions can be upgraded by doing the following (make sure you reboot if 
 2. `vagrant vbguest --do install`
 
 If you have this plugin installed, it will update guest additions automatically. Just make sure that you always compile them when your kernel changes.
-
-This is a test.
