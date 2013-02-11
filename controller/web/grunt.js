@@ -15,23 +15,10 @@ module.exports = function(grunt) {
       }
     },
 
-    // The handlebars task compiles all application templates into JavaScript
-    // functions using Handlebars templating engine.
-    //
-    // Since this task defaults to writing to the same file as the jst task,
-    // edit the debug task replacing jst with handlebars.
-    //
-    // The concat task depends on this file to exist, so if you decide to
-    // remove this, ensure concat is updated accordingly.
-    handlebars: {
-      'dist/debug/templates.js': ['tpl/**/*.tpl']
-    },
-
     concat: {
       dist: {
         src: [
           'js/vendor/almond/almond.js',
-          'dist/debug/templates.js',
           'dist/debug/require.js'
         ],
         dest: 'dist/debug/require.js',
