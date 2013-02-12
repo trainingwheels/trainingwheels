@@ -58,39 +58,6 @@ $app->register(new TwigServiceProvider(), array(
 $app->mount('/rest', new RESTControllerProvider());
 
 /**
- * Client-side JavaScript includes.
- */
-$jsGet = function($debug) {
-  $js = array(
-    '/js/src/app.js',
-    '/js/src/jquery_plugins.js',
-  );
-  if (!$debug) {
-    $js_min = array(
-      '/js/vendor/jquery/jquery-1.8.3.min.js',
-      '/js/vendor/underscore/underscore-min.js',
-      '/js/vendor/alertify/alertify.min.js',
-      '/js/vendor/handlebars/handlebars-1.0.rc.1.min.js',
-      '/js/vendor/ember/ember.min.js',
-      '/js/vendor/ember-data/ember-data.min.js',
-    );
-    $js = array_merge($js_min, $js);
-  }
-  else {
-    $js_full = array(
-      '/js/vendor/jquery/jquery-1.8.3.js',
-      '/js/vendor/underscore/underscore.js',
-      '/js/vendor/alertify/alertify.js',
-      '/js/vendor/handlebars/handlebars-1.0.rc.1.js',
-      '/js/vendor/ember/ember.js',
-      '/js/vendor/ember-data/ember-data.js',
-    );
-    $js = array_merge($js_full, $js);
-  }
-  return $js;
-};
-
-/**
  * Client-side Handlebars templates.
  */
 $tplGet = function() {
@@ -107,9 +74,11 @@ $tplGet = function() {
 /**
  * Main entry point for the application.
  */
-$app->get('/', function () use ($app, $jsGet, $tplGet) {
+$app->get('/', function () use ($app, $tplGet) {
   $vars = array(
-    'js' => $jsGet($app['debug']),
+    'js' => array(),
+    'debug' => $app['debug'],
+    'path' => $app['debug'] ? 'debug' : 'release',
     'tpl' => $tplGet(),
   );
   return $app['twig']->render('index.twig', $vars);
@@ -118,7 +87,7 @@ $app->get('/', function () use ($app, $jsGet, $tplGet) {
 /**
  * Login page for the application.
  */
-$app->match('/login', function (Request $request) use ($app, $jsGet) {
+$app->match('/login', function (Request $request) use ($app) {
   // No need to log in if we're already authenticated.
   if ($app['session']->get('user') !== NULL) {
     return $app->redirect('/');
