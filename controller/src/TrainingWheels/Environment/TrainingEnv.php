@@ -19,7 +19,7 @@ abstract class TrainingEnv {
   }
 
   /**
-   * Allows us to dynamically add methods to any subclass of TrainingEnv, giving
+   * Allows us to dynamically add methods to the Environment, giving
    * mixin-like abilities to the plugins.
    */
   public function __call($method, $args) {

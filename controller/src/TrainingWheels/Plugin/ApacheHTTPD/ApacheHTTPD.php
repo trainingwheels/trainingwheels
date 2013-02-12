@@ -12,16 +12,13 @@ class ApacheHTTPD extends PluginBase {
   }
 
   public function getEnvMixins($type) {
-    $funcs = array(
+    return array(
 
       'userExists' => function($env, $user) {
         $output = $env->getConn()->exec_get('grep "^' . $user . ':" /etc/passwd');
         return substr($output, 0, strlen($user) + 1) == $user . ':';
       },
-
     );
-
-    return $funcs;
   }
 
   public function getAnsibleConfig() {
