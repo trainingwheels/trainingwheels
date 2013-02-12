@@ -20,6 +20,30 @@
       action: command gem install animation --pre creates=/var/lib/gems/1.8/specifications/animation-0.1.alpha.3.gemspec
 
     ##
+    # Node.js install.
+    #
+    - name: Node.js | Package prerequisites for node.js
+      action: apt pkg=python-software-properties state=installed
+
+    - name: Node.js | Add the node.js PPA
+      action: command add-apt-repository -y ppa:chris-lea/node.js creates=/etc/apt/sources.list.d/chris-lea-node_js-precise.list
+
+    - name: Node.js | Update the apt cache for the new repository
+      action: apt update-cache=yes
+
+    - name: Node.js | Install nodejs and npm
+      action: apt pkg=$item state=installed
+      with_items:
+        - nodejs
+        - npm
+
+    - name: Node.js | Install grunt
+      action: command npm install -g grunt creates=/usr/local/bin/grunt
+
+    - name: Node.js | Install TW dev environment
+      action: command npm install chdir=$twdir/controller/web
+
+    ##
     # Misc fixes
     #
     - name: Prevent the stdin is not a tty error from appearing in Vagrant
