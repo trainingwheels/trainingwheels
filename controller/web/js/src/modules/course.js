@@ -67,6 +67,7 @@ define([
     allUserSummaries: [],
     userSummariesAbove: [],
     userSummariesBelow: [],
+    usersInFlight: [],
     userSelected: [],
     instructor: [],
     instructorSummary: [],
@@ -77,14 +78,39 @@ define([
       alertify.success('Refreshing the course');
     },
 
+    /**
+     * Helper function to remove the adding throbber once all
+     * users have been added or errored out.
+     */
+    userAdded: function(name) {
+      var inFlight = this.get('usersInFlight');
+      delete inFlight[inFlight.indexOf(name)];
+      inFlight.compact();
+      if (inFlight.toArray().length === 0) {
+        this.set('adding', false);
+      }
+    },
+
     addUser: function() {
-      var newUserName = this.get('newUserName');
-      this.set('newUserName', '');
-      var course_id = this.get('course_id');
+      var self = this;
+      var newUserName = self.get('newUserName');
+
+      self.set('adding', true);
+      self.set('newUserName', '');
+
+      var course_id = self.get('course_id');
       var model = app.UserSummary.createRecord({user_name: newUserName, course_id: course_id, resource_status: "resource-missing"});
       model.store.commit();
-      this.resetUsers();
-      this.transitionToRoute('course');
+      self.get('usersInFlight').push(newUserName);
+      model.on('didCreate', function() {
+        self.userAdded(newUserName);
+      });
+      model.on('becameError', function() {
+        self.userAdded(newUserName);
+      });
+
+      self.resetUsers();
+      self.transitionToRoute('course');
     },
 
     selectUser: function(user_id) {
@@ -212,6 +238,7 @@ define([
   app.CourseView = Ember.View.extend({
     templateName: 'course',
     sortOptions: ['name', 'id'],
+
     css_class_syncing: function() {
       return 'sync-wrapper' + (this.get('syncing') ? ' syncing' : '');
     }.property('syncing'),

@@ -71,6 +71,10 @@
   }
   #course-users-list {
     @include span-columns(12);
+
+    .tw-loading {
+      margin: 0.5em auto;
+    }
   }
   #course-users-bottom-tools {
     @include span-columns(12);

@@ -62,10 +62,14 @@
             {{view "App.UserSummaryView"}}
           {{/with}}
         {{/each}}
+
+        {{#if adding}}
+          <div class="tw-loading"></div>
+        {{/if}}
       </div>
       <div id="course-users-bottom-tools">
         {{view Ember.TextField placeholder="New user name" valueBinding="newUserName"}}
-        <button class="yellow-btn ss-icon ss-symbolicons-block"{{action addUser}}>adduser</button>
+        <button class="yellow-btn ss-icon ss-symbolicons-block"{{action "addUser"}}>adduser</button>
       </div>
     </div>
   {{else}}
