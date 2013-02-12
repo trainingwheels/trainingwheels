@@ -161,6 +161,9 @@
     - name: MongoDB | Configure PHP to use PECL MongoDB extension
       action: copy dest=/etc/php5/conf.d/mongo.ini src=files/etc-php5-conf-d-mongo-ini
 
+    - name: MongoDB | Restart Mongo now giving it time to listen for connections before the next playbook.
+      action: service name=mongodb state=restarted
+
     ##
     # Configuration for nginx
     #
@@ -225,6 +228,3 @@
 
     - name: Restart | php-fpm
       action: service name=php5-fpm state=restarted
-
-    - name: Restart | MongoDB
-      action: service name=mongodb state=restarted
