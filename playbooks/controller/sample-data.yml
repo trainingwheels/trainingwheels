@@ -16,9 +16,6 @@
     - name: Upload sample course data
       action: copy src=mongo-reset-data.js dest=/tmp/mongo-reset-data.js
 
-    - name: MongoDB | Wait for Mongo to be listening for connections. It preallocates some space that takes a while.
-      action: wait_for port=27017 delay=4 timeout=$mongo_restart_timeout
-
     - name: Insert sample Mongo course data
       action: command mongo -u trainingwheels -p $mongo_app_password trainingwheels /tmp/mongo-reset-data.js
 
