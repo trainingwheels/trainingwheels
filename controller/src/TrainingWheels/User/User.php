@@ -3,6 +3,7 @@
 namespace TrainingWheels\User;
 use TrainingWheels\Common\CachedObject;
 use TrainingWheels\Common\Util;
+use TrainingWheels\Environment\Environment;
 use Exception;
 
 abstract class User extends CachedObject {
@@ -37,7 +38,7 @@ abstract class User extends CachedObject {
    * may also be because someone has cleared the cache.
    *
    */
-  public function __construct(\TrainingWheels\Environment\TrainingEnv $env, $user_name, $user_id) {
+  public function __construct(Environment $env, $user_name, $user_id) {
     // Save the data that is passed to this object.
     $this->env = $env;
     $this->user_name = $user_name;

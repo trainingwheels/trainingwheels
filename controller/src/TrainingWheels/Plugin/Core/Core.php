@@ -17,4 +17,14 @@ class Core extends PluginBase {
       ),
     );
   }
+
+  public function mixinEnvironment($env, $type) {
+    $coreLinuxEnv = new CoreLinuxEnv();
+    if ($type == 'linux') {
+      $coreLinuxEnv->mixinLinuxEnv($env);
+    }
+    if ($type == 'ubuntu') {
+      $coreLinuxEnv->mixinUbuntuEnv($env);
+    }
+  }
 }

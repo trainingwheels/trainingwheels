@@ -18,18 +18,6 @@ abstract class PluginBase {
   }
 
   /**
-   * Mixin the environment functions.
-   */
-  public function mixinEnvironment($env, $type) {
-    $funcs = $this->getEnvMixins($type);
-    if ($funcs) {
-      foreach ($funcs as $key => $func) {
-        $env->$key = $func;
-      }
-    }
-  }
-
-  /**
    * Return the short type of this plugin, e.g. 'MySQL'
    */
   public function getType() {
@@ -94,9 +82,9 @@ abstract class PluginBase {
   }
 
   /**
-   * Override in sub class if you provide Env mixins.
+   * Override in sub class if you provide Environment mixins.
    */
-  public function getEnvMixins($type) {
+  public function mixinEnvironment($env, $type) {
     return FALSE;
   }
 }

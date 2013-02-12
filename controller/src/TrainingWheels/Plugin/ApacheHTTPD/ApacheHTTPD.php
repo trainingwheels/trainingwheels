@@ -11,16 +11,6 @@ class ApacheHTTPD extends PluginBase {
     $this->ansible_play = __DIR__ . '/ansible/apachehttpd.yml';
   }
 
-  public function getEnvMixins($type) {
-    return array(
-
-      'userExists' => function($env, $user) {
-        $output = $env->getConn()->exec_get('grep "^' . $user . ':" /etc/passwd');
-        return substr($output, 0, strlen($user) + 1) == $user . ':';
-      },
-    );
-  }
-
   public function getAnsibleConfig() {
     return array(
       'vars' => array(
@@ -34,5 +24,15 @@ class ApacheHTTPD extends PluginBase {
         'apache_directory' => '/twhome/*/*',
       ),
     );
+  }
+
+  public function mixinEnvironment($env, $type) {
+    $apacheLinuxEnv = new ApacheHTTPDLinuxEnv();
+    if ($type == 'centos') {
+      $apacheLinuxEnv->mixinCentosEnv($env);
+    }
+    if ($type == 'ubuntu') {
+      $apacheLinuxEnv->mixinUbuntuEnv($env);
+    }
   }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace TrainingWheels\Resource;
+use TrainingWheels\Environment\Environment;
 use Exception;
 
 class GitFilesResource extends Resource {
@@ -14,7 +15,7 @@ class GitFilesResource extends Resource {
   /**
    * Constructor.
    */
-  public function __construct(\TrainingWheels\Environment\TrainingEnv $env, $res_id, $title, $user_name, $course_name, $subdir, $repo, $default_branch = 'master') {
+  public function __construct(Environment $env, $res_id, $title, $user_name, $course_name, $subdir, $repo, $default_branch = 'master') {
     parent::__construct($env, $title, $user_name);
     $this->subdir = $subdir;
     $this->fullpath = "/twhome/$user_name/$subdir";

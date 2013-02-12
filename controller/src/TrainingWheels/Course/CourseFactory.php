@@ -4,12 +4,9 @@ namespace TrainingWheels\Course;
 use TrainingWheels\Common\Factory;
 use TrainingWheels\Conn\LocalServerConn;
 use TrainingWheels\Conn\SSHServerConn;
-use TrainingWheels\Course\DevCourse;
 use TrainingWheels\Course\DrupalCourse;
 use TrainingWheels\Course\NodejsCourse;
-use TrainingWheels\Environment\DevEnv;
-use TrainingWheels\Environment\CentosEnv;
-use TrainingWheels\Environment\UbuntuEnv;
+use TrainingWheels\Environment\Environment;
 use Exception;
 
 class CourseFactory extends Factory {
@@ -21,9 +18,19 @@ class CourseFactory extends Factory {
     $params = $this->data->find('course', array('id' => (int)$course_id));
 
     if ($params) {
-      $course = $this->buildCourse($params['course_type']);
-      $this->buildEnv($course, $params['env_type'], $params['host'], $params['user'], $params['pass']);
+      // Create a Connection object.
+      if ($params['host'] == 'localhost') {
+        $conn = new LocalServerConn(TRUE);
+      }
+      else {
+        $conn = new SSHServerConn($params['host'], 22,  $params['user'],  $params['pass'], TRUE);
+        if (!$conn->connect()) {
+          throw new Exception("Unable to connect/login to server $host on port 22");
+        }
+      }
 
+      // Create a Course object.
+      $course = $this->buildCourse($params['course_type']);
       $course->course_id = $course_id;
       $course->title = $params['title'];
       $course->description = $params['description'];
@@ -31,6 +38,11 @@ class CourseFactory extends Factory {
       $course->course_name = $params['course_name'];
       $course->uri = '/course/' . $params['id'];
 
+      // Create an Environment object.
+      $course->env = new Environment($conn, $this->config['debug']);
+      $course->env_type = $params['env_type'];
+
+      // Build the Plugins associated with this course.
       if (!isset($params['plugin_ids'])) {
         throw new Exception("The course has no plugins associated with it and cannot be loaded.");
       }
@@ -64,7 +76,8 @@ class CourseFactory extends Factory {
         $plugin->set($plugin_data);
         $plugins[] = $plugin;
 
-        $plugin->mixinEnvironment($course->env, 'ubuntu');
+        $plugin->mixinEnvironment($course->env, 'linux');
+        $plugin->mixinEnvironment($course->env, $course->env_type);
       }
       $course->setPlugins($plugins);
     }
@@ -84,40 +97,6 @@ class CourseFactory extends Factory {
     $params = $this->data->find('course', array('id' => 1));
     $course['plugin_ids'] = $params['plugin_ids'];
     return $this->data->insert('course', $course);
-  }
-
-  /**
-   * Environment buider.
-   */
-  protected function buildEnv(&$course, $type, $host, $user, $pass) {
-    switch ($type) {
-      case 'ubuntu':
-        if ($host == 'localhost') {
-          $conn = new LocalServerConn(TRUE);
-        }
-        else {
-          $conn = new SSHServerConn($host, 22, $user, $pass, TRUE);
-          if (!$conn->connect()) {
-            throw new Exception("Unable to connect/login to server $host on port 22");
-          }
-        }
-        $course->env = new UbuntuEnv($conn, $this->config['debug']);
-        $course->env_type = 'ubuntu';
-      break;
-
-      case 'centos':
-        $conn = new SSHServerConn($host, 22, $user, $pass, TRUE);
-        if (!$conn->connect()) {
-          throw new Exception("Unable to connect/login to server $host on port 22");
-        }
-        $course->env = new CentosEnv($conn, $this->config['debug']);
-        $course->env_type = 'centos';
-      break;
-
-      default:
-        throw new Exception("Environment type $type not found.");
-      break;
-    }
   }
 
   /**

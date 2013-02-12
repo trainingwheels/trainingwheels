@@ -20,4 +20,11 @@ class MySQL extends PluginBase {
       ),
     );
   }
+
+  public function mixinEnvironment($env, $type) {
+    if ($type == 'linux') {
+      $mySQLLinuxEnv = new mySQLLinuxEnv();
+      $mySQLLinuxEnv->mixinLinuxEnv($env);
+    }
+  }
 }

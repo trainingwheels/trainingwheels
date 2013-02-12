@@ -2,11 +2,15 @@
 
 namespace TrainingWheels\Environment;
 use TrainingWheels\Log\Log;
+use TrainingWheels\Conn\ServerConn;
 use BadMethodCallException;
 use ReflectionFunction;
 use Exception;
 
-abstract class TrainingEnv {
+class Environment {
+
+  // Connection to the environment.
+  protected $conn;
 
   // Debug setting.
   private $debug;
@@ -14,8 +18,53 @@ abstract class TrainingEnv {
   /**
    * Constructor.
    */
-  public function __construct($debug) {
+  public function __construct(ServerConn $conn, $debug) {
+    $this->conn = $conn;
     $this->debug = $debug;
+    if (!$this->conn->exec_eq('sudo whoami', 'root')) {
+      throw new Exception('The connection needs to have root or sudo access to the server.');
+    }
+  }
+
+  /**
+   * Return the connection instance.
+   */
+  public function getConn() {
+    return $this->conn;
+  }
+
+  /**
+   * Run the classroom ansible playbooks.
+   */
+  public function configure(array $plugins) {
+    $ansible_args_array = array(
+      '-c local',
+      '--sudo',
+    );
+    $ansible_args = implode(' ', $ansible_args_array);
+
+    // Get the playbooks that need to be run to configure this course.
+    foreach ($plugins as $plugin) {
+      $play = $plugin->getAnsiblePlay();
+
+      if ($play) {
+        $type = $plugin->getType();
+        $vars = '--extra-vars="' . $plugin->formatAnsibleVars() . '"';
+        $command = 'ansible-playbook ' . $ansible_args . ' ' . $vars . ' ' . $play;
+        $output = array();
+        $return = FALSE;
+
+        Log::log('=====================================================================', L_DEBUG);
+        Log::log("$type::configure:exec: $command", L_DEBUG);
+        exec($command, $output, $return);
+        $output_nice = implode("\n", $output);
+        Log::log("$type::configure:resp: $output_nice", L_DEBUG);
+
+        if ($return != 0) {
+          throw new Exception("Unable to run configuration for plugin \"$type\", see logs for more info.");
+        }
+      }
+    }
   }
 
   /**
@@ -37,7 +86,7 @@ abstract class TrainingEnv {
           $full_name = $namespace . '::' . $method;
 
           // count(args)+1 because we add $this just before actually calling it, below.
-          if ($refl->getNumberOfRequiredParameters() > count($args) + 1) {
+          if ($refl->getNumberOfRequiredParameters() > count($args)) {
             throw new Exception("Too few parameters passed to \"$full_name\"");
           }
 
@@ -52,7 +101,6 @@ abstract class TrainingEnv {
           Log::log($full_name, L_DEBUG);
         }
 
-        array_unshift($args, $this);
         return call_user_func_array($func, $args);
       }
       else {
