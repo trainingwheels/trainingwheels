@@ -5,12 +5,15 @@
   <title>Training Wheels Controller</title>
   <meta name="description" content="Training Wheels is an application for managing training environments.">
   <meta name="author" content="Four Kitchens">
-  <link href="/css/alertify.css" type="text/css" rel="stylesheet" />
-  <link href="/css/style.css" type="text/css" rel="stylesheet" />
-  <link href="/fonts/ss-social/ss-social.css" rel="stylesheet" />
-  <link href="/fonts/ss-symbolicons-block/ss-symbolicons-block.css" rel="stylesheet" />
-  <link href="/fonts/ss-standard/ss-standard.css" rel="stylesheet" />
+  <link href="/fonts/ss-symbolicons-block/ss-symbolicons-block.css" type="text/css" rel="stylesheet" />
+  <link href="/fonts/ss-standard/ss-standard.css" type="text/css" rel="stylesheet" />
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' type='text/css' rel='stylesheet' />
+  {% if debug %}
+  <link href="/css/alertify.css" type="text/css" rel="stylesheet" />
+  <link href="/dist/debug/style.css" type="text/css" rel="stylesheet" />
+  {% else %}
+  <link href="/dist/release/index.css" type="text/css" rel="stylesheet" />
+  {% endif %}
 </head>
 <body>
   {% for key, template in tpl %}
@@ -18,6 +21,8 @@
     {{ template|raw }}
   </script>
   {% endfor %}
+
+  <script src="dist/{{ path }}/require.js"></script>
 
   {% for j in js %}
   <script src="{{ j|raw }}" type="text/javascript"></script>
