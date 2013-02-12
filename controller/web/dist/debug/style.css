@@ -929,7 +929,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
 }
 #courses-dashboard #course-list .course-summary {
   border: 1px solid #d9d6d6;
-  width: 500px;
+  max-width: 500px;
   background-color: white;
   margin-bottom: 1em;
   padding: 1.5em;
