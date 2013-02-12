@@ -5,9 +5,8 @@ use TrainingWheels\Plugin\PluginBase;
 
 class Drupal extends PluginBase {
 
-  public function __construct() {
-    parent::__construct();
-    $this->ansible_play = __DIR__ . '/ansible/drupal.yml';
+  public function getProvisionSteps() {
+    return __DIR__ . '/provision/drupal.yml';
   }
 
   public function registerCourseObservers($course) {

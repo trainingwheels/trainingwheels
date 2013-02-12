@@ -36,7 +36,7 @@ class Environment {
   /**
    * Run the classroom ansible playbooks.
    */
-  public function configure(array $plugins) {
+  public function provision(array $plugins) {
     $ansible_args_array = array(
       '-c local',
       '--sudo',
@@ -45,7 +45,7 @@ class Environment {
 
     // Get the playbooks that need to be run to configure this course.
     foreach ($plugins as $plugin) {
-      $play = $plugin->getAnsiblePlay();
+      $play = $plugin->getProvisionSteps();
 
       if ($play) {
         $type = $plugin->getType();

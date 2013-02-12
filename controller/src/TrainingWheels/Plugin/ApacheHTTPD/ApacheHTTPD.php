@@ -6,12 +6,11 @@ use TrainingWheels\Common\Util;
 
 class ApacheHTTPD extends PluginBase {
 
-  public function __construct() {
-    parent::__construct();
-    $this->ansible_play = __DIR__ . '/ansible/apachehttpd.yml';
+  public function getProvisionSteps() {
+    return __DIR__ . '/provision/apachehttpd.yml';
   }
 
-  public function getAnsibleConfig() {
+  public function getProvisionConfig() {
     return array(
       'vars' => array(
         # apache virtual document roots, these two are closely related.

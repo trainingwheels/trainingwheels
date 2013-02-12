@@ -5,12 +5,11 @@ use TrainingWheels\Plugin\PluginBase;
 
 class MySQL extends PluginBase {
 
-  public function __construct() {
-    parent::__construct();
-    $this->ansible_play = __DIR__ . '/ansible/mysql.yml';
+  public function getProvisionSteps() {
+    return __DIR__ . '/provision/mysql.yml';
   }
 
-  public function getAnsibleConfig() {
+  public function getProvisionConfig() {
     return array(
       'vars' => array(
         'mysql_root_password' => NULL,

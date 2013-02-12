@@ -18,6 +18,6 @@ class ClassroomJob extends Job {
    */
   protected function classroomConfigure() {
     $course = $this->courseFactory->get($this->course_id);
-    $course->configure();
+    $course->provision();
   }
 }

@@ -70,7 +70,7 @@ class CourseFactory extends Factory {
         throw new Exception("The plugin type \"$key\" class cannot be loaded at \"$class\".");
       }
       $plugin = new $class();
-      $plugin->set($key, $data);
+      $plugin->set($data);
       $plugins[$key] = $plugin;
 
       $plugin->mixinEnvironment($course->env, 'linux');

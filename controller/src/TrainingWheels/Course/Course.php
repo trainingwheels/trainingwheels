@@ -71,10 +71,10 @@ class Course extends Observable {
   }
 
   /**
-   * Configure the environment. Typically runs the playbooks.
+   * Provision the environment. Typically runs the playbooks.
    */
-  public function configure() {
-    $this->env->configure($this->plugins);
+  public function provision() {
+    $this->env->provision($this->plugins);
   }
 
   /**
