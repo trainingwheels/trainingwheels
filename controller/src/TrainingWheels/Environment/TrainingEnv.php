@@ -25,9 +25,10 @@ abstract class TrainingEnv {
   public function __call($method, $args) {
     if (isset($this->$method)) {
       $func = $this->$method;
+
       if (is_callable($func)) {
-        // Ensure that the arguments we're calling the function with are sane.
-        // Calling these environment functions with empty strings can cause
+        // In debug mode, ensure that the arguments we're calling the function with
+        // are sane. Calling these environment functions with empty strings can cause
         // damage and is almost certainly a bug. PHP isn't strict enough about
         // enforcing certain things, so we have to do it ourselves.
         if ($this->debug) {
@@ -35,7 +36,7 @@ abstract class TrainingEnv {
           $namespace = $refl->getNamespaceName();
           $full_name = $namespace . '::' . $method;
 
-          // count+1 because we add $this just before calling it, below.
+          // count(args)+1 because we add $this just before actually calling it, below.
           if ($refl->getNumberOfRequiredParameters() > count($args) + 1) {
             throw new Exception("Too few parameters passed to \"$full_name\"");
           }
@@ -46,9 +47,6 @@ abstract class TrainingEnv {
                 throw new Exception("Invalid string arg passed to \"$full_name\"");
               }
             }
-          }
-          else {
-            throw new Exception("No parameters passed to \"$full_name\"");
           }
 
           Log::log($full_name, L_DEBUG);
