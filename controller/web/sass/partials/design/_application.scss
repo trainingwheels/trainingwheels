@@ -103,7 +103,7 @@ input[type=submit] {
 
 #top-header {
   @include gradient(darken($darkGray, 0%), darken($darkGray, 10%));
-  background: url(../images/dark-noise.png) repeat;
+  background: image-url('dark-noise.png') repeat;
   top: 0;
   width: 100%;
   min-height: 50px;
@@ -126,7 +126,7 @@ input[type=submit] {
   margin-left: 0;
   border-top: 1px solid $border;
   border-bottom: 1px solid $border;
-  background: url(../images/az_subtle.png) repeat;
+  background: image-url('az_subtle.png') repeat;
   color: $darkGray;
   padding:$base-line-height;
   font-size: 12px;
@@ -148,7 +148,7 @@ input[type=submit] {
 //Misc
 
 .tw-loading {
-  background: url(../images/loading.gif) no-repeat;
+  background: image-url('loading.gif') no-repeat;
   height: 31px;
   width: 31px;
   margin-left: auto;

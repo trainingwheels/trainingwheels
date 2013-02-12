@@ -13,7 +13,7 @@ img, video {
 
 @font-face {
   font-family: "BebasNeueRegular";
-  src: url('../fonts/bebas-neue/BebasNeue-webfont.woff') format('woff'), url('../fonts/bebas-neue/BebasNeue-webfont.ttf') format('truetype'), url('../fonts/bebas-neue/BebasNeue-webfont.eot') format('embedded-opentype'), url('../fonts/bebas-neue/BebasNeue-webfont.svg') format('svg');
+  src: url('../../fonts/bebas-neue/BebasNeue-webfont.woff') format('woff'), url('../../fonts/bebas-neue/BebasNeue-webfont.ttf') format('truetype'), url('../../fonts/bebas-neue/BebasNeue-webfont.eot') format('embedded-opentype'), url('../../fonts/bebas-neue/BebasNeue-webfont.svg') format('svg');
 }
 
 #tw-form, #course-form, #login-form {
@@ -413,7 +413,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   background: -webkit-gradient(linear, left top, left bottom, from(#4a4545), to(#302c2c));
   background: -moz-linear-gradient(top, #4a4545, #302c2c);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4a4545', endColorstr='#302c2c');
-  background: url('../images/dark-noise.png') repeat;
+  background: url('../../images/dark-noise.png') repeat;
   top: 0;
   width: 100%;
   min-height: 50px;
@@ -434,7 +434,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   margin-left: 0;
   border-top: 1px solid #d9d6d6;
   border-bottom: 1px solid #d9d6d6;
-  background: url('../images/az_subtle.png') repeat;
+  background: url('../../images/az_subtle.png') repeat;
   color: #4a4545;
   padding: 22px;
   font-size: 12px;
@@ -454,7 +454,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
 }
 
 .tw-loading {
-  background: url('../images/loading.gif') no-repeat;
+  background: url('../../images/loading.gif') no-repeat;
   height: 31px;
   width: 31px;
   margin-left: auto;
@@ -1038,7 +1038,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
 
   @font-face {
     font-family: "BebasNeueRegular";
-    src: url('../fonts/bebas-neue/BebasNeue-webfont.woff') format('woff'), url('../fonts/bebas-neue/BebasNeue-webfont.ttf') format('truetype'), url('../fonts/bebas-neue/BebasNeue-webfont.eot') format('embedded-opentype'), url('../fonts/bebas-neue/BebasNeue-webfont.svg') format('svg');
+    src: url('../../fonts/bebas-neue/BebasNeue-webfont.woff') format('woff'), url('../../fonts/bebas-neue/BebasNeue-webfont.ttf') format('truetype'), url('../../fonts/bebas-neue/BebasNeue-webfont.eot') format('embedded-opentype'), url('../../fonts/bebas-neue/BebasNeue-webfont.svg') format('svg');
 }
 
   #tw-form, #course-form, #login-form {
