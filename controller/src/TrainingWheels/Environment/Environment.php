@@ -69,7 +69,8 @@ class Environment {
 
   /**
    * Allows us to dynamically add methods to the Environment, giving
-   * mixin-like abilities to the plugins.
+   * mixin-like abilities to the plugins. They can also override or extend
+   * other plugin's methods quite easily.
    */
   public function __call($method, $args) {
     if (isset($this->$method)) {
@@ -84,12 +85,9 @@ class Environment {
           $refl = new ReflectionFunction($func);
           $namespace = $refl->getNamespaceName();
           $full_name = $namespace . '::' . $method;
-
-          // count(args)+1 because we add $this just before actually calling it, below.
           if ($refl->getNumberOfRequiredParameters() > count($args)) {
             throw new Exception("Too few parameters passed to \"$full_name\"");
           }
-
           if (is_array($args) && count($args) > 0) {
             foreach ($args as $arg) {
               if (!is_string($arg) || strlen($arg) < 2) {
@@ -97,7 +95,6 @@ class Environment {
               }
             }
           }
-
           Log::log($full_name, L_DEBUG);
         }
 
