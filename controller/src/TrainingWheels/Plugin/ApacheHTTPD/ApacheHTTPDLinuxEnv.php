@@ -15,7 +15,7 @@ class ApacheHTTPDLinuxEnv {
     /**
      * Add a user to the web server group.
      */
-    $env->userAddToWebGroup = function($user_name)  use ($env) {
+    $env->userAddToWebGroup = function($user_name) use ($env) {
       $env->userAddToGroup('www-data', $user_name);
     };
 
