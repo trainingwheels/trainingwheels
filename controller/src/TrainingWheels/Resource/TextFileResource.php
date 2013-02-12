@@ -3,6 +3,8 @@
 namespace TrainingWheels\Resource;
 use Exception;
 
+// @TODO: This must go into a plugin.
+
 class TextFileResource extends Resource {
 
   public $file_name;

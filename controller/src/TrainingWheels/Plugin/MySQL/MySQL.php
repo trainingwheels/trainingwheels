@@ -27,4 +27,8 @@ class MySQL extends PluginBase {
       $mySQLLinuxEnv->mixinLinuxEnv($env);
     }
   }
+
+  public function getResourceClass() {
+    return '\\TrainingWheels\\Plugin\\MySQL\\MySQLDatabaseResource';
+  }
 }

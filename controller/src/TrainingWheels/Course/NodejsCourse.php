@@ -5,6 +5,8 @@ use TrainingWheels\User\LAMPUser;
 use TrainingWheels\Resource\GitFilesResource;
 use TrainingWheels\Resource\MySQLDatabaseResource;
 
+// @TODO: This is obsolete, convert to new system.
+
 class NodejsCourse extends TrainingCourse {
 
   // The repository that contains the source.

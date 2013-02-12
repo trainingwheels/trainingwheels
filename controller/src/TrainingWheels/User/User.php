@@ -6,7 +6,7 @@ use TrainingWheels\Common\Util;
 use TrainingWheels\Environment\Environment;
 use Exception;
 
-abstract class User extends CachedObject {
+class User extends CachedObject {
 
   // User name.
   protected $user_name;

@@ -13,7 +13,21 @@ db.course.insert({
     "host": "localhost",
     "user": "",
     "pass": "",
-    "plugin_ids": []
+    "plugin_ids": [],
+    "resources": {
+      "drupal_files": {
+        "type": "GitFiles",
+        "title": "Code",
+        "default_branch": "master",
+        "subdir": "mycourse",
+        "repo_url": "https://github.com/fourkitchens/trainingwheels-drupal-files-example.git"
+      },
+      "drupal_db": {
+        "type": "MySQL",
+        "title": "Database",
+        "dump_path": "database.sql.gz",
+      }
+    }
 })
 
 db.counters.remove()
@@ -27,15 +41,11 @@ db.plugin.insert({
 db.plugin.insert({
   "type": "MySQL",
   "title": "Database",
-  "key": "drupal_db",
-  "dump_path": "database.sql.gz",
   "mysql_root_password": "tplqomnscy323e"
 })
 db.plugin.insert({
   "type": "GitFiles",
   "title": "Files",
-  "key": "drupal_files",
-  "repo_url": "https://github.com/fourkitchens/trainingwheels-drupal-files-example.git"
 })
 db.plugin.insert({
   "type": "ApacheHTTPD",

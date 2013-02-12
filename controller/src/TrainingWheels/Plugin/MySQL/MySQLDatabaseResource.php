@@ -1,6 +1,7 @@
 <?php
 
-namespace TrainingWheels\Resource;
+namespace TrainingWheels\Plugin\MySQL;
+use TrainingWheels\Resource\Resource;
 use TrainingWheels\Common\Util;
 use TrainingWheels\Environment\Environment;
 use Exception;
@@ -10,16 +11,16 @@ class MySQLDatabaseResource extends Resource {
   public $db_name;
   public $mysql_username;
   public $mysql_password;
-  public $course;
+  public $course_name;
   public $dump_path;
 
   /**
    * Constructor.
    */
-  public function __construct(Environment $env, $res_id, $title, $user_name, $course, $dump_path = FALSE) {
+  public function __construct(Environment $env, $title, $res_id, $user_name, $course_name, $data) {
     parent::__construct($env, $title, $user_name);
-    $this->course = $course;
-    $this->dump_path = $dump_path;
+    $this->course_name = $course_name;
+    $this->dump_path = "/twhome/$user_name/$course_name/" . $data['dump_path'];
 
     $this->cachePropertiesAdd(array('db_name', 'mysql_username', 'mysql_password'));
     $this->cacheBuild($res_id);
@@ -111,7 +112,7 @@ class MySQLDatabaseResource extends Resource {
     // user id instead.
     $user_id = $this->env->userGetId($this->user_name);
 
-    $name = $this->course . '_' . $user_id;
+    $name = $this->course_name . '_' . $user_id;
 
     // We turn all dashes into underscores, as dashes are illegal in DB names.
     $name = str_replace('-', '_', $name);

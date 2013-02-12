@@ -3,9 +3,10 @@
 namespace TrainingWheels\Course;
 use TrainingWheels\Log\Log;
 use TrainingWheels\Common\Observable;
+use TrainingWheels\User\User;
 use Exception;
 
-abstract class TrainingCourse extends Observable {
+class Course extends Observable {
   // An instance of course TrainingEnv.
   public $env;
 
@@ -18,6 +19,9 @@ abstract class TrainingCourse extends Observable {
   // Plugins associated with this course.
   protected $plugins;
 
+  // Resource information.
+  protected $resources;
+
   public function setPlugins(array $plugins) {
     $this->plugins = $plugins;
   }
@@ -26,8 +30,26 @@ abstract class TrainingCourse extends Observable {
     return $this->plugins;
   }
 
-  // Factory method for creating user objects, needs to be provided by subclass.
-  abstract protected function userFactory($user_name);
+  public function setResources(array $resources) {
+    $this->resources = $resources;
+  }
+
+  /**
+   * Factory that creates new user objects for this course.
+   */
+  protected function userFactory($user_name) {
+    $user_id = $this->course_id . '-' . $user_name;
+    $user_obj = new User($this->env, $user_name, $user_id);
+
+    $user_res = array();
+    foreach ($this->resources as $key => $res) {
+      $user_res_id = $user_id . '-' . $key;
+      $user_res[$key] = $this->plugins[$res['type']]->resourceFactory($this->env, $res['title'], $user_res_id, $user_name, $this->course_name, $res);
+    }
+    $user_obj->resources = $user_res;
+
+    return $user_obj;
+  }
 
   /**
    * Used by various functions to normalize the $users parameter.
@@ -96,6 +118,7 @@ abstract class TrainingCourse extends Observable {
         return FALSE;
       }
       $user_obj->create();
+      $this->fireEvent('afterOneUserCreate', array('course' => $this, 'user' => $user_obj));
     }
     $this->fireEvent('afterUsersCreate', array('course' => $this));
     return TRUE;

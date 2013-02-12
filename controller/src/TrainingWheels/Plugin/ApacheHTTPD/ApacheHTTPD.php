@@ -37,9 +37,18 @@ class ApacheHTTPD extends PluginBase {
   }
 
   public function registerCourseObservers($course) {
-    // After users are added, restart Apache.
+    /**
+     * After users are added, restart Apache.
+     */
     $course->addObserver('afterUsersCreate', function($data) {
       $data['course']->env->apacheHTTPDRestart();
+    });
+
+    /**
+     * After users are added, restart Apache.
+     */
+    $course->addObserver('afterOneUserCreate', function($data) {
+      $data['course']->env->userAddToWebGroup($data['user']->getName());
     });
   }
 }

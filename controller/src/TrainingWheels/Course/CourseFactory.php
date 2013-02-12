@@ -4,8 +4,6 @@ namespace TrainingWheels\Course;
 use TrainingWheels\Common\Factory;
 use TrainingWheels\Conn\LocalServerConn;
 use TrainingWheels\Conn\SSHServerConn;
-use TrainingWheels\Course\DrupalCourse;
-use TrainingWheels\Course\NodejsCourse;
 use TrainingWheels\Environment\Environment;
 use Exception;
 
@@ -30,13 +28,17 @@ class CourseFactory extends Factory {
       }
 
       // Create a Course object.
-      $course = $this->buildCourse($params['course_type']);
+      $course = new Course();
+      $course->course_type = $params['course_type'];
       $course->course_id = $course_id;
       $course->title = $params['title'];
       $course->description = $params['description'];
       $course->repo = $params['repo'];
       $course->course_name = $params['course_name'];
       $course->uri = '/course/' . $params['id'];
+
+      // Set the resources information for use by the factory method.
+      $course->setResources($params['resources']);
 
       // Create an Environment object.
       $course->env = new Environment($conn, $this->config['debug']);
@@ -74,7 +76,7 @@ class CourseFactory extends Factory {
         }
         $plugin = new $class();
         $plugin->set($plugin_data);
-        $plugins[] = $plugin;
+        $plugins[$type] = $plugin;
 
         $plugin->mixinEnvironment($course->env, 'linux');
         $plugin->mixinEnvironment($course->env, $course->env_type);
@@ -99,27 +101,5 @@ class CourseFactory extends Factory {
     $params = $this->data->find('course', array('id' => 1));
     $course['plugin_ids'] = $params['plugin_ids'];
     return $this->data->insert('course', $course);
-  }
-
-  /**
-   * Course builder.
-   */
-  protected function buildCourse($type) {
-    switch ($type) {
-      case 'drupal':
-        $course = new DrupalCourse();
-        $course->course_type = 'drupal';
-      break;
-
-      case 'nodejs':
-        $course = new NodejsCourse();
-        $course->course_type = 'nodejs';
-      break;
-
-      default:
-        throw new Exception("Course type $type not found.");
-      break;
-    }
-    return $course;
   }
 }

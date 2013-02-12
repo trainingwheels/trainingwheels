@@ -18,6 +18,15 @@ abstract class PluginBase {
   }
 
   /**
+   * Get the resource object for this plugin.
+   */
+  public function resourceFactory($env, $title, $res_id, $user_name, $course_name, $data) {
+    $class = $this->getResourceClass();
+    $obj = new $class($env, $title, $res_id, $user_name, $course_name, $data);
+    return $obj;
+  }
+
+  /**
    * Return the short type of this plugin, e.g. 'MySQL'
    */
   public function getType() {

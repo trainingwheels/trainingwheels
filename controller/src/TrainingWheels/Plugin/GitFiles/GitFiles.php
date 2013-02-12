@@ -16,4 +16,8 @@ class GitFiles extends PluginBase {
       $gitFilesLinuxEnv->mixinLinuxEnv($env);
     }
   }
+
+  public function getResourceClass() {
+    return '\\TrainingWheels\\Plugin\\GitFiles\\GitFilesResource';
+  }
 }
