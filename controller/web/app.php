@@ -116,6 +116,7 @@ $app->match('/login', function (Request $request) use ($app) {
     'js' => array(
       '/js/vendor/alertify/alertify.min.js',
     ),
+    'debug' => $app['debug'],
     'messages' => $messages,
     'form' => $form->createView()
   );
