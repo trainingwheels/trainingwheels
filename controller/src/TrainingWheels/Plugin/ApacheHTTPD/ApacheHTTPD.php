@@ -45,7 +45,7 @@ class ApacheHTTPD extends PluginBase {
     });
 
     /**
-     * After users are added, restart Apache.
+     * Add user to web group after creation.
      */
     $course->addObserver('afterOneUserCreate', function($data) {
       $data['course']->env->userAddToWebGroup($data['user']->getName());
