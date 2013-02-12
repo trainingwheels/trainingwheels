@@ -4,7 +4,6 @@ namespace TrainingWheels\Plugin;
 
 abstract class PluginBase {
   protected $location;
-  protected $title;
 
   protected $ansible_play;
   protected $ansible_vars;
@@ -40,8 +39,6 @@ abstract class PluginBase {
    * override the default config the plugin provides.
    */
   public function set($data) {
-    $this->title = $data['title'];
-
     $ansible_config = $this->getAnsibleConfig();
 
     if ($ansible_config) {

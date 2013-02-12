@@ -38,17 +38,19 @@ class CourseFactory extends Factory {
       $course->uri = '/course/' . $params['id'];
 
       // Set the resources information for use by the factory method.
-      $course->setResources($params['resources']);
+      if (isset($params['resources'])) {
+        $course->setResources($params['resources']);
+      }
 
       // Create an Environment object.
       $course->env = new Environment($conn, $this->config['debug']);
       $course->env_type = $params['env_type'];
 
       // Build the Plugins associated with this course.
-      if (!isset($params['plugin_ids'])) {
+      if (!isset($params['plugins'])) {
         throw new Exception("The course has no plugins associated with it and cannot be loaded.");
       }
-      $this->buildPlugins($course, $params['plugin_ids']);
+      $this->buildPlugins($course, $params['plugins']);
 
       return $course;
     }
@@ -60,31 +62,23 @@ class CourseFactory extends Factory {
   /**
    * Attach plugins.
    */
-  protected function buildPlugins(&$course, array $plugin_ids = array()) {
-    if (!empty($plugin_ids)) {
-      $plugins = array();
-      foreach ($plugin_ids as $plugin_id) {
-        $plugin_data = $this->data->find('plugin', array('_id' => $plugin_id));
-        if (!$plugin_data) {
-          throw new Exception("The course references a plugin with id \"$plugin_id\" that doesn't exist in the data store.");
-        }
-
-        $type = $plugin_data['type'];
-        $class = '\TrainingWheels\Plugin\\' . $type . '\\' . $type;
-        if (!class_exists($class)) {
-          throw new Exception("The plugin with id \"$plugin_id\" has type \"$type\", but this class cannot be loaded at \"$class\".");
-        }
-        $plugin = new $class();
-        $plugin->set($plugin_data);
-        $plugins[$type] = $plugin;
-
-        $plugin->mixinEnvironment($course->env, 'linux');
-        $plugin->mixinEnvironment($course->env, $course->env_type);
-
-        $plugin->registerCourseObservers($course);
+  protected function buildPlugins(&$course, $plugin_data) {
+    $plugins = array();
+    foreach ($plugin_data as $key => $data) {
+      $class = '\TrainingWheels\Plugin\\' . $key . '\\' . $key;
+      if (!class_exists($class)) {
+        throw new Exception("The plugin type \"$key\" class cannot be loaded at \"$class\".");
       }
-      $course->setPlugins($plugins);
+      $plugin = new $class();
+      $plugin->set($key, $data);
+      $plugins[$key] = $plugin;
+
+      $plugin->mixinEnvironment($course->env, 'linux');
+      $plugin->mixinEnvironment($course->env, $course->env_type);
+
+      $plugin->registerCourseObservers($course);
     }
+    $course->setPlugins($plugins);
   }
 
   /**
@@ -99,7 +93,7 @@ class CourseFactory extends Factory {
    */
   public function save($course) {
     $params = $this->data->find('course', array('id' => 1));
-    $course['plugin_ids'] = $params['plugin_ids'];
+    $course['plugins'] = $params['plugins'];
     return $this->data->insert('course', $course);
   }
 }
