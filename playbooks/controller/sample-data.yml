@@ -16,7 +16,7 @@
     - name: Upload sample course data
       action: copy src=mongo-reset-data.js dest=/tmp/mongo-reset-data.js
 
-    - name: MongoDB | Wait for Mongo to be listening for connections. It preallocates some space that takes a while.
+    - name: MongoDB | Wait for Mongo to be listening for connections. It is restarted as the last step of the controller playbook and can take a while to come up in EC2.
       action: wait_for port=27017 delay=4 timeout=$mongo_restart_timeout
 
     - name: Insert sample Mongo course data
