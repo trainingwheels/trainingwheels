@@ -33,9 +33,7 @@ module.exports = function(grunt) {
     mincss: {
       'dist/release/index.css': [
         'css/alertify.css',
-        'dist/release/style.css',
-        'fonts/ss-symbolicons-block/ss-symbolicons-block.css',
-        'fonts/ss-standard/ss-standard.css'
+        'dist/release/style.css'
       ]
     },
 
@@ -49,8 +47,9 @@ module.exports = function(grunt) {
           'aurora',
           'animation'
         ],
-        debugsass: true,
+        debugsass: false,
         images: 'images',
+        fonts: 'fonts',
         relativeassets: true
       },
       prod: {
@@ -65,6 +64,7 @@ module.exports = function(grunt) {
         ],
         debugsass: false,
         images: 'images',
+        fonts: 'fonts',
         relativeassets: true
       }
     },
