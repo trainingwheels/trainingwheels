@@ -15,8 +15,8 @@ class JobFactory extends Factory {
   /**
    * Constructor.
    */
-  public function __construct(DataStore $data, CourseFactory $courseFactory) {
-    parent::__construct($data);
+  public function __construct(DataStore $data, CourseFactory $courseFactory, array $config) {
+    parent::__construct($data, $config);
     $this->courseFactory = $courseFactory;
   }
 

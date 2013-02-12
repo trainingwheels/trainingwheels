@@ -2,9 +2,10 @@
 
 namespace TrainingWheels\Course;
 use TrainingWheels\Log\Log;
+use TrainingWheels\Common\Observable;
 use Exception;
 
-abstract class TrainingCourse {
+abstract class TrainingCourse extends Observable {
   // An instance of course TrainingEnv.
   public $env;
 
@@ -96,6 +97,7 @@ abstract class TrainingCourse {
       }
       $user_obj->create();
     }
+    $this->fireEvent('afterUsersCreate', array('course' => $this));
     return TRUE;
   }
 
@@ -115,7 +117,7 @@ abstract class TrainingCourse {
   }
 
   /**
-   * Sync resources for a user.
+   * Sync resources for users.
    */
   public function usersResourcesSync($source_user, $target_users, $resources) {
     $target_users = $this->userNormalizeParam($target_users);
@@ -126,6 +128,8 @@ abstract class TrainingCourse {
     foreach ($target_users as $user_name) {
       $target_user_obj = $this->userFactory($user_name);
       $source_user_obj->syncTo($target_user_obj, $resources);
+
+      $this->fireEvent('afterUserResourcesSync', array('course' => $this, 'source' => $source_user_obj, 'target' => $target_user_obj));
     }
   }
 
@@ -138,6 +142,8 @@ abstract class TrainingCourse {
     foreach ($users as $user_name) {
       $user_obj = $this->userFactory($user_name);
       $user_obj->resourcesCreate($resources);
+
+      $this->fireEvent('afterUserResourcesCreate', array('course' => $this, 'user' => $user_obj, 'resources' => $resources));
     }
   }
 

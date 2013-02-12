@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Plugin\ApacheHTTPD;
 use TrainingWheels\Plugin\PluginBase;
+use TrainingWheels\Common\Util;
 
 class ApacheHTTPD extends PluginBase {
 
@@ -23,5 +24,22 @@ class ApacheHTTPD extends PluginBase {
         'apache_directory' => '/twhome/*/*',
       ),
     );
+  }
+
+  public function mixinEnvironment($env, $type) {
+    $apacheLinuxEnv = new ApacheHTTPDLinuxEnv();
+    if ($type == 'centos') {
+      $apacheLinuxEnv->mixinCentosEnv($env);
+    }
+    if ($type == 'ubuntu') {
+      $apacheLinuxEnv->mixinUbuntuEnv($env);
+    }
+  }
+
+  public function registerCourseObservers($course) {
+    // After users are added, restart Apache.
+    $course->addObserver('afterUsersCreate', function($data) {
+      $data['course']->env->apacheHTTPDRestart();
+    });
   }
 }

@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Resource;
 use TrainingWheels\Common\Util;
+use TrainingWheels\Environment\Environment;
 use Exception;
 
 class MySQLDatabaseResource extends Resource {
@@ -15,7 +16,7 @@ class MySQLDatabaseResource extends Resource {
   /**
    * Constructor.
    */
-  public function __construct(\TrainingWheels\Environment\TrainingEnv $env, $res_id, $title, $user_name, $course, $dump_path = FALSE) {
+  public function __construct(Environment $env, $res_id, $title, $user_name, $course, $dump_path = FALSE) {
     parent::__construct($env, $title, $user_name);
     $this->course = $course;
     $this->dump_path = $dump_path;

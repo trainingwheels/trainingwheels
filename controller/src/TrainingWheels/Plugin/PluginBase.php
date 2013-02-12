@@ -80,4 +80,18 @@ abstract class PluginBase {
   public function getAnsibleConfig() {
     return FALSE;
   }
+
+  /**
+   * Override in sub class if you provide Environment mixins.
+   */
+  public function mixinEnvironment($env, $type) {
+    return FALSE;
+  }
+
+  /**
+   * Override in sub class if you register observers on the Course.
+   */
+  public function registerCourseObservers($course) {
+    return FALSE;
+  }
 }
