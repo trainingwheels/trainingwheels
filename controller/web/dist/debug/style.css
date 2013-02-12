@@ -824,6 +824,9 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
   margin-right: 1.69492%;
   display: inline;
 }
+#course-users #course-users-list .tw-loading, #course-instructor #course-users-list .tw-loading {
+  margin: 0.5em auto;
+}
 #course-users #course-users-bottom-tools, #course-instructor #course-users-bottom-tools {
   width: 100%;
   float: left;
@@ -929,7 +932,7 @@ input[type=submit]:active, .submit:active, input[type=submit].active, .active.su
 }
 #courses-dashboard #course-list .course-summary {
   border: 1px solid #d9d6d6;
-  width: 500px;
+  max-width: 500px;
   background-color: white;
   margin-bottom: 1em;
   padding: 1.5em;
