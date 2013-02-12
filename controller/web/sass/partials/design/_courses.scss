@@ -17,7 +17,7 @@
   #course-list {
     .course-summary {
       border: 1px solid $border;
-      width: 500px;
+      max-width: 500px;
       background-color: $white;
       margin-bottom: 1em;
       padding: 1.5em;
