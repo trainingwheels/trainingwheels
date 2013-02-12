@@ -50,6 +50,13 @@ abstract class User extends CachedObject {
   }
 
   /**
+   * Get the name.
+   */
+  public function getName() {
+    return $this->user_name;
+  }
+
+  /**
    * Create this user.
    */
   public function create() {

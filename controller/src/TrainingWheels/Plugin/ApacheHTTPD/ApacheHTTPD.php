@@ -35,4 +35,11 @@ class ApacheHTTPD extends PluginBase {
       $apacheLinuxEnv->mixinUbuntuEnv($env);
     }
   }
+
+  public function registerCourseObservers($course) {
+    // After users are added, restart Apache.
+    $course->addObserver('afterUsersCreate', function($data) {
+      $data['course']->env->apacheHTTPDRestart();
+    });
+  }
 }

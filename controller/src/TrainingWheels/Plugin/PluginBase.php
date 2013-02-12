@@ -87,4 +87,11 @@ abstract class PluginBase {
   public function mixinEnvironment($env, $type) {
     return FALSE;
   }
+
+  /**
+   * Override in sub class if you register observers on the Course.
+   */
+  public function registerCourseObservers($course) {
+    return FALSE;
+  }
 }

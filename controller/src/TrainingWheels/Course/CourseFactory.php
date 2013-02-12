@@ -78,6 +78,8 @@ class CourseFactory extends Factory {
 
         $plugin->mixinEnvironment($course->env, 'linux');
         $plugin->mixinEnvironment($course->env, $course->env_type);
+
+        $plugin->registerCourseObservers($course);
       }
       $course->setPlugins($plugins);
     }
