@@ -36,7 +36,7 @@
       action: template src=templates/etc-apache2-sites-available-trainingwheels.j2 dest=/etc/apache2/sites-available/trainingwheels
 
     - name: ApacheHTTPD | Disable the default site
-      action: command a2dissite default removes=/etc/apache2/sites-enabled/default
+      action: command a2dissite default removes=/etc/apache2/sites-enabled/000-default
 
     - name: ApacheHTTPD | Enable our new site
       action: command a2ensite trainingwheels creates=/etc/apache2/sites-enabled/trainingwheels
