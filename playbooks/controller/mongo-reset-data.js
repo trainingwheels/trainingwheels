@@ -2,7 +2,7 @@
 // Remove all Mongo data and insert some sample data.
 //
 // We are not using Mongo and Nodejs plugins in the sample right now. They work,
-//  but cause issues because the controller uses Mongo too, and the playbook
+// but cause issues because the controller uses Mongo too, and the playbook
 // restarts it, throwing an exception. They should be used only on SSH connections.
 
 db.course.remove()
@@ -32,14 +32,16 @@ db.course.insert({
     },
     "resources": {
       "drupal_files": {
-        "type": "GitFiles",
+        "type": "GitFilesResource",
+        "plugin": "GitFiles",
         "title": "Code",
         "default_branch": "master",
         "subdir": "mycourse",
         "repo_url": "https://github.com/fourkitchens/trainingwheels-drupal-files-example.git"
       },
       "drupal_db": {
-        "type": "MySQL",
+        "type": "MySQLDatabaseResource",
+        "plugin": "MySQL",
         "title": "Database",
         "dump_path": "database.sql.gz",
       }

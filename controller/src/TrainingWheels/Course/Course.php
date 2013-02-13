@@ -19,8 +19,8 @@ class Course extends Observable {
   // Plugins associated with this course.
   protected $plugins;
 
-  // Resource information.
-  protected $resources;
+  // Resource config.
+  protected $resource_config;
 
   public function setPlugins(array $plugins) {
     $this->plugins = $plugins;
@@ -30,8 +30,8 @@ class Course extends Observable {
     return $this->plugins;
   }
 
-  public function setResources(array $resources) {
-    $this->resources = $resources;
+  public function setResourceConfig(array $resource_config) {
+    $this->resource_config = $resource_config;
   }
 
   /**
@@ -41,10 +41,14 @@ class Course extends Observable {
     $user_id = $this->course_id . '-' . $user_name;
     $user_obj = new User($this->env, $user_name, $user_id);
 
+    // Each user object must receive resource objects too. These are created
+    // based on the course's resources config.
     $user_res = array();
-    foreach ($this->resources as $key => $res) {
+    foreach ($this->resource_config as $key => $res) {
       $user_res_id = $user_id . '-' . $key;
-      $user_res[$key] = $this->plugins[$res['type']]->resourceFactory($this->env, $res['title'], $user_res_id, $user_name, $this->course_name, $res);
+      $plugin = $this->plugins[$res['plugin']];
+
+      $user_res[$key] = $plugin->resourceFactory($res['type'], $this->env, $res['title'], $user_res_id, $user_name, $this->course_name, $res);
     }
     $user_obj->resources = $user_res;
 

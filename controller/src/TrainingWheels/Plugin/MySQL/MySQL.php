@@ -27,7 +27,9 @@ class MySQL extends PluginBase {
     }
   }
 
-  public function getResourceClass() {
-    return '\\TrainingWheels\\Plugin\\MySQL\\MySQLDatabaseResource';
+  public function getResourceClasses() {
+    return array(
+      'MySQLDatabaseResource' => '\\TrainingWheels\\Plugin\\MySQL\\MySQLDatabaseResource',
+    );
   }
 }

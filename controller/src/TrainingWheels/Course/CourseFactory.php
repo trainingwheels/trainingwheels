@@ -37,9 +37,9 @@ class CourseFactory extends Factory {
       $course->course_name = $params['course_name'];
       $course->uri = '/course/' . $params['id'];
 
-      // Set the resources information for use by the factory method.
+      // Set the resources config for use by the user factory method.
       if (isset($params['resources'])) {
-        $course->setResources($params['resources']);
+        $course->setResourceConfig($params['resources']);
       }
 
       // Create an Environment object.
@@ -65,7 +65,7 @@ class CourseFactory extends Factory {
   protected function buildPlugins(&$course, $plugin_data) {
     $plugins = array();
     foreach ($plugin_data as $key => $data) {
-      $class = '\TrainingWheels\Plugin\\' . $key . '\\' . $key;
+      $class = '\\TrainingWheels\\Plugin\\' . $key . '\\' . $key;
       if (!class_exists($class)) {
         throw new Exception("The plugin type \"$key\" class cannot be loaded at \"$class\".");
       }

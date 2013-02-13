@@ -1,9 +1,8 @@
 <?php
 
 namespace TrainingWheels\Resource;
+use TrainingWheels\Environment\Environment;
 use Exception;
-
-// @TODO: This must go into a plugin.
 
 class TextFileResource extends Resource {
 
@@ -14,12 +13,13 @@ class TextFileResource extends Resource {
   /**
    * Constructor.
    */
-  public function __construct(\TrainingWheels\Environment\TrainingEnv $env, $title, $user_name, $file_name, $base_path, $contents) {
+  public function __construct(Environment $env, $title, $res_id, $user_name, $course_name, $data) {
     parent::__construct($env, $title, $user_name);
-    $this->file_name = $file_name;
-    $this->base_path = $base_path;
-    $this->full_path = $base_path . '/' . $user_name . '/' . $file_name;
-    $this->contents = $contents;
+
+    $this->file_name = $data['file_name'];
+    $this->base_path = $data['base_path'];
+    $this->full_path = $data['base_path'] . '/' . $user_name . '/' . $data['file_name'];
+    $this->contents = $data['contents'];
   }
 
   /**

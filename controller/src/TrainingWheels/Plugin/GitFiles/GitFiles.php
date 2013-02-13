@@ -16,7 +16,9 @@ class GitFiles extends PluginBase {
     }
   }
 
-  public function getResourceClass() {
-    return '\\TrainingWheels\\Plugin\\GitFiles\\GitFilesResource';
+  public function getResourceClasses() {
+    return array(
+      'GitFilesResource' => '\\TrainingWheels\\Plugin\\GitFiles\\GitFilesResource',
+    );
   }
 }

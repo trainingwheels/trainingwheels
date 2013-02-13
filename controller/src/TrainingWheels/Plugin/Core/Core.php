@@ -26,4 +26,10 @@ class Core extends PluginBase {
       $coreLinuxEnv->mixinUbuntuEnv($env);
     }
   }
+
+  public function getResourceClasses() {
+    return array(
+      'TextFileResource' => '\\TrainingWheels\\Plugin\\Core\\TextFileResource',
+    );
+  }
 }

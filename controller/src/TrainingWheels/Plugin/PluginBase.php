@@ -3,8 +3,8 @@
 namespace TrainingWheels\Plugin;
 
 abstract class PluginBase {
-  protected $location;
 
+  protected $location;
   protected $provision_vars;
 
   /**
@@ -17,8 +17,9 @@ abstract class PluginBase {
   /**
    * Get the resource object for this plugin.
    */
-  public function resourceFactory($env, $title, $res_id, $user_name, $course_name, $data) {
-    $class = $this->getResourceClass();
+  public function resourceFactory($type, $env, $title, $res_id, $user_name, $course_name, $data) {
+    $classes = $this->getResourceClasses();
+    $class = $classes[$type];
     $obj = new $class($env, $title, $res_id, $user_name, $course_name, $data);
     return $obj;
   }
