@@ -62,9 +62,9 @@ abstract class PluginBase {
   }
 
   /**
-   * Format the Ansible variables for inclusion in the play.
+   * Turn the vars into a string of key=value entries.
    */
-  public function formatAnsibleVars() {
+  public function formatVarsString() {
     $output = '';
     foreach ($this->provision_vars as $key => $value) {
       $output .= "$key=$value ";

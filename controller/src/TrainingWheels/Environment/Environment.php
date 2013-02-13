@@ -34,7 +34,7 @@ class Environment {
   }
 
   /**
-   * Run the course ansible playbooks.
+   * Provision the course.
    */
   public function provision(array $plugins) {
     $ansible_args_array = array(
@@ -49,7 +49,7 @@ class Environment {
 
       if ($play) {
         $type = $plugin->getType();
-        $vars = '--extra-vars="' . $plugin->formatAnsibleVars() . '"';
+        $vars = '--extra-vars="' . $plugin->formatVarsString() . '"';
         $command = 'ansible-playbook ' . $ansible_args . ' ' . $vars . ' ' . $play;
         $output = array();
         $return = FALSE;
