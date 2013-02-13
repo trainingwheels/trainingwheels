@@ -71,6 +71,10 @@ class CourseFactory extends Factory {
       $plugin->set($data);
       $plugins[$key] = $plugin;
 
+      // The env type could be 'ubuntu' for example. 'linux' is hardcoded as we only
+      // support Linux environments right now. An Ubuntu environment inherits all
+      // the commands from 'linux'.
+      // @TODO: Make a more flexible way of specifying the environment type.
       $plugin->mixinEnvironment($course->env, 'linux');
       $plugin->mixinEnvironment($course->env, $course->env_type);
 
