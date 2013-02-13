@@ -5,7 +5,7 @@ use TrainingWheels\Job\Job;
 use TrainingWheels\Course\CourseFactory;
 use Exception;
 
-class ClassroomJob extends Job {
+class CourseJob extends Job {
   private $courseFactory;
 
   public function __construct(CourseFactory $courseFactory, $id, $course_id, $action, $params) {
@@ -14,10 +14,10 @@ class ClassroomJob extends Job {
   }
 
   /**
-   * Configure the course by running the playbooks.
+   * Provision the course by running the playbooks.
    */
-  protected function classroomConfigure() {
+  protected function CourseProvision() {
     $course = $this->courseFactory->get($this->course_id);
-    $course->configure();
+    $course->provision();
   }
 }

@@ -22,8 +22,8 @@
     - name: Insert sample Mongo course data
       action: command mongo -u trainingwheels -p $mongo_app_password trainingwheels /tmp/mongo-reset-data.js
 
-    - name: Configure the classroom for course 1 on localhost
-      action: "command tw c:c 1"
+    - name: Provision the course for course 1 on localhost
+      action: "command tw c:p 1"
 
     - name: Create instructor
       action: "command tw u:c 1 instructor creates=$twhome/instructor"
