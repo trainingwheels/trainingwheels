@@ -61,7 +61,7 @@ class Environment {
         Log::log("$type::configure:resp: $output_nice", L_DEBUG);
 
         if ($return != 0) {
-          throw new Exception("Unable to run configuration for plugin \"$type\", see logs for more info.");
+          throw new Exception("Unable to run configuration for plugin \"$type\": \n$output_nice");
         }
       }
     }
