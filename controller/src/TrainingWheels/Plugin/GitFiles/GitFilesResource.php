@@ -1,6 +1,8 @@
 <?php
 
-namespace TrainingWheels\Resource;
+namespace TrainingWheels\Plugin\GitFiles;
+use TrainingWheels\Resource\Resource;
+use TrainingWheels\Environment\Environment;
 use Exception;
 
 class GitFilesResource extends Resource {
@@ -14,13 +16,14 @@ class GitFilesResource extends Resource {
   /**
    * Constructor.
    */
-  public function __construct(\TrainingWheels\Environment\TrainingEnv $env, $res_id, $title, $user_name, $course_name, $subdir, $repo, $default_branch = 'master') {
+  public function __construct(Environment $env, $title, $res_id, $user_name, $course_name, $data) {
     parent::__construct($env, $title, $user_name);
-    $this->subdir = $subdir;
-    $this->fullpath = "/twhome/$user_name/$subdir";
-    $this->repo = $repo;
+
+    $this->subdir = $data['subdir'];
+    $this->fullpath = "/twhome/$user_name/$this->subdir";
+    $this->repo = $data['repo_url'];
     $this->course_name = $course_name;
-    $this->default_branch = $default_branch;
+    $this->default_branch = $data['default_branch'];
 
     $this->cacheBuild($res_id);
   }

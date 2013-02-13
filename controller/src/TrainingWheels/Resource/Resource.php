@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Resource;
 use TrainingWheels\Common\CachedObject;
+use TrainingWheels\Environment\Environment;
 
 abstract class Resource extends CachedObject {
 
@@ -20,7 +21,7 @@ abstract class Resource extends CachedObject {
   /**
    * Constructor.
    */
-  public function __construct(\TrainingWheels\Environment\TrainingEnv $env, $title, $user_name) {
+  public function __construct(Environment $env, $title, $user_name) {
     $this->env = $env;
     $this->user_name = $user_name;
     $this->title = $title;

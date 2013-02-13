@@ -5,12 +5,11 @@ use TrainingWheels\Plugin\PluginBase;
 
 class PHP extends PluginBase {
 
-  public function __construct() {
-    parent::__construct();
-    $this->ansible_play = __DIR__ . '/ansible/php.yml';
+  public function getProvisionSteps() {
+    return __DIR__ . '/provision/php.yml';
   }
 
-  public function getAnsibleConfig() {
+  public function getProvisionConfig() {
     return array(
       'vars' => array(
         'php_max_execution_time' => '90',

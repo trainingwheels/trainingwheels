@@ -2,15 +2,15 @@
 
 namespace TrainingWheels\Plugin\ApacheHTTPD;
 use TrainingWheels\Plugin\PluginBase;
+use TrainingWheels\Common\Util;
 
 class ApacheHTTPD extends PluginBase {
 
-  public function __construct() {
-    parent::__construct();
-    $this->ansible_play = __DIR__ . '/ansible/apachehttpd.yml';
+  public function getProvisionSteps() {
+    return __DIR__ . '/provision/apachehttpd.yml';
   }
 
-  public function getAnsibleConfig() {
+  public function getProvisionConfig() {
     return array(
       'vars' => array(
         # apache virtual document roots, these two are closely related.
@@ -23,5 +23,31 @@ class ApacheHTTPD extends PluginBase {
         'apache_directory' => '/twhome/*/*',
       ),
     );
+  }
+
+  public function mixinEnvironment($env, $type) {
+    $apacheLinuxEnv = new ApacheHTTPDLinuxEnv();
+    if ($type == 'centos') {
+      $apacheLinuxEnv->mixinCentosEnv($env);
+    }
+    if ($type == 'ubuntu') {
+      $apacheLinuxEnv->mixinUbuntuEnv($env);
+    }
+  }
+
+  public function registerCourseObservers($course) {
+    /**
+     * After users are added, restart Apache.
+     */
+    $course->addObserver('afterUsersCreate', function($data) {
+      $data['course']->env->apacheHTTPDRestart();
+    });
+
+    /**
+     * Add user to web group after creation.
+     */
+    $course->addObserver('afterOneUserCreate', function($data) {
+      $data['course']->env->userAddToWebGroup($data['user']->getName());
+    });
   }
 }

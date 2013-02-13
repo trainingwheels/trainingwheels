@@ -2,9 +2,11 @@
 
 namespace TrainingWheels\Course;
 use TrainingWheels\Log\Log;
+use TrainingWheels\Common\Observable;
+use TrainingWheels\User\User;
 use Exception;
 
-abstract class TrainingCourse {
+class Course extends Observable {
   // An instance of course TrainingEnv.
   public $env;
 
@@ -17,6 +19,9 @@ abstract class TrainingCourse {
   // Plugins associated with this course.
   protected $plugins;
 
+  // Resource config.
+  protected $resource_config;
+
   public function setPlugins(array $plugins) {
     $this->plugins = $plugins;
   }
@@ -25,8 +30,30 @@ abstract class TrainingCourse {
     return $this->plugins;
   }
 
-  // Factory method for creating user objects, needs to be provided by subclass.
-  abstract protected function userFactory($user_name);
+  public function setResourceConfig(array $resource_config) {
+    $this->resource_config = $resource_config;
+  }
+
+  /**
+   * Factory that creates new user objects for this course.
+   */
+  protected function userFactory($user_name) {
+    $user_id = $this->course_id . '-' . $user_name;
+    $user_obj = new User($this->env, $user_name, $user_id);
+
+    // Each user object must receive resource objects too. These are created
+    // based on the course's resources config.
+    $user_res = array();
+    foreach ($this->resource_config as $key => $res) {
+      $user_res_id = $user_id . '-' . $key;
+      $plugin = $this->plugins[$res['plugin']];
+
+      $user_res[$key] = $plugin->resourceFactory($res['type'], $this->env, $res['title'], $user_res_id, $user_name, $this->course_name, $res);
+    }
+    $user_obj->resources = $user_res;
+
+    return $user_obj;
+  }
 
   /**
    * Used by various functions to normalize the $users parameter.
@@ -48,10 +75,10 @@ abstract class TrainingCourse {
   }
 
   /**
-   * Configure the environment. Typically runs the playbooks.
+   * Provision the environment. Typically runs the playbooks.
    */
-  public function configure() {
-    $this->env->configure($this->plugins);
+  public function provision() {
+    $this->env->provision($this->plugins);
   }
 
   /**
@@ -95,7 +122,9 @@ abstract class TrainingCourse {
         return FALSE;
       }
       $user_obj->create();
+      $this->fireEvent('afterOneUserCreate', array('course' => $this, 'user' => $user_obj));
     }
+    $this->fireEvent('afterUsersCreate', array('course' => $this));
     return TRUE;
   }
 
@@ -115,7 +144,7 @@ abstract class TrainingCourse {
   }
 
   /**
-   * Sync resources for a user.
+   * Sync resources for users.
    */
   public function usersResourcesSync($source_user, $target_users, $resources) {
     $target_users = $this->userNormalizeParam($target_users);
@@ -126,6 +155,8 @@ abstract class TrainingCourse {
     foreach ($target_users as $user_name) {
       $target_user_obj = $this->userFactory($user_name);
       $source_user_obj->syncTo($target_user_obj, $resources);
+
+      $this->fireEvent('afterUserResourcesSync', array('course' => $this, 'source' => $source_user_obj, 'target' => $target_user_obj));
     }
   }
 
@@ -138,6 +169,8 @@ abstract class TrainingCourse {
     foreach ($users as $user_name) {
       $user_obj = $this->userFactory($user_name);
       $user_obj->resourcesCreate($resources);
+
+      $this->fireEvent('afterUserResourcesCreate', array('course' => $this, 'user' => $user_obj, 'resources' => $resources));
     }
   }
 

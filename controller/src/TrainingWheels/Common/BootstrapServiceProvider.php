@@ -34,6 +34,9 @@ class BootstrapServiceProvider implements ServiceProviderInterface {
     }
     $app->register(New ConfigServiceProvider($config_file));
 
+    // Debug setting is a special case that needs to be set on the $app and in tw.config.
+    $app['debug'] = $app['tw.config']['debug'];
+
     // Logging. We add a monolog service provider, which is what Silex will use
     // internally.
     $log_file = $base_path . '/log/tw.log';
@@ -64,9 +67,9 @@ class BootstrapServiceProvider implements ServiceProviderInterface {
     $app['tw.log'] = new Log($app['monolog']);
 
     // Training Wheels objects.
-    $app['tw.datastore'] = new DataStore($app['connections']['mongo']);
-    $app['tw.course_factory'] = new CourseFactory($app['tw.datastore']);
-    $app['tw.job_factory'] = new JobFactory($app['tw.datastore'], $app['tw.course_factory']);
+    $app['tw.datastore'] = new DataStore($app['tw.config']['connections']['mongo']);
+    $app['tw.course_factory'] = new CourseFactory($app['tw.datastore'], $app['tw.config']);
+    $app['tw.job_factory'] = new JobFactory($app['tw.datastore'], $app['tw.course_factory'], $app['tw.config']);
   }
 
   public function boot(Application $app) {

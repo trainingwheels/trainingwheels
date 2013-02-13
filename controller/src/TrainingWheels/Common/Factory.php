@@ -11,10 +11,14 @@ abstract class Factory {
   // The DataStore object.
   protected $data;
 
+  // The configuration settings.
+  protected $config;
+
   /**
    * Constructor.
    */
-  public function __construct(DataStore $data) {
+  public function __construct(DataStore $data, array $config = array()) {
     $this->data = $data;
+    $this->config = $config;
   }
 }
