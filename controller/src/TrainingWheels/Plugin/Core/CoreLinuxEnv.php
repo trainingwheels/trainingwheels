@@ -28,6 +28,7 @@ class CoreLinuxEnv {
     $env->fileAppendText = function($file_path, $text) use ($conn) {
       $commands = array(
         "test -f $file_path",
+        // @TODO: Make the shell escaping consistent across all calls that take file content.
         "echo \"$text\" | sudo tee -a $file_path > /dev/null",
       );
       $conn->exec_success($commands);
@@ -81,6 +82,7 @@ class CoreLinuxEnv {
      */
     $env->fileCreate = function($text, $file_path, $user = NULL) use ($conn) {
       $commands = array(
+        // @TODO: Make the shell escaping consistent across all calls that take text files.
         "echo $text | sudo tee $file_path > /dev/null",
       );
       if ($user) {
