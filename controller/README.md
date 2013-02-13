@@ -39,12 +39,12 @@ Console application
 Working with Mongo
 ------------------
 
-To access database CLI, use `mongo trainingwheels` on the command line.
+To access database CLI, use `mongo -utrainingwheels -ptrainingwheelsApp trainingwheels` on the command line.
 
 Some command examples:
 
     show collections
-    db.course.find()
+    db.course.find().pretty()
     db.counters.find()
 
 To reset the backend data in Vagrant environment, use:
