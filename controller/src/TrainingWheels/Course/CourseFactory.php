@@ -29,11 +29,9 @@ class CourseFactory extends Factory {
 
       // Create a Course object.
       $course = new Course();
-      $course->course_type = $params['course_type'];
       $course->course_id = $course_id;
       $course->title = $params['title'];
       $course->description = $params['description'];
-      $course->repo = $params['repo'];
       $course->course_name = $params['course_name'];
       $course->uri = '/course/' . $params['id'];
 

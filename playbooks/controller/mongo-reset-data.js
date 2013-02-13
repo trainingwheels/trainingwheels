@@ -9,10 +9,8 @@ db.course.remove()
 db.course.insert({
     "id": 1,
     "course_name": "mycourse",
-    "course_type": "drupal",
     "description": "This is a sample course.",
     "env_type": "ubuntu",
-    "repo": "https://github.com/fourkitchens/trainingwheels-drupal-files-example.git",
     "title": "Sample Course",
     "host": "localhost",
     "user": "",
