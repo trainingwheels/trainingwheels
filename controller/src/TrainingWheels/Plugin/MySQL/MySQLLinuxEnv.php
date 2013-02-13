@@ -1,6 +1,7 @@
 <?php
 
 namespace TrainingWheels\Plugin\MySQL;
+use Exception;
 
 class MySQLLinuxEnv {
 
