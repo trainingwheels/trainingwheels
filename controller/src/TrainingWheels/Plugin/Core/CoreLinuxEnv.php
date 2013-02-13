@@ -4,20 +4,6 @@ namespace TrainingWheels\Plugin\Core;
 
 class CoreLinuxEnv {
 
-  public function mixinUbuntuEnv($env) {
-    $conn = $env->getConn();
-
-    /**
-     * Restart a service.
-     */
-    $env->serviceRestart = function($service) use ($conn) {
-      if ($service == 'apache2') {
-        $expect = "* Restarting web server apache2";
-      }
-      $conn->exec_starts_with("service $service restart", $expect);
-    };
-  }
-
   public function mixinLinuxEnv($env) {
     $conn = $env->getConn();
 
@@ -25,7 +11,7 @@ class CoreLinuxEnv {
      * Restart a service.
      */
     $env->serviceRestart = function($service) use ($conn) {
-      $conn->exec_starts_with("service $service restart", $expect);
+      $conn->exec_get("service $service restart");
     };
 
     /**

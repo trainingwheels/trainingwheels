@@ -22,9 +22,6 @@ class Core extends PluginBase {
     if ($type == 'linux') {
       $coreLinuxEnv->mixinLinuxEnv($env);
     }
-    if ($type == 'ubuntu') {
-      $coreLinuxEnv->mixinUbuntuEnv($env);
-    }
   }
 
   public function getResourceClasses() {
