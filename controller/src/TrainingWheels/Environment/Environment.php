@@ -34,7 +34,7 @@ class Environment {
   }
 
   /**
-   * Run the classroom ansible playbooks.
+   * Run the course ansible playbooks.
    */
   public function provision(array $plugins) {
     $ansible_args_array = array(
