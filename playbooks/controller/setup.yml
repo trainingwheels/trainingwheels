@@ -197,10 +197,13 @@
       action: command composer.phar install -d $twdir/controller/
 
     ##
-    # Copy app config file.
+    # Training Wheels specific stuff.
     #
     - name: Training Wheels | Copy app config file
       action: template src=templates/var-trainingwheels-controller-config-config-yml.j2 dest=$twdir/controller/config/config.yml
+
+    - name: Training Wheels | Prevent the 'stdin is not a tty' error from appearing due to mesg command in .profile
+      action: copy src=files/root-profile dest=/root/.profile owner=root group=root mode=644
 
     ##
     # Handy shortcuts for command line user.

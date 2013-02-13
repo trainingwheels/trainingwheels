@@ -42,9 +42,3 @@
 
     - name: Node.js | Install TW dev environment
       action: command npm install chdir=$twdir/controller/web
-
-    ##
-    # Misc fixes
-    #
-    - name: Prevent the stdin is not a tty error from appearing in Vagrant
-      action: copy src=root-profile dest=/root/.profile owner=root group=root mode=644
