@@ -2,7 +2,7 @@
 
 namespace TrainingWheels\Plugin\MySQL;
 
-class mySQLLinuxEnv {
+class MySQLLinuxEnv {
 
   public function mixinLinuxEnv($env) {
     $conn = $env->getConn();
