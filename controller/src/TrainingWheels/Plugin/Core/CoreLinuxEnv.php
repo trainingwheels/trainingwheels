@@ -28,11 +28,7 @@ class CoreLinuxEnv {
     $env->fileAppendText = function($file_path, $text) use ($conn) {
       $commands = array(
         "test -f $file_path",
-        "TW_TMP=`mktemp`",
-        "cp $file_path \$TW_TMP",
-        "echo \"$text\" >> \$TW_TMP",
-        "cp --no-preserve=mode,ownership \$TW_TMP $file_path",
-        "rm \$TW_TMP",
+        "echo \"$text\" | sudo tee -a $file_path > /dev/null",
       );
       $conn->exec_success($commands);
     };
@@ -46,19 +42,6 @@ class CoreLinuxEnv {
         throw new Exception("Trying to get contents of file $file_path that does not exist.");
       }
       return $out;
-    };
-
-    /**
-     * Put the contents of a text file, overwriting if one exists.
-     */
-    $env->filePutContents = function($file_path, $contents) use ($conn) {
-      $commands = array(
-        "TW_TMP=`mktemp`",
-        "echo \"$contents\" > \$TW_TMP",
-        "cp --no-preserve=mode,ownership \$TW_TMP $file_path",
-        "rm \$TW_TMP",
-      );
-      $conn->exec_success($commands);
     };
 
     /**
@@ -98,10 +81,7 @@ class CoreLinuxEnv {
      */
     $env->fileCreate = function($text, $file_path, $user = NULL) use ($conn) {
       $commands = array(
-        "TW_TMP=`mktemp`",
-        "echo $text > \$TW_TMP",
-        "cp \$TW_TMP $file_path",
-        "rm \$TW_TMP",
+        "echo $text | sudo tee $file_path > /dev/null",
       );
       if ($user) {
         $commands[] = "chown $user: $file_path";
@@ -194,19 +174,14 @@ class CoreLinuxEnv {
     $env->userCreate = function($user, $pass) use ($conn) {
       $commands = array(
         "TW_SKEL_TMP=`mktemp -d`",
-        "TW_PWD_TMP=`mktemp`",
         "groupadd $user",
         "rsync -ah --delete /etc/trainingwheels/skel/skel_user/ \$TW_SKEL_TMP/",
-        // "sudo echo 'hello' > /tmp/filename" doesn't work if the file is owned by root, need to
-        // do a 2 step process.
-        "echo $pass > \$TW_PWD_TMP",
-        "cp \$TW_PWD_TMP \$TW_SKEL_TMP/.password",
+        "echo $pass | sudo tee \$TW_SKEL_TMP/.password > /dev/null",
         "useradd -m -p`openssl passwd -1 $pass` -d/twhome/$user -k\$TW_SKEL_TMP -s/bin/bash -g$user $user",
         "chmod o-rwx /twhome/$user",
         "chown root: /twhome/$user/.password",
         "chmod 400 /twhome/$user/.password",
         "rm -rf \$TW_SKEL_TMP",
-        "rm \$TW_PWD_TMP",
       );
       $conn->exec_success($commands);
     };

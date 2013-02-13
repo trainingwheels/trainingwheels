@@ -11,29 +11,18 @@ class mySQLLinuxEnv {
      * Create MySQL user, database and import from dump if given.
      */
     $env->mySQLUserDBCreate = function($user, $pass, $db, $dump_path = 'none') use ($conn) {
-      // Because of the way the 'sudo ' part is added to each command, we can't do
-      // 'zcat db | mysql' directly as mysql will then try read credentials from whatever the
-      // current user's account it, and fail. Instead grab the credentials from root and save
-      // them temporarily. This is faster than the alternative which is to not use zcat and
-      // instead copy/move the database dump before unzipping it.
       $commands = array(
-        "TW_MYSQL_CREDS=`mktemp`",
-        "cat /root/.my.cnf > \$TW_MYSQL_CREDS",
-        "mysql --defaults-extra-file=\$TW_MYSQL_CREDS -e \"CREATE USER '$user'@'localhost' IDENTIFIED BY '$pass';\"",
-        "mysql --defaults-extra-file=\$TW_MYSQL_CREDS -e \"CREATE DATABASE $db;\"",
-        "mysql --defaults-extra-file=\$TW_MYSQL_CREDS -e \"GRANT ALL PRIVILEGES on $db.* to '$user'@'localhost';\"",
+        "echo \"CREATE USER '$user'@'localhost' IDENTIFIED BY '$pass';\" | sudo -i mysql",
+        "echo \"CREATE DATABASE $db;\" | sudo -i mysql",
+        "echo \"GRANT ALL PRIVILEGES on $db.* to '$user'@'localhost';\" | sudo -i mysql",
       );
 
       if (!empty($dump_path) && $dump_path !== 'none') {
         $commands = array_merge($commands, array(
           "test -f $dump_path",
-          "zcat $dump_path | mysql --defaults-extra-file=\$TW_MYSQL_CREDS $db",
+          "zcat $dump_path | sudo -i mysql $db",
         ));
       }
-
-      $commands = array_merge($commands, array(
-        "rm \$TW_MYSQL_CREDS",
-      ));
 
       $conn->exec_success($commands);
     };
@@ -43,8 +32,8 @@ class mySQLLinuxEnv {
      */
     $env->mySQLUserDBDelete = function($user, $db) use ($conn) {
       $commands = array(
-        "sudo -i mysql -e \"DROP DATABASE $db;\"",
-        "sudo -i mysql -e \"DROP USER '$user'@'localhost';\"",
+        "echo \"DROP DATABASE $db;\" | sudo -i mysql",
+        "echo \"DROP USER '$user'@'localhost';\" | sudo -i mysql",
       );
       $conn->exec_success($commands);
     };
@@ -64,7 +53,7 @@ class mySQLLinuxEnv {
      * Does a database exist?
      */
     $env->mySQLDBExists = function($db) use ($conn) {
-      $cmd = "sudo -i mysql -s -e \"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$db';\"";
+      $cmd = "echo \"SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '$db';\" | sudo -i mysql -s";
       $output = $conn->exec_get($cmd);
       if (!empty($output) && $output !== $db) {
         throw new Exception("MySQLDBExists command returned invalid data \"$output\".");

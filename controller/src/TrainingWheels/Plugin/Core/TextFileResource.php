@@ -71,7 +71,7 @@ class TextFileResource extends Resource {
    */
   public function create() {
     if (!$this->exists()) {
-      $this->env->filePutContents($this->full_path, $this->contents);
+      $this->env->fileCreate($this->contents, $this->full_path);
     }
     else {
       throw new Exception("The file $this->file_name already exists.");
