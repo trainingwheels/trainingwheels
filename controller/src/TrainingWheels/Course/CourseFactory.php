@@ -44,6 +44,10 @@ class CourseFactory extends Factory {
       $course->env = new Environment($conn, $this->config['debug']);
       $course->env_type = $params['env_type'];
 
+      if ($course->env_type != 'ubuntu') {
+        throw new Exception("Only 'ubuntu' environments are supported right now");
+      }
+
       // Build the Plugins associated with this course.
       if (!isset($params['plugins'])) {
         throw new Exception("The course has no plugins associated with it and cannot be loaded.");
