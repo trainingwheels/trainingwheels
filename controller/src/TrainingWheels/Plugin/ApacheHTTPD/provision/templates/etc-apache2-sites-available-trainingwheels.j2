@@ -13,9 +13,8 @@ ServerName {{ apache_servername.stdout }}
   </Directory>
 
   # All requests that miss an actual environment will be redirected to the
-  # landing page, or whatever exists at the default html location.
-  # Drupal and other CMSs usually use .htaccess to handle 404s themselves,
-  # this does not interfere with that.
+  # landing page. Drupal and other CMSs usually use .htaccess to handle 404s
+  # themselves, this does not interfere with that.
   Alias /apache_errors /var/local/tw-landing
   ErrorDocument 404 /apache_errors/index.html
 
