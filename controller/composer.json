@@ -8,7 +8,8 @@
     "symfony/translation": "2.1.*",
     "symfony/twig-bridge": "2.1.*",
     "symfony/yaml": "2.1.*",
-    "twig/twig": ">=1.11,<2.0-dev"
+    "twig/twig": ">=1.11,<2.0-dev",
+    "phpseclib/phpseclib": "*"
   },
   "autoload": {
     "psr-0": {

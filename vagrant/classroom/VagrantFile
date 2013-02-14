@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+Vagrant::Config.run do |config|
+  config.vm.define :trainingwheels_classroom do |tw_config|
+    tw_config.vm.box         = "precise64"
+    tw_config.vm.box_url     = "http://files.vagrantup.com/precise64.box"
+    tw_config.vm.host_name   = "remote.classroom"
+
+    tw_config.vm.customize ["modifyvm", :id, "--memory", "256"]
+    tw_config.vm.customize ["modifyvm", :id, "--cpus", "1"]
+
+    config.vm.network :hostonly, "10.1.0.3"
+
+    tw_config.vm.forward_port 80, 18888 # Apache webserver
+    tw_config.vm.forward_port 22, 12222 # SSH
+    tw_config.vm.forward_port 21, 12121 # FTP
+
+    tw_config.vm.provision :shell, :path => "provision/classroom-setup.sh"
+
+    # Load a local setup file if it exists, so you can use it to
+    # provide additional provisioning steps.
+    if File.exist?(File.join(File.dirname(__FILE__), "setup.local.sh"))
+      tw_config.vm.provision :shell, :path => "setup.local.sh"
+    end
+  end
+end

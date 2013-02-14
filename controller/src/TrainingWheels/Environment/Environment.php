@@ -37,10 +37,16 @@ class Environment {
    * Provision the course.
    */
   public function provision(array $plugins) {
-    $ansible_args_array = array(
-      '-c local',
-      '--sudo',
-    );
+    $ansible_args_array = array();
+    if (get_class($this->conn) == 'TrainingWheels\Conn\LocalServerConn') {
+      $ansible_args_array[] = '-c local';
+    }
+    else {
+      $ansible_args_array[] = '--inventory-file=/tmp/anshosts';
+      $ansible_args_array[] = '--private-key=' . $this->conn->getKeyPath();
+      $ansible_args_array[] = '--user=' . $this->conn->getUser();
+    }
+    $ansible_args_array[] = '--sudo';
     $ansible_args = implode(' ', $ansible_args_array);
 
     // Get the playbooks that need to be run to configure this course.

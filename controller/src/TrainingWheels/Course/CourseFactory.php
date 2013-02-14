@@ -21,9 +21,9 @@ class CourseFactory extends Factory {
         $conn = new LocalServerConn(TRUE);
       }
       else {
-        $conn = new SSHServerConn($params['host'], 22,  $params['user'],  $params['pass'], TRUE);
+        $conn = new SSHServerConn($params['host'], $params['port'],  $params['user'], isset($params['key']) ? $params['key'] : NULL);
         if (!$conn->connect()) {
-          throw new Exception("Unable to connect/login to server $host on port 22");
+          throw new Exception("Unable to connect/login to server " . $params['host'] . " on port " . $params['port'] . " as user " . $params['user']);
         }
       }
 

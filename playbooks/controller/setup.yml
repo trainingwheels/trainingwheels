@@ -91,6 +91,8 @@
         - php5-xmlrpc
         - php-soap
         - php5-gd
+        - php5-gmp
+        - php5-mcrypt
         - php-pear
         - python-mysqldb
         - curl

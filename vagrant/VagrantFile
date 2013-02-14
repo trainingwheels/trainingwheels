@@ -19,8 +19,8 @@ Vagrant::Config.run do |config|
     tw_config.vm.forward_port 22, 2222 # SSH
     tw_config.vm.forward_port 21, 2121 # FTP
 
-    tw_config.vm.provision :shell, :path => "provision/ansible-setup.sh"
-    tw_config.vm.provision :shell, :path => "provision/controller-setup.sh"
+    # # tw_config.vm.provision :shell, :path => "provision/ansible-setup.sh"
+    # tw_config.vm.provision :shell, :path => "provision/controller-setup.sh"
     tw_config.vm.provision :shell, :path => "provision/dev-setup.sh"
 
     # Load a local setup file if it exists, so you can use it to
