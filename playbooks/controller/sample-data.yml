@@ -13,26 +13,29 @@
     - settings.yml
 
   tasks:
-    - name: Upload sample course data
+    - name: Sample Data | Upload sample course data
       action: copy src=mongo-reset-data.js dest=/tmp/mongo-reset-data.js
 
-    - name: MongoDB | Wait for Mongo to be listening for connections. It is restarted as the last step of the controller playbook and can take a while to come up in EC2.
+    - name: Sample Data | Wait for Mongo to be listening for connections. It is restarted as the last step of the controller playbook and can take a while to come up in EC2.
       action: wait_for port=27017 delay=4 timeout=$mongo_restart_timeout
 
-    - name: Insert sample Mongo course data
+    - name: Sample Data | Insert sample Mongo course data
       action: command mongo -u trainingwheels -p $mongo_app_password trainingwheels /tmp/mongo-reset-data.js
 
-    - name: Provision the course for course 1 on localhost
+    - name: Sample Data | Provision the course for course 1 on localhost
       action: "command tw c:p 1"
 
-    - name: Create instructor
+    - name: Sample Data | Create instructor
       action: "command tw u:c 1 instructor creates=$twhome/instructor"
 
-    - name: Create bobby
+    - name: Sample Data | Create bobby
       action: "command tw u:c 1 bobby creates=$twhome/bobby"
 
-    - name: Create sally
+    - name: Sample Data | Create sally
       action: "command tw u:c 1 sally creates=$twhome/sally"
 
-    - name: Create instructor resources
+    - name: Sample Data | Create instructor resources
       action: "command tw r:c 1 instructor creates=$twhome/instructor/mycourse"
+
+    - name: Sample Data | Create a keypair
+      action: "command tw k:c"
