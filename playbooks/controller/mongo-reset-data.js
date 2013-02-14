@@ -26,7 +26,7 @@ db.course.insert({
       "Drupal": {},
       "PHP": {
         "apc_shm_size": "89M"
-      },
+      }
     },
     "resources": {
       "drupal_files": {

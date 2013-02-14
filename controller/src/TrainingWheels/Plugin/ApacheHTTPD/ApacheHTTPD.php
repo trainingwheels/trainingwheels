@@ -21,6 +21,8 @@ class ApacheHTTPD extends PluginBase {
         # domain.
         'apache_virtual_docroot' => '/twhome/%-4/%-3',
         'apache_directory' => '/twhome/*/*',
+        'landing_repo_url' => 'https://github.com/trainingwheels/sample-landing-page.git',
+        'landing_repo_branch' => 'master'
       ),
     );
   }
