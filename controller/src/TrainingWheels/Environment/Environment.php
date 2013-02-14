@@ -42,7 +42,10 @@ class Environment {
       $ansible_args_array[] = '-c local';
     }
     else {
-      $ansible_args_array[] = '--inventory-file=/tmp/anshosts';
+      $tmp = trim(shell_exec('mktemp'));
+      $host = $this->conn->getHost();
+      shell_exec("echo $host > $tmp");
+      $ansible_args_array[] = '--inventory-file=' . $tmp;
       $ansible_args_array[] = '--private-key=' . $this->conn->getKeyPath();
       $ansible_args_array[] = '--user=' . $this->conn->getUser();
     }
@@ -70,6 +73,9 @@ class Environment {
           throw new Exception("Unable to run configuration for plugin \"$type\": \n$output_nice");
         }
       }
+    }
+    if ($tmp) {
+      shell_exec("rm $tmp");
     }
   }
 

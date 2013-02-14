@@ -11,4 +11,5 @@ vagrant/.vagrant
 vagrant/setup.local.sh
 vagrant/*.local.yml
 vagrant/classroom/.vagrant
+vagrant/classroom/setup.local.sh
 keypairs

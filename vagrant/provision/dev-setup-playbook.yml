@@ -21,20 +21,8 @@
 
     ##
     # Configuration for accessing the classroom server (if required).
-    #
-    - name: Training Wheels | Create root ssh directory
-      action: file path=/root/.ssh state=directory owner=root group=root mode=700
-
-    - name: Training Wheels | Install the private key for accessing the classroom - this is the Vagrant default insecure private key
-      action: copy src=ssh-id_rsa dest=/root/.ssh/id_rsa owner=root group=root mode=600
-
-    - name: Training Wheels | Create phpfpm ssh directory
-      action: file path=/home/phpfpm/.ssh state=directory owner=phpfpm group=phpfpm mode=700
-
-    - name: Training Wheels | Install the private key for accessing the classroom - this is the Vagrant default insecure private key
-      action: copy src=ssh-id_rsa dest=/home/phpfpm/.ssh/id_rsa owner=phpfpm group=phpfpm mode=600
-
     # This IP address must match the IP specified in the classroom VagrantFile.
+    #
     - name: Training Wheels | Set up some hosts entries so we can connect to the classroom server if required
       action: lineinfile regexp=.* insertafter=EOF dest=/etc/hosts line="10.1.0.3 remote.classroom sshcourse.remote.classroom instructor.sshcourse.remote.classroom jenny.sshcourse.remote.classroom harry.sshcourse.remote.classroom"
 

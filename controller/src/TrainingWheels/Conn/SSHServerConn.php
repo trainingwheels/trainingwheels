@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Conn;
 use TrainingWheels\Log\Log;
+use TrainingWheels\Conn\KeyManager;
 use Exception;
 use Net_SSH2;
 use Crypt_RSA;
@@ -11,41 +12,37 @@ class SSHServerConn extends ServerConn {
   protected $host;
   protected $port;
   protected $user;
-  protected $key_path;
+  protected $key_manager;
   protected $ssh_conn;
 
+  /**
+   * This is called by the Environment provisioner. We wrap the key manager so
+   * that the Environment doesn't have to create it's own one or have knowledge of
+   * it at all.
+   */
   public function getKeyPath() {
-    if ($this->key_path) {
-      return $this->key_path;
-    }
-    else {
-      return getenv('HOME') . '/.ssh/id_rsa';
-    }
+    return $this->key_manager->getPrivateKeyPath();
   }
 
   public function getUser() {
     return $this->user;
   }
 
-  protected function getKeyContents() {
-    $key_data = file_get_contents($this->getKeyPath());
-    if (empty($key_data)) {
-      throw new Exception('Cannot find a private ssh key to connect to remote server with');
-    }
-    return $key_data;
+  public function getHost() {
+    return $this->host;
   }
 
-  public function __construct($host, $port, $user, $key_path = NULL) {
+  public function __construct($host, $port, $user, KeyManager $key_manager) {
     $this->host = $host;
     $this->port = $port;
     $this->user = $user;
-    $this->key_path = $key_path;
+    $this->key_manager = $key_manager;
   }
 
   public function connect() {
     $this->ssh_conn = new Net_SSH2($this->host, $this->port);
     $key = new Crypt_RSA();
-    $key->loadKey($this->getKeyContents());
+    $key->loadKey($this->key_manager->getPrivateKeyContents());
     return $this->ssh_conn->login($this->user, $key);
   }
 

@@ -2,7 +2,7 @@
 
 namespace TrainingWheels\Console;
 use TrainingWheels\Log\Log;
-use TrainingWheels\Conn\KeyGenerator;
+use TrainingWheels\Conn\KeyManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,11 +11,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Exception;
 
 class KeyCreate extends Command {
-  private $app_config;
+  private $config;
 
-  public function __construct($app_config) {
+  public function __construct($config) {
     parent::__construct();
-    $this->app_config = $app_config;
+    $this->config = $config;
   }
 
   protected function configure() {
@@ -32,10 +32,10 @@ class KeyCreate extends Command {
       return;
     }
 
-    $gen = new KeyGenerator($this->app_config['base_path']);
+    $gen = new KeyManager($this->config['base_path']);
     $output->writeln('');
     $output->writeln('<comment>' . trim($gen->createKey()) . '</comment>');
     $output->writeln('');
-    $output->writeln('<info>Key generated.</info>');
+    $output->writeln('<info>Keypair generated.</info>');
   }
 }

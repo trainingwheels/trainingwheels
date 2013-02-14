@@ -5,11 +5,23 @@ use TrainingWheels\Log\Log;
 use DateTime;
 use Exception;
 
-class KeyGenerator {
+class KeyManager {
   private $keydir;
 
   public function __construct($base_path) {
     $this->keydir = $base_path . '/keypairs';
+  }
+
+  public function getPrivateKeyPath() {
+    return $this->keydir . '/tw.key';
+  }
+
+  public function getPrivateKeyContents() {
+    return file_get_contents($this->keydir . '/tw.key');
+  }
+
+  public function getPublicKeyContents() {
+    return file_get_contents($this->keydir . '/tw.key.pub');
   }
 
   public function createKey() {
@@ -32,7 +44,6 @@ class KeyGenerator {
     );
     shell_exec('ssh-keygen ' . implode(' ', $args_array));
 
-    $pub_key = file_get_contents($this->keydir . '/tw.key.pub');
-    return $pub_key;
+    return $this->getPublicKeyContents();
   }
 }
