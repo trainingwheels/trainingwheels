@@ -5,7 +5,7 @@
 // but cause issues because the controller uses Mongo too, and the playbook
 // restarts it, throwing an exception. They should be used only on SSH connections.
 
-db.course.remove()
+db.course.remove();
 db.course.insert({
   "id": 1,
   "course_name": "mycourse",
@@ -26,7 +26,7 @@ db.course.insert({
     "Drupal": {},
     "PHP": {
       "apc_shm_size": "89M"
-    },
+    }
   },
   "resources": {
     "drupal_files": {
@@ -41,10 +41,10 @@ db.course.insert({
       "type": "MySQLDatabaseResource",
       "plugin": "MySQL",
       "title": "Database",
-      "dump_path": "database.sql.gz",
+      "dump_path": "database.sql.gz"
     }
   }
-})
+});
 
 db.course.insert({
   "id": 2,
@@ -66,7 +66,7 @@ db.course.insert({
     "Drupal": {},
     "PHP": {
       "apc_shm_size": "89M"
-    },
+    }
   },
   "resources": {
     "drupal_files": {
@@ -81,10 +81,10 @@ db.course.insert({
       "type": "MySQLDatabaseResource",
       "plugin": "MySQL",
       "title": "Database",
-      "dump_path": "database.sql.gz",
+      "dump_path": "database.sql.gz"
     }
   }
-})
+});
 
-db.counters.remove()
-db.counters.insert({ "_id": "course_id", "seq": 1 })
+db.counters.remove();
+db.counters.insert({ "_id": "course_id", "seq": 1 });
