@@ -10,3 +10,4 @@ ec2-build/ec2-params.stable.sh
 vagrant/.vagrant
 vagrant/setup.local.sh
 vagrant/*.local.yml
+vagrant/classroom/.vagrant
