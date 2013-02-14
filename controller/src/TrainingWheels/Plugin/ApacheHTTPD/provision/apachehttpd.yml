@@ -32,14 +32,26 @@
     - name: ApacheHTTPD | Enable vhost alias module
       action: command a2enmod vhost_alias creates=/etc/apache2/mods-enabled/vhost_alias.load
 
-    - name: ApacheHTTPD | Apache configuration file for our site
+    - name: ApacheHTTPD | Apache configuration file for the virtual docroot site
       action: template src=templates/etc-apache2-sites-available-trainingwheels.j2 dest=/etc/apache2/sites-available/trainingwheels
+
+    - name: ApacheHTTPD | Apache configuration file for the landing page
+      action: template src=templates/etc-apache2-sites-available-landing.j2 dest=/etc/apache2/sites-available/landing
 
     - name: ApacheHTTPD | Disable the default site
       action: command a2dissite default removes=/etc/apache2/sites-enabled/000-default
 
-    - name: ApacheHTTPD | Enable our new site
+    - name: ApacheHTTPD | Enable the virtual docroot site
       action: command a2ensite trainingwheels creates=/etc/apache2/sites-enabled/trainingwheels
+
+    - name: ApacheHTTPD | Enable the landing page site
+      action: command a2ensite landing creates=/etc/apache2/sites-enabled/landing
+
+    ##
+    # Landing page
+    #
+    - name: ApacheHTTPD | Clone the landing page repo
+      action: git repo=$landing_repo_url dest=/var/local/tw-landing version=$landing_repo_branch force=yes
 
     ##
     # Restart services
