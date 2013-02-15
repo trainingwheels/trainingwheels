@@ -39,7 +39,7 @@ define([
   app.UserSummaryController = Ember.ObjectController.extend();
 
   app.UserSummaryView = Ember.View.extend({
-    templateName: 'user-summary',
+    templateName: 'user-summary'
   });
 
   app.UserController = Ember.ObjectController.extend({

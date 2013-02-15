@@ -45666,7 +45666,7 @@ define('modules/job',['ember-data', 'app'], function(DS, app) {
     course_id: DS.attr('number'),
     type: DS.attr('string'),
     action: DS.attr('string'),
-    params: DS.attr('string'),
+    params: DS.attr('string')
   });
 
   app.JobComplete = function(job, callback) {
@@ -45701,13 +45701,13 @@ define('modules/resource',['ember', 'ember-data', 'jquery', 'app'], function(Emb
     }.property('attribs'),
     css_class_resource_status: function() {
       return 'resource-status ss-folder ' + this.get('status');
-    }.property('status'),
+    }.property('status')
   });
 
   app.ResourceController = Ember.ObjectController.extend();
 
   app.ResourceView = Ember.View.extend({
-    templateName: 'resource',
+    templateName: 'resource'
   });
 });
 
@@ -46099,7 +46099,7 @@ define('modules/user',[
   app.UserSummaryController = Ember.ObjectController.extend();
 
   app.UserSummaryView = Ember.View.extend({
-    templateName: 'user-summary',
+    templateName: 'user-summary'
   });
 
   app.UserController = Ember.ObjectController.extend({
@@ -46204,7 +46204,7 @@ define('modules/course',[
   'ember-data',
   'jquery',
   'alertify',
-  'app',
+  'app'
 ], function(Ember, DS, $, alertify, app) {
   app.CourseSummary = DS.Model.extend({
     course_name: DS.attr('string'),
@@ -46235,29 +46235,147 @@ define('modules/course',[
   });
 
   app.CoursesAddController = Ember.ObjectController.extend({
-    saveCourse: function(view) {
-      var newCourse = {
-        title: view.get('titleTextField').get('value'),
-        description: view.get('descriptionTextField').get('value'),
-        course_name: view.get('nameTextField').get('value'),
-        course_type: view.get('typeTextField').get('value'),
-        env_type: view.get('environmentTextField').get('value'),
-        repo: view.get('repositoryTextField').get('value'),
-        host: view.get('hostTextField').get('value'),
-        user: view.get('userTextField').get('value'),
-        pass: view.get('passTextField').get('value'),
+    /**
+     * Helper to disable the submit button if the form is invalid.
+     *
+     * @return
+     *   true if the form is invalid, else false.
+     */
+    form_is_invalid: function() {
+      if (!this.get('titleValid') || !this.get('courseNameValid')) {
+        return true;
       }
+
+      return false;
+    }.property(
+      'titleValid',
+      'courseNameValid'
+    ),
+
+    /**
+     * Title field and helper properties.
+     */
+    title: null,
+    titleValid: true,
+    titleErrors: [],
+    css_class_title: function() {
+      return 'field' + (this.get('titleValid') ? '' : ' invalid clearfix');
+    }.property('titleValid'),
+    validateTitle: function() {
+      this.set('titleValid', true);
+      this.set('titleErrors', []);
+
+      if (this.get('title') === null || this.get('title').length === 0) {
+        this.set('titleValid', false);
+        this.get('titleErrors').push('The course title is required.');
+        return;
+      }
+    }.observes('title'),
+
+    /**
+     * Description.
+     */
+    description: null,
+
+    /**
+     * Course name field and helper properties.
+     */
+    courseName: null,
+    courseNameValid: true,
+    courseNameErrors: [],
+    css_class_short_name: function() {
+      return 'field' + (this.get('courseNameValid') ? '' : ' invalid clearfix');
+    }.property('courseNameValid'),
+    validateShortName: function() {
+      this.set('courseNameValid', true);
+      this.set('courseNameErrors', []);
+
+      // Bail if the field is empty...
+      if (this.get('courseName') === null || this.get('courseName').length === 0) {
+        this.set('courseNameValid', false);
+        this.get('courseNameErrors').push('The course short name is required.');
+        return;
+      }
+
+      // Course short names are limited to 11 characters because
+      // of MySQL's 16 character user name limit. When we create
+      // the mysql user it will be course_name + '_UNIX_UID' where
+      // UNIX_UID is a four digit number (i.e. 1001).
+      if (this.get('courseName').length > 11) {
+        this.set('courseNameValid', false);
+        this.get('courseNameErrors').push('Course short names cannot be more than 11 characters long.');
+      }
+
+      // Ensure that the course name contains only letters and underscores.
+      if (!this.get('courseName').match(/^\w+$/)) {
+        this.set('courseNameValid', false);
+        this.get('courseNameErrors').push('Course short names can only contain letters, numbers, and underscores.');
+      }
+    }.observes('courseName'),
+
+    /**
+     * Course type.
+     */
+    courseType: null,
+
+    /**
+     * Environment type.
+     */
+    envType: 'ubuntu',
+
+    /**
+     * Repository.
+     */
+    repo: 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
+
+    /**
+     * Host.
+     */
+    host: 'localhost',
+
+    /**
+     * User.
+     */
+    user: null,
+
+    /**
+     * Pass.
+     */
+    pass: null,
+
+    /**
+     * Confirms the form is valid and if so submits, creating a new course.
+     */
+    saveCourse: function(view) {
+      // Prevent saving the course if the form is invalid.
+      this.validateTitle();
+      this.validateShortName();
+      if (this.get('form_is_invalid')) {
+        return;
+      }
+      var newCourse = {
+        title: this.get('title'),
+        description: this.get('description'),
+        course_name: this.get('courseName'),
+        course_type: this.get('courseType'),
+        env_type: this.get('envType'),
+        repo: this.get('repo'),
+        host: this.get('host'),
+        user: this.get('user'),
+        pass: this.get('pass')
+      };
       var model = app.CourseSummary.createRecord(newCourse);
       model.store.commit();
       this.transitionToRoute('courses');
     },
+
     cancelCourseAdd: function() {
       this.transitionToRoute('courses');
     }
   });
 
   app.CoursesAddView = Ember.View.extend({
-    templateName: 'course-form',
+    templateName: 'course-form'
   });
 
   app.CourseController = Ember.ObjectController.extend({
@@ -46359,7 +46477,7 @@ define('modules/course',[
       }
 
       // Find the already loaded users so we can reload them.
-      var users = app.User.filter(function(data) {
+      users = app.User.filter(function(data) {
         if (data.get('course_id') != course_id) {
           return false;
         }
@@ -46476,7 +46594,7 @@ require([
   app.Store = DS.Store.extend({
     revision: 11,
     adapter: DS.RESTAdapter.extend({
-      namespace: 'rest',
+      namespace: 'rest'
     })
   });
 
