@@ -20,12 +20,38 @@ class GitFilesResource extends Resource {
     parent::__construct($env, $title, $user_name);
 
     $this->subdir = $data['subdir'];
-    $this->fullpath = "/twhome/$user_name/$this->subdir";
+    $this->fullpath = "/twhome/$user_name/$course_name";
+    if ($this->subdir) {
+      $this->fullpath = $this->fullpath . '/' . $this->subdir;
+    }
     $this->repo = $data['repo_url'];
     $this->course_name = $course_name;
     $this->default_branch = $data['default_branch'];
 
     $this->cacheBuild($res_id);
+  }
+
+  /**
+   * Get the configuration options for instances of this resource.
+   */
+  public static function getConfigOptions() {
+    return array(
+      'vars' => array(
+        'default_branch' => array(
+          'val' => 'master',
+          'help' => 'The branch that will be automatically checked out when the repository is cloned.',
+        ),
+        'subdir' => array(
+          'val' => '',
+          'help' => 'The subdirectory into which the clone is created, leaving this blank will result in home/user/course being the clone directory',
+        ),
+        'repo_url' => array(
+          'val' => NULL,
+          'help' => 'The Github URL to clone',
+          'hint' => 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
+        ),
+      ),
+    );
   }
 
   /**
@@ -116,6 +142,6 @@ class GitFilesResource extends Resource {
    * Sync to a target.
    */
   public function syncTo(GitFilesResource $target) {
-    $this->env->fileSyncUserFolder($this->user_name, $target->user_name, $this->subdir . '/');
+    $this->env->fileSyncUserFolder($this->user_name, $target->user_name, $this->course_name . '/');
   }
 }

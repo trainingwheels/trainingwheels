@@ -101,3 +101,7 @@ Index of courses:
 Get a course:
 
     curl http://training.wheels:8000/rest/courses/1 -i && echo ''; echo ''
+
+Get the course build information:
+
+    curl http://training.wheels:8000/rest/course_build -i && echo ''; echo ''
