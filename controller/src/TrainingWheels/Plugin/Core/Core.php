@@ -12,7 +12,9 @@ class Core extends PluginBase {
   public function getProvisionConfig() {
     return array(
       'vars' => array(
-        'twskel' => '/etc/trainingwheels/skel/skel_user',
+        'twskel' => array(
+          'val' => '/etc/trainingwheels/skel/skel_user',
+        ),
       ),
     );
   }
@@ -22,11 +24,5 @@ class Core extends PluginBase {
     if ($type == 'linux') {
       $coreLinuxEnv->mixinLinuxEnv($env);
     }
-  }
-
-  public function getResourceClasses() {
-    return array(
-      'TextFileResource' => '\\TrainingWheels\\Plugin\\Core\\TextFileResource',
-    );
   }
 }

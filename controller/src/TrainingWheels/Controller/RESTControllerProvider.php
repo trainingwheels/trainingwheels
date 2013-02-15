@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Controller;
 use TrainingWheels\Course\CourseFactory;
+use TrainingWheels\Plugin\PluginManager;
 use TrainingWheels\Log\Log;
 use TrainingWheels\Job\JobFactory;
 use Silex\Application;
@@ -116,39 +117,7 @@ class RESTControllerProvider implements ControllerProviderInterface {
     ->convert('user', $parseID);
 
     /**
-     * Update a user, or perform an action on a user.
-     */
-    $controllers->put('/user/{user}', function ($user, Request $request) use ($app) {
-      if (!$user) {
-        return $app->json(array('messages' => 'Invalid user ID requested, ensure format is courseid-username, e.g. 1-instructor.'), HTTP_BAD_REQUEST);
-      }
-      $action = $request->request->get('action');
-      $target_resources = $request->request->get('target_resources');
-
-      if (!empty($action) && !empty($target_resources)) {
-        switch ($action) {
-          case 'resources-sync':
-            $sync_from = $request->request->get('sync_from');
-            if (!empty($sync_from)) {
-              $user['course']->usersResourcesSync($sync_from, $user['user_name'], $target_resources);
-              return $app->json(array('messages' => 'User resources synced'), HTTP_OK);
-            }
-            break;
-
-          case 'resources-create':
-            $user['course']->usersResourcesCreate($user['user_name'], $target_resources);
-            return $app->json(array('messages' => 'User resources created'), HTTP_OK);
-            break;
-        }
-      }
-
-      $output = $user['course']->userGet($user['user_name']);
-      return $app->json($output, HTTP_OK);
-    })
-    ->convert('user', $parseID);
-
-    /**
-     * Get course summaries
+     * Retrieve course summaries.
      */
     $controllers->get('/course_summaries', function() use ($app) {
       $courses = $app['tw.course_factory']->getAllSummaries();
@@ -227,6 +196,14 @@ class RESTControllerProvider implements ControllerProviderInterface {
         return $app->json(array('messages' => 'Could not delete job ' . $id . '.'), HTTP_SERVER_ERROR);
       }
       return $app->json('', HTTP_NO_CONTENT);
+    });
+
+    /**
+     * Retrieve course build information.
+     */
+    $controllers->get('/course_build', function () use ($app) {
+      $pluginManager = new PluginManager();
+      return $app->json($pluginManager->getFormBuild(), HTTP_OK);
     });
 
     return $controllers;

@@ -21,7 +21,9 @@ db.course.insert({
         "mysql_root_password": "tplqomnscy323e"
       },
       "GitFiles": {},
-      "ApacheHTTPD": {},
+      "ApacheHTTPD": {
+        "landing_repo_url" : "https://github.com/trainingwheels/sample-landing-page.git"
+      },
       "VSFTPd": {},
       "Drupal": {},
       "PHP": {
@@ -34,7 +36,7 @@ db.course.insert({
         "plugin": "GitFiles",
         "title": "Code",
         "default_branch": "master",
-        "subdir": "mycourse",
+        "subdir": "",
         "repo_url": "https://github.com/fourkitchens/trainingwheels-drupal-files-example.git"
       },
       "drupal_db": {
