@@ -10,26 +10,24 @@ class ApacheHTTPD extends PluginBase {
     return __DIR__ . '/provision/apachehttpd.yml';
   }
 
-  public function getProvisionConfig() {
+  public function getPluginVars() {
     return array(
-      'vars' => array(
-        'apache_virtual_docroot' => array(
-          'val' => '/twhome/%-4/%-3',
-          'help' => "Apache VirtualDocument root, note that the -4 and -3 correspond to the index of segments in the server host name. So '/twhome/%-4/%-3' results in '/twhome/mark/course' when visiting 'mark.course.training.wheels'.",
-        ),
-        'apache_directory' => array(
-          'val' => '/twhome/*/*',
-          'help' => 'Apache VirtualDocument target, this is related to the apache_virtual_docroot setting.',
-        ),
-        'landing_repo_url' => array(
-          'help' => 'A repository containing HTML that is served as the default Apache site and on 404 error when mistyping a VirtualDocument root',
-          'val' => NULL,
-          'hint' => 'https://github.com/trainingwheels/sample-landing-page.git',
-        ),
-        'landing_repo_branch' => array(
-          'help' => 'The branch to checkout when cloning the landing page repository.',
-          'val' => 'gh-pages',
-        ),
+      'apache_virtual_docroot' => array(
+        'val' => '/twhome/%-4/%-3',
+        'help' => "Apache VirtualDocument root, note that the -4 and -3 correspond to the index of segments in the server host name. So '/twhome/%-4/%-3' results in '/twhome/mark/course' when visiting 'mark.course.training.wheels'.",
+      ),
+      'apache_directory' => array(
+        'val' => '/twhome/*/*',
+        'help' => 'Apache VirtualDocument target, this is related to the apache_virtual_docroot setting.',
+      ),
+      'landing_repo_url' => array(
+        'help' => 'A repository containing HTML that is served as the default Apache site and on 404 error when mistyping a VirtualDocument root',
+        'val' => NULL,
+        'hint' => 'https://github.com/trainingwheels/sample-landing-page.git',
+      ),
+      'landing_repo_branch' => array(
+        'help' => 'The branch to checkout when cloning the landing page repository.',
+        'val' => 'gh-pages',
       ),
     );
   }

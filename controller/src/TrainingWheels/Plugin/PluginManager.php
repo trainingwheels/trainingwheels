@@ -21,22 +21,37 @@ class PluginManager {
     $output_json = array();
     $plugins_json = array();
     $resources_json = array();
+    $bundles_json = array();
     foreach($this->plugins as $plugin_key => $plugin) {
       // Get the plugin provision variables.
-      $plugin->validateProvisionConfig();
-      $options = $plugin->getProvisionConfig();
-      $plugins_json[$plugin_key] = $options;
+      $plugin->validateVarsConfig();
+      $plugin_vars = $plugin->getPluginVars();
+      if ($plugin_vars) {
+        $plugins_json[$plugin_key] = array(
+          'vars' => $plugin_vars
+        );
+      }
 
       // Get the resource definitions.
       $resource_classes = $plugin->getResourceClasses();
       if ($resource_classes) {
         foreach ($resource_classes as $res_key => $resource_class) {
-          $resources_json[$res_key] = $resource_class::getConfigOptions();
+          $res_vars = $resource_class::getResourceVars();
+          if ($res_vars) {
+            $resources_json[$res_key] = array('vars' => $res_vars);
+          }
         }
+      }
+
+      // Get the available bundles.
+      $bundles = $plugin->getBundles();
+      if ($bundles) {
+        $bundles_json = array_merge($bundles_json, $bundles);
       }
     }
     $output_json['plugins'] = $plugins_json;
     $output_json['resources'] = $resources_json;
+    $output_json['bundles'] = $bundles_json;
     return $output_json;
   }
 

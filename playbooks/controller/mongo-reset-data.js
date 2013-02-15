@@ -34,7 +34,7 @@ db.course.insert({
       "drupal_files": {
         "type": "GitFilesResource",
         "plugin": "GitFiles",
-        "title": "Code",
+        "title": "Drupal Code",
         "default_branch": "master",
         "subdir": "",
         "repo_url": "https://github.com/fourkitchens/trainingwheels-drupal-files-example.git"
@@ -42,7 +42,7 @@ db.course.insert({
       "drupal_db": {
         "type": "MySQLDatabaseResource",
         "plugin": "MySQL",
-        "title": "Database",
+        "title": "Drupal Database",
         "dump_path": "database.sql.gz",
       }
     }
