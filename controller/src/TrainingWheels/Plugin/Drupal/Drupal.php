@@ -12,11 +12,13 @@ class Drupal extends PluginBase {
   public function getBundles() {
     return array(
       'drupal7' => array(
+        'title' => 'Drupal 7',
         'plugins' => array(
           'MySQL' => array(),
           'ApacheHTTPD' => array(),
           'GitFiles' => array(),
           'PHP' => array(),
+          'Drupal' => array(),
         ),
         'resources' => array(
           'drupal_files' => array(
