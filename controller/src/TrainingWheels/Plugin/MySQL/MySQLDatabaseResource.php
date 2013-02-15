@@ -29,14 +29,12 @@ class MySQLDatabaseResource extends Resource {
   /**
    * Get the configuration options for instances of this resource.
    */
-  public static function getConfigOptions() {
+  public static function getResourceVars() {
     return array(
-      'vars' => array(
-        'dump_path' => array(
-          'val' => 'database.sql.gz',
-          'help' => 'The database dump filename relative to the user\'s course directory',
-        ),
-      )
+      'dump_path' => array(
+        'val' => 'database.sql.gz',
+        'help' => 'The database dump filename relative to the user\'s course directory',
+      ),
     );
   }
 

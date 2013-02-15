@@ -9,21 +9,19 @@ class VSFTPd extends PluginBase {
     return __DIR__ . '/provision/vsftpd.yml';
   }
 
-  public function getProvisionConfig() {
+  public function getPluginVars() {
     return array(
-      'vars' => array(
-        'vsftpd_anonymous_enable' => array(
-          'val' => 'NO',
-        ),
-        'vsftpd_local_enable' => array(
-          'val' => 'YES',
-        ),
-        'vsftpd_write_enable' => array(
-          'val' => 'YES',
-        ),
-        'vsftpd_local_umask' => array(
-          'val' => '002',
-        ),
+      'vsftpd_anonymous_enable' => array(
+        'val' => 'NO',
+      ),
+      'vsftpd_local_enable' => array(
+        'val' => 'YES',
+      ),
+      'vsftpd_write_enable' => array(
+        'val' => 'YES',
+      ),
+      'vsftpd_local_umask' => array(
+        'val' => '002',
       ),
     );
   }

@@ -9,12 +9,10 @@ class Core extends PluginBase {
     return __DIR__ . '/provision/core.yml';
   }
 
-  public function getProvisionConfig() {
+  public function getPluginVars() {
     return array(
-      'vars' => array(
-        'twskel' => array(
-          'val' => '/etc/trainingwheels/skel/skel_user',
-        ),
+      'twskel' => array(
+        'val' => '/etc/trainingwheels/skel/skel_user',
       ),
     );
   }
