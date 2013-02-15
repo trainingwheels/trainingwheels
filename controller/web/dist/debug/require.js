@@ -46278,7 +46278,7 @@ define('modules/course',[
     description: null,
 
     /**
-     * Short name field and helper properties.
+     * Course name field and helper properties.
      */
     courseName: null,
     courseNameValid: true,
