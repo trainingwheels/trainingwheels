@@ -45655,6 +45655,25 @@ define('app',['ember', 'jquery'], function(Ember, $) {
     return def.promise();
   };
 
+  // Fetch and permanantly store the plugins definitions for
+  // easy form building.
+  $.ajax(
+    '/rest/course_build',
+    {
+      success: function(data, textStatus, jqXHR) {
+        if (jqXHR.status === 200) {
+          app.courseBuild = data;
+        }
+        else {
+          throw new Error('Unable to fetch course build information.');
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        throw new Error('Unable to fetch course build information.');
+      }
+    }
+  );
+
   return app;
 });
 
