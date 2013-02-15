@@ -34,6 +34,13 @@
   .course-tools {
     button {
       margin-bottom: $base-line-height/2;
+
+      &.previous {
+        float: left;
+      }
+      &.next {
+        float: right;
+      }
     }
   }
 }

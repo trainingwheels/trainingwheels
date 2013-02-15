@@ -778,6 +778,12 @@ input[type=submit][disabled="disabled"], [disabled="disabled"].submit {
 #course-form .course-tools button {
   margin-bottom: 11px;
 }
+#course-form .course-tools button.previous {
+  float: left;
+}
+#course-form .course-tools button.next {
+  float: right;
+}
 
 #course-view {
   margin: 0 auto;

@@ -1,5 +1,5 @@
 <div id="course-form">
-  <form>
+  <form class="clearfix">
     <div id="course-form-info" class="course-section active">
       <div id="course-form-info-title" class="course-form-title">Course Info</div>
 
@@ -26,6 +26,9 @@
         <div class="field">Type        {{view Ember.TextField placeholder="drupal" size="30" viewName="typeTextField" valueBinding="courseType"}}</div>
         <div class="field">Environment {{view Ember.TextField value="ubuntu" size="30" viewName="environmentTextField" valueBinding="envType"}}</div>
       </div>
+      <div class="course-tools clearfix">
+        <button class="next" type="submit" value="Next" {{action "cancelCourseAdd"}}>Plug-ins &raquo;</button>
+      </div>
     </div>
 
     <div id="course-form-add-plugins" class="course-section">
@@ -47,9 +50,9 @@
       </div>
     </div>
 
-    <div class="course-tools" class="course-section">
-      <hr>
-      <button class="cancel" type="submit" value="Cancel" {{action "cancelCourseAdd"}}>View all courses</button>
-    </div>
   </form>
+  <div class="course-tools">
+    <hr>
+    <button class="cancel" type="submit" value="Cancel" {{action "cancelCourseAdd"}}>View all courses</button>
+  </div>
 </div>
