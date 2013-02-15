@@ -4,10 +4,10 @@
 // From: http://stackoverflow.com/questions/985272/jquery-selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
 //
 
-(function(win) {
+(function(window, document, $) {
   'use strict';
 
-  jQuery.fn.selectText = function() {
+  $.fn.selectText = function() {
     var doc = document,
         element = this[0],
         range,
@@ -26,4 +26,4 @@
       selection.addRange(range);
     }
   };
-})(window);
+})(window, document, jQuery);

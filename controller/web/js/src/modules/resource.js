@@ -15,12 +15,12 @@ define(['ember', 'ember-data', 'jquery', 'app'], function(Ember, DS, $, app) {
     }.property('attribs'),
     css_class_resource_status: function() {
       return 'resource-status ss-folder ' + this.get('status');
-    }.property('status'),
+    }.property('status')
   });
 
   app.ResourceController = Ember.ObjectController.extend();
 
   app.ResourceView = Ember.View.extend({
-    templateName: 'resource',
+    templateName: 'resource'
   });
 });

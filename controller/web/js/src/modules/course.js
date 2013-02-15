@@ -6,7 +6,7 @@ define([
   'ember-data',
   'jquery',
   'alertify',
-  'app',
+  'app'
 ], function(Ember, DS, $, alertify, app) {
   app.CourseSummary = DS.Model.extend({
     course_name: DS.attr('string'),
@@ -164,8 +164,8 @@ define([
         repo: this.get('repo'),
         host: this.get('host'),
         user: this.get('user'),
-        pass: this.get('pass'),
-      }
+        pass: this.get('pass')
+      };
       var model = app.CourseSummary.createRecord(newCourse);
       model.store.commit();
       this.transitionToRoute('courses');
@@ -279,7 +279,7 @@ define([
       }
 
       // Find the already loaded users so we can reload them.
-      var users = app.User.filter(function(data) {
+      users = app.User.filter(function(data) {
         if (data.get('course_id') != course_id) {
           return false;
         }

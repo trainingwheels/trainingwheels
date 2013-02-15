@@ -45666,7 +45666,7 @@ define('modules/job',['ember-data', 'app'], function(DS, app) {
     course_id: DS.attr('number'),
     type: DS.attr('string'),
     action: DS.attr('string'),
-    params: DS.attr('string'),
+    params: DS.attr('string')
   });
 
   app.JobComplete = function(job, callback) {
@@ -45701,13 +45701,13 @@ define('modules/resource',['ember', 'ember-data', 'jquery', 'app'], function(Emb
     }.property('attribs'),
     css_class_resource_status: function() {
       return 'resource-status ss-folder ' + this.get('status');
-    }.property('status'),
+    }.property('status')
   });
 
   app.ResourceController = Ember.ObjectController.extend();
 
   app.ResourceView = Ember.View.extend({
-    templateName: 'resource',
+    templateName: 'resource'
   });
 });
 
@@ -46099,7 +46099,7 @@ define('modules/user',[
   app.UserSummaryController = Ember.ObjectController.extend();
 
   app.UserSummaryView = Ember.View.extend({
-    templateName: 'user-summary',
+    templateName: 'user-summary'
   });
 
   app.UserController = Ember.ObjectController.extend({
@@ -46204,7 +46204,7 @@ define('modules/course',[
   'ember-data',
   'jquery',
   'alertify',
-  'app',
+  'app'
 ], function(Ember, DS, $, alertify, app) {
   app.CourseSummary = DS.Model.extend({
     course_name: DS.attr('string'),
@@ -46362,8 +46362,8 @@ define('modules/course',[
         repo: this.get('repo'),
         host: this.get('host'),
         user: this.get('user'),
-        pass: this.get('pass'),
-      }
+        pass: this.get('pass')
+      };
       var model = app.CourseSummary.createRecord(newCourse);
       model.store.commit();
       this.transitionToRoute('courses');
@@ -46477,7 +46477,7 @@ define('modules/course',[
       }
 
       // Find the already loaded users so we can reload them.
-      var users = app.User.filter(function(data) {
+      users = app.User.filter(function(data) {
         if (data.get('course_id') != course_id) {
           return false;
         }
@@ -46594,7 +46594,7 @@ require([
   app.Store = DS.Store.extend({
     revision: 11,
     adapter: DS.RESTAdapter.extend({
-      namespace: 'rest',
+      namespace: 'rest'
     })
   });
 
