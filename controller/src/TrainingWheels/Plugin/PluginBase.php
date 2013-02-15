@@ -6,13 +6,13 @@ use Exception;
 abstract class PluginBase {
 
   protected $location;
-  protected $provision_vars;
+  protected $vars;
 
   /**
    * Constructor.
    */
   public function __construct() {
-    $this->provision_vars = array();
+    $this->vars = array();
   }
 
   /**
@@ -38,17 +38,24 @@ abstract class PluginBase {
   }
 
   /**
+   * Return the value of a variable.
+   */
+  public function getVar($name) {
+    return $this->vars[$name];
+  }
+
+  /**
    * Given the data loaded from the DataStore, setup the instance
    * of this plugin correctly. This allows config in the database to
    * override the default config the plugin provides.
    */
   public function set($data) {
-    $this->validateProvisionConfig();
-    $provision_config = $this->getProvisionConfig();
+    $this->validateVarsConfig();
+    $vars = $this->getPluginVars();
     $type = $this->getType();
 
-    if ($provision_config) {
-      foreach($provision_config['vars'] as $key => $var) {
+    if ($vars) {
+      foreach($vars as $key => $var) {
         $default_value = isset($var['val']) ? $var['val'] : NULL;
         $data_value = isset($data[$key]) ? $data[$key] : NULL;
 
@@ -57,27 +64,24 @@ abstract class PluginBase {
         }
 
         if ($data_value !== NULL) {
-          $this->provision_vars[$key] = $data_value;
+          $this->vars[$key] = $data_value;
         }
         else {
-          $this->provision_vars[$key] = $default_value;
+          $this->vars[$key] = $default_value;
         }
       }
     }
   }
 
   /**
-   * Validate the plugin's provision config is correctly structured.
+   * Validate the plugin's variable config is correctly structured.
    */
-  public function validateProvisionConfig() {
-    $provision_config = $this->getProvisionConfig();
+  public function validateVarsConfig() {
+    $vars = $this->getPluginVars();
     $type = $this->getType();
 
-    if ($provision_config) {
-      if (!isset($provision_config['vars'])) {
-        throw new Exception("The plugin \"$type\" must provide an array with a key 'vars' in 'getProvisionConfig'");
-      }
-      foreach($provision_config['vars'] as $var_name => $settings) {
+    if ($vars) {
+      foreach($vars as $var_name => $settings) {
         foreach ($settings as $key => $value) {
           if (!in_array($key, array('val', 'help', 'hint'))) {
             throw new Exception("The plugin \"$type\" has a variable with unrecognized key \"$key\"");
@@ -93,7 +97,7 @@ abstract class PluginBase {
    */
   public function formatVarsString() {
     $output = '';
-    foreach ($this->provision_vars as $key => $value) {
+    foreach ($this->vars as $key => $value) {
       $output .= "$key=$value ";
     }
     return trim($output);
@@ -107,9 +111,9 @@ abstract class PluginBase {
   }
 
   /**
-   * Provisioning config. Override in subclass if you provide provisioning
+   * Variable config. Override in subclass if you provide variables.
    */
-  public function getProvisionConfig() {
+  public function getPluginVars() {
     return FALSE;
   }
 
@@ -131,6 +135,13 @@ abstract class PluginBase {
    * Resources. Override in subclass if you provide.
    */
   public function getResourceClasses() {
+    return FALSE;
+  }
+
+  /**
+   * Bundles. Override in subclass if you provide.
+   */
+  public function getBundles() {
     return FALSE;
   }
 }
