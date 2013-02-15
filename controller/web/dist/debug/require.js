@@ -46371,7 +46371,7 @@ define('modules/course',[
 
     cancelCourseAdd: function() {
       this.transitionToRoute('courses');
-    },
+    }
   });
 
   app.CoursesAddView = Ember.View.extend({
