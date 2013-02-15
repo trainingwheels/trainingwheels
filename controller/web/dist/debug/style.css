@@ -34,26 +34,26 @@ img, video {
   margin: 2em inherit;
 }
 
-#tw-form-field, #course-form #course-fields .field, #login-form #form div {
+#tw-form-field, #course-form .course-section .course-fields .field, #login-form #form div {
   margin-bottom: 11px;
   text-align: right;
   font-size: 18px;
   font-family: "Open Sans", sans-serif;
 }
-#tw-form-field span, #course-form #course-fields .field span, #login-form #form div span {
+#tw-form-field span, #course-form .course-section .course-fields .field span, #login-form #form div span {
   vertical-align: top;
   display: inline-block;
   padding-top: 10px;
 }
-#tw-form-field.invalid, #course-form #course-fields .invalid.field, #login-form #form div.invalid {
+#tw-form-field.invalid, #course-form .course-section .course-fields .invalid.field, #login-form #form div.invalid {
   color: #a30006;
 }
-#tw-form-field.invalid input, #course-form #course-fields .invalid.field input, #login-form #form div.invalid input {
+#tw-form-field.invalid input, #course-form .course-section .course-fields .invalid.field input, #login-form #form div.invalid input {
   border-color: #a30006;
   background: #fef5f1;
   box-shadow: none;
 }
-#tw-form-field.invalid .errors, #course-form #course-fields .invalid.field .errors, #login-form #form div.invalid .errors {
+#tw-form-field.invalid .errors, #course-form .course-section .course-fields .invalid.field .errors, #login-form #form div.invalid .errors {
   max-width: 328px;
   float: right;
   margin-top: 1em;
@@ -759,14 +759,23 @@ input[type=submit][disabled="disabled"], [disabled="disabled"].submit {
   background: #e5da55;
 }
 
-#course-form #course-form-title {
+#course-form .course-section {
+  width: 100%;
+  float: left;
+  margin-right: -100%;
+  display: none;
+}
+#course-form .course-section.active {
+  display: block;
+}
+#course-form .course-section .course-form-title {
   padding-bottom: 25px;
   padding-left: 25px;
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   font-size: 32px;
 }
-#course-form #course-tools button {
+#course-form .course-tools button {
   margin-bottom: 11px;
 }
 
@@ -1133,26 +1142,26 @@ input[type=submit][disabled="disabled"], [disabled="disabled"].submit {
     margin: 2em inherit;
   }
 
-  #tw-form-field, #course-form #course-fields .field, #login-form #form div {
+  #tw-form-field, #course-form .course-section .course-fields .field, #login-form #form div {
     margin-bottom: 11px;
     text-align: right;
     font-size: 18px;
     font-family: "Open Sans", sans-serif;
   }
-  #tw-form-field span, #course-form #course-fields .field span, #login-form #form div span {
+  #tw-form-field span, #course-form .course-section .course-fields .field span, #login-form #form div span {
     vertical-align: top;
     display: inline-block;
     padding-top: 10px;
   }
-  #tw-form-field.invalid, #course-form #course-fields .invalid.field, #login-form #form div.invalid {
+  #tw-form-field.invalid, #course-form .course-section .course-fields .invalid.field, #login-form #form div.invalid {
     color: #a30006;
   }
-  #tw-form-field.invalid input, #course-form #course-fields .invalid.field input, #login-form #form div.invalid input {
+  #tw-form-field.invalid input, #course-form .course-section .course-fields .invalid.field input, #login-form #form div.invalid input {
     border-color: #a30006;
     background: #fef5f1;
     box-shadow: none;
   }
-  #tw-form-field.invalid .errors, #course-form #course-fields .invalid.field .errors, #login-form #form div.invalid .errors {
+  #tw-form-field.invalid .errors, #course-form .course-section .course-fields .invalid.field .errors, #login-form #form div.invalid .errors {
     max-width: 328px;
     float: right;
     margin-top: 1em;
