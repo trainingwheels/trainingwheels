@@ -1,6 +1,7 @@
 <?php
 
 namespace TrainingWheels\Plugin;
+use stdClass;
 
 class PluginManager {
   // Plugins.
@@ -11,6 +12,32 @@ class PluginManager {
    */
   public function __construct() {
     $this->plugins = $this->loadPlugins();
+  }
+
+  /**
+   * Get the loaded plugins's default vars for use in building a course.
+   */
+  public function getFormBuild() {
+    $output_json = array();
+    $plugins_json = array();
+    $resources_json = array();
+    foreach($this->plugins as $plugin_key => $plugin) {
+      // Get the plugin provision variables.
+      $plugin->validateProvisionConfig();
+      $options = $plugin->getProvisionConfig();
+      $plugins_json[$plugin_key] = $options;
+
+      // Get the resource definitions.
+      $resource_classes = $plugin->getResourceClasses();
+      if ($resource_classes) {
+        foreach ($resource_classes as $res_key => $resource_class) {
+          $resources_json[$res_key] = $resource_class::getConfigOptions();
+        }
+      }
+    }
+    $output_json['plugins'] = $plugins_json;
+    $output_json['resources'] = $resources_json;
+    return $output_json;
   }
 
   /**
@@ -35,7 +62,7 @@ class PluginManager {
           if (!class_exists($class)) {
             throw new Exception("The directory \"$plugin_dir\" does not contain a properly defined plugin class \"$class\".");
           }
-          $plugins[] = new $class();
+          $plugins[$item] = new $class();
         }
       }
     }

@@ -88,8 +88,11 @@ class Environment {
         }
         if (is_array($args) && count($args) > 0) {
           foreach ($args as $arg) {
-            if (!is_string($arg) || strlen($arg) < 2) {
-              throw new Exception("Invalid string arg passed to \"$full_name\"");
+            if (!is_string($arg)) {
+              throw new Exception("Argument passed to \"$full_name\" is not a string.");
+            }
+            else if (strlen($arg) < 2) {
+              throw new Exception("Argument passed to \"$full_name\" is less than 2 chars in length");
             }
           }
         }
