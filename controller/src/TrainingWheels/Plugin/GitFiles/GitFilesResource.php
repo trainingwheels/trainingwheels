@@ -34,22 +34,20 @@ class GitFilesResource extends Resource {
   /**
    * Get the configuration options for instances of this resource.
    */
-  public static function getConfigOptions() {
+  public static function getResourceVars() {
     return array(
-      'vars' => array(
-        'default_branch' => array(
-          'val' => 'master',
-          'help' => 'The branch that will be automatically checked out when the repository is cloned.',
-        ),
-        'subdir' => array(
-          'val' => '',
-          'help' => 'The subdirectory into which the clone is created, leaving this blank will result in home/user/course being the clone directory',
-        ),
-        'repo_url' => array(
-          'val' => NULL,
-          'help' => 'The Github URL to clone',
-          'hint' => 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
-        ),
+      'default_branch' => array(
+        'val' => 'master',
+        'help' => 'The branch that will be automatically checked out when the repository is cloned.',
+      ),
+      'subdir' => array(
+        'val' => '',
+        'help' => 'The subdirectory into which the clone is created, leaving this blank will result in home/user/course being the clone directory',
+      ),
+      'repo_url' => array(
+        'val' => NULL,
+        'help' => 'The Github URL to clone',
+        'hint' => 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
       ),
     );
   }
