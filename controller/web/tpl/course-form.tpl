@@ -27,25 +27,38 @@
         <div class="field">Environment {{view Ember.TextField value="ubuntu" size="30" viewName="environmentTextField" valueBinding="envType"}}</div>
       </div>
       <div class="course-tools clearfix">
-        <button class="next" type="submit" value="Next" {{action "cancelCourseAdd"}}>Plug-ins &raquo;</button>
+        <button class="next" type="submit" value="Next" {{action "courseFormNext" target="view"}}>Add Plug-ins &raquo;</button>
       </div>
     </div>
 
     <div id="course-form-add-plugins" class="course-section">
       <div id="course-form-add-plugins-title" class="course-form-title">Add Plug-ins</div>
+      <div class="course-tools clearfix">
+        <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Course Info</button>
+        <button class="next" type="submit" value="Next" {{action "courseFormNext" target="view"}}>Configure Plug-ins &raquo;</button>
+      </div>
     </div>
 
     <div id="course-form-config-plugins" class="course-section">
       <div id="course-form-config-plugins-title" class="course-form-title">Configure Plug-ins</div>
+      <div class="course-tools clearfix">
+        <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Add Plug-ins</button>
+        <button class="next" type="submit" value="Next" {{action "courseFormNext" target="view"}}>Add Resources &raquo;</button>
+      </div>
     </div>
 
     <div id="course-form-resources" class="course-section">
       <div id="course-form-resources-title" class="course-form-title">Add Resources</div>
+      <div class="course-tools clearfix">
+        <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Configure Plug-ins</button>
+        <button class="next" type="submit" value="Next" {{action "courseFormNext" target="view"}}>Connection &raquo;</button>
+      </div>
     </div>
 
     <div id="course-form-connection" class="course-section">
       <div id="course-form-connection-title" class="course-form-title">Connection</div>
       <div class="course-tools">
+        <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Add Resources</button>
         <button class="submit" type="submit" value="Save" {{bindAttr disabled="form_is_invalid"}} {{action "saveCourse" view}}>Create course</button>
       </div>
     </div>

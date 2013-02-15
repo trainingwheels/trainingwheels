@@ -46394,7 +46394,21 @@ define('modules/course',[
   });
 
   app.CoursesAddView = Ember.View.extend({
-    templateName: 'course-form'
+    templateName: 'course-form',
+
+    courseFormNext: function() {
+      var $active = $('.course-section.active');
+      var $next = $active.next();
+      $active.removeClass('active');
+      $next.addClass('active');
+    },
+
+    courseFormPrevious: function() {
+      var $active = $('.course-section.active');
+      var $next = $active.prev();
+      $active.removeClass('active');
+      $next.addClass('active');
+    }
   });
 
   app.CourseController = Ember.ObjectController.extend({
