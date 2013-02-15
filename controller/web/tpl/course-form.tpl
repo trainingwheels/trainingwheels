@@ -1,4 +1,11 @@
 <div id="course-form">
+  <ul id="course-form-nav" class="clearfix">
+    <li id="course-form-nav-info" class="course-form-nav-item active">Course Info</li>
+    <li id="course-form-nav-add-plugins" class="course-form-nav-item">Add Plug-ins</li>
+    <li id="course-form-nav-config-plugins" class="course-form-nav-item">Configure Plug-ins</li>
+    <li id="course-form-nav-add-resources" class="course-form-nav-item">Add Resources</li>
+    <li id="course-form-nav-connection" class="course-form-nav-item last">Connection</li>
+  </ul>
   <form class="clearfix">
     <div id="course-form-info" class="course-section active">
       <div id="course-form-info-title" class="course-form-title">Course Info</div>
@@ -57,6 +64,10 @@
 
     <div id="course-form-connection" class="course-section">
       <div id="course-form-connection-title" class="course-form-title">Connection</div>
+      <div style="text-align:center">
+        You made it!
+        <div style="font-size: 64px; margin-top: 1em;">❤</div>
+      </div>
       <div class="course-tools">
         <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Add Resources</button>
         <button class="submit" type="submit" value="Save" {{bindAttr disabled="form_is_invalid"}} {{action "saveCourse" view}}>Create course</button>

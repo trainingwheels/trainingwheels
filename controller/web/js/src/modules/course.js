@@ -153,6 +153,7 @@ define([
       this.validateTitle();
       this.validateShortName();
       if (this.get('form_is_invalid')) {
+        alertify.error('The course form contains invalid data. Double check your settings.');
         return;
       }
       var newCourse = {
@@ -180,17 +181,25 @@ define([
     templateName: 'course-form',
 
     courseFormNext: function() {
-      var $active = $('.course-section.active');
-      var $next = $active.next();
-      $active.removeClass('active');
-      $next.addClass('active');
+      var $activeSection = $('.course-section.active');
+      var $nextSection = $activeSection.next();
+      var $activeNav = $('.course-form-nav-item.active');
+      var $nextNav = $activeNav.next();
+      $activeSection.removeClass('active');
+      $nextSection.addClass('active');
+      $activeNav.removeClass('active');
+      $nextNav.addClass('active');
     },
 
     courseFormPrevious: function() {
-      var $active = $('.course-section.active');
-      var $next = $active.prev();
-      $active.removeClass('active');
-      $next.addClass('active');
+      var $activeSection = $('.course-section.active');
+      var $nextSection = $activeSection.prev();
+      var $activeNav = $('.course-form-nav-item.active');
+      var $nextNav = $activeNav.prev();
+      $activeSection.removeClass('active');
+      $nextSection.addClass('active');
+      $activeNav.removeClass('active');
+      $nextNav.addClass('active');
     }
   });
 

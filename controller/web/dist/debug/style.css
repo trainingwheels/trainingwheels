@@ -759,6 +759,23 @@ input[type=submit][disabled="disabled"], [disabled="disabled"].submit {
   background: #e5da55;
 }
 
+#course-form #course-form-nav {
+  list-style: none;
+}
+#course-form #course-form-nav .course-form-nav-item {
+  float: left;
+  padding: 0.5em;
+  border: 1px solid black;
+  border-right: none;
+  font-size: 12px;
+  font-weight: bold;
+}
+#course-form #course-form-nav .course-form-nav-item.last {
+  border-right: 1px solid black;
+}
+#course-form #course-form-nav .course-form-nav-item.active {
+  background-color: #e5da55;
+}
 #course-form .course-section {
   width: 100%;
   float: left;

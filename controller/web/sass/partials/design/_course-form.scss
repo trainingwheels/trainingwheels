@@ -8,6 +8,27 @@
 #course-form {
   @extend #tw-form;
 
+  #course-form-nav {
+    list-style: none;
+
+    .course-form-nav-item {
+      float: left;
+      padding: 0.5em;
+      border: 1px solid $black;
+      border-right: none;
+      font-size: $base-font-size * 0.75;
+      font-weight: bold;
+
+      &.last {
+        border-right: 1px solid $black;
+      }
+
+      &.active {
+        background-color: $yellow;
+      }
+    }
+  }
+
   .course-section {
     width: 100%;
     float: left;
