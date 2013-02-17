@@ -52,7 +52,4 @@ class Cloud9IDEResource extends SupervisorProcessResource {
   public function getPort() {
     return '3' . $this->env->userGetId($this->user_name);
   }
-
-
-
 }
