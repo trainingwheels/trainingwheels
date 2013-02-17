@@ -18,7 +18,7 @@ abstract class SupervisorProcessResource extends Resource {
   public function __construct(Environment $env, $title, $user_name, $course_name, $res_id, $data) {
     parent::__construct($env, $title, $user_name, $course_name, $res_id);
     $this->program = $res_id;
-    $this->conf_path = "/etc/supervisor/conf.d/$this->program.conf"
+    $this->conf_path = "/etc/supervisor/conf.d/$this->program.conf";
   }
 
   /**
@@ -54,9 +54,9 @@ abstract class SupervisorProcessResource extends Resource {
   }
 
   /**
-   * Sync to a target - noop by default.
+   * Sync to a target. There's nothing to sync, just create the target's process.
    */
   public function syncTo($target) {
-    return TRUE;
+    $target->create();
   }
 }
