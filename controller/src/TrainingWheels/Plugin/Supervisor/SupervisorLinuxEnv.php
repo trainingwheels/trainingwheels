@@ -32,5 +32,12 @@ class SupervisorLinuxEnv {
     $env->supervisorProgramStart = function($program) use ($conn) {
       $conn->exec_get("supervisorctl start $program");
     };
+
+    /**
+     * Stop a program.
+     */
+    $env->supervisorProgramStop = function($program) use ($conn) {
+      $conn->exec_get("supervisorctl stop $program");
+    };
   }
 }

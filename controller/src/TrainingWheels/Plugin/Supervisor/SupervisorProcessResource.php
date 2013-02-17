@@ -57,6 +57,8 @@ abstract class SupervisorProcessResource extends Resource {
    * Sync to a target. There's nothing to sync, just create the target's process.
    */
   public function syncTo($target) {
-    $target->create();
+    if (!$target->getExists()) {
+      $target->create();
+    }
   }
 }
