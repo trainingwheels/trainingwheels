@@ -28,7 +28,9 @@ db.course.insert({
       "Drupal": {},
       "PHP": {
         "apc_shm_size": "89M"
-      }
+      },
+      "Supervisor": {},
+      "Cloud9IDE": {}
     },
     "resources": {
       "drupal_files": {
@@ -44,6 +46,11 @@ db.course.insert({
         "plugin": "MySQL",
         "title": "Drupal Database",
         "dump_path": "database.sql.gz",
+      },
+      "drupal_ide": {
+        "type": "Cloud9IDEResource",
+        "plugin": "Cloud9IDE",
+        "title": "Cloud9 IDE"
       }
     }
 })
