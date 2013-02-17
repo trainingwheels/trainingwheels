@@ -37,6 +37,9 @@
     - name: Cloud9 | Get supervisor to read the new config file
       action: command supervisorctl reread
 
+    - name: Cloud9 | Get supervisor to update with the new config
+      action: command supervisorctl update
+
     - name: Cloud9 | Run the cloud9 app as root once as it auto-configures itself on first run
       action: supervisorctl name=cloud9-root state=started
 
@@ -49,3 +52,12 @@
     # See: https://github.com/ajaxorg/cloud9/issues/2005
     - name: Cloud9 | Make a writable sessions directory for Cloud9
       action: file path=$path/.sessions mode=777 owner=root group=root state=directory
+
+    - name: Cloud9 | Remove the root config file
+      action: file path=/etc/supervisor/conf.d/cloud9-root.conf state=absent
+
+    - name: Cloud9 | Get supervisor to read the new config
+      action: command supervisorctl reread
+
+    - name: Cloud9 | Get supervisor to update with the new config
+      action: command supervisorctl update
