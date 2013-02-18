@@ -46,9 +46,12 @@ class Course extends Observable {
     $user_res = array();
     foreach ($this->resource_config as $key => $res) {
       $user_res_id = $user_id . '-' . $key;
+      if (!isset($this->plugins[$res['plugin']])) {
+        throw new Exception('The resource "' . $res['title'] . '" requires Plugin "' . $res['plugin'] . '" but the course does not include it.');
+      }
       $plugin = $this->plugins[$res['plugin']];
 
-      $user_res[$key] = $plugin->resourceFactory($res['type'], $this->env, $res['title'], $user_res_id, $user_name, $this->course_name, $res);
+      $user_res[$key] = $plugin->resourceFactory($res['type'], $this->env, $res['title'], $user_name, $this->course_name, $user_res_id, $res);
     }
     $user_obj->resources = $user_res;
 

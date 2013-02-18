@@ -1,0 +1,14 @@
+##
+# Ansible playbook for Supervisor plugin.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    ##
+    # Install Supervisor
+    #
+    - name: Supervisor | Ensure required Ubuntu packages are installed
+      action: apt pkg=supervisor state=installed

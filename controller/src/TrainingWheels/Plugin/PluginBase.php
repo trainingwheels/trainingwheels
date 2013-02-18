@@ -18,14 +18,14 @@ abstract class PluginBase {
   /**
    * Get the resource object for this plugin.
    */
-  public function resourceFactory($type, $env, $title, $res_id, $user_name, $course_name, $data) {
+  public function resourceFactory($type, $env, $title, $user_name, $course_name, $res_id, $data) {
     $classes = $this->getResourceClasses();
     if (!$classes) {
       $type = $this->getType();
       throw new Exception("The plugin type \"$type\" does not provide resources");
     }
     $class = $classes[$type];
-    $obj = new $class($env, $title, $res_id, $user_name, $course_name, $data);
+    $obj = new $class($env, $title, $user_name, $course_name, $res_id, $data);
     return $obj;
   }
 

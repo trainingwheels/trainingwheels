@@ -1,9 +1,9 @@
 //
 // Remove all Mongo data and insert some sample data.
 //
-// We are not using Mongo and Nodejs plugins in the sample right now. They work,
+// We are not using Mongo plugin in the sample right now. It works,
 // but cause issues because the controller uses Mongo too, and the playbook
-// restarts it, throwing an exception. They should be used only on SSH connections.
+// restarts it, throwing an exception. It should be used only on SSH connections.
 
 db.course.remove()
 db.course.insert({
@@ -28,7 +28,10 @@ db.course.insert({
       "Drupal": {},
       "PHP": {
         "apc_shm_size": "89M"
-      }
+      },
+      "Nodejs" : {},
+      "Supervisor": {},
+      "Cloud9IDE": {}
     },
     "resources": {
       "drupal_files": {
@@ -44,6 +47,11 @@ db.course.insert({
         "plugin": "MySQL",
         "title": "Drupal Database",
         "dump_path": "database.sql.gz",
+      },
+      "drupal_ide": {
+        "type": "Cloud9IDEResource",
+        "plugin": "Cloud9IDE",
+        "title": "Cloud9 IDE"
       }
     }
 })

@@ -6,7 +6,8 @@ define([
   'ember-data',
   'jquery',
   'alertify',
-  'app'
+  'app',
+  'jquery_plugins'
 ], function(Ember, DS, $, alertify, app) {
   app.UserSummary = DS.Model.extend({
     course: DS.belongsTo('App.Course'),
