@@ -30,8 +30,6 @@
             {{/each}}
           </ul>
         </div>
-        <div class="field">Type        {{view Ember.TextField placeholder="drupal" size="30" viewName="typeTextField" valueBinding="courseType"}}</div>
-        <div class="field">Environment {{view Ember.TextField value="ubuntu" size="30" viewName="environmentTextField" valueBinding="envType"}}</div>
       </div>
       <div class="course-tools clearfix">
         <button class="next" type="submit" value="Next" {{action "courseFormNext" target="view"}}>Add Plug-ins &raquo;</button>

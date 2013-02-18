@@ -1,6 +1,7 @@
 <?php
 
 namespace TrainingWheels\Plugin;
+use Exception;
 use stdClass;
 
 class PluginManager {
