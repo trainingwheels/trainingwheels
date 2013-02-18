@@ -80,8 +80,8 @@ class Drupal extends PluginBase {
       $data['course']->env->dirChmod('g+rwx', $files_full_path);
 
       if ($db && $db->getExists()) {
-        $settings = '\\' . "\$databases['default']['default']['database'] = '" . $db->db_name . "';\n";
-        $settings .= '\\' . "\$databases['default']['default']['username'] = '" . $db->mysql_username . "';\n";
+        $settings = '\\' . "\$databases['default']['default']['database'] = '" . $db->getDBName() . "';\n";
+        $settings .= '\\' . "\$databases['default']['default']['username'] = '" . $db->getUserName() . "';\n";
         $settings .= '\\' . "\$databases['default']['default']['password'] = '" . $db->getPasswd() . "';\n";
         $data['course']->env->fileAppendText("/twhome/$user_name/$course_name/sites/default/settings.php", $settings);
       }

@@ -16,8 +16,8 @@ class GitFilesResource extends Resource {
   /**
    * Constructor.
    */
-  public function __construct(Environment $env, $title, $res_id, $user_name, $course_name, $data) {
-    parent::__construct($env, $title, $user_name);
+  public function __construct(Environment $env, $title, $user_name, $course_name, $res_id, $data) {
+    parent::__construct($env, $title, $user_name, $course_name, $res_id);
 
     $this->subdir = $data['subdir'];
     $this->fullpath = "/twhome/$user_name/$course_name";
@@ -56,13 +56,7 @@ class GitFilesResource extends Resource {
    * Get the info on this resource.
    */
   public function get() {
-    $info = array(
-      'type' => 'gitfiles',
-      'exists' => $this->getExists(),
-      'title' => $this->title,
-      // In the future, we may have more statuses than just ready or missing.
-      'status' => $this->getExists() ? 'resource-ready' : 'resource-missing',
-    );
+    $info = parent::get();
     if ($info['exists']) {
       $info['attribs'][0]['key'] = 'branch';
       $info['attribs'][0]['title'] = 'Branch';
@@ -117,7 +111,7 @@ class GitFilesResource extends Resource {
    */
   public function delete() {
     if (!$this->getExists()) {
-      throw new Exception("Attempting to delete a Git files resource that does not exist.");
+      throw new Exception("Attempting to delete a GitFilesResource that does not exist.");
     }
     $this->env->dirDelete($this->fullpath);
     $this->exists = FALSE;
@@ -129,7 +123,7 @@ class GitFilesResource extends Resource {
    */
   public function create() {
     if ($this->getExists()) {
-      throw new Exception("Attempting to create a Git files resource that already exists.");
+      throw new Exception("Attempting to create a GitFilesResource that already exists.");
     }
     $this->exists = TRUE;
     $this->env->gitRepoClone($this->user_name, $this->repo, $this->fullpath, $this->default_branch);
