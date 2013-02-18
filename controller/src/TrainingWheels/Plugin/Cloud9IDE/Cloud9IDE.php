@@ -15,7 +15,7 @@ class Cloud9IDE extends PluginBase {
         'val' => '/var/local/cloud9',
       ),
       'version' => array(
-        'val' => 'v2.0.93',
+        'val' => 'hide-password',
       ),
       'session_type' => array(
         'val' => 'connect.session.memory'

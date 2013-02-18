@@ -23,7 +23,7 @@
         - supervisor
 
     - name: Cloud9 | Grab the repository
-      action: git repo=https://github.com/ajaxorg/cloud9.git dest=$path version=$version
+      action: git repo=https://github.com/marktheunissen/cloud9.git dest=$path version=$version
 
     - name: Cloud9 | Install Source Mint to build Cloud 9
       action: command npm install -g sm creates=/usr/bin/sm
