@@ -40,6 +40,14 @@
 
     <div id="course-form-add-plugins" class="course-section">
       <div id="course-form-add-plugins-title" class="course-form-title">Add Plug-ins</div>
+      <div id="plugin-bundles">
+        <h3>Bundles</h3>
+      </div>
+      <div id="plugin-plugins">
+        <h3>A la carte</h3>
+        <ul id="plugins-list">
+        </ul>
+      </div>
       <div class="course-tools clearfix">
         <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Course Info</button>
         <button class="next" type="submit" value="Next" {{action "courseFormNext" target="view"}}>Configure Plug-ins &raquo;</button>
@@ -64,10 +72,6 @@
 
     <div id="course-form-connection" class="course-section">
       <div id="course-form-connection-title" class="course-form-title">Connection</div>
-      <div style="text-align:center">
-        You made it!
-        <div style="font-size: 64px; margin-top: 1em;">❤</div>
-      </div>
       <div class="course-tools">
         <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Add Resources</button>
         <button class="submit" type="submit" value="Save" {{bindAttr disabled="form_is_invalid"}} {{action "saveCourse" view}}>Create course</button>
