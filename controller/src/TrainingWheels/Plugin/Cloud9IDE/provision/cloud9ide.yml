@@ -35,5 +35,5 @@
       action: command make update chdir=$path
 
     # See: https://github.com/ajaxorg/cloud9/issues/2005
-    - name: Cloud9 | Make a writable sessions directory for Cloud9
-      action: file path=$path/.sessions mode=777 owner=root group=root state=directory
+    - name: Cloud9 | Use memory based sessions instead of file sessions.
+      action: copy src=var-local-cloud9-configs-default-js dest=/var/local/cloud9/configs/default.js mode=644 owner=root group=staff
