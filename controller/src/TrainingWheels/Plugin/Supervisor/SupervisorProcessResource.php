@@ -46,7 +46,7 @@ abstract class SupervisorProcessResource extends Resource {
    */
   public function create() {
     // Make the conf file.
-    $this->env->fileCreate("\"[program:$this->program]\ncommand=$this->command\ndirectory=$this->directory\nuser=$this->user_name\nautostart=false\nautorestart=true\n\"", $this->conf_path, 'root');
+    $this->env->fileCreate("\"[program:$this->program]\ncommand=$this->command\ndirectory=$this->directory\nuser=$this->user_name\nautostart=true\nautorestart=true\n\"", $this->conf_path, 'root');
 
     // Tell Supervisor to reload the config and start the program.
     $this->env->supervisorUpdateConfig();

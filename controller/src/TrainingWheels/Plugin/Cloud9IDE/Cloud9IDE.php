@@ -16,6 +16,9 @@ class Cloud9IDE extends PluginBase {
       ),
       'version' => array(
         'val' => 'v2.0.93',
+      ),
+      'session_type' => array(
+        'val' => 'connect.session.memory'
       )
     );
   }

@@ -36,4 +36,4 @@
 
     # See: https://github.com/ajaxorg/cloud9/issues/2005
     - name: Cloud9 | Use memory based sessions instead of file sessions.
-      action: copy src=var-local-cloud9-configs-default-js dest=/var/local/cloud9/configs/default.js mode=644 owner=root group=staff
+      action: template src=var-local-cloud9-configs-default-js.j2 dest=/var/local/cloud9/configs/default.js mode=644 owner=root group=staff
