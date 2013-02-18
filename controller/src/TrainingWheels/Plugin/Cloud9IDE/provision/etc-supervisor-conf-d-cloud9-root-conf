@@ -1,6 +1,0 @@
-[program:cloud9-root]
-command=/usr/bin/node server.js --username root --password pass -w /tmp -p 3131 -a x-www-browser
-autostart=false
-autorestart=false
-directory=/var/local/cloud9
-user=root
