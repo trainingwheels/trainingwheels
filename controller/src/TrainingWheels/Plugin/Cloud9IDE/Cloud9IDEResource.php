@@ -21,9 +21,9 @@ class Cloud9IDEResource extends SupervisorProcessResource {
   public function get() {
     $info = parent::get();
     if ($info['exists']) {
-      $info['attribs'][0]['key'] = 'port';
-      $info['attribs'][0]['title'] = 'Port';
-      $info['attribs'][0]['value'] = $this->getPort();
+      $info['attribs'][0]['key'] = 'address';
+      $info['attribs'][0]['title'] = 'Address';
+      $info['attribs'][0]['value'] = 'http://' . $this->user_name . '.' . $this->course_name . '.' . $_SERVER['SERVER_NAME'] . ':' . $this->getPort();
     }
     return $info;
   }
