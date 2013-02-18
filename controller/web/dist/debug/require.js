@@ -46077,6 +46077,43 @@ define('modules/resource',['ember', 'ember-data', 'jquery', 'app'], function(Emb
 	}
 
 }(this));
+////
+// Select text in a div, useful for copy-paste.
+//
+// From: http://stackoverflow.com/questions/985272/jquery-selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
+//
+
+(function(window, document, $) {
+  
+
+  $.fn.selectText = function() {
+    var doc = document,
+        element = this[0],
+        range,
+        selection;
+
+    if (doc.body.createTextRange) {
+      range = document.body.createTextRange();
+      range.moveToElementText(element);
+      range.select();
+    }
+    else if (window.getSelection) {
+      selection = window.getSelection();
+      range = document.createRange();
+      range.selectNodeContents(element);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  };
+})(window, document, jQuery);
+
+define("jquery_plugins", ["jquery"], (function (global) {
+    return function () {
+        var ret, fn;
+        return ret || global.jQuery.fn.selectText;
+    };
+}(this)));
+
 /**
  * @fileoverview User models, views, and controllers.
  */
@@ -46085,7 +46122,8 @@ define('modules/user',[
   'ember-data',
   'jquery',
   'alertify',
-  'app'
+  'app',
+  'jquery_plugins'
 ], function(Ember, DS, $, alertify, app) {
   app.UserSummary = DS.Model.extend({
     course: DS.belongsTo('App.Course'),
@@ -46581,38 +46619,6 @@ define('modules/course',[
   });
 });
 
-////
-// Select text in a div, useful for copy-paste.
-//
-// From: http://stackoverflow.com/questions/985272/jquery-selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
-//
-
-(function(window, document, $) {
-  
-
-  $.fn.selectText = function() {
-    var doc = document,
-        element = this[0],
-        range,
-        selection;
-
-    if (doc.body.createTextRange) {
-      range = document.body.createTextRange();
-      range.moveToElementText(element);
-      range.select();
-    }
-    else if (window.getSelection) {
-      selection = window.getSelection();
-      range = document.createRange();
-      range.selectNodeContents(element);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
-  };
-})(window, document, jQuery);
-
-define("jquery_plugins", function(){});
-
 /**
  * @fileoverview Main Training Wheels application entry point.
  */
@@ -46625,8 +46631,7 @@ require([
   'modules/job',
   'modules/resource',
   'modules/user',
-  'modules/course',
-  'jquery_plugins'
+  'modules/course'
 ], function(Ember, DS, $, Handlebars, app) {
   ////
   // Ember Data Store.
@@ -46727,7 +46732,8 @@ require.config({
     ember: '../libs/ember/ember',
     'ember-data': '../libs/ember-data/ember-data',
     handlebars: '../libs/handlebars/handlebars-1.0.rc.1',
-    alertify: '../vendor/alertify/alertify'
+    alertify: '../vendor/alertify/alertify',
+    jquery_plugins: './jquery_plugins'
   },
 
   shim: {
@@ -46747,6 +46753,11 @@ require.config({
 
     alertify: {
       exports: 'alertify'
+    },
+
+    jquery_plugins: {
+      deps: ['jquery'],
+      exports: 'jQuery.fn.selectText'
     }
   }
 });

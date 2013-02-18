@@ -13,7 +13,8 @@ require.config({
     ember: '../libs/ember/ember',
     'ember-data': '../libs/ember-data/ember-data',
     handlebars: '../libs/handlebars/handlebars-1.0.rc.1',
-    alertify: '../vendor/alertify/alertify'
+    alertify: '../vendor/alertify/alertify',
+    jquery_plugins: './jquery_plugins'
   },
 
   shim: {
@@ -33,6 +34,11 @@ require.config({
 
     alertify: {
       exports: 'alertify'
+    },
+
+    jquery_plugins: {
+      deps: ['jquery'],
+      exports: 'jQuery.fn.selectText'
     }
   }
 });

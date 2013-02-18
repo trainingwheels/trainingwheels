@@ -10,8 +10,7 @@ require([
   'modules/job',
   'modules/resource',
   'modules/user',
-  'modules/course',
-  'jquery_plugins'
+  'modules/course'
 ], function(Ember, DS, $, Handlebars, app) {
   ////
   // Ember Data Store.
