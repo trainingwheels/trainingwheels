@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Output all commands before they are run
+set -x
+
 # Simple function to exit with a message in the case of failure.
 function error_exit
 {
@@ -36,12 +39,10 @@ ANS_ARGS="-c ssh -s --timeout=$RUNNING_TIMEOUT --private-key=$ID_FILE --inventor
 SLEEP='3'
 
 # If Ansible ever gets a good euca2ools module, we may be able to move some of this out of bash.
-echo ''
-echo 'Finding all existing build instances...'
+: 'Finding all existing build instances...'
 OBSOLETE_INSTANCES=`euca-describe-instances --filter tag-value=$TAG_VAL | grep INSTANCE | cut -f 2`
 
-echo ''
-echo "The following instances will be terminated:"
+: "The following instances will be terminated:"
 echo "$OBSOLETE_INSTANCES"
 euca-terminate-instances $OBSOLETE_INSTANCES
 
