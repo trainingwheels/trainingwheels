@@ -46377,7 +46377,8 @@ define('modules/course',[
     courseType: null,
 
     /**
-     * Environment type.
+     * Environment type. We do want to ultimately support multiple environments,
+     * but right now, Ubuntu is the only option. Hide this from the user.
      */
     envType: 'ubuntu',
 
