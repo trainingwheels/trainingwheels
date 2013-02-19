@@ -15,13 +15,6 @@ TAG_VAL='trainingwheels-autobuild'
 CONTROLLER_IP_ADDRESS='0.0.0.0'
 CLASSROOM_IP_ADDRESS='0.0.0.0'
 
-# If this is being run from a server within EC2, say a control box,
-# it's faster to use the internal IP address, so the default setting is to assume
-# internal and leave it up to the rebuild script to calculate the hostname
-# However, for testing, it may be necessary to run from outside of EC2
-# so you can override by passing the hostname.
-EC2_EXTERNAL='internal'
-
 # Passwords
 MONGO_ROOT_PASSWORD=''
 MONGO_APP_PASSWORD=''

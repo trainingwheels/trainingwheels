@@ -1,0 +1,14 @@
+##
+# Ansible playbook for fetching the Training Wheels key.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  vars:
+    twdir: '/var/trainingwheels'
+
+  tasks:
+    - name: Fetch the public key
+      action: fetch src=$twdir/keypairs/tw.key.pub dest=tw.key.pub

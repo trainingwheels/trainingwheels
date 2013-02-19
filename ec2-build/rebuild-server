@@ -93,28 +93,33 @@ echo 'Classroom: Associating the elastic IP with the new instance...'
 euca-associate-address -i $CLASSROOM_INSTANCE_ID $CLASSROOM_IP_ADDRESS
 
 echo ''
-echo 'Grabbing the internal host name if required, else the external...'
-if [ "$EC2_EXTERNAL" == 'internal' ]; then
-  HOST=`euca-describe-instances $CONTROLLER_INSTANCE_ID | grep internal | cut -f 5`
-else
-  HOST="$EC2_EXTERNAL"
-fi
-echo "$HOST" > $BASE_DIR/ec2-hostname
-echo "$HOST"
+echo 'Grabbing the internal controller host name...'
+CONTROLLER_HOST=`euca-describe-instances $CONTROLLER_INSTANCE_ID | grep internal | cut -f 5`
+echo "$CONTROLLER_HOST"
+
+echo ''
+echo 'Grabbing the internal classroom host name...'
+CLASSROOM_HOST=`euca-describe-instances $CONTROLLER_INSTANCE_ID | grep internal | cut -f 5`
+echo "$CLASSROOM_HOST"
+
+echo ''
+echo 'Assembling the Ansible inventory file...'
+echo "$CONTROLLER_HOST" > $BASE_DIR/ec2-hostname
+cat $BASE_DIR/ec2-hostname
 
 echo ''
 echo "Waiting for the instance to actually accept ssh connections..."
-timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'whoami' | grep 'ubuntu'; do echo 'checking...'; sleep $SLEEP; done" \
+timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$CONTROLLER_HOST 'whoami' | grep 'ubuntu'; do echo 'checking...'; sleep $SLEEP; done" \
 || error_exit "server didn't start after $RUNNING_TIMEOUT seconds"
 
 echo ''
 echo "Waiting for the instance to gain internal networking..."
-timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'ping -c4 $REGION.ec2.archive.ubuntu.com' | grep '64 bytes from'; do echo 'checking...'; sleep $SLEEP; done" \
+timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$CONTROLLER_HOST 'ping -c4 $REGION.ec2.archive.ubuntu.com' | grep '64 bytes from'; do echo 'checking...'; sleep $SLEEP; done" \
 || error_exit "server internal networking didn't start after $RUNNING_TIMEOUT seconds"
 
 echo ''
 echo "Waiting for the instance to gain external networking..."
-timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'ping -c4 security.ubuntu.com' | grep '64 bytes from'; do echo 'checking...'; sleep $SLEEP; done" \
+timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$CONTROLLER_HOST 'ping -c4 security.ubuntu.com' | grep '64 bytes from'; do echo 'checking...'; sleep $SLEEP; done" \
 || error_exit "server external networking didn't start after $RUNNING_TIMEOUT seconds"
 
 echo ''
@@ -142,6 +147,23 @@ echo ''
 echo 'Running sample data playbook setup...'
 cd $BASE_DIR/../playbooks/controller
 ansible-playbook $ANS_ARGS sample-data.yml --extra-vars "mongo_app_password=$MONGO_APP_PASSWORD" || error_exit "Sample data setup failed."
+
+echo ''
+echo 'Fetch the generated public key from the controller...'
+cd $BASE_DIR/provision
+ansible-playbook $ANS_ARGS fetch-key.yml || error_exit "Could not fetch the public key from the controller"
+cat ./tw.key.pub/"$CONTROLLER_HOST"/var/trainingwheels/keypairs/tw.key.pub
+mv ./tw.key.pub/"$CONTROLLER_HOST"/var/trainingwheels/keypairs/tw.key.pub $BASE_DIR/provision-classroom/tw.key.pub
+
+echo ''
+echo 'Assembling the Ansible inventory file for classroom setup...'
+echo "$CLASSROOM_HOST" > $BASE_DIR/ec2-hostname
+cat $BASE_DIR/ec2-hostname
+
+echo ''
+echo 'Run the classroom server setup...'
+cd $BASE_DIR/provision-classroom
+ansible-playbook $ANS_ARGS prep-classroom.yml --extra-vars "server=$SERVER" || error_exit "Could not run the classroom setup"
 
 echo ''
 echo 'done.'
