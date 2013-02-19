@@ -4,6 +4,7 @@ controller/web/development.log
 controller/web/.sass-cache
 controller/web/node_modules
 controller/log/*.log
+ec2-build/provision-classroom/tw.key.pub
 ec2-build/ec2-hostname
 ec2-build/ec2-params.build.sh
 ec2-build/ec2-params.stable.sh
