@@ -25,9 +25,9 @@ Vagrant::Config.run do |config|
     tw_config.vm.forward_port 80, 18888 # Apache webserver
     tw_config.vm.forward_port 22, 12222 # SSH
     tw_config.vm.forward_port 21, 12121 # FTP
-    tw_config.vm.forward_port 31001, 31001 # Cloud9 IDE for instructor
-    tw_config.vm.forward_port 31002, 31002 # Cloud9 IDE for bobby
-    tw_config.vm.forward_port 31003, 31003 # Cloud9 IDE for sally
+    tw_config.vm.forward_port 31001, 31101 # Cloud9 IDE for instructor
+    tw_config.vm.forward_port 31002, 31102 # Cloud9 IDE for bobby
+    tw_config.vm.forward_port 31003, 31103 # Cloud9 IDE for sally
 
     tw_config.vm.provision :shell, :path => "provision/classroom-setup.sh"
 

@@ -106,7 +106,7 @@ CLASSROOM_HOST=`euca-describe-instances $CLASSROOM_INSTANCE_ID | grep internal |
 echo "$CLASSROOM_HOST"
 
 echo ''
-echo 'Assembling the Ansible inventory file...'
+echo 'Assembling the Ansible inventory file to talk to the controller...'
 echo "$CONTROLLER_HOST" > $BASE_DIR/ec2-hostname
 cat $BASE_DIR/ec2-hostname
 
