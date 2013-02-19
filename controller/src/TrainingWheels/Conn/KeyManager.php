@@ -29,8 +29,8 @@ class KeyManager {
 
   public function createKey() {
     // Create directories in case they don't exist already.
-    shell_exec("sudo mkdir -p $this->keydir");
-    shell_exec("sudo mkdir -p $this->keydir/backup");
+    shell_exec("mkdir -p $this->keydir");
+    shell_exec("mkdir -p $this->keydir/backup");
 
     // Backup old keys.
     $stamp = new DateTime();
