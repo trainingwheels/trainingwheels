@@ -44,8 +44,8 @@
         - nodejs
         - npm
 
-    - name: Node.js | Install grunt
-      action: command npm install -g grunt creates=/usr/bin/grunt
+    - name: Node.js | Install Grunt CLI
+      action: command npm install -g grunt-cli creates=/usr/bin/grunt
 
     - name: Node.js | Install TW dev environment
       action: command npm install chdir=$twdir/controller/web
