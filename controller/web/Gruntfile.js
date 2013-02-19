@@ -73,20 +73,22 @@ module.exports = function(grunt) {
     },
 
     requirejs: {
-      options: {
-        mainConfigFile: 'js/src/config.js',
-        out: 'dist/debug/require.js',
+      compile: {
+        options: {
+          mainConfigFile: 'js/src/config.js',
+          out: 'dist/debug/require.js',
 
-        // Root application module.
-        name: 'config',
+          // Root application module.
+          name: 'config',
 
-        // Do not wrap everything in an IIFE.
-        wrap: false,
+          // Do not wrap everything in an IIFE.
+          wrap: false,
 
-        optimize: 'none',
+          optimize: 'none',
 
-        paths: {
-          handlebars: '../vendor/handlebars/handlebars-1.0.rc.1'
+          paths: {
+            handlebars: '../vendor/handlebars/handlebars-1.0.rc.1'
+          }
         }
       }
     },
