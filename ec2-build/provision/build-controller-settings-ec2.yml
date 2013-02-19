@@ -46,7 +46,7 @@ apc_shm_segments: '1'
 apc_num_files_hint: '0'
 
 # application
-debug: false
+debug: true
 app_user: 'tw'
 # The app pass is stored in the Jenkins job config and passed through rebuild-server script.
 # app_pass: ''
