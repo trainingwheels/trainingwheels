@@ -46756,9 +46756,7 @@ require([
     setupController: function(controller, model) {
       this._super.apply(arguments);
 
-      var promise = app.loadBuild();
-
-      $.when(promise).then(function() {
+      var map = function() {
         controller.set('plugins', $.map(app.courseBuild.plugins, function(plugin, pluginClass) {
           plugin.pluginClass = pluginClass;
           plugin.enabled = false;
@@ -46769,7 +46767,17 @@ require([
           bundle.enabled = false;
           return Ember.Object.create(bundle);
         }));
-      });
+      };
+
+      // If we don't already have a course build, fetch it and fill
+      // out the controller as soon as we get it.
+      if (typeof app.courseBuild === 'undefined') {
+        var promise = app.loadBuild();
+        $.when(promise).then(map);
+      }
+      else {
+        map();
+      }
     }
   });
 
