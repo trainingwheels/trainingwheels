@@ -63,4 +63,11 @@ abstract class Resource extends CachedObject {
     );
     return $info;
   }
+
+  /**
+   * Get the configuration options for instances of this resource.
+   */
+  public static function getResourceVars() {
+    return array();
+  }
 }
