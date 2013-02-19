@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     clean: ['dist/'],
 
     lint: {
-      files: ['grunt.js', 'js/src']
+      files: ['grunt.js', 'js/src/**/*.js']
     },
 
     jshint: {

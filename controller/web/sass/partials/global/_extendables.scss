@@ -5,6 +5,18 @@
 //   should go in this file.
 ////////////////////////
 
+.clearfix {
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
 #tw-form {
   margin: 0 auto;
   max-width: 550px;
@@ -24,6 +36,26 @@
     vertical-align: top;
     display: inline-block;
     padding-top: 10px;
+  }
+
+  &.invalid {
+    color: $red;
+
+    input {
+      border-color: $red;
+      background: $whiteRed;
+      box-shadow: none;
+    }
+
+    .errors {
+      // This matches the form field widths, I haven't figured out
+      // why they're locked to this yet...
+      max-width: 328px;
+
+      float: right;
+      margin-top: 1em;
+      text-align: left;
+    }
   }
 }
 

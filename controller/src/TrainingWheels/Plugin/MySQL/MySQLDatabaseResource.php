@@ -8,17 +8,17 @@ use Exception;
 
 class MySQLDatabaseResource extends Resource {
 
-  public $db_name;
-  public $mysql_username;
-  public $mysql_password;
-  public $course_name;
-  public $dump_path;
+  protected $db_name;
+  protected $mysql_username;
+  protected $mysql_password;
+  protected $course_name;
+  protected $dump_path;
 
   /**
    * Constructor.
    */
-  public function __construct(Environment $env, $title, $res_id, $user_name, $course_name, $data) {
-    parent::__construct($env, $title, $user_name);
+  public function __construct(Environment $env, $title, $user_name, $course_name, $res_id, $data) {
+    parent::__construct($env, $title, $user_name, $course_name, $res_id);
     $this->course_name = $course_name;
     $this->dump_path = "/twhome/$user_name/$course_name/" . $data['dump_path'];
 
@@ -27,16 +27,22 @@ class MySQLDatabaseResource extends Resource {
   }
 
   /**
+   * Get the configuration options for instances of this resource.
+   */
+  public static function getResourceVars() {
+    return array(
+      'dump_path' => array(
+        'val' => 'database.sql.gz',
+        'help' => 'The database dump filename relative to the user\'s course directory',
+      ),
+    );
+  }
+
+  /**
    * Get the info on this resource.
    */
   public function get() {
-    $info = array(
-      'type' => 'mysqldb',
-      'exists' => $this->getExists(),
-      'title' => $this->title,
-      // In the future, we may have more statuses than just ready or missing.
-      'status' => $this->getExists() ? 'resource-ready' : 'resource-missing',
-    );
+    $info = parent::get();
     if ($info['exists']) {
       $info['attribs'][0]['key'] = 'db_name';
       $info['attribs'][0]['title'] = 'Database name';
@@ -67,7 +73,7 @@ class MySQLDatabaseResource extends Resource {
    */
   public function create() {
     if ($this->getExists()) {
-      throw new Exception("Attempting to create a MySQL DB resource that already exists.");
+      throw new Exception("Attempting to create a MySQLDatabaseResource that already exists.");
     }
     $this->mysql_password = Util::passwdGen();
     $this->mysql_username = $this->getUserName();
@@ -84,7 +90,7 @@ class MySQLDatabaseResource extends Resource {
    */
   public function delete() {
     if (!$this->getExists()) {
-      throw new Exception("Attempting to delete a MySQL DB resource that does not exist.");
+      throw new Exception("Attempting to delete a MySQLDatabaseResource that does not exist.");
     }
     $this->env->mySQLUserDBDelete($this->getUserName(), $this->getDBName());
 

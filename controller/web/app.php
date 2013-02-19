@@ -127,6 +127,10 @@ $app->match('/login', function (Request $request) use ($app) {
  * Bail on non-authenticated requests.
  */
 $app->before(function (Request $request) use ($app) {
+  // Developers can set authentication bypass for REST testing.
+  if (isset($app['tw.config']['bypass_auth']) && $app['tw.config']['bypass_auth'] === TRUE) {
+    return;
+  }
   if ($request->getPathInfo() !== '/login' && $app['session']->get('user') === NULL) {
     // For the front page, redirect to the login page.
     if ($request->getPathInfo() == '/') {

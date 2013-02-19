@@ -6,7 +6,8 @@ define([
   'ember-data',
   'jquery',
   'alertify',
-  'app'
+  'app',
+  'jquery_plugins'
 ], function(Ember, DS, $, alertify, app) {
   app.UserSummary = DS.Model.extend({
     course: DS.belongsTo('App.Course'),
@@ -39,7 +40,7 @@ define([
   app.UserSummaryController = Ember.ObjectController.extend();
 
   app.UserSummaryView = Ember.View.extend({
-    templateName: 'user-summary',
+    templateName: 'user-summary'
   });
 
   app.UserController = Ember.ObjectController.extend({

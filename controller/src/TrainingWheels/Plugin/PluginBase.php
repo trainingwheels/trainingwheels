@@ -1,26 +1,31 @@
 <?php
 
 namespace TrainingWheels\Plugin;
+use Exception;
 
 abstract class PluginBase {
 
   protected $location;
-  protected $provision_vars;
+  protected $vars;
 
   /**
    * Constructor.
    */
   public function __construct() {
-    $this->provision_vars = array();
+    $this->vars = array();
   }
 
   /**
    * Get the resource object for this plugin.
    */
-  public function resourceFactory($type, $env, $title, $res_id, $user_name, $course_name, $data) {
+  public function resourceFactory($type, $env, $title, $user_name, $course_name, $res_id, $data) {
     $classes = $this->getResourceClasses();
+    if (!$classes) {
+      $type = $this->getType();
+      throw new Exception("The plugin type \"$type\" does not provide resources");
+    }
     $class = $classes[$type];
-    $obj = new $class($env, $title, $res_id, $user_name, $course_name, $data);
+    $obj = new $class($env, $title, $user_name, $course_name, $res_id, $data);
     return $obj;
   }
 
@@ -33,32 +38,58 @@ abstract class PluginBase {
   }
 
   /**
+   * Return the value of a variable.
+   */
+  public function getVar($name) {
+    return $this->vars[$name];
+  }
+
+  /**
    * Given the data loaded from the DataStore, setup the instance
    * of this plugin correctly. This allows config in the database to
    * override the default config the plugin provides.
    */
   public function set($data) {
-    $provision_config = $this->getProvisionConfig();
+    $this->validateVarsConfig();
+    $vars = $this->getPluginVars();
+    $type = $this->getType();
 
-    if ($provision_config) {
-      foreach($provision_config['vars'] as $key => $var) {
+    if ($vars) {
+      foreach($vars as $key => $var) {
+        $default_value = isset($var['val']) ? $var['val'] : NULL;
+        $data_value = isset($data[$key]) ? $data[$key] : NULL;
 
-        // If the default config has the value NULL then we
-        // must obtain the value from the passed $data.
-        if (!isset($var)) {
-          $this->provision_vars[$key] = $data[$key];
+        if ($data_value === NULL && $default_value === NULL) {
+          throw new Exception("The plugin \"$type\" requires a value for variable \"$key\".");
         }
-        // If the default config provides a value, then check
-        // if an override is provided.
-        else if (isset($data[$key])) {
-          $this->provision_vars[$key] = $data[$key];
+
+        if ($data_value !== NULL) {
+          $this->vars[$key] = $data_value;
         }
-        // Else use the default.
         else {
-          $this->provision_vars[$key] = $var;
+          $this->vars[$key] = $default_value;
         }
       }
     }
+  }
+
+  /**
+   * Validate the plugin's variable config is correctly structured.
+   */
+  public function validateVarsConfig() {
+    $vars = $this->getPluginVars();
+    $type = $this->getType();
+
+    if ($vars) {
+      foreach($vars as $var_name => $settings) {
+        foreach ($settings as $key => $value) {
+          if (!in_array($key, array('val', 'help', 'hint'))) {
+            throw new Exception("The plugin \"$type\" has a variable with unrecognized key \"$key\"");
+          }
+        }
+      }
+    }
+    return TRUE;
   }
 
   /**
@@ -66,7 +97,7 @@ abstract class PluginBase {
    */
   public function formatVarsString() {
     $output = '';
-    foreach ($this->provision_vars as $key => $value) {
+    foreach ($this->vars as $key => $value) {
       $output .= "$key=$value ";
     }
     return trim($output);
@@ -80,9 +111,9 @@ abstract class PluginBase {
   }
 
   /**
-   * Provisioning config. Override in subclass if you provide provisioning
+   * Variable config. Override in subclass if you provide variables.
    */
-  public function getProvisionConfig() {
+  public function getPluginVars() {
     return FALSE;
   }
 
@@ -97,6 +128,20 @@ abstract class PluginBase {
    * Course observers. Override in subclass if you provide.
    */
   public function registerCourseObservers($course) {
+    return FALSE;
+  }
+
+  /**
+   * Resources. Override in subclass if you provide.
+   */
+  public function getResourceClasses() {
+    return FALSE;
+  }
+
+  /**
+   * Bundles. Override in subclass if you provide.
+   */
+  public function getBundles() {
     return FALSE;
   }
 }
