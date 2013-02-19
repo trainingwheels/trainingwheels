@@ -400,7 +400,8 @@ var requirejs, require, define;
         jQuery: true
     };
 }());
-;
+
+
 /*!
  * jQuery JavaScript Library v1.8.3
  * http://jquery.com/

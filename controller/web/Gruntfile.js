@@ -5,11 +5,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     clean: ['dist/'],
 
-    lint: {
-      files: ['grunt.js', 'js/src/**/*.js']
-    },
-
     jshint: {
+      files: ['Gruntfile.js', 'js/src/**/*.js'],
       options: {
         scripturl: true
       }
@@ -26,11 +23,11 @@ module.exports = function(grunt) {
       }
     },
 
-    // This task uses the MinCSS Node.js project to take all your CSS files in
+    // This task uses the cssmin Node.js project to take all your CSS files in
     // order and concatenate them into a single CSS file named index.css.  It
     // also minifies all the CSS as well.  This is named index.css, because we
     // only want to load one stylesheet in index.html.
-    mincss: {
+    cssmin: {
       'dist/release/index.css': [
         'css/alertify.css',
         'dist/release/style.css'
@@ -69,56 +66,61 @@ module.exports = function(grunt) {
       }
     },
 
-    min: {
+    uglify: {
       'dist/release/require.js': [
         'dist/debug/require.js'
       ]
     },
 
     requirejs: {
-      options: {
-        mainConfigFile: 'js/src/config.js',
-        out: 'dist/debug/require.js',
+      compile: {
+        options: {
+          mainConfigFile: 'js/src/config.js',
+          out: 'dist/debug/require.js',
 
-        // Root application module.
-        name: 'config',
+          // Root application module.
+          name: 'config',
 
-        // Do not wrap everything in an IIFE.
-        wrap: false,
+          // Do not wrap everything in an IIFE.
+          wrap: false,
 
-        optimize: 'none',
+          optimize: 'none',
 
-        paths: {
-          handlebars: '../vendor/handlebars/handlebars-1.0.rc.1'
+          paths: {
+            handlebars: '../vendor/handlebars/handlebars-1.0.rc.1'
+          }
         }
       }
     },
 
     watch: {
       compass: {
-        files: ['grunt.js', 'sass/**/*.scss'],
+        files: ['Gruntfile.js', 'sass/**/*.scss'],
         tasks: 'compass:dev compass:prod mincss'
       },
       requirejs: {
-        files: ['grunt.js', 'js/src/**/*.js'],
-        tasks: 'lint requirejs concat min'
+        files: ['Gruntfile.js', 'js/src/**/*.js'],
+        tasks: 'jshint requirejs concat uglify'
       }
-    },
+    }
 
-    uglify: {}
   });
 
-  grunt.loadNpmTasks('grunt-compass');
+  grunt.loadNpmTasks('grunt-contrib-compass');
   // @see https://github.com/backbone-boilerplate/grunt-bbb/issues/84
   grunt.loadNpmTasks('grunt-contrib-handlebars');
-  grunt.loadNpmTasks('grunt-contrib-mincss');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   // Default task.
-  grunt.registerTask('default', 'lint concat min');
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
 
-  grunt.registerTask('debug', 'clean lint requirejs concat compass:dev');
+  grunt.registerTask('debug', ['clean', 'jshint', 'requirejs', 'concat', 'compass:dev']);
 
-  grunt.registerTask('release', 'debug compass:prod min mincss');
+  grunt.registerTask('release', ['debug', 'compass:prod', 'uglify', 'cssmin']);
 };
