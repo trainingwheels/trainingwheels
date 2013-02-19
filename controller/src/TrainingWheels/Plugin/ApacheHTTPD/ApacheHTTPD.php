@@ -6,6 +6,8 @@ use TrainingWheels\Common\Util;
 
 class ApacheHTTPD extends PluginBase {
 
+  const name = 'Apache';
+
   public function getProvisionSteps() {
     return __DIR__ . '/provision/apachehttpd.yml';
   }

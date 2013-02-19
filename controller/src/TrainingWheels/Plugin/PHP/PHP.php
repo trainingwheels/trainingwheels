@@ -5,6 +5,8 @@ use TrainingWheels\Plugin\PluginBase;
 
 class PHP extends PluginBase {
 
+  const name = 'PHP';
+
   public function getProvisionSteps() {
     return __DIR__ . '/provision/php.yml';
   }

@@ -5,6 +5,8 @@ use TrainingWheels\Plugin\PluginBase;
 
 class MySQL extends PluginBase {
 
+  const name = 'MySQL';
+
   public function getProvisionSteps() {
     return __DIR__ . '/provision/mysql.yml';
   }

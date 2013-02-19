@@ -26,9 +26,11 @@ class PluginManager {
     foreach($this->plugins as $plugin_key => $plugin) {
       // Get the plugin provision variables.
       $plugin->validateVarsConfig();
+      $plugin_name = $plugin->getName();
       $plugin_vars = $plugin->getPluginVars();
       if ($plugin_vars) {
         $plugins_json[$plugin_key] = array(
+          'name' => $plugin_name,
           'vars' => $plugin_vars
         );
       }
@@ -39,7 +41,9 @@ class PluginManager {
         foreach ($resource_classes as $res_key => $resource_class) {
           $res_vars = $resource_class::getResourceVars();
           if ($res_vars) {
-            $resources_json[$res_key] = array('vars' => $res_vars);
+            $resources_json[$res_key] = array(
+              'vars' => $res_vars
+            );
           }
         }
       }

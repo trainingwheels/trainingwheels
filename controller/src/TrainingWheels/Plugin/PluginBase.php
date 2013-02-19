@@ -5,6 +5,8 @@ use Exception;
 
 abstract class PluginBase {
 
+  const name = 'Plugin';
+
   protected $location;
   protected $vars;
 
@@ -27,6 +29,13 @@ abstract class PluginBase {
     $class = $classes[$type];
     $obj = new $class($env, $title, $user_name, $course_name, $res_id, $data);
     return $obj;
+  }
+
+  /**
+   * Return a human readable name for this plugin.
+   */
+  public function getName() {
+    return $this::name;
   }
 
   /**

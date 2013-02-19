@@ -5,6 +5,8 @@ use TrainingWheels\Plugin\PluginBase;
 
 class VSFTPd extends PluginBase {
 
+  const name = 'SFTP';
+
   public function getProvisionSteps() {
     return __DIR__ . '/provision/vsftpd.yml';
   }

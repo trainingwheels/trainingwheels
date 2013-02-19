@@ -40,10 +40,18 @@
       <div id="course-form-add-plugins-title" class="course-form-title">Add Plug-ins</div>
       <div id="plugin-bundles">
         <h3>Bundles</h3>
+        <ul id="bundles-list">
+          {{#each bundle in App.courseBuild.bundles.A}}
+          <li class="bundle"><a {{action "toggleBundle" bundle}}>{{bundle.title}}</a></li>
+          {{/each}}
+        </ul>
       </div>
       <div id="plugin-plugins">
         <h3>A la carte</h3>
         <ul id="plugins-list">
+          {{#each plugin in App.courseBuild.plugins.A}}
+          <li class="plugin"><a {{action "togglePlugin" plugin}}>{{plugin.name}}</a></li>
+          {{/each}}
         </ul>
       </div>
       <div class="course-tools clearfix">

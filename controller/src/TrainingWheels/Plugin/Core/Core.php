@@ -5,6 +5,8 @@ use TrainingWheels\Plugin\PluginBase;
 
 class Core extends PluginBase {
 
+  const name = 'Core';
+
   public function getProvisionSteps() {
     return __DIR__ . '/provision/core.yml';
   }

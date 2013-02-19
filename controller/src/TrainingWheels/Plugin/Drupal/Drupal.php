@@ -5,6 +5,8 @@ use TrainingWheels\Plugin\PluginBase;
 
 class Drupal extends PluginBase {
 
+  const name = 'Drupal';
+
   public function getProvisionSteps() {
     return __DIR__ . '/provision/drupal.yml';
   }

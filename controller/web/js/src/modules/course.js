@@ -127,6 +127,11 @@ define([
     envType: 'ubuntu',
 
     /**
+     * Plugins.
+     */
+    plugins: [],
+
+    /**
      * Repository.
      */
     repo: 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
@@ -175,6 +180,24 @@ define([
 
     cancelCourseAdd: function() {
       this.transitionToRoute('courses');
+    },
+
+    toggleBundle: function(bundle) {
+    },
+
+    togglePlugin: function(plugin) {
+      var index = this.get('plugins').indexOf(plugin);
+      if (index === -1) {
+        this.get('plugins').push(plugin);
+      }
+      else {
+        this.set('plugins', this.get('plugins').filter(function(p) {
+          if (p.pluginClass !== plugin.pluginClass) {
+            return true;
+          }
+          return false;
+        }));
+      }
     }
   });
 

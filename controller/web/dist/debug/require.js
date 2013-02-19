@@ -45663,7 +45663,28 @@ define('app',['ember', 'jquery'], function(Ember, $) {
     {
       success: function(data, textStatus, jqXHR) {
         if (jqXHR.status === 200) {
-          app.courseBuild = data;
+          // Create arrays from the JSON objects so handlebars can iterate over
+          // the plugins, bundles, and resources correctly.
+          var plugins = Ember.Object.create(data.plugins);
+          plugins.A = $.map(data.plugins, function(plugin, pluginClass) {
+            plugin.pluginClass = pluginClass;
+            return plugin;
+          });
+          var bundles = Ember.Object.create(data.bundles);
+          bundles.A = $.map(data.bundles, function(bundle, bundleClass) {
+            bundle.bundleClass = bundleClass;
+            return bundle;
+          });
+          var resources = Ember.Object.create(data.resources);
+          resources.A = $.map(data.resources, function(resource, resourceClass) {
+            resource.resourceClass = resourceClass;
+            return resource;
+          });
+          Ember.set(app, 'courseBuild', Ember.Object.create({
+            plugins: plugins,
+            bundles: bundles,
+            resources: resources
+          }));
         }
         else {
           throw new Error('Unable to fetch course build information.');
@@ -46383,6 +46404,11 @@ define('modules/course',[
     envType: 'ubuntu',
 
     /**
+     * Plugins.
+     */
+    plugins: [],
+
+    /**
      * Repository.
      */
     repo: 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
@@ -46431,6 +46457,24 @@ define('modules/course',[
 
     cancelCourseAdd: function() {
       this.transitionToRoute('courses');
+    },
+
+    toggleBundle: function(bundle) {
+    },
+
+    togglePlugin: function(plugin) {
+      var index = this.get('plugins').indexOf(plugin);
+      if (index === -1) {
+        this.get('plugins').push(plugin);
+      }
+      else {
+        this.set('plugins', this.get('plugins').filter(function(p) {
+          if (p.pluginClass !== plugin.pluginClass) {
+            return true;
+          }
+          return false;
+        }));
+      }
     }
   });
 

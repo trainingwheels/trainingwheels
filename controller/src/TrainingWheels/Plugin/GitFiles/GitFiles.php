@@ -5,6 +5,8 @@ use TrainingWheels\Plugin\PluginBase;
 
 class GitFiles extends PluginBase {
 
+  const name = 'Git';
+
   public function getProvisionSteps() {
     return __DIR__ . '/provision/gitfiles.yml';
   }
