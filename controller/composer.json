@@ -1,7 +1,7 @@
 {
   "require": {
     "igorw/config-service-provider": "1.1.*",
-    "monolog/monolog": "1.2.1",
+    "monolog/monolog": "1.4.*",
     "silex/silex": "1.0.*@dev",
     "symfony/console": "2.1.*",
     "symfony/form": "2.1.*",
@@ -9,7 +9,7 @@
     "symfony/twig-bridge": "2.1.*",
     "symfony/yaml": "2.1.*",
     "twig/twig": ">=1.11,<2.0-dev",
-    "phpseclib/phpseclib": "*"
+    "phpseclib/phpseclib": "0.3.*"
   },
   "autoload": {
     "psr-0": {
