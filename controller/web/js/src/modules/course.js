@@ -132,6 +132,11 @@ define([
     plugins: [],
 
     /**
+     * Bundles.
+     */
+    bundles: [],
+
+    /**
      * Repository.
      */
     repo: 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
@@ -185,19 +190,22 @@ define([
     toggleBundle: function(bundle) {
     },
 
-    togglePlugin: function(plugin) {
-      var index = this.get('plugins').indexOf(plugin);
-      if (index === -1) {
-        this.get('plugins').push(plugin);
+    togglePlugin: function(plugin, remove) {
+      if (typeof remove === 'undefined') {
+        remove = true;
       }
-      else {
-        this.set('plugins', this.get('plugins').filter(function(p) {
-          if (p.pluginClass !== plugin.pluginClass) {
-            return true;
+      this.get('plugins').find(function(item, index, enumerable) {
+        if (item.get('pluginClass') == plugin.get('pluginClass')) {
+          if (remove) {
+            item.set('enabled', !item.get('enabled'));
           }
-          return false;
-        }));
-      }
+          else if (!remove && !item.get('enabled')) {
+            item.set('enabled', true);
+          }
+          return true;
+        }
+        return false;
+      });
     }
   });
 

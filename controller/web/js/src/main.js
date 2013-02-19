@@ -67,6 +67,24 @@ require([
       // this is saved. Workaround is to make sure that the CourseSummaries
       // are loaded here.
       app.CourseSummary.find();
+    },
+    setupController: function(controller, model) {
+      this._super.apply(arguments);
+
+      var promise = app.loadBuild();
+
+      $.when(promise).then(function() {
+        controller.set('plugins', $.map(app.courseBuild.plugins, function(plugin, pluginClass) {
+          plugin.pluginClass = pluginClass;
+          plugin.enabled = false;
+          return Ember.Object.create(plugin);
+        }));
+        controller.set('bundles', $.map(app.courseBuild.bundles, function(bundle, bundleClass) {
+          bundle.bundleClass = bundleClass;
+          bundle.enabled = false;
+          return Ember.Object.create(bundle);
+        }));
+      });
     }
   });
 

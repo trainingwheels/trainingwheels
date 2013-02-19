@@ -45656,45 +45656,32 @@ define('app',['ember', 'jquery'], function(Ember, $) {
     return def.promise();
   };
 
-  // Fetch and permanantly store the plugins definitions for
-  // easy form building.
-  $.ajax(
-    '/rest/course_build',
-    {
-      success: function(data, textStatus, jqXHR) {
-        if (jqXHR.status === 200) {
-          // Create arrays from the JSON objects so handlebars can iterate over
-          // the plugins, bundles, and resources correctly.
-          var plugins = Ember.Object.create(data.plugins);
-          plugins.A = $.map(data.plugins, function(plugin, pluginClass) {
-            plugin.pluginClass = pluginClass;
-            return plugin;
-          });
-          var bundles = Ember.Object.create(data.bundles);
-          bundles.A = $.map(data.bundles, function(bundle, bundleClass) {
-            bundle.bundleClass = bundleClass;
-            return bundle;
-          });
-          var resources = Ember.Object.create(data.resources);
-          resources.A = $.map(data.resources, function(resource, resourceClass) {
-            resource.resourceClass = resourceClass;
-            return resource;
-          });
-          Ember.set(app, 'courseBuild', Ember.Object.create({
-            plugins: plugins,
-            bundles: bundles,
-            resources: resources
-          }));
-        }
-        else {
+  app.loadBuild = function() {
+    var def = $.Deferred();
+    // Fetch and permanantly store the plugins definitions for
+    // easy form building.
+    $.ajax(
+      '/rest/course_build',
+      {
+        success: function(data, textStatus, jqXHR) {
+          if (jqXHR.status === 200) {
+            Ember.set(app, 'courseBuild', Ember.Object.create(data));
+            def.resolve();
+          }
+          else {
+            def.reject();
+            throw new Error('Unable to fetch course build information.');
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          def.reject();
           throw new Error('Unable to fetch course build information.');
         }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        throw new Error('Unable to fetch course build information.');
       }
-    }
-  );
+    );
+
+    return def.promise();
+  };
 
   return app;
 });
@@ -46409,6 +46396,11 @@ define('modules/course',[
     plugins: [],
 
     /**
+     * Bundles.
+     */
+    bundles: [],
+
+    /**
      * Repository.
      */
     repo: 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
@@ -46462,19 +46454,22 @@ define('modules/course',[
     toggleBundle: function(bundle) {
     },
 
-    togglePlugin: function(plugin) {
-      var index = this.get('plugins').indexOf(plugin);
-      if (index === -1) {
-        this.get('plugins').push(plugin);
+    togglePlugin: function(plugin, remove) {
+      if (typeof remove === 'undefined') {
+        remove = true;
       }
-      else {
-        this.set('plugins', this.get('plugins').filter(function(p) {
-          if (p.pluginClass !== plugin.pluginClass) {
-            return true;
+      this.get('plugins').find(function(item, index, enumerable) {
+        if (item.get('pluginClass') == plugin.get('pluginClass')) {
+          if (remove) {
+            item.set('enabled', !item.get('enabled'));
           }
-          return false;
-        }));
-      }
+          else if (!remove && !item.get('enabled')) {
+            item.set('enabled', true);
+          }
+          return true;
+        }
+        return false;
+      });
     }
   });
 
@@ -46757,6 +46752,24 @@ require([
       // this is saved. Workaround is to make sure that the CourseSummaries
       // are loaded here.
       app.CourseSummary.find();
+    },
+    setupController: function(controller, model) {
+      this._super.apply(arguments);
+
+      var promise = app.loadBuild();
+
+      $.when(promise).then(function() {
+        controller.set('plugins', $.map(app.courseBuild.plugins, function(plugin, pluginClass) {
+          plugin.pluginClass = pluginClass;
+          plugin.enabled = false;
+          return Ember.Object.create(plugin);
+        }));
+        controller.set('bundles', $.map(app.courseBuild.bundles, function(bundle, bundleClass) {
+          bundle.bundleClass = bundleClass;
+          bundle.enabled = false;
+          return Ember.Object.create(bundle);
+        }));
+      });
     }
   });
 

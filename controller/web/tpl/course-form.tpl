@@ -41,7 +41,7 @@
       <div id="plugin-bundles">
         <h3>Bundles</h3>
         <ul id="bundles-list">
-          {{#each bundle in App.courseBuild.bundles.A}}
+          {{#each bundle in controller.bundles}}
           <li class="bundle"><a {{action "toggleBundle" bundle}}>{{bundle.title}}</a></li>
           {{/each}}
         </ul>
@@ -49,8 +49,8 @@
       <div id="plugin-plugins">
         <h3>A la carte</h3>
         <ul id="plugins-list">
-          {{#each plugin in App.courseBuild.plugins.A}}
-          <li class="plugin"><a {{action "togglePlugin" plugin}}>{{plugin.name}}</a></li>
+          {{#each plugin in controller.plugins}}
+          <li {{bindAttr class="plugin.enabled:enabled :plugin"}}><a {{action "togglePlugin" plugin}}>{{plugin.name}}</a></li>
           {{/each}}
         </ul>
       </div>

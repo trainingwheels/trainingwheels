@@ -47,45 +47,32 @@ define(['ember', 'jquery'], function(Ember, $) {
     return def.promise();
   };
 
-  // Fetch and permanantly store the plugins definitions for
-  // easy form building.
-  $.ajax(
-    '/rest/course_build',
-    {
-      success: function(data, textStatus, jqXHR) {
-        if (jqXHR.status === 200) {
-          // Create arrays from the JSON objects so handlebars can iterate over
-          // the plugins, bundles, and resources correctly.
-          var plugins = Ember.Object.create(data.plugins);
-          plugins.A = $.map(data.plugins, function(plugin, pluginClass) {
-            plugin.pluginClass = pluginClass;
-            return plugin;
-          });
-          var bundles = Ember.Object.create(data.bundles);
-          bundles.A = $.map(data.bundles, function(bundle, bundleClass) {
-            bundle.bundleClass = bundleClass;
-            return bundle;
-          });
-          var resources = Ember.Object.create(data.resources);
-          resources.A = $.map(data.resources, function(resource, resourceClass) {
-            resource.resourceClass = resourceClass;
-            return resource;
-          });
-          Ember.set(app, 'courseBuild', Ember.Object.create({
-            plugins: plugins,
-            bundles: bundles,
-            resources: resources
-          }));
-        }
-        else {
+  app.loadBuild = function() {
+    var def = $.Deferred();
+    // Fetch and permanantly store the plugins definitions for
+    // easy form building.
+    $.ajax(
+      '/rest/course_build',
+      {
+        success: function(data, textStatus, jqXHR) {
+          if (jqXHR.status === 200) {
+            Ember.set(app, 'courseBuild', Ember.Object.create(data));
+            def.resolve();
+          }
+          else {
+            def.reject();
+            throw new Error('Unable to fetch course build information.');
+          }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          def.reject();
           throw new Error('Unable to fetch course build information.');
         }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        throw new Error('Unable to fetch course build information.');
       }
-    }
-  );
+    );
+
+    return def.promise();
+  };
 
   return app;
 });
