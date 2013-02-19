@@ -29,11 +29,10 @@ class KeyManager {
 
   public function createKey() {
     // Create directories in case they don't exist already.
-    shell_exec("mkdir -p $this->keydir");
-    shell_exec("mkdir -p $this->keydir/backup");
-
+    shell_exec("sudo mkdir -p $this->keydir");
+    shell_exec("sudo mkdir -p $this->keydir/backup");
     $processUser = posix_getpwuid(posix_geteuid());
-    print $processUser['name'];
+    shell_exec("sudo chown -R " . $processUser['name'] . ": $this->keydir");
 
     // Backup old keys.
     $stamp = new DateTime();
