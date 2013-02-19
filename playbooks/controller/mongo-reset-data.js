@@ -54,27 +54,16 @@ db.course.insert({
   "title": "Sample Course",
   "host": "localhost",
   "user": "",
+  "port": 22,
   "plugins": plugins,
   "resources": resources
 });
 db.course.insert({
   "id": 2,
   "course_name": "sshcourse",
-  "description": "This is a sample remote course running on a separate Vagrant virtual machine.",
+  "description": "This is a sample remote course running on a separate virtual server.",
   "env_type": "ubuntu",
-  "title": "Sample Remote Vagrant Course",
-  "host": "remote.classroom",
-  "user": "vagrant",
-  "port": 22,
-  "plugins": plugins,
-  "resources": resources
-});
-db.course.insert({
-  "id": 3,
-  "course_name": "sshcourse",
-  "description": "This is a sample remote course running on a separate cloud server.",
-  "env_type": "ubuntu",
-  "title": "Sample Cloud Server Course",
+  "title": "Sample Remote Course",
   "host": "remote.classroom",
   "user": "ubuntu",
   "port": 22,
@@ -83,4 +72,4 @@ db.course.insert({
 });
 
 db.counters.remove();
-db.counters.insert({"_id": "course_id", "seq": 3});
+db.counters.insert({"_id": "course_id", "seq": 2});
