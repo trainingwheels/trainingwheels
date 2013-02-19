@@ -102,7 +102,7 @@ echo "$CONTROLLER_HOST"
 
 echo ''
 echo 'Grabbing the internal classroom host name...'
-CLASSROOM_HOST=`euca-describe-instances $CONTROLLER_INSTANCE_ID | grep internal | cut -f 5`
+CLASSROOM_HOST=`euca-describe-instances $CLASSROOM_INSTANCE_ID | grep internal | cut -f 5`
 echo "$CLASSROOM_HOST"
 
 echo ''
