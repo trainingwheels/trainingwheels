@@ -96,11 +96,11 @@ module.exports = function(grunt) {
     watch: {
       compass: {
         files: ['Gruntfile.js', 'sass/**/*.scss'],
-        tasks: 'compass:dev compass:prod mincss'
+        tasks: ['compass:dev', 'compass:prod', 'mincss']
       },
       requirejs: {
         files: ['Gruntfile.js', 'js/src/**/*.js'],
-        tasks: 'jshint requirejs concat uglify'
+        tasks: ['jshint', 'requirejs', 'concat', 'uglify']
       }
     }
 
