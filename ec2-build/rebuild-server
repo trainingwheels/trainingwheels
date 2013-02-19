@@ -35,6 +35,9 @@ ID_FILE="${HOME}/.ssh/tw.pem"
 ANS_ARGS="-c ssh -s --timeout=$RUNNING_TIMEOUT --private-key=$ID_FILE --inventory-file=$BASE_DIR/ec2-hostname"
 SLEEP='3'
 
+echo ''
+echo "Ansible arguments: $ANS_ARGS"
+
 # If Ansible ever gets a good euca2ools module, we may be able to move some of this out of bash.
 echo ''
 echo 'Finding all existing build instances...'

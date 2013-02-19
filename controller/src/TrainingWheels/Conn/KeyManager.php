@@ -32,7 +32,9 @@ class KeyManager {
     shell_exec("sudo mkdir -p $this->keydir");
     shell_exec("sudo mkdir -p $this->keydir/backup");
     $processUser = posix_getpwuid(posix_geteuid());
-    shell_exec("sudo chown -R " . $processUser['name'] . ": $this->keydir");
+
+    // We can't change ownership of vagrant shared folders, so ignore errors from this.
+    shell_exec("sudo chown -R " . $processUser['name'] . ": $this->keydir 2>&1");
 
     // Backup old keys.
     $stamp = new DateTime();

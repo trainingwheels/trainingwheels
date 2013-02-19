@@ -26,12 +26,6 @@ class KeyCreate extends Command {
   protected function execute(InputInterface $input, OutputInterface $output) {
     Log::log('CLI command: KeyCreate', L_INFO);
 
-    $dialog = $this->getHelperSet()->get('dialog');
-    if (!$dialog->askConfirmation($output, 'Generate a new keypair? Existing keys are backed up. (y/n) ', FALSE)) {
-      $output->writeln('<comment>Aborting.</comment>');
-      return;
-    }
-
     $gen = new KeyManager($this->config['base_path']);
     $output->writeln('');
     $output->writeln('<comment>' . trim($gen->createKey()) . '</comment>');
