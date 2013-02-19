@@ -32,6 +32,9 @@ class KeyManager {
     shell_exec("mkdir -p $this->keydir");
     shell_exec("mkdir -p $this->keydir/backup");
 
+    $processUser = posix_getpwuid(posix_geteuid());
+    print $processUser['name'];
+
     // Backup old keys.
     $stamp = new DateTime();
     $stamp = $stamp->getTimeStamp();
