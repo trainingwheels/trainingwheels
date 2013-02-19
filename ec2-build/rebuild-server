@@ -149,7 +149,7 @@ fi
 echo ''
 echo 'Running sample data playbook setup...'
 cd $BASE_DIR/../playbooks/controller
-ansible-playbook $ANS_ARGS sample-data.yml --extra-vars "mongo_app_password=$MONGO_APP_PASSWORD" || error_exit "Sample data setup failed."
+ansible-playbook $ANS_ARGS sample-data.yml --extra-vars "mongo_app_password=$MONGO_APP_PASSWORD remote_username=ubuntu" || error_exit "Sample data setup failed."
 
 echo ''
 echo 'Fetch the generated public key from the controller...'

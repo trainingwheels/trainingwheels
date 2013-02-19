@@ -65,7 +65,7 @@ db.course.insert({
   "env_type": "ubuntu",
   "title": "Sample Remote Course",
   "host": "remote.classroom",
-  "user": "ubuntu",
+  "user": "{{ remote_username }}",
   "port": 22,
   "plugins": plugins,
   "resources": resources
