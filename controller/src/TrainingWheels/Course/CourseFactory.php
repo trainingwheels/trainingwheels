@@ -23,6 +23,9 @@ class CourseFactory extends Factory {
       }
       else {
         $key_manager = new KeyManager($this->config['base_path']);
+        if (!isset($params['port'])) {
+          $params['port'] = 22;
+        }
         $conn = new SSHServerConn($params['host'], $params['port'], $params['user'], $key_manager);
         if (!$conn->connect()) {
           throw new Exception("Unable to connect/login to server " . $params['host'] . " on port " . $params['port'] . " as user " . $params['user']);

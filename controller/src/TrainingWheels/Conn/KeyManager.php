@@ -17,7 +17,10 @@ class KeyManager {
   }
 
   public function getPrivateKeyContents() {
-    return file_get_contents($this->keydir . '/tw.key');
+    if (!is_file($this->getPrivateKeyPath())) {
+      throw new Exception("The private key was not found, are you sure the keypair has been generated?");
+    }
+    return file_get_contents($this->getPrivateKeyPath());
   }
 
   public function getPublicKeyContents() {
