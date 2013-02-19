@@ -42,7 +42,7 @@
         <h3>Bundles</h3>
         <ul id="bundles-list">
           {{#each bundle in controller.bundles}}
-          <li class="bundle"><a {{action "toggleBundle" bundle}}>{{bundle.title}}</a></li>
+          <li {{bindAttr class="bundle.enabled:enabled :bundle"}}><a {{action "toggleBundle" bundle}}>{{bundle.title}}</a></li>
           {{/each}}
         </ul>
       </div>

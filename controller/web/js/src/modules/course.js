@@ -188,6 +188,25 @@ define([
     },
 
     toggleBundle: function(bundle) {
+      var self = this;
+      self.get('bundles').find(function(item, index, enumerable) {
+        if (item.get('bundleClass') == bundle.get('bundleClass')) {
+          if (!item.get('enabled')) {
+            item.set('enabled', true);
+            $.map(item.get('plugins'), function(plugin, pluginClass) {
+              self.togglePlugin(plugin, false);
+            });
+          }
+          else {
+            item.set('enabled', false);
+            $.map(item.get('plugins'), function(plugin, pluginClass) {
+              self.togglePlugin(plugin);
+            });
+          }
+          return true;
+        }
+        return false;
+      });
     },
 
     togglePlugin: function(plugin, remove) {
