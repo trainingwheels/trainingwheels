@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Simple function to exit with a message in the case of failure.
+function error_exit
+{
+  echo ''
+  echo "$1" 1>&2
+  exit 1
+}
+
 # Pull in file containing variables to be used in this build.
 VARS_FILE="$1"
 
@@ -18,7 +26,8 @@ source "$VARS_FILE"
 # The following are common vars that could be moved into other build-specific files if required.
 KEY_NAME='tw'
 RUNNING_TIMEOUT='300'
-INSTANCE_TYPE='m1.small'
+CONTROLLER_INSTANCE_TYPE='m1.small'
+CLASSROOM_INSTANCE_TYPE='t1.micro'
 REGION='us-east-1'
 BASE_DIR=`pwd`
 AMI='ami-3d4ff254'
@@ -38,34 +47,55 @@ euca-terminate-instances $OBSOLETE_INSTANCES
 
 echo ''
 echo "Waiting for all build instances to be shut down..."
-if ! timeout $RUNNING_TIMEOUT sh -c "while euca-describe-instances --filter tag-value=$TAG_VAL | grep INSTANCE | grep -qv terminated; do echo 'checking...'; sleep $SLEEP; done"; then
-  echo "server didn't shutdown within $RUNNING_TIMEOUT seconds"
-  exit 1
-fi
+timeout $RUNNING_TIMEOUT sh -c "while euca-describe-instances --filter tag-value=$TAG_VAL | grep INSTANCE | grep -qv terminated; do echo 'checking...'; sleep $SLEEP; done" \
+|| error_exit "server didn't shutdown within $RUNNING_TIMEOUT seconds"
 
 echo ''
-echo 'Creating new instance...'
-NEW_INSTANCE_ID=`euca-run-instances --key $KEY_NAME --region $REGION --instance-type $INSTANCE_TYPE --group default $AMI | grep INSTANCE | cut -f 2`
+echo 'Classroom: Creating new instance...'
+CLASSROOM_INSTANCE_ID=`euca-run-instances --key $KEY_NAME --region $REGION --instance-type $CLASSROOM_INSTANCE_TYPE --group default $AMI | grep INSTANCE | cut -f 2`
 
 echo ''
-echo "Waiting for the instance to have state 'running'..."
-if ! timeout $RUNNING_TIMEOUT sh -c "while ! euca-describe-instances $NEW_INSTANCE_ID | grep -q running; do echo 'checking...'; sleep $SLEEP; done"; then
-  echo "server didn't become active within $RUNNING_TIMEOUT seconds"
-  exit 1
-fi
+echo 'Controller: Creating new instance...'
+CONTROLLER_INSTANCE_ID=`euca-run-instances --key $KEY_NAME --region $REGION --instance-type $CONTROLLER_INSTANCE_TYPE --group default $AMI | grep INSTANCE | cut -f 2`
 
 echo ''
-echo "Tagging new instance $NEW_INSTANCE_ID with tag $TAG_VAL..."
-euca-create-tags --tag tw-usage=$TAG_VAL $NEW_INSTANCE_ID
+echo "Controller: Waiting for the instance to have state 'running'..."
+timeout $RUNNING_TIMEOUT sh -c "while ! euca-describe-instances $CONTROLLER_INSTANCE_ID | grep -q running; do echo 'checking...'; sleep $SLEEP; done" \
+|| error_exit "controller server didn't become active within $RUNNING_TIMEOUT seconds"
 
 echo ''
-echo 'Associating the elastic IP with the new instance...'
-euca-associate-address -i $NEW_INSTANCE_ID $IP_ADDRESS
+echo "Classroom: Waiting for the instance to have state 'running'..."
+timeout $RUNNING_TIMEOUT sh -c "while ! euca-describe-instances $CLASSROOM_INSTANCE_ID | grep -q running; do echo 'checking...'; sleep $SLEEP; done" \
+|| error_exit "classroom server didn't become active within $RUNNING_TIMEOUT seconds"
+
+echo ''
+echo "Controller: Tagging new instance $CONTROLLER_INSTANCE_ID with tag tw-usage=$TAG_VAL..."
+euca-create-tags --tag tw-usage=$TAG_VAL $CONTROLLER_INSTANCE_ID
+
+echo ''
+echo "Controller: Tagging new instance $CONTROLLER_INSTANCE_ID with tag Name=$SERVER-controller..."
+euca-create-tags --tag Name="$SERVER-controller" $CONTROLLER_INSTANCE_ID
+
+echo ''
+echo "Classroom: Tagging new instance $CLASSROOM_INSTANCE_ID with tag tw-usage=$TAG_VAL..."
+euca-create-tags --tag tw-usage=$TAG_VAL $CLASSROOM_INSTANCE_ID
+
+echo ''
+echo "Classroom: Tagging new instance $CLASSROOM_INSTANCE_ID with tag Name=$SERVER-classroom..."
+euca-create-tags --tag Name="$SERVER-classroom" $CLASSROOM_INSTANCE_ID
+
+echo ''
+echo 'Controller: Associating the elastic IP with the new instance...'
+euca-associate-address -i $CONTROLLER_INSTANCE_ID $CONTROLLER_IP_ADDRESS
+
+echo ''
+echo 'Classroom: Associating the elastic IP with the new instance...'
+euca-associate-address -i $CLASSROOM_INSTANCE_ID $CLASSROOM_IP_ADDRESS
 
 echo ''
 echo 'Grabbing the internal host name if required, else the external...'
 if [ "$EC2_EXTERNAL" == 'internal' ]; then
-  HOST=`euca-describe-instances $NEW_INSTANCE_ID | grep internal | cut -f 5`
+  HOST=`euca-describe-instances $CONTROLLER_INSTANCE_ID | grep internal | cut -f 5`
 else
   HOST="$EC2_EXTERNAL"
 fi
@@ -74,31 +104,23 @@ echo "$HOST"
 
 echo ''
 echo "Waiting for the instance to actually accept ssh connections..."
-if ! timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'whoami' | grep 'ubuntu'; do echo 'checking...'; sleep $SLEEP; done"; then
-  echo "server didn't start after $RUNNING_TIMEOUT seconds"
-  exit 1
-fi
+timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'whoami' | grep 'ubuntu'; do echo 'checking...'; sleep $SLEEP; done" \
+|| error_exit "server didn't start after $RUNNING_TIMEOUT seconds"
 
 echo ''
 echo "Waiting for the instance to gain internal networking..."
-if ! timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'ping -c4 $REGION.ec2.archive.ubuntu.com' | grep '64 bytes from'; do echo 'checking...'; sleep $SLEEP; done"; then
-  echo "server internal networking didn't start after $RUNNING_TIMEOUT seconds"
-  exit 1
-fi
+timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'ping -c4 $REGION.ec2.archive.ubuntu.com' | grep '64 bytes from'; do echo 'checking...'; sleep $SLEEP; done" \
+|| error_exit "server internal networking didn't start after $RUNNING_TIMEOUT seconds"
 
 echo ''
 echo "Waiting for the instance to gain external networking..."
-if ! timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'ping -c4 security.ubuntu.com' | grep '64 bytes from'; do echo 'checking...'; sleep $SLEEP; done"; then
-  echo "server external networking didn't start after $RUNNING_TIMEOUT seconds"
-  exit 1
-fi
+timeout $RUNNING_TIMEOUT sh -c "while ! ssh ubuntu@$HOST 'ping -c4 security.ubuntu.com' | grep '64 bytes from'; do echo 'checking...'; sleep $SLEEP; done" \
+|| error_exit "server external networking didn't start after $RUNNING_TIMEOUT seconds"
 
 echo ''
 echo "Running initial build and setup phase playbook..."
 cd $BASE_DIR/provision
-if ! ansible-playbook $ANS_ARGS ./prep-server.yml --extra-vars "server=$SERVER branch=$BRANCH"; then
-  exit 1
-fi
+ansible-playbook $ANS_ARGS ./prep-server.yml --extra-vars "server=$SERVER branch=$BRANCH" || error_exit "Initial build playbook failed."
 
 echo ''
 echo 'Copying the settings files for the controller playbooks...'
@@ -107,25 +129,19 @@ cp $BASE_DIR/provision/$SERVER-controller-settings-ec2.yml $BASE_DIR/../playbook
 echo ''
 echo 'Running controller setup...'
 cd $BASE_DIR/../playbooks/controller
-if ! ansible-playbook $ANS_ARGS setup.yml --extra-vars "mongo_root_password=$MONGO_ROOT_PASSWORD mongo_app_password=$MONGO_APP_PASSWORD app_pass=$APP_PASSWORD"; then
-  exit 1
-fi
+ansible-playbook $ANS_ARGS setup.yml --extra-vars "mongo_root_password=$MONGO_ROOT_PASSWORD mongo_app_password=$MONGO_APP_PASSWORD app_pass=$APP_PASSWORD"  || error_exit "Controller playbook failed."
 
 if [ "$SERVER" == 'build' ]; then
   echo ''
   echo "Setup the bender user so we can update checkout on every commit to the branch..."
   cd $BASE_DIR/provision
-  if ! ansible-playbook $ANS_ARGS ./bender-setup.yml --extra-vars "branch=$BRANCH"; then
-    exit 1
-  fi
+  ansible-playbook $ANS_ARGS ./bender-setup.yml --extra-vars "branch=$BRANCH"  || error_exit "Bender user setup failed."
 fi
 
 echo ''
 echo 'Running sample data playbook setup...'
 cd $BASE_DIR/../playbooks/controller
-if ! ansible-playbook $ANS_ARGS sample-data.yml --extra-vars "mongo_app_password=$MONGO_APP_PASSWORD"; then
-  exit 1
-fi
+ansible-playbook $ANS_ARGS sample-data.yml --extra-vars "mongo_app_password=$MONGO_APP_PASSWORD" || error_exit "Sample data setup failed."
 
 echo ''
 echo 'done.'
