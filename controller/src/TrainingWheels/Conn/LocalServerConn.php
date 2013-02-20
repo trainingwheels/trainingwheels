@@ -21,4 +21,8 @@ class LocalServerConn extends ServerConn {
 
     return $result;
   }
+
+  public function getHost() {
+    return 'localhost';
+  }
 }
