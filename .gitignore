@@ -1,4 +1,6 @@
 settings.yml
+mongo-reset-data.js
+keypairs
 controller/vendor
 controller/web/development.log
 controller/web/.sass-cache
@@ -13,4 +15,3 @@ vagrant/setup.local.sh
 vagrant/*.local.yml
 vagrant/classroom/.vagrant
 vagrant/classroom/setup.local.sh
-keypairs

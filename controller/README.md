@@ -47,7 +47,9 @@ Some command examples:
     db.course.find().pretty()
     db.counters.find()
 
-To reset the backend data in Vagrant environment, run `vagrant provision`.
+To reset the backend data in Vagrant environment, use:
+
+    mongo -utrainingwheels -ptrainingwheelsApp trainingwheels /var/trainingwheels/mongo-reset-data.js
 
 Working with Web Inspector and Ember.js
 ---------------------------------------

@@ -34,6 +34,7 @@ AMI='ami-3d4ff254'
 ID_FILE="${HOME}/.ssh/tw.pem"
 ANS_ARGS="-c ssh -s --timeout=$RUNNING_TIMEOUT --private-key=$ID_FILE --inventory-file=$BASE_DIR/ec2-hostname"
 SLEEP='3'
+TW_DIR='/var/trainingwheels'
 
 echo ''
 echo "Ansible arguments: $ANS_ARGS"
@@ -149,7 +150,7 @@ fi
 echo ''
 echo 'Running sample data playbook setup...'
 cd $BASE_DIR/../playbooks/controller
-ansible-playbook $ANS_ARGS sample-data.yml --extra-vars "classroom_hostname=$CLASSROOM_PUBLIC_HOST mongo_app_password=$MONGO_APP_PASSWORD remote_username=ubuntu" || error_exit "Sample data setup failed."
+ansible-playbook $ANS_ARGS sample-data.yml --extra-vars "classroom_hostname=$CLASSROOM_PUBLIC_HOST mongo_app_password=$MONGO_APP_PASSWORD remote_username=ubuntu twdir=$TW_DIR" || error_exit "Sample data setup failed."
 
 echo ''
 echo 'Fetch the generated public key from the controller...'
