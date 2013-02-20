@@ -24,7 +24,7 @@
       action: template src=etc-hostname.j2 dest=/etc/hostname owner=root group=root mode=0644
 
     - name: Change the hostname using the hostname command
-      action: command hostname class.tw-$server.com
+      action: command hostname $hostname
 
     - name: Set the public key for Ubuntu
       action: authorized_key user=ubuntu key='$FILE(tw.key.pub)'

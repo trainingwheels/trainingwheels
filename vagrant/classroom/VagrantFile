@@ -4,7 +4,7 @@ Vagrant::Config.run do |config|
   config.vm.define :trainingwheels_classroom do |tw_config|
     tw_config.vm.box         = "precise64"
     tw_config.vm.box_url     = "http://files.vagrantup.com/precise64.box"
-    tw_config.vm.host_name   = "remote.classroom"
+    tw_config.vm.host_name   = "class.training.wheels"
 
     tw_config.vm.customize ["modifyvm", :id, "--memory", "256"]
     tw_config.vm.customize ["modifyvm", :id, "--cpus", "1"]
@@ -22,12 +22,9 @@ Vagrant::Config.run do |config|
     # Tricksy hobbit.
     config.vm.share_folder("twdir", "/home/vagrant/trainingwheels", "../../", :nfs => true)
 
-    tw_config.vm.forward_port 80, 18888 # Apache webserver
-    tw_config.vm.forward_port 22, 12222 # SSH
-    tw_config.vm.forward_port 21, 12121 # FTP
-    tw_config.vm.forward_port 31001, 31101 # Cloud9 IDE for instructor
-    tw_config.vm.forward_port 31002, 31102 # Cloud9 IDE for bobby
-    tw_config.vm.forward_port 31003, 31103 # Cloud9 IDE for sally
+    # Port forwarding doesn't work with Cloud9 IDE (node.js server) if the port number is
+    # changed (which we need to do if we also run a course on the controller), so add an
+    # entry for the IP address (see above) in your /etc/hosts, rather than '127.0.0.1'
 
     tw_config.vm.provision :shell, :path => "provision/classroom-setup.sh"
 

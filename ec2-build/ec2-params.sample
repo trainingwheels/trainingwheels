@@ -15,6 +15,10 @@ TAG_VAL='trainingwheels-autobuild'
 CONTROLLER_IP_ADDRESS='0.0.0.0'
 CLASSROOM_IP_ADDRESS='0.0.0.0'
 
+# The public hostnames of the servers.
+CONTROLLER_PUBLIC_HOST='training.com'
+CLASSROOM_PUBLIC_HOST='training-classroom.com'
+
 # Passwords
 MONGO_ROOT_PASSWORD=''
 MONGO_APP_PASSWORD=''

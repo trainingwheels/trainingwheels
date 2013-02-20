@@ -24,7 +24,7 @@
     # This IP address must match the IP specified in the classroom VagrantFile.
     #
     - name: Training Wheels | Set up some hosts entries so we can connect to the classroom server if required
-      action: lineinfile regexp=.* insertafter=EOF dest=/etc/hosts line="10.1.0.3 remote.classroom sshcourse.remote.classroom instructor.sshcourse.remote.classroom jenny.sshcourse.remote.classroom harry.sshcourse.remote.classroom"
+      action: lineinfile regexp=.* insertafter=EOF dest=/etc/hosts line="10.1.0.3 class.training.wheels sshcourse.class.training.wheels instructor.sshcourse.class.training.wheels jenny.sshcourse.class.training.wheels harry.sshcourse.class.training.wheels"
 
     ##
     # Node.js install.
