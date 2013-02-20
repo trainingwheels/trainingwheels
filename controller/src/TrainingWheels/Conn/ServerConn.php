@@ -4,7 +4,7 @@ namespace TrainingWheels\Conn;
 use TrainingWheels\Log\Log;
 use Exception;
 
-class ServerConn {
+abstract class ServerConn {
 
   /**
    * Process the commands into a single string.
