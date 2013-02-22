@@ -12,7 +12,7 @@ class Cloud9IDE extends PluginBase {
   public function getPluginVars() {
     return array(
       'path' => array(
-        'val' => '/var/local/cloud9/cloud9-build',
+        'val' => '/var/local/cloud9',
       ),
       'version' => array(
         'val' => 'master',
