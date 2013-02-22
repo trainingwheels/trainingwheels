@@ -37,6 +37,7 @@ class Environment {
    * Provision the course.
    */
   public function provision(array $plugins) {
+    $tmp = '';
     $ansible_args_array = array('--sudo');
     if (get_class($this->conn) == 'TrainingWheels\Conn\LocalServerConn') {
       $ansible_args_array[] = '-c local';
@@ -73,7 +74,7 @@ class Environment {
         }
       }
     }
-    if ($tmp) {
+    if (!empty($tmp)) {
       shell_exec("rm $tmp");
     }
   }
