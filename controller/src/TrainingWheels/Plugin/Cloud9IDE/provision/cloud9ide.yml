@@ -10,8 +10,5 @@
     ##
     # Setup Cloud9 IDE
     #
-    - name: Cloud9 | Grab the repository
-      action: git repo=$repo dest=/tmp/cloud9-build version=$version
-
-    - name: Cloud9 | Move it into place
-      action: command mv /tmp/cloud9-build/cloud9-build $path
+    - name: Cloud9 | Grab the built version of Cloud9 repository
+      action: git repo=$repo dest=$path version=$version

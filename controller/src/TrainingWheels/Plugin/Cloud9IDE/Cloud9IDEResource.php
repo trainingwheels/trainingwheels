@@ -43,7 +43,7 @@ class Cloud9IDEResource extends SupervisorProcessResource {
     $dir_path = "/twhome/$name";
 
     $this->command = "/usr/bin/node server.js --username $name --password $pass -w $dir_path -l 0.0.0.0 -p $port -a x-www-browser";
-    $this->directory = '/var/local/cloud9';
+    $this->directory = '/var/local/cloud9/cloud9-build';
 
     parent::create();
   }
