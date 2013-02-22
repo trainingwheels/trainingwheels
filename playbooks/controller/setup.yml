@@ -41,14 +41,8 @@
     - name: Ansible | Clone Ansible repository at tag 0.9
       action: git repo=https://github.com/ansible/ansible.git dest=/usr/local/src/ansible version=v0.9
 
-    - name: Ansible | Create the .deb file
-      action: command make deb chdir=/usr/local/src/ansible creates=/usr/bin/ansible
-
-    - name: Ansible | Install the .deb file
-      action: command dpkg -i /usr/local/src/ansible_0.9_all.deb creates=/usr/bin/ansible
-
-    - name: Ansible | Remove the .deb file
-      action: file path=/usr/local/src/ansible_0.9_all.deb state=absent
+    - name: Ansible | Install Ansible
+      action: command make install chdir=/usr/local/src/ansible creates=/usr/bin/ansible
 
     - name: Ansible | Copy ansible hosts file
       action: copy src=files/etc-ansible-hosts dest=/etc/ansible/hosts
