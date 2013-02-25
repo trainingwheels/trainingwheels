@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use stdClass;
 
 class ResourceCreate extends Command {
   private $jobFactory;
@@ -27,11 +28,16 @@ class ResourceCreate extends Command {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    Log::log('CLI command: ResourceCreate', L_INFO);
     $resources = $input->getArgument('resources');
-    $resources = ($resources == 'all' || empty($resources)) ? array() : explode(',', $resources);
+    $course_id = $input->getArgument('course_id');
+    $user_names = $input->getArgument('user_names');
+    $res_pretty = empty($resources) ? 'all' : $resources;
+    $params = "course_id=$course_id user_names=$user_names resources=" . $res_pretty;
 
-    $job = new \stdClass;
+    Log::log('ResourceCreate', L_INFO, 'actions', array('layer' => 'user', 'source' => 'CLI', 'params' => $params));
+
+    $resources = ($resources == 'all' || empty($resources)) ? array() : explode(',', $resources);
+    $job = new stdClass;
     $job->type = 'resource';
     $job->course_id = $input->getArgument('course_id');
     $job->action = 'resourceCreate';

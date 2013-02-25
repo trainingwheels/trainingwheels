@@ -26,10 +26,12 @@ class UserDelete extends Command {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    Log::log('CLI command: UserDelete', L_INFO);
-    $course = $this->courseFactory->get($input->getArgument('course_id'));
+    $course_id = $input->getArgument('course_id');
     $user_names = $input->getArgument('user_names');
 
+    Log::log('UserDelete', L_INFO, 'actions', array('layer' => 'user', 'source' => 'CLI', 'params' => 'course_id=' . $course_id . ' users=' . $user_names));
+
+    $course = $this->courseFactory->get($course_id);
     $result = $course->usersDelete(explode(',', $user_names));
     $output->writeln("<info>User(s) deleted.</info>");
   }

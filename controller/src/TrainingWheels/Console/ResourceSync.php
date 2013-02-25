@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use stdClass;
 
 class ResourceSync extends Command {
   private $jobFactory;
@@ -28,17 +29,23 @@ class ResourceSync extends Command {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    Log::log('CLI command: ResourceSync', L_INFO);
     $resources = $input->getArgument('resources');
-    $resources = ($resources == 'all' || empty($resources)) ? array() : explode(',', $resources);
+    $course_id = $input->getArgument('course_id');
+    $source_user = $input->getArgument('source_user');
+    $target_users = $input->getArgument('target_users');
+    $res_pretty = empty($resources) ? 'all' : $resources;
+    $params = "course_id=$course_id source_user=$source_user target_users=$target_users resources=" . $res_pretty;
 
-    $job = new \stdClass;
+    Log::log('ResourceSync', L_INFO, 'actions', array('layer' => 'user', 'source' => 'CLI', 'params' => $params));
+
+    $resources = ($resources == 'all' || empty($resources)) ? array() : explode(',', $resources);
+    $job = new stdClass;
     $job->type = 'resource';
-    $job->course_id = $input->getArgument('course_id');
+    $job->course_id = $course_id;
     $job->action = 'resourceSync';
     $job->params = array(
-      'source_user' => $input->getArgument('source_user'),
-      'target_users' => explode(',', $input->getArgument('target_users')),
+      'source_user' => $source_user,
+      'target_users' => explode(',', $target_users),
       'resources' => $resources,
     );
     $job = $this->jobFactory->save($job);
@@ -51,6 +58,6 @@ class ResourceSync extends Command {
       throw $e;
     }
 
-    $output->writeln('<info>User(s) synced.</info>');
+    $output->writeln('<info>Resource(s) synced.</info>');
   }
 }

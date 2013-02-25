@@ -26,10 +26,12 @@ class UserCreate extends Command {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    Log::log('CLI command: UserCreate', L_INFO);
-    $course = $this->courseFactory->get($input->getArgument('course_id'));
+    $course_id = $input->getArgument('course_id');
     $user_names = $input->getArgument('user_names');
 
+    Log::log('UserCreate', L_INFO, 'actions', array('layer' => 'user', 'source' => 'CLI', 'params' => 'course_id=' . $course_id . ' users=' . $user_names));
+
+    $course = $this->courseFactory->get($course_id);
     $result = $course->usersCreate(explode(',', $user_names));
     if (!$result) {
       return $output->writeln('<comment>User already exists.</comment>');

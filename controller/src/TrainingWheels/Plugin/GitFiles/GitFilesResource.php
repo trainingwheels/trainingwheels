@@ -110,6 +110,7 @@ class GitFilesResource extends Resource {
    * Delete the files.
    */
   public function delete() {
+    parent::delete();
     if (!$this->getExists()) {
       throw new Exception("Attempting to delete a GitFilesResource that does not exist.");
     }
@@ -122,6 +123,7 @@ class GitFilesResource extends Resource {
    * Create the git clone in the correct place.
    */
   public function create() {
+    parent::create();
     if ($this->getExists()) {
       throw new Exception("Attempting to create a GitFilesResource that already exists.");
     }
@@ -134,6 +136,7 @@ class GitFilesResource extends Resource {
    * Sync to a target.
    */
   public function syncTo(GitFilesResource $target) {
+    parent::syncTo();
     $this->env->fileSyncUserFolder($this->user_name, $target->user_name, $this->course_name . '/');
   }
 }
