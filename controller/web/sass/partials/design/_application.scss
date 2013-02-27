@@ -111,22 +111,34 @@ input[type=submit] {
   z-index: 4;
   padding-top: 15px;
   margin-bottom: $base-line-height;
-  border-bottom: 1px solid $mediumGray;
+  border-bottom: 1px solid $darkGray;
 }
 
 //Footer
 
+.ember-view {
+  height:100%;
+}
+
+html, body {height: 100%;}
+
+#wrap {min-height: 100%;}
+
+#main-content {overflow:auto;
+	padding-bottom: 100px;
+	}  /* padding-bottom must be same height as the footer */
+
 #footer {
-  float: left;
-  bottom: 0;
-  width: 100%;
   position: relative;
-  z-index: 4;
-  margin:$base-line-height;
+	margin-top: -100px; /* negative value of footer height */
+	height: 100px;
+	clear:both;
+  bottom: 0;
   margin-left: 0;
   border-top: 1px solid $border;
   border-bottom: 1px solid $border;
-  background: image-url('az_subtle.png') repeat;
+  background: image-url('light-noise.png') repeat;
+  //background-color: $white;
   color: $darkGray;
   padding:$base-line-height;
   font-size: 12px;
