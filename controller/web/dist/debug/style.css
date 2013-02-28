@@ -514,6 +514,13 @@ html, body {
   display: inline;
 }
 
+#learn-more {
+  border-right: 1px solid;
+  padding-right: 7px;
+  margin-right: 7px;
+  color: #85817d;
+}
+
 .tw-loading {
   background: url('../../images/loading.gif') no-repeat;
   height: 31px;
