@@ -35,7 +35,7 @@ git checkout v0.9 > /dev/null 2>&1 || error_exit "Unable to checkout the require
 
 echo ''
 echo '======================================================================='
-echo 'Building Ansible .deb file...'
+echo 'Installing Ansible...'
 make install > /dev/null 2>&1 || error_exit "Unable to install Ansible."
 mkdir -p /etc/ansible
 echo "localhost" > /etc/ansible/hosts
