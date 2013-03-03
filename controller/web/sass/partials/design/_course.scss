@@ -80,6 +80,7 @@
     @include span-columns(12);
     border-top: 1px solid $white;
     padding-top: 2em;
+    padding-bottom: 4em;
     .ember-text-field {
       height: $base-line-height * 2;
       width: 300px;

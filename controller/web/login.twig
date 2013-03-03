@@ -16,23 +16,28 @@
   {% endif %}
 </head>
 <body>
+  <div id="wrap">
+   <div id="main-content">
 
-  <div id="top-rule">
+    <div id="top-rule">
+    </div>
+    <div id="top-header">
+      <a href="/" class="logo">Training Wheels</a>
+    </div>
+
+    <form action="#" method="post" id="login-form">
+      <div id="form-title">Log in</div>
+      {{ form_widget(form) }}
+
+      <input class="submit" type="submit" name="submit" value="Log in" />
+    </form>
+   </div>
+
   </div>
-  <div id="top-header">
-    <a href="/" class="logo">Training Wheels</a>
-  </div>
-
-  <form action="#" method="post" id="login-form">
-    <div id="form-title">Log in</div>
-    {{ form_widget(form) }}
-
-    <input class="submit" type="submit" name="submit" value="Log in" />
-  </form>
 
   <div id="footer">
     <ul>
-      <li> <a href="http://gettrainingwheels.org/">Learn more about Training Wheels</a></li>
+      <li> <a id="learn-more" href="http://gettrainingwheels.org/">Learn more about Training Wheels</a></li>
       <li> <a href="http://fourkitchens.com/contact">Contact Us</a></li>
     </ul>
     <div class="attribution-info">
