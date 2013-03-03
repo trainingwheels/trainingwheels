@@ -120,13 +120,18 @@ input[type=submit] {
   height:100%;
 }
 
-html, body {height: 100%;}
+html, body {
+  height: 100%;
+}
 
-#wrap {min-height: 100%;}
+#wrap {
+  min-height: 100%;
+}
 
-#main-content {overflow:auto;
+#main-content {
+  overflow:auto;
 	padding-bottom: 100px;
-	}  /* padding-bottom must be same height as the footer */
+}  /* padding-bottom must be same height as the footer */
 
 #footer {
   position: relative;
@@ -158,10 +163,10 @@ html, body {height: 100%;}
 }
 
 #learn-more {
-border-right: 1px solid;
-padding-right: 7px;
-margin-right: 7px;
-color: $Gray;
+  border-right: 1px solid;
+  padding-right: 7px;
+  margin-right: 7px;
+  color: $Gray;
 }
 
 //Misc
