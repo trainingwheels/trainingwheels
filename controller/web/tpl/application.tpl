@@ -1,13 +1,21 @@
+<div id="wrap">
+
 <div id="top-rule">
 </div>
 <div id="top-header">
   {{#linkTo "index" class="logo"}}Training Wheels{{/linkTo}}
 </div>
+
+<div id="main-content">
+
 {{outlet}}
+
+</div>
+</div>
 
 <div id="footer">
   <ul>
-    <li> <a href="http://gettrainingwheels.org/">Learn more about Training Wheels</a></li>
+    <li> <a id="learn-more" href="http://gettrainingwheels.org/">Learn more about Training Wheels</a></li>
     <li> <a href="http://fourkitchens.com/contact">Contact Us</a></li>
   </ul>
   <div class="attribution-info">
