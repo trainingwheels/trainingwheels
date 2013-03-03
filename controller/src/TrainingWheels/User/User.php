@@ -5,6 +5,8 @@ use TrainingWheels\Common\CachedObject;
 use TrainingWheels\Common\Util;
 use TrainingWheels\Environment\Environment;
 use TrainingWheels\Log\Log;
+use TrainingWheels\Store\DataStore;
+
 use Exception;
 
 class User extends CachedObject {
@@ -18,7 +20,7 @@ class User extends CachedObject {
   // Reference to the training environment.
   protected $env;
 
-  // User id that identifies this user uniquely in the system.
+  // User id that identifies this user uniquely in Training Wheels.
   protected $user_id;
 
   // Resources that this user needs.
@@ -37,16 +39,15 @@ class User extends CachedObject {
    *
    * If the cache doesn't exist, that may be because the user doesn't exist yet. It
    * may also be because someone has cleared the cache.
-   *
    */
-  public function __construct(Environment $env, $user_name, $user_id) {
+  public function __construct(Environment $env, DataStore $data, $user_name, $user_id) {
     // Save the data that is passed to this object.
     $this->env = $env;
     $this->user_name = $user_name;
     $this->user_id = $user_id;
 
-    parent::__construct();
-    $this->cachePropertiesAdd(array('exists', 'password'));
+    parent::__construct($data);
+    $this->cachePropertiesAdd(array('exists', 'password', 'env_user_id'));
     $this->cacheBuild($user_id);
   }
 
@@ -75,7 +76,6 @@ class User extends CachedObject {
     $this->exists = TRUE;
     $this->password = Util::passwdGen();
     $this->env->userCreate($this->user_name, $this->password);
-    $this->cacheSave();
   }
 
   /**
@@ -96,16 +96,15 @@ class User extends CachedObject {
     $this->env->userDelete($this->user_name);
     $this->exists = FALSE;
     $this->password = FALSE;
-    $this->cacheSave();
   }
 
   /**
    * Return bool for whether the user exists in the environment.
    */
   public function getExists() {
-    if (!$this->exists) {
+    $this->log('getExists()');
+    if (!isset($this->exists)) {
       $this->exists = $this->env->userExists($this->user_name);
-      $this->cacheSave();
     }
     return $this->exists;
   }
@@ -194,7 +193,6 @@ class User extends CachedObject {
       $password = $this->env->userPasswdGet($this->user_name);
       if ($password) {
         $this->password = $password;
-        $this->cacheSave();
       }
       else {
         throw new Exception("Attempting to get the password for a user that doesn't exist");
