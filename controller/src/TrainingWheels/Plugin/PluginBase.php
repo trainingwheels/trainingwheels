@@ -18,25 +18,25 @@ abstract class PluginBase {
   /**
    * Get the resource object for this plugin.
    */
-  public function resourceFactory($type, $env, $title, $user_name, $course_name, $res_id, $data) {
+  public function resourceFactory($type, $env, $data, $title, $user_name, $course_name, $res_id, $config) {
     $classes = $this->getResourceClasses();
     if (!$classes) {
-      $type = $this->getType();
-      throw new Exception("The plugin type \"$type\" does not provide resources");
+      $plugin_type = $this->getType();
+      throw new Exception("The plugin type \"$plugin_type\" does not provide resources");
     }
     $class = $classes[$type];
 
-    // Validate that the data is correct for this resource.
+    // Validate that the config is correct for this resource.
     $vars_config = $class::getResourceVars();
     foreach ($vars_config as $var) {
       $required = isset($var['required']) ? $var['required'] : FALSE;
       $key = $var['key'];
-      if ($var['default'] === NULL && $required && !isset($data[$key])) {
+      if ($var['default'] === NULL && $required && !isset($config[$key])) {
         throw new Exception("The resource \"$title\" of type \"$type\" requires a value be set for variable \"$key\" but none was found");
       }
     }
 
-    $obj = new $class($env, $title, $user_name, $course_name, $res_id, $data);
+    $obj = new $class($env, $data, $title, $user_name, $course_name, $res_id, $config);
     return $obj;
   }
 

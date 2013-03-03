@@ -45,7 +45,7 @@ class CourseFactory extends Factory {
       }
 
       // Create a Course object.
-      $course = new Course();
+      $course = new Course($this->data);
       $course->course_id = $course_id;
       $course->title = $params['title'];
       $course->description = $params['description'];

@@ -3,6 +3,7 @@
 namespace TrainingWheels\Plugin\GitFiles;
 use TrainingWheels\Resource\Resource;
 use TrainingWheels\Environment\Environment;
+use TrainingWheels\Store\DataStore;
 use Exception;
 
 class GitFilesResource extends Resource {
@@ -16,17 +17,17 @@ class GitFilesResource extends Resource {
   /**
    * Constructor.
    */
-  public function __construct(Environment $env, $title, $user_name, $course_name, $res_id, $data) {
-    parent::__construct($env, $title, $user_name, $course_name, $res_id);
+  public function __construct(Environment $env, DataStore $data, $title, $user_name, $course_name, $res_id, $config) {
+    parent::__construct($env, $data, $title, $user_name, $course_name, $res_id);
 
-    $this->subdir = $data['subdir'];
+    $this->subdir = $config['subdir'];
     $this->fullpath = "/twhome/$user_name/$course_name";
     if ($this->subdir) {
       $this->fullpath = $this->fullpath . '/' . $this->subdir;
     }
-    $this->repo = $data['repo_url'];
+    $this->repo = $config['repo_url'];
     $this->course_name = $course_name;
-    $this->default_branch = $data['default_branch'];
+    $this->default_branch = $config['default_branch'];
 
     $this->cacheBuild($res_id);
   }
@@ -104,9 +105,8 @@ class GitFilesResource extends Resource {
    * Do the files exist in the environment?
    */
   public function getExists() {
-    if (!$this->exists) {
+    if (!isset($this->exists)) {
       $this->exists = $this->env->dirExists($this->fullpath);
-      $this->cacheSave();
     }
     return $this->exists;
   }
@@ -121,7 +121,6 @@ class GitFilesResource extends Resource {
     }
     $this->env->dirDelete($this->fullpath);
     $this->exists = FALSE;
-    $this->cacheSave();
   }
 
   /**
@@ -134,7 +133,6 @@ class GitFilesResource extends Resource {
     }
     $this->exists = TRUE;
     $this->env->gitRepoClone($this->user_name, $this->repo, $this->fullpath, $this->default_branch);
-    $this->cacheSave();
   }
 
   /**
@@ -143,5 +141,6 @@ class GitFilesResource extends Resource {
   public function syncTo(GitFilesResource $target) {
     parent::syncTo();
     $this->env->fileSyncUserFolder($this->user_name, $target->user_name, $this->course_name . '/');
+    $target->setExists(TRUE);
   }
 }
