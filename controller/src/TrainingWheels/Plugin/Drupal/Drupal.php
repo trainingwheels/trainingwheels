@@ -71,15 +71,17 @@ class Drupal extends PluginBase {
      */
     $course->addObserver('afterUserResourcesCreate', function($data) use ($settings_path, $files_path) {
       $db = $data['user']->resourceGet('drupal_db');
-      $user_name = $data['user']->getName();
-      $course_name = $data['course']->course_name;
+      $gitfiles = $data['user']->resourceGet('drupal_files');
 
-      // @TODO: Make this more flexible, perhaps hand off the replacing to the Gitfiles resource which knows
-      // it's own location.
-      $files_full_path = "/twhome/$user_name/$course_name/" . $files_path;
-      $data['course']->env->dirChmod('g+rwx', $files_full_path);
+      if ($db && $gitfiles && $db->getExists() && $gitfiles->getExists()) {
+        $user_name = $data['user']->getName();
+        $course_name = $data['course']->course_name;
 
-      if ($db && $db->getExists()) {
+        // @TODO: Make this more flexible, perhaps hand off the replacing to the Gitfiles resource which knows
+        // it's own location.
+        $files_full_path = "/twhome/$user_name/$course_name/" . $files_path;
+        $data['course']->env->dirChmod('g+rwx', $files_full_path);
+
         $settings = '\\' . "\$databases['default']['default']['database'] = '" . $db->getDBName() . "';\n";
         $settings .= '\\' . "\$databases['default']['default']['username'] = '" . $db->getUserName() . "';\n";
         $settings .= '\\' . "\$databases['default']['default']['password'] = '" . $db->getPasswd() . "';\n";

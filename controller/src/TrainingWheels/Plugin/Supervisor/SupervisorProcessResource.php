@@ -36,9 +36,14 @@ abstract class SupervisorProcessResource extends Resource {
    * Stop the process, remove the config.
    */
   public function delete() {
+    if (!$this->getExists()) {
+      throw new Exception("Attempting to delete a SupervisorProcessResource that does not exist.");
+    }
     $this->env->supervisorProgramStop($this->program);
     $this->env->fileDelete($this->conf_path);
     $this->env->supervisorUpdateConfig();
+    $this->exists = FALSE;
+    $this->cacheSave();
   }
 
   /**
@@ -48,9 +53,10 @@ abstract class SupervisorProcessResource extends Resource {
     // Make the conf file.
     $this->env->fileCreate("\"[program:$this->program]\ncommand=$this->command\ndirectory=$this->directory\nuser=$this->user_name\nautostart=true\nautorestart=true\n\"", $this->conf_path, 'root');
 
-    // Tell Supervisor to reload the config and start the program.
+    // Tell Supervisor to reload the config and start the program. Since it's
+    // defined with autostart=true above, it will start as soon as the config
+    // is read in.
     $this->env->supervisorUpdateConfig();
-    $this->env->supervisorProgramStart($this->program);
   }
 
   /**
