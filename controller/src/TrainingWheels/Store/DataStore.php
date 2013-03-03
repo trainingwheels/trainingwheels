@@ -6,13 +6,22 @@ use MongoClient;
 
 class DataStore {
   private $db = NULL;
+  private $connection = NULL;
 
   /**
    * Constructor.
    */
   public function __construct($dbUrl) {
     $connection = new MongoClient($dbUrl);
+    $this->connection = $connection;
     $this->db = $connection->trainingwheels;
+  }
+
+  /**
+   * Get the MongoClient instance.
+   */
+  public function getConnection() {
+    return $this->connection;
   }
 
   /**
@@ -55,9 +64,12 @@ class DataStore {
   /**
    * Get all documents from a collection.
    */
-  public function findAll($collection) {
+  public function findAll($collection, $sort = NULL) {
     $output = array();
     $cursor = $this->db->$collection->find();
+    if ($sort) {
+      $cursor = $cursor->sort(array($sort => '1'));
+    }
     foreach ($cursor as $id => $value) {
       unset($value['_id']);
       $output[] = (object)$value;

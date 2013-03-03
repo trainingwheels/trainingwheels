@@ -36,6 +36,7 @@ class RESTControllerProvider implements ControllerProviderInterface {
     $parseID = function ($id) use ($app) {
       $parts = explode('-', $id);
       if (isset($parts[0]) && isset($parts[1])) {
+        Log::log('Parse REST request', L_INFO, 'actions', array('layer' => 'user', 'source' => 'Web', 'params' => 'course_id=' . $parts[0] . ' users=' . $parts[1]));
         $course = $app['tw.course_factory']->get($parts[0]);
         return array(
           'course' => $course,
