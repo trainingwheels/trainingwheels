@@ -464,20 +464,38 @@ input[type=submit][disabled="disabled"], [disabled="disabled"].submit {
   z-index: 4;
   padding-top: 15px;
   margin-bottom: 22px;
-  border-bottom: 1px solid #bebcba;
+  border-bottom: 1px solid #4a4545;
 }
 
+.ember-view {
+  height: 100%;
+}
+
+html, body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+}
+
+#main-content {
+  overflow: auto;
+  padding-bottom: 100px;
+}
+
+/* padding-bottom must be same height as the footer */
 #footer {
-  float: left;
-  bottom: 0;
-  width: 100%;
   position: relative;
-  z-index: 4;
-  margin: 22px;
+  margin-top: -100px;
+  /* negative value of footer height */
+  height: 100px;
+  clear: both;
+  bottom: 0;
   margin-left: 0;
   border-top: 1px solid #d9d6d6;
   border-bottom: 1px solid #d9d6d6;
-  background: url('../../images/az_subtle.png') repeat;
+  background: url('../../images/light-noise.png') repeat;
   color: #4a4545;
   padding: 22px;
   font-size: 12px;
@@ -494,6 +512,13 @@ input[type=submit][disabled="disabled"], [disabled="disabled"].submit {
 }
 #footer ul li {
   display: inline;
+}
+
+#learn-more {
+  border-right: 1px solid;
+  padding-right: 7px;
+  margin-right: 7px;
+  color: #85817d;
 }
 
 .tw-loading {
@@ -792,6 +817,10 @@ input[type=submit][disabled="disabled"], [disabled="disabled"].submit {
   font-weight: 600;
   font-size: 32px;
 }
+
+#course-form .course-tools {
+  padding-bottom: 2em;
+}
 #course-form .course-tools button {
   margin-bottom: 11px;
 }
@@ -937,6 +966,7 @@ input[type=submit][disabled="disabled"], [disabled="disabled"].submit {
   display: inline;
   border-top: 1px solid white;
   padding-top: 2em;
+  padding-bottom: 4em;
 }
 #course-users #course-users-bottom-tools .ember-text-field, #course-instructor #course-users-bottom-tools .ember-text-field {
   height: 44px;
@@ -1056,10 +1086,16 @@ input[type=submit][disabled="disabled"], [disabled="disabled"].submit {
 #courses-dashboard #course-list .course-summary .course-description {
   margin-bottom: 1em;
 }
+#courses-dashboard #course-tools {
+  padding-bottom: 2em;
+}
 #courses-dashboard #course-tools button {
   margin-left: 0;
 }
 
+#login-form {
+  margin-bottom: 2em;
+}
 #login-form #form-title {
   padding-bottom: 25px;
   padding-left: 25px;
