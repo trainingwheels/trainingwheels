@@ -124,7 +124,7 @@ module.exports = function(grunt) {
       },
       requirejs: {
         files: ['js/src/**/*.js'],
-        tasks: ['requirejs:dev', 'concat']
+        tasks: ['jshint:dev', 'requirejs:dev', 'concat']
       },
       // When Gruntfile.js changes, we don't know whether we should run compass
       // or requirejs tasks, so do both.
@@ -147,8 +147,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
 
   // Our custom tasks.
-  grunt.registerTask('debug', ['clean', 'jshint', 'requirejs:dev', 'concat', 'compass:dev']);
-  grunt.registerTask('release', ['clean', 'jshint', 'requirejs:prod', 'concat', 'compass:dev', 'compass:prod', 'uglify', 'cssmin']);
+  grunt.registerTask('debug', ['clean', 'jshint:dev', 'requirejs:dev', 'concat', 'compass:dev']);
+  grunt.registerTask('release', ['clean', 'jshint:prod', 'requirejs:prod', 'concat', 'compass:dev', 'compass:prod', 'uglify', 'cssmin']);
 
   // Default task that is run when no arguments are passed.
   grunt.registerTask('default', ['release']);
