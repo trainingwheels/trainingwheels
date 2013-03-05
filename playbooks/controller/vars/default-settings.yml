@@ -48,3 +48,4 @@ apc_num_files_hint: '0'
 debug: false
 app_user: 'admin'
 app_pass: 'admin'
+app_base_path: '/var/trainingwheels'

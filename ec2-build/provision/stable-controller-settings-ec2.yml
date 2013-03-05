@@ -50,3 +50,4 @@ debug: false
 app_user: 'tw'
 # The app pass is stored in the Jenkins job config and passed through rebuild-server script.
 # app_pass: ''
+app_base_path: '/var/trainingwheels'

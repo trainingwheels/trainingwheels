@@ -17,4 +17,4 @@ ansible-playbook --sudo -c local setup.yml
 echo ''
 echo '======================================================================='
 echo 'Running sample data playbooks...'
-ansible-playbook --sudo -c local sample-data.yml
+ansible-playbook --sudo -c local --extra-vars="classroom_hostname=class.training.wheels remote_username=vagrant twdir=$TW_DIR" sample-data.yml

@@ -15,10 +15,10 @@ class Cloud9IDE extends PluginBase {
         'val' => '/var/local/cloud9',
       ),
       'version' => array(
-        'val' => 'hide-password',
+        'val' => 'master',
       ),
-      'session_type' => array(
-        'val' => 'connect.session.memory'
+      'repo' => array(
+        'val' => 'https://github.com/trainingwheels/cloud9-build.git',
       )
     );
   }
