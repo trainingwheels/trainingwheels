@@ -6,9 +6,22 @@ module.exports = function(grunt) {
     clean: ['dist/'],
 
     jshint: {
-      files: ['Gruntfile.js', 'js/src/**/*.js'],
       options: {
         scripturl: true
+      },
+      prod: {
+        files: {
+          src: ['Gruntfile.js', 'js/src/**/*.js']
+        }
+      },
+      dev: {
+        options: {
+          debug: true
+        },
+        files: {
+          src: ['Gruntfile.js', 'js/src/**/*.js']
+        }
+
       }
     },
 
