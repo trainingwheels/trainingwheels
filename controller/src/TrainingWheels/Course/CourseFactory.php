@@ -4,6 +4,7 @@ namespace TrainingWheels\Course;
 use TrainingWheels\Common\Factory;
 use TrainingWheels\Conn\LocalServerConn;
 use TrainingWheels\Conn\SSHServerConn;
+use TrainingWheels\Conn\KeyManager;
 use TrainingWheels\Environment\Environment;
 use Exception;
 
@@ -21,9 +22,13 @@ class CourseFactory extends Factory {
         $conn = new LocalServerConn(TRUE);
       }
       else {
-        $conn = new SSHServerConn($params['host'], 22,  $params['user'],  $params['pass'], TRUE);
+        $key_manager = new KeyManager($this->config['base_path']);
+        if (!isset($params['port'])) {
+          $params['port'] = 22;
+        }
+        $conn = new SSHServerConn($params['host'], $params['port'], $params['user'], $key_manager);
         if (!$conn->connect()) {
-          throw new Exception("Unable to connect/login to server $host on port 22");
+          throw new Exception("Unable to connect/login to server " . $params['host'] . " on port " . $params['port'] . " as user " . $params['user']);
         }
       }
 

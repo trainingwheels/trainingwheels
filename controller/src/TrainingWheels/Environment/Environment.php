@@ -37,10 +37,19 @@ class Environment {
    * Provision the course.
    */
   public function provision(array $plugins) {
-    $ansible_args_array = array(
-      '-c local',
-      '--sudo',
-    );
+    $tmp = '';
+    $ansible_args_array = array('--sudo');
+    if (get_class($this->conn) == 'TrainingWheels\Conn\LocalServerConn') {
+      $ansible_args_array[] = '-c local';
+    }
+    else {
+      $tmp = trim(shell_exec('mktemp'));
+      $host = $this->conn->getHost();
+      shell_exec("echo $host > $tmp");
+      $ansible_args_array[] = '--inventory-file=' . $tmp;
+      $ansible_args_array[] = '--private-key=' . $this->conn->getKeyPath();
+      $ansible_args_array[] = '--user=' . $this->conn->getUser();
+    }
     $ansible_args = implode(' ', $ansible_args_array);
 
     // Get the playbooks that need to be run to configure this course.
@@ -64,6 +73,9 @@ class Environment {
           throw new Exception("Unable to run configuration for plugin \"$type\": \n$output_nice");
         }
       }
+    }
+    if (!empty($tmp)) {
+      shell_exec("rm $tmp");
     }
   }
 

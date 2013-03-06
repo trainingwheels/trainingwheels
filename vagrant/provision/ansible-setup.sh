@@ -35,12 +35,9 @@ git checkout v0.9 > /dev/null 2>&1 || error_exit "Unable to checkout the require
 
 echo ''
 echo '======================================================================='
-echo 'Building Ansible .deb file...'
-make deb > /dev/null 2>&1 || error_exit "Unable to build the .deb file."
-cd /usr/local/src
-dpkg -i ansible_0.9_all.deb > /dev/null || error_exit "Unable to build the .deb file."
-rm ansible_0.9_all.deb
-
+echo 'Installing Ansible...'
+make install > /dev/null 2>&1 || error_exit "Unable to install Ansible."
+mkdir -p /etc/ansible
 echo "localhost" > /etc/ansible/hosts
 
 echo ''
