@@ -21,9 +21,11 @@ class Cloud9IDEResource extends SupervisorProcessResource {
   public function get() {
     $info = parent::get();
     if ($info['exists']) {
+      $host = $this->env->getConn()->getHost();
+      $host = $host == 'localhost' ? $_SERVER['SERVER_NAME'] : $host;
       $info['attribs'][0]['key'] = 'address';
       $info['attribs'][0]['title'] = 'Address';
-      $info['attribs'][0]['value'] = 'http://' . $this->user_name . '.' . $this->course_name . '.' . $_SERVER['SERVER_NAME'] . ':' . $this->getPort();
+      $info['attribs'][0]['value'] = 'http://' . $this->user_name . '.' . $this->course_name . '.' . $host . ':' . $this->getPort();
     }
     return $info;
   }
@@ -41,7 +43,7 @@ class Cloud9IDEResource extends SupervisorProcessResource {
     $dir_path = "/twhome/$name";
 
     $this->command = "/usr/bin/node server.js --username $name --password $pass -w $dir_path -l 0.0.0.0 -p $port -a x-www-browser";
-    $this->directory = '/var/local/cloud9';
+    $this->directory = '/var/local/cloud9/cloud9-build';
 
     parent::create();
   }

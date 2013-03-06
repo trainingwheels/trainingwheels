@@ -1,5 +1,5 @@
 ##
-# Ansible playbook for setting up a Training Wheels server in EC2, for
+# Ansible playbook for setting up a Training Wheels classroom server in EC2, for
 # our auto build system.
 #
 
@@ -26,16 +26,5 @@
     - name: Change the hostname using the hostname command
       action: command hostname $hostname
 
-    - name: Install required packages for Jenkins slave and general use
-      action: apt pkg=$item state=installed
-      with_items:
-        - git
-        - openjdk-7-jre-headless
-        - python-pip
-
-    # Training Wheels app download and setup
-    - name: Clone the repo
-      action: git repo=https://github.com/trainingwheels/trainingwheels.git dest=$twdir version=$branch
-
-    - name: Let web user write to log file directory
-      action: file state=directory path=$twdir/controller/log mode=0777
+    - name: Set the public key for Ubuntu
+      action: authorized_key user=ubuntu key='$FILE(tw.key.pub)'

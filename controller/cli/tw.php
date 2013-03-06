@@ -44,6 +44,7 @@ use TrainingWheels\Console\ResourceSync;
 use TrainingWheels\Console\UserCreate;
 use TrainingWheels\Console\UserDelete;
 use TrainingWheels\Console\UserRetrieve;
+use TrainingWheels\Console\KeyCreate;
 
 $console = new Application();
 $console->add(new CourseProvision($app['tw.job_factory']));
@@ -53,5 +54,6 @@ $console->add(new UserDelete($app['tw.course_factory']));
 $console->add(new ResourceCreate($app['tw.job_factory']));
 $console->add(new ResourceDelete($app['tw.job_factory']));
 $console->add(new ResourceSync($app['tw.job_factory']));
+$console->add(new KeyCreate($app['tw.config']));
 
 $console->run();
