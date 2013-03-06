@@ -1,20 +1,32 @@
 <?php
 
 namespace TrainingWheels\Plugin;
+use Exception;
 
 abstract class PluginBase {
-  protected $location;
-  protected $title;
 
-  protected $ansible_play;
-  protected $ansible_vars;
+  protected $location;
+  protected $vars;
 
   /**
    * Constructor.
    */
   public function __construct() {
-    $this->ansible_vars = array();
-    $this->ansible_play = FALSE;
+    $this->vars = array();
+  }
+
+  /**
+   * Get the resource object for this plugin.
+   */
+  public function resourceFactory($type, $env, $title, $user_name, $course_name, $res_id, $data) {
+    $classes = $this->getResourceClasses();
+    if (!$classes) {
+      $type = $this->getType();
+      throw new Exception("The plugin type \"$type\" does not provide resources");
+    }
+    $class = $classes[$type];
+    $obj = new $class($env, $title, $user_name, $course_name, $res_id, $data);
+    return $obj;
   }
 
   /**
@@ -26,58 +38,110 @@ abstract class PluginBase {
   }
 
   /**
+   * Return the value of a variable.
+   */
+  public function getVar($name) {
+    return $this->vars[$name];
+  }
+
+  /**
    * Given the data loaded from the DataStore, setup the instance
    * of this plugin correctly. This allows config in the database to
    * override the default config the plugin provides.
    */
   public function set($data) {
-    $this->title = $data['title'];
+    $this->validateVarsConfig();
+    $vars = $this->getPluginVars();
+    $type = $this->getType();
 
-    $ansible_config = $this->getAnsibleConfig();
+    if ($vars) {
+      foreach($vars as $key => $var) {
+        $default_value = isset($var['val']) ? $var['val'] : NULL;
+        $data_value = isset($data[$key]) ? $data[$key] : NULL;
 
-    if ($ansible_config) {
-      foreach($ansible_config['vars'] as $key => $var) {
-
-        // If the default config has the value NULL then we
-        // must obtain the value from the passed $data.
-        if (!isset($var)) {
-          $this->ansible_vars[$key] = $data[$key];
+        if ($data_value === NULL && $default_value === NULL) {
+          throw new Exception("The plugin \"$type\" requires a value for variable \"$key\".");
         }
-        // If the default config provides a value, then check
-        // if an override is provided.
-        else if (isset($data[$key])) {
-          $this->ansible_vars[$key] = $data[$key];
+
+        if ($data_value !== NULL) {
+          $this->vars[$key] = $data_value;
         }
-        // Else use the default.
         else {
-          $this->ansible_vars[$key] = $var;
+          $this->vars[$key] = $default_value;
         }
       }
     }
   }
 
   /**
-   * Return the Ansible playbook.
+   * Validate the plugin's variable config is correctly structured.
    */
-  public function getAnsiblePlay() {
-    return $this->ansible_play;
+  public function validateVarsConfig() {
+    $vars = $this->getPluginVars();
+    $type = $this->getType();
+
+    if ($vars) {
+      foreach($vars as $var_name => $settings) {
+        foreach ($settings as $key => $value) {
+          if (!in_array($key, array('val', 'help', 'hint'))) {
+            throw new Exception("The plugin \"$type\" has a variable with unrecognized key \"$key\"");
+          }
+        }
+      }
+    }
+    return TRUE;
   }
 
   /**
-   * Format the Ansible variables for inclusion in the play.
+   * Turn the vars into a string of key=value entries.
    */
-  public function formatAnsibleVars() {
+  public function formatVarsString() {
     $output = '';
-    foreach ($this->ansible_vars as $key => $value) {
+    foreach ($this->vars as $key => $value) {
       $output .= "$key=$value ";
     }
     return trim($output);
   }
 
   /**
-   * Override in sub class if you provide Ansible playbook.
+   * Provisioning steps. Override in subclass if you provide provisioning
    */
-  public function getAnsibleConfig() {
+  public function getProvisionSteps() {
+    return FALSE;
+  }
+
+  /**
+   * Variable config. Override in subclass if you provide variables.
+   */
+  public function getPluginVars() {
+    return FALSE;
+  }
+
+  /**
+   * Environment mixins. Override in subclass if you provide these.
+   */
+  public function mixinEnvironment($env, $type) {
+    return FALSE;
+  }
+
+  /**
+   * Course observers. Override in subclass if you provide.
+   */
+  public function registerCourseObservers($course) {
+    return FALSE;
+  }
+
+  /**
+   * Resources. Override in subclass if you provide.
+   */
+  public function getResourceClasses() {
+    return FALSE;
+  }
+
+  /**
+   * Bundles. Override in subclass if you provide.
+   */
+  public function getBundles() {
     return FALSE;
   }
 }

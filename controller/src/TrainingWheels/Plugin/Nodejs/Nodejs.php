@@ -5,8 +5,7 @@ use TrainingWheels\Plugin\PluginBase;
 
 class Nodejs extends PluginBase {
 
-  public function __construct() {
-    parent::__construct();
-    $this->ansible_play = __DIR__ . '/ansible/nodejs.yml';
+  public function getProvisionSteps() {
+    return __DIR__ . '/provision/nodejs.yml';
   }
 }

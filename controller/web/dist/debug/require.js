@@ -400,7 +400,8 @@ var requirejs, require, define;
         jQuery: true
     };
 }());
-;
+
+
 /*!
  * jQuery JavaScript Library v1.8.3
  * http://jquery.com/
@@ -45655,6 +45656,25 @@ define('app',['ember', 'jquery'], function(Ember, $) {
     return def.promise();
   };
 
+  // Fetch and permanantly store the plugins definitions for
+  // easy form building.
+  $.ajax(
+    '/rest/course_build',
+    {
+      success: function(data, textStatus, jqXHR) {
+        if (jqXHR.status === 200) {
+          app.courseBuild = data;
+        }
+        else {
+          throw new Error('Unable to fetch course build information.');
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        throw new Error('Unable to fetch course build information.');
+      }
+    }
+  );
+
   return app;
 });
 
@@ -45666,7 +45686,7 @@ define('modules/job',['ember-data', 'app'], function(DS, app) {
     course_id: DS.attr('number'),
     type: DS.attr('string'),
     action: DS.attr('string'),
-    params: DS.attr('string'),
+    params: DS.attr('string')
   });
 
   app.JobComplete = function(job, callback) {
@@ -45701,13 +45721,13 @@ define('modules/resource',['ember', 'ember-data', 'jquery', 'app'], function(Emb
     }.property('attribs'),
     css_class_resource_status: function() {
       return 'resource-status ss-folder ' + this.get('status');
-    }.property('status'),
+    }.property('status')
   });
 
   app.ResourceController = Ember.ObjectController.extend();
 
   app.ResourceView = Ember.View.extend({
-    templateName: 'resource',
+    templateName: 'resource'
   });
 });
 
@@ -46058,6 +46078,43 @@ define('modules/resource',['ember', 'ember-data', 'jquery', 'app'], function(Emb
 	}
 
 }(this));
+////
+// Select text in a div, useful for copy-paste.
+//
+// From: http://stackoverflow.com/questions/985272/jquery-selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
+//
+
+(function(window, document, $) {
+  
+
+  $.fn.selectText = function() {
+    var doc = document,
+        element = this[0],
+        range,
+        selection;
+
+    if (doc.body.createTextRange) {
+      range = document.body.createTextRange();
+      range.moveToElementText(element);
+      range.select();
+    }
+    else if (window.getSelection) {
+      selection = window.getSelection();
+      range = document.createRange();
+      range.selectNodeContents(element);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  };
+})(window, document, jQuery);
+
+define("jquery_plugins", ["jquery"], (function (global) {
+    return function () {
+        var ret, fn;
+        return ret || global.jQuery.fn.selectText;
+    };
+}(this)));
+
 /**
  * @fileoverview User models, views, and controllers.
  */
@@ -46066,7 +46123,8 @@ define('modules/user',[
   'ember-data',
   'jquery',
   'alertify',
-  'app'
+  'app',
+  'jquery_plugins'
 ], function(Ember, DS, $, alertify, app) {
   app.UserSummary = DS.Model.extend({
     course: DS.belongsTo('App.Course'),
@@ -46099,7 +46157,7 @@ define('modules/user',[
   app.UserSummaryController = Ember.ObjectController.extend();
 
   app.UserSummaryView = Ember.View.extend({
-    templateName: 'user-summary',
+    templateName: 'user-summary'
   });
 
   app.UserController = Ember.ObjectController.extend({
@@ -46204,7 +46262,7 @@ define('modules/course',[
   'ember-data',
   'jquery',
   'alertify',
-  'app',
+  'app'
 ], function(Ember, DS, $, alertify, app) {
   app.CourseSummary = DS.Model.extend({
     course_name: DS.attr('string'),
@@ -46235,29 +46293,147 @@ define('modules/course',[
   });
 
   app.CoursesAddController = Ember.ObjectController.extend({
-    saveCourse: function(view) {
-      var newCourse = {
-        title: view.get('titleTextField').get('value'),
-        description: view.get('descriptionTextField').get('value'),
-        course_name: view.get('nameTextField').get('value'),
-        course_type: view.get('typeTextField').get('value'),
-        env_type: view.get('environmentTextField').get('value'),
-        repo: view.get('repositoryTextField').get('value'),
-        host: view.get('hostTextField').get('value'),
-        user: view.get('userTextField').get('value'),
-        pass: view.get('passTextField').get('value'),
+    /**
+     * Helper to disable the submit button if the form is invalid.
+     *
+     * @return
+     *   true if the form is invalid, else false.
+     */
+    form_is_invalid: function() {
+      if (!this.get('titleValid') || !this.get('courseNameValid')) {
+        return true;
       }
+
+      return false;
+    }.property(
+      'titleValid',
+      'courseNameValid'
+    ),
+
+    /**
+     * Title field and helper properties.
+     */
+    title: null,
+    titleValid: true,
+    titleErrors: [],
+    css_class_title: function() {
+      return 'field' + (this.get('titleValid') ? '' : ' invalid clearfix');
+    }.property('titleValid'),
+    validateTitle: function() {
+      this.set('titleValid', true);
+      this.set('titleErrors', []);
+
+      if (this.get('title') === null || this.get('title').length === 0) {
+        this.set('titleValid', false);
+        this.get('titleErrors').push('The course title is required.');
+        return;
+      }
+    }.observes('title'),
+
+    /**
+     * Description.
+     */
+    description: null,
+
+    /**
+     * Course name field and helper properties.
+     */
+    courseName: null,
+    courseNameValid: true,
+    courseNameErrors: [],
+    css_class_short_name: function() {
+      return 'field' + (this.get('courseNameValid') ? '' : ' invalid clearfix');
+    }.property('courseNameValid'),
+    validateShortName: function() {
+      this.set('courseNameValid', true);
+      this.set('courseNameErrors', []);
+
+      // Bail if the field is empty...
+      if (this.get('courseName') === null || this.get('courseName').length === 0) {
+        this.set('courseNameValid', false);
+        this.get('courseNameErrors').push('The course short name is required.');
+        return;
+      }
+
+      // Course short names are limited to 11 characters because
+      // of MySQL's 16 character user name limit. When we create
+      // the mysql user it will be course_name + '_UNIX_UID' where
+      // UNIX_UID is a four digit number (i.e. 1001).
+      if (this.get('courseName').length > 11) {
+        this.set('courseNameValid', false);
+        this.get('courseNameErrors').push('Course short names cannot be more than 11 characters long.');
+      }
+
+      // Ensure that the course name contains only letters and underscores.
+      if (!this.get('courseName').match(/^\w+$/)) {
+        this.set('courseNameValid', false);
+        this.get('courseNameErrors').push('Course short names can only contain letters, numbers, and underscores.');
+      }
+    }.observes('courseName'),
+
+    /**
+     * Course type.
+     */
+    courseType: null,
+
+    /**
+     * Environment type.
+     */
+    envType: 'ubuntu',
+
+    /**
+     * Repository.
+     */
+    repo: 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
+
+    /**
+     * Host.
+     */
+    host: 'localhost',
+
+    /**
+     * User.
+     */
+    user: null,
+
+    /**
+     * Pass.
+     */
+    pass: null,
+
+    /**
+     * Confirms the form is valid and if so submits, creating a new course.
+     */
+    saveCourse: function(view) {
+      // Prevent saving the course if the form is invalid.
+      this.validateTitle();
+      this.validateShortName();
+      if (this.get('form_is_invalid')) {
+        return;
+      }
+      var newCourse = {
+        title: this.get('title'),
+        description: this.get('description'),
+        course_name: this.get('courseName'),
+        course_type: this.get('courseType'),
+        env_type: this.get('envType'),
+        repo: this.get('repo'),
+        host: this.get('host'),
+        user: this.get('user'),
+        pass: this.get('pass')
+      };
       var model = app.CourseSummary.createRecord(newCourse);
       model.store.commit();
       this.transitionToRoute('courses');
     },
+
     cancelCourseAdd: function() {
       this.transitionToRoute('courses');
     }
   });
 
   app.CoursesAddView = Ember.View.extend({
-    templateName: 'course-form',
+    templateName: 'course-form'
   });
 
   app.CourseController = Ember.ObjectController.extend({
@@ -46359,7 +46535,7 @@ define('modules/course',[
       }
 
       // Find the already loaded users so we can reload them.
-      var users = app.User.filter(function(data) {
+      users = app.User.filter(function(data) {
         if (data.get('course_id') != course_id) {
           return false;
         }
@@ -46476,7 +46652,7 @@ require([
   app.Store = DS.Store.extend({
     revision: 11,
     adapter: DS.RESTAdapter.extend({
-      namespace: 'rest',
+      namespace: 'rest'
     })
   });
 
@@ -46557,7 +46733,8 @@ require.config({
     ember: '../libs/ember/ember',
     'ember-data': '../libs/ember-data/ember-data',
     handlebars: '../libs/handlebars/handlebars-1.0.rc.1',
-    alertify: '../vendor/alertify/alertify'
+    alertify: '../vendor/alertify/alertify',
+    jquery_plugins: './jquery_plugins'
   },
 
   shim: {
@@ -46577,6 +46754,11 @@ require.config({
 
     alertify: {
       exports: 'alertify'
+    },
+
+    jquery_plugins: {
+      deps: ['jquery'],
+      exports: 'jQuery.fn.selectText'
     }
   }
 });

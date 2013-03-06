@@ -33,6 +33,15 @@ class BootstrapServiceProvider implements ServiceProviderInterface {
       throw new Exception("The configuration file could not be found at $config_file");
     }
     $app->register(New ConfigServiceProvider($config_file));
+    if (!isset($app['tw.config'])) {
+      throw new Exception("The config file must contain a root element 'tw.config'");
+    }
+
+    // Debug setting is a special case that needs to be set on the $app and in tw.config.
+    if (!isset($app['tw.config']['debug'])) {
+      $app['tw.config']['debug'] = FALSE;
+    }
+    $app['debug'] = $app['tw.config']['debug'];
 
     // Logging. We add a monolog service provider, which is what Silex will use
     // internally.
@@ -59,14 +68,19 @@ class BootstrapServiceProvider implements ServiceProviderInterface {
       'translator.messages' => array(),
     ));
 
+    // Check some values are provided.
+    if (!isset($app['tw.config']['base_path'])) {
+      $app['tw.config']['base_path'] = '/var/trainingwheels';
+    }
+
     // We then use the same Monolog instance on the Training Wheels Log object,
     // so that our application logs all end up in the same place.
     $app['tw.log'] = new Log($app['monolog']);
 
     // Training Wheels objects.
-    $app['tw.datastore'] = new DataStore($app['connections']['mongo']);
-    $app['tw.course_factory'] = new CourseFactory($app['tw.datastore']);
-    $app['tw.job_factory'] = new JobFactory($app['tw.datastore'], $app['tw.course_factory']);
+    $app['tw.datastore'] = new DataStore($app['tw.config']['connections']['mongo']);
+    $app['tw.course_factory'] = new CourseFactory($app['tw.datastore'], $app['tw.config']);
+    $app['tw.job_factory'] = new JobFactory($app['tw.datastore'], $app['tw.course_factory'], $app['tw.config']);
   }
 
   public function boot(Application $app) {

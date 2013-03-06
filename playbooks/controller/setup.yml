@@ -41,14 +41,11 @@
     - name: Ansible | Clone Ansible repository at tag 0.9
       action: git repo=https://github.com/ansible/ansible.git dest=/usr/local/src/ansible version=v0.9
 
-    - name: Ansible | Create the .deb file
-      action: command make deb chdir=/usr/local/src/ansible creates=/usr/bin/ansible
+    - name: Ansible | Install Ansible
+      action: command make install chdir=/usr/local/src/ansible creates=/usr/local/bin/ansible
 
-    - name: Ansible | Install the .deb file
-      action: command dpkg -i /usr/local/src/ansible_0.9_all.deb creates=/usr/bin/ansible
-
-    - name: Ansible | Remove the .deb file
-      action: file path=/usr/local/src/ansible_0.9_all.deb state=absent
+    - name: Ansible | Make Ansible hosts directory
+      action: file state=directory path=/etc/ansible owner=root group=root mode=755
 
     - name: Ansible | Copy ansible hosts file
       action: copy src=files/etc-ansible-hosts dest=/etc/ansible/hosts
@@ -91,6 +88,8 @@
         - php5-xmlrpc
         - php-soap
         - php5-gd
+        - php5-gmp
+        - php5-mcrypt
         - php-pear
         - python-mysqldb
         - curl
@@ -197,10 +196,13 @@
       action: command composer.phar install -d $twdir/controller/
 
     ##
-    # Copy app config file.
+    # Training Wheels specific stuff.
     #
     - name: Training Wheels | Copy app config file
       action: template src=templates/var-trainingwheels-controller-config-config-yml.j2 dest=$twdir/controller/config/config.yml
+
+    - name: Training Wheels | Prevent the 'stdin is not a tty' error from appearing due to mesg command in .profile
+      action: copy src=files/root-profile dest=/root/.profile owner=root group=root mode=644
 
     ##
     # Handy shortcuts for command line user.

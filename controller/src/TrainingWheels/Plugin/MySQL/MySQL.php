@@ -5,19 +5,37 @@ use TrainingWheels\Plugin\PluginBase;
 
 class MySQL extends PluginBase {
 
-  public function __construct() {
-    parent::__construct();
-    $this->ansible_play = __DIR__ . '/ansible/mysql.yml';
+  public function getProvisionSteps() {
+    return __DIR__ . '/provision/mysql.yml';
   }
 
-  public function getAnsibleConfig() {
+  public function getPluginVars() {
     return array(
-      'vars' => array(
-        'mysql_root_password' => NULL,
-        'mysql_max_allowed_packet' => '128M',
-        'mysql_character_set_server' => 'utf8',
-        'mysql_collation_server' => 'utf8_general_ci',
+      'mysql_root_password' => array(
+        'val' => NULL,
       ),
+      'mysql_max_allowed_packet' => array(
+        'val' => '128M',
+      ),
+      'mysql_character_set_server' => array(
+        'val' => 'utf8',
+      ),
+      'mysql_collation_server' => array(
+        'val' => 'utf8_general_ci',
+      ),
+    );
+  }
+
+  public function mixinEnvironment($env, $type) {
+    if ($type == 'linux') {
+      $mySQLLinuxEnv = new MySQLLinuxEnv();
+      $mySQLLinuxEnv->mixinLinuxEnv($env);
+    }
+  }
+
+  public function getResourceClasses() {
+    return array(
+      'MySQLDatabaseResource' => '\\TrainingWheels\\Plugin\\MySQL\\MySQLDatabaseResource',
     );
   }
 }

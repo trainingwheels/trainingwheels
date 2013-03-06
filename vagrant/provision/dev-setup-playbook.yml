@@ -10,14 +10,21 @@
     ##
     # Install compass and animation gems for theming
     #
-    - name: Install rubygems package
+    - name: Development | Install rubygems package
       action: apt pkg=rubygems state=installed
 
-    - name: Install Aurora
+    - name: Development | Install Aurora
       action: command gem install compass-aurora creates=/var/lib/gems/1.8/specifications/compass-aurora-1.1.1.gemspec
 
-    - name: Install Animation
+    - name: Development | Install Animation
       action: command gem install animation --pre creates=/var/lib/gems/1.8/specifications/animation-0.1.alpha.3.gemspec
+
+    ##
+    # Configuration for accessing the classroom server (if required).
+    # This IP address must match the IP specified in the classroom VagrantFile.
+    #
+    - name: Training Wheels | Set up some hosts entries so we can connect to the classroom server if required
+      action: lineinfile regexp=.* insertafter=EOF dest=/etc/hosts line="10.1.0.3 class.training.wheels sshcourse.class.training.wheels instructor.sshcourse.class.training.wheels jenny.sshcourse.class.training.wheels harry.sshcourse.class.training.wheels"
 
     ##
     # Node.js install.
@@ -37,14 +44,8 @@
         - nodejs
         - npm
 
-    - name: Node.js | Install grunt
-      action: command npm install -g grunt creates=/usr/local/bin/grunt
+    - name: Node.js | Install Grunt CLI
+      action: command npm install -g grunt-cli creates=/usr/bin/grunt
 
     - name: Node.js | Install TW dev environment
       action: command npm install chdir=$twdir/controller/web
-
-    ##
-    # Misc fixes
-    #
-    - name: Prevent the stdin is not a tty error from appearing in Vagrant
-      action: copy src=root-profile dest=/root/.profile owner=root group=root mode=644

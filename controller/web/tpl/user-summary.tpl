@@ -1,5 +1,5 @@
 {{#if isDirty}}
-  <div class="empty"></div>
+  <div class="tw-loading"></div>
 {{else}}
   <div class="user-summary">
     <div class="user-info">

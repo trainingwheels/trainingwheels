@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Controller;
 use TrainingWheels\Course\CourseFactory;
+use TrainingWheels\Plugin\PluginManager;
 use TrainingWheels\Log\Log;
 use TrainingWheels\Job\JobFactory;
 use Silex\Application;
@@ -9,6 +10,7 @@ use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use stdClass;
 
 define('HTTP_OK', 200);
 define('HTTP_CREATED', 201);
@@ -16,6 +18,7 @@ define('HTTP_NO_CONTENT', 204);
 define('HTTP_BAD_REQUEST', 400);
 define('HTTP_NOT_FOUND', 404);
 define('HTTP_CONFLICT', 409);
+define('HTTP_UNPROCESSABLE_ENTITY', 422);
 define('HTTP_SERVER_ERROR', 500);
 
 class RESTControllerProvider implements ControllerProviderInterface {
@@ -63,7 +66,7 @@ class RESTControllerProvider implements ControllerProviderInterface {
       if (!$output) {
         return $app->json(array('messages' => 'User ' . $user['user_name'] . ' does not exist.'), HTTP_NOT_FOUND);
       }
-      $return = new \stdClass;
+      $return = new stdClass;
 
       // Encode the resource attributes so that they get parsed as strings on the client.
       foreach ($output['resources'] as $key => $res) {
@@ -116,43 +119,11 @@ class RESTControllerProvider implements ControllerProviderInterface {
     ->convert('user', $parseID);
 
     /**
-     * Update a user, or perform an action on a user.
-     */
-    $controllers->put('/user/{user}', function ($user, Request $request) use ($app) {
-      if (!$user) {
-        return $app->json(array('messages' => 'Invalid user ID requested, ensure format is courseid-username, e.g. 1-instructor.'), HTTP_BAD_REQUEST);
-      }
-      $action = $request->request->get('action');
-      $target_resources = $request->request->get('target_resources');
-
-      if (!empty($action) && !empty($target_resources)) {
-        switch ($action) {
-          case 'resources-sync':
-            $sync_from = $request->request->get('sync_from');
-            if (!empty($sync_from)) {
-              $user['course']->usersResourcesSync($sync_from, $user['user_name'], $target_resources);
-              return $app->json(array('messages' => 'User resources synced'), HTTP_OK);
-            }
-            break;
-
-          case 'resources-create':
-            $user['course']->usersResourcesCreate($user['user_name'], $target_resources);
-            return $app->json(array('messages' => 'User resources created'), HTTP_OK);
-            break;
-        }
-      }
-
-      $output = $user['course']->userGet($user['user_name']);
-      return $app->json($output, HTTP_OK);
-    })
-    ->convert('user', $parseID);
-
-    /**
-     * Get course summaries
+     * Retrieve course summaries.
      */
     $controllers->get('/course_summaries', function() use ($app) {
       $courses = $app['tw.course_factory']->getAllSummaries();
-      $return = new \stdClass;
+      $return = new stdClass;
       $return->course_summaries = $courses;
       return $app->json($return, HTTP_OK);
     });
@@ -164,7 +135,7 @@ class RESTControllerProvider implements ControllerProviderInterface {
       $newCourse = $request->request->get('course_summary');
       $savedCourse = $app['tw.course_factory']->save($newCourse);
 
-      $return = new \stdClass;
+      $return = new stdClass;
       $return->course_summary = $savedCourse;
 
       return $app->json($return, HTTP_CREATED);
@@ -175,8 +146,9 @@ class RESTControllerProvider implements ControllerProviderInterface {
      */
     $controllers->get('/courses/{id}', function ($id) use ($app) {
       $course = $app['tw.course_factory']->get($id);
+
       if (!$course) {
-        return $app->json(array('messages' => 'Course with id ' . $id . ' does not exist.'), HTTP_NOT_FOUND);
+        return $app->json(array('errors' => 'Course with id ' . $id . ' does not exist.'), HTTP_UNPROCESSABLE_ENTITY);
       }
 
       // Ember data expects an 'id' parameter.
@@ -185,7 +157,7 @@ class RESTControllerProvider implements ControllerProviderInterface {
       // Get all the users and add them to the return.
       $users = $course->usersGet('*');
 
-      $return = new \stdClass;
+      $return = new stdClass;
       $return->course = $course;
       $return->users = array_values($users);
 
@@ -227,6 +199,14 @@ class RESTControllerProvider implements ControllerProviderInterface {
         return $app->json(array('messages' => 'Could not delete job ' . $id . '.'), HTTP_SERVER_ERROR);
       }
       return $app->json('', HTTP_NO_CONTENT);
+    });
+
+    /**
+     * Retrieve course build information.
+     */
+    $controllers->get('/course_build', function () use ($app) {
+      $pluginManager = new PluginManager();
+      return $app->json($pluginManager->getFormBuild(), HTTP_OK);
     });
 
     return $controllers;

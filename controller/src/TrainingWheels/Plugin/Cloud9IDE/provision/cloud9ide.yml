@@ -1,0 +1,14 @@
+##
+# Ansible playbook for Cloud9 IDE plugin.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+    ##
+    # Setup Cloud9 IDE
+    #
+    - name: Cloud9 | Grab the built version of Cloud9 repository
+      action: git repo=$repo dest=$path version=$version

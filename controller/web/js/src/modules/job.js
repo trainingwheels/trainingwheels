@@ -6,7 +6,7 @@ define(['ember-data', 'app'], function(DS, app) {
     course_id: DS.attr('number'),
     type: DS.attr('string'),
     action: DS.attr('string'),
-    params: DS.attr('string'),
+    params: DS.attr('string')
   });
 
   app.JobComplete = function(job, callback) {

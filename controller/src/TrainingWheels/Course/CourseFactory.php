@@ -4,12 +4,8 @@ namespace TrainingWheels\Course;
 use TrainingWheels\Common\Factory;
 use TrainingWheels\Conn\LocalServerConn;
 use TrainingWheels\Conn\SSHServerConn;
-use TrainingWheels\Course\DevCourse;
-use TrainingWheels\Course\DrupalCourse;
-use TrainingWheels\Course\NodejsCourse;
-use TrainingWheels\Environment\DevEnv;
-use TrainingWheels\Environment\CentosEnv;
-use TrainingWheels\Environment\UbuntuEnv;
+use TrainingWheels\Conn\KeyManager;
+use TrainingWheels\Environment\Environment;
 use Exception;
 
 class CourseFactory extends Factory {
@@ -21,20 +17,47 @@ class CourseFactory extends Factory {
     $params = $this->data->find('course', array('id' => (int)$course_id));
 
     if ($params) {
-      $course = $this->buildCourse($params['course_type']);
-      $this->buildEnv($course, $params['env_type'], $params['host'], $params['user'], $params['pass']);
+      // Create a Connection object.
+      if ($params['host'] == 'localhost') {
+        $conn = new LocalServerConn(TRUE);
+      }
+      else {
+        $key_manager = new KeyManager($this->config['base_path']);
+        if (!isset($params['port'])) {
+          $params['port'] = 22;
+        }
+        $conn = new SSHServerConn($params['host'], $params['port'], $params['user'], $key_manager);
+        if (!$conn->connect()) {
+          throw new Exception("Unable to connect/login to server " . $params['host'] . " on port " . $params['port'] . " as user " . $params['user']);
+        }
+      }
 
+      // Create a Course object.
+      $course = new Course();
       $course->course_id = $course_id;
       $course->title = $params['title'];
       $course->description = $params['description'];
-      $course->repo = $params['repo'];
       $course->course_name = $params['course_name'];
       $course->uri = '/course/' . $params['id'];
 
-      if (!isset($params['plugin_ids'])) {
+      // Set the resources config for use by the user factory method.
+      if (isset($params['resources'])) {
+        $course->setResourceConfig($params['resources']);
+      }
+
+      // Create an Environment object.
+      $course->env = new Environment($conn, $this->config['debug']);
+      $course->env_type = $params['env_type'];
+
+      if ($course->env_type != 'ubuntu') {
+        throw new Exception("Only 'ubuntu' environments are supported right now");
+      }
+
+      // Build the Plugins associated with this course.
+      if (!isset($params['plugins'])) {
         throw new Exception("The course has no plugins associated with it and cannot be loaded.");
       }
-      $this->buildPlugins($course, $params['plugin_ids']);
+      $this->buildPlugins($course, $params['plugins']);
 
       return $course;
     }
@@ -46,26 +69,27 @@ class CourseFactory extends Factory {
   /**
    * Attach plugins.
    */
-  protected function buildPlugins(&$course, array $plugin_ids = array()) {
-    if (!empty($plugin_ids)) {
-      $plugins = array();
-      foreach ($plugin_ids as $plugin_id) {
-        $plugin_data = $this->data->find('plugin', array('_id' => $plugin_id));
-        if (!$plugin_data) {
-          throw new Exception("The course references a plugin with id \"$plugin_id\" that doesn't exist in the data store.");
-        }
-
-        $type = $plugin_data['type'];
-        $class = '\TrainingWheels\Plugin\\' . $type . '\\' . $type;
-        if (!class_exists($class)) {
-          throw new Exception("The plugin with id \"$plugin_id\" has type \"$type\", but this class cannot be loaded at \"$class\".");
-        }
-        $plugin = new $class();
-        $plugin->set($plugin_data);
-        $plugins[] = $plugin;
+  protected function buildPlugins(&$course, $plugin_data) {
+    $plugins = array();
+    foreach ($plugin_data as $key => $data) {
+      $class = '\\TrainingWheels\\Plugin\\' . $key . '\\' . $key;
+      if (!class_exists($class)) {
+        throw new Exception("The plugin type \"$key\" class cannot be loaded at \"$class\".");
       }
-      $course->setPlugins($plugins);
+      $plugin = new $class();
+      $plugin->set($data);
+      $plugins[$key] = $plugin;
+
+      // The env type could be 'ubuntu' for example. 'linux' is hardcoded as we only
+      // support Linux environments right now. An Ubuntu environment inherits all
+      // the commands from 'linux'.
+      // @TODO: Make a more flexible way of specifying the environment type.
+      $plugin->mixinEnvironment($course->env, 'linux');
+      $plugin->mixinEnvironment($course->env, $course->env_type);
+
+      $plugin->registerCourseObservers($course);
     }
+    $course->setPlugins($plugins);
   }
 
   /**
@@ -80,63 +104,10 @@ class CourseFactory extends Factory {
    */
   public function save($course) {
     $params = $this->data->find('course', array('id' => 1));
-    $course['plugin_ids'] = $params['plugin_ids'];
+    // This is just temporary until we have better course creation tools.
+    $course['plugins'] = $params['plugins'];
+    $course['resources'] = $params['resources'];
+    $course['resources']['drupal_files']['subdir'] = $course['course_name'];
     return $this->data->insert('course', $course);
-  }
-
-  /**
-   * Environment buider.
-   */
-  protected function buildEnv(&$course, $type, $host, $user, $pass) {
-    switch ($type) {
-      case 'ubuntu':
-        if ($host == 'localhost') {
-          $conn = new LocalServerConn(TRUE);
-        }
-        else {
-          $conn = new SSHServerConn($host, 22, $user, $pass, TRUE);
-          if (!$conn->connect()) {
-            throw new Exception("Unable to connect/login to server $host on port 22");
-          }
-        }
-        $course->env = new UbuntuEnv($conn);
-        $course->env_type = 'ubuntu';
-      break;
-
-      case 'centos':
-        $conn = new SSHServerConn($host, 22, $user, $pass, TRUE);
-        if (!$conn->connect()) {
-          throw new Exception("Unable to connect/login to server $host on port 22");
-        }
-        $course->env = new CentosEnv($conn);
-        $course->env_type = 'centos';
-      break;
-
-      default:
-        throw new Exception("Environment type $type not found.");
-      break;
-    }
-  }
-
-  /**
-   * Course builder.
-   */
-  protected function buildCourse($type) {
-    switch ($type) {
-      case 'drupal':
-        $course = new DrupalCourse();
-        $course->course_type = 'drupal';
-      break;
-
-      case 'nodejs':
-        $course = new NodejsCourse();
-        $course->course_type = 'nodejs';
-      break;
-
-      default:
-        throw new Exception("Course type $type not found.");
-      break;
-    }
-    return $course;
   }
 }

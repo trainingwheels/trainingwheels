@@ -39,17 +39,17 @@ Console application
 Working with Mongo
 ------------------
 
-To access database CLI, use `mongo trainingwheels` on the command line.
+To access database CLI, use `mongo -utrainingwheels -ptrainingwheelsApp trainingwheels` on the command line.
 
 Some command examples:
 
     show collections
-    db.course.find()
+    db.course.find().pretty()
     db.counters.find()
 
-To reset the backend data, use (check the paths and the password, which is found in controller/config/config.yml):
+To reset the backend data in Vagrant environment, use:
 
-    mongo -u trainingwheels -p $mongo_app_password trainingwheels playbooks/controller/mongo-reset-data.js
+    mongo -utrainingwheels -ptrainingwheelsApp trainingwheels /var/trainingwheels/mongo-reset-data.js
 
 Working with Web Inspector and Ember.js
 ---------------------------------------
@@ -100,3 +100,7 @@ Index of courses:
 Get a course:
 
     curl http://training.wheels:8000/rest/courses/1 -i && echo ''; echo ''
+
+Get the course build information:
+
+    curl http://training.wheels:8000/rest/course_build -i && echo ''; echo ''

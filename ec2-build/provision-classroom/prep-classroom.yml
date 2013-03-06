@@ -1,0 +1,30 @@
+##
+# Ansible playbook for setting up a Training Wheels classroom server in EC2, for
+# our auto build system.
+#
+
+---
+- hosts: all
+  gather_facts: False
+
+  vars:
+    twdir: '/var/trainingwheels'
+
+  tasks:
+    ##
+    # Update the machine
+    #
+    - name: Update apt
+      action: apt update-cache=yes
+
+    - name: Change the hostname in /etc/hosts
+      action: template src=etc-hosts.j2 dest=/etc/hosts owner=root group=root mode=0644
+
+    - name: Change the hostname in /etc/hostname
+      action: template src=etc-hostname.j2 dest=/etc/hostname owner=root group=root mode=0644
+
+    - name: Change the hostname using the hostname command
+      action: command hostname $hostname
+
+    - name: Set the public key for Ubuntu
+      action: authorized_key user=ubuntu key='$FILE(tw.key.pub)'
