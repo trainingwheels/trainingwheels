@@ -10,7 +10,8 @@ require([
   'modules/job',
   'modules/resource',
   'modules/user',
-  'modules/course'
+  'modules/course',
+  'modules/course_add'
 ], function(Ember, DS, $, Handlebars, app) {
   ////
   // Ember Data Store.
@@ -68,6 +69,11 @@ require([
       // are loaded here.
       app.CourseSummary.find();
     },
+
+    model: function() {
+      //return app.CoursesAddModel
+    },
+
     setupController: function(controller, model) {
       this._super.apply(arguments);
 
