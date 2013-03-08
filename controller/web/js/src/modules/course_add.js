@@ -54,22 +54,6 @@ define([
     // but right now, Ubuntu is the only option. Hide this from the user.
     envType: 'ubuntu',
 
-    bundlesList: function() {
-      var self = this;
-      return this.get('formBuildInfo').bundles.map(function(bundle) {
-        bundle.selected = self.get('selectedBundle') !== null && (self.get('selectedBundle') === bundle.key);
-        return Ember.Object.create(bundle);
-      });
-    }.property('selectedBundle'),
-
-    pluginsList: function() {
-      var self = this;
-      return this.get('formBuildInfo').plugins.map(function(plugin) {
-        plugin.selected = self.get('selectedPlugins') !== null && (self.get('selectedPlugins').someProperty('key', plugin.key));
-        return Ember.Object.create(plugin);
-      });
-    }.property('selectedPlugins'),
-
     titleErrors: [],
     courseNameErrors: [],
 
@@ -164,6 +148,22 @@ define([
     cancelCourseAdd: function() {
       this.transitionToRoute('courses');
     },
+
+    bundlesList: function() {
+      var self = this;
+      return this.get('formBuildInfo').bundles.map(function(bundle) {
+        bundle.selected = self.get('selectedBundle') !== null && (self.get('selectedBundle') === bundle.key);
+        return Ember.Object.create(bundle);
+      });
+    }.property('selectedBundle'),
+
+    pluginsList: function() {
+      var self = this;
+      return this.get('formBuildInfo').plugins.map(function(plugin) {
+        plugin.selected = self.get('selectedPlugins') !== null && (self.get('selectedPlugins').someProperty('key', plugin.key));
+        return Ember.Object.create(plugin);
+      });
+    }.property('selectedPlugins'),
 
     toggleBundle: function(bundle) {
       if (this.get('selectedBundle') === bundle.get('key')) {

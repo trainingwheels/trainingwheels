@@ -29,12 +29,19 @@ module.exports = function(grunt) {
       options: {
         separator: ';'
       },
-      dist: {
+      dev: {
         src: [
           'js/vendor/almond/almond.js',
           'dist/debug/require.js'
         ],
         dest: 'dist/debug/require.js'
+      },
+      prod: {
+        src: [
+          'js/vendor/almond/almond.js',
+          'dist/release/require.js'
+        ],
+        dest: 'dist/release/require.js'
       }
     },
 
@@ -80,7 +87,7 @@ module.exports = function(grunt) {
     uglify: {
       dist: {
         files: {
-          'dist/release/require.js': ['dist/debug/require.js']
+          'dist/release/require.js': ['dist/release/require.js']
         }
       }
     },
@@ -88,7 +95,6 @@ module.exports = function(grunt) {
     requirejs: {
       options: {
         mainConfigFile: 'js/src/config.js',
-        out: 'dist/debug/require.js',
 
         // Root application module.
         name: 'config',
@@ -105,6 +111,7 @@ module.exports = function(grunt) {
       },
       dev: {
         options: {
+          out: 'dist/debug/require.js',
           // For debugging purposes, this makes the files appear separately
           // in Chrome.
           useSourceUrl: true
@@ -112,6 +119,7 @@ module.exports = function(grunt) {
       },
       prod: {
         options: {
+          out: 'dist/release/require.js',
           useSourceUrl: false
         }
       }
@@ -120,17 +128,17 @@ module.exports = function(grunt) {
     watch: {
       compass: {
         files: ['sass/**/*.scss'],
-        tasks: ['compass:dev', 'compass:prod', 'cssmin']
+        tasks: ['compass:dev']
       },
       requirejs: {
         files: ['js/src/**/*.js'],
-        tasks: ['jshint:dev', 'requirejs:dev', 'concat']
+        tasks: ['jshint:dev', 'requirejs:dev', 'concat:dev']
       },
       // When Gruntfile.js changes, we don't know whether we should run compass
       // or requirejs tasks, so do both.
       gruntfile: {
         files: ['Gruntfile.js'],
-        tasks: ['compass:dev', 'compass:prod', 'cssmin', 'requirejs:dev', 'concat']
+        tasks: ['compass:dev', 'compass:prod', 'cssmin', 'requirejs:dev', 'concat:dev']
       }
     }
   });
@@ -147,8 +155,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
 
   // Our custom tasks.
-  grunt.registerTask('debug', ['clean', 'jshint:dev', 'requirejs:dev', 'concat', 'compass:dev']);
-  grunt.registerTask('release', ['clean', 'jshint:prod', 'requirejs:prod', 'concat', 'compass:dev', 'compass:prod', 'uglify', 'cssmin']);
+  grunt.registerTask('debug', ['clean', 'jshint:dev', 'requirejs:dev', 'concat:dev', 'compass:dev']);
+  grunt.registerTask('release', ['debug', 'jshint:prod', 'requirejs:prod', 'concat:prod', 'compass:prod', 'uglify', 'cssmin']);
 
   // Default task that is run when no arguments are passed.
   grunt.registerTask('default', ['release']);
