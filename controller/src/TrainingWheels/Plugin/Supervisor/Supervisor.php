@@ -5,8 +5,6 @@ use TrainingWheels\Plugin\PluginBase;
 
 class Supervisor extends PluginBase {
 
-  const name = 'Supervisor';
-
   public function getProvisionSteps() {
     return __DIR__ . '/provision/supervisor.yml';
   }

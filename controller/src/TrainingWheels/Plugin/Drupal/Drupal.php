@@ -5,22 +5,21 @@ use TrainingWheels\Plugin\PluginBase;
 
 class Drupal extends PluginBase {
 
-  const name = 'Drupal';
-
   public function getProvisionSteps() {
     return __DIR__ . '/provision/drupal.yml';
   }
 
   public function getBundles() {
     return array(
-      'drupal7' => array(
+      array(
+        'key' => 'drupal7',
         'title' => 'Drupal 7',
         'plugins' => array(
-          'MySQL' => array(),
-          'ApacheHTTPD' => array(),
-          'GitFiles' => array(),
-          'PHP' => array(),
-          'Drupal' => array(),
+          array('key' => 'MySQL'),
+          array('key' => 'ApacheHTTPD'),
+          array('key' => 'GitFiles'),
+          array('key' => 'PHP'),
+          array('key' => 'Drupal'),
         ),
         'resources' => array(
           'drupal_files' => array(
@@ -28,6 +27,22 @@ class Drupal extends PluginBase {
           ),
           'drupal_db' => array(
             'title' => 'Drupal Database',
+          ),
+        ),
+      ),
+      // TODO: Fix / remove this, it's just for testing right now.
+      array(
+        'key' => 'drupal6',
+        'title' => 'Drupal 6',
+        'plugins' => array(
+          array('key' => 'MySQL'),
+        ),
+        'resources' => array(
+          'drupal_files' => array(
+            'title' => 'Old Code',
+          ),
+          'drupal_db' => array(
+            'title' => 'Old Database',
           ),
         ),
       ),

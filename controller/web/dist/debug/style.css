@@ -817,6 +817,12 @@ html, body {
   font-weight: 600;
   font-size: 32px;
 }
+#course-form #course-form-add-plugins #bundles-list li.bundle.selected {
+  color: red;
+}
+#course-form #course-form-add-plugins #plugins-list li.plugin.selected {
+  color: red;
+}
 #course-form .course-tools {
   padding-bottom: 2em;
 }

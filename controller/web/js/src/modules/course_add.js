@@ -9,126 +9,131 @@ define([
   'app'
 ], function(Ember, DS, $, alertify, app) {
 
-  app.CoursesAddController = Ember.ObjectController.extend({
-    /**
-     * Helper to disable the submit button if the form is invalid.
-     *
-     * @return
-     *   true if the form is invalid, else false.
-     */
-    form_is_invalid: function() {
+  /**
+   * Model.
+   */
+  app.CoursesAddModel = Ember.Object.extend({
+
+    // Load the form build information from the backend. This contains
+    // information about the bundles / plugins, as well as help text and
+    // customized form fields.
+    formBuildInfo: false,
+    resetFormBuildInfo: function() {
+      var self = this;
+      self.set('formBuildInfo', false);
+      self.set('selectedBundle', null);
+      self.set('selectedPlugins', []),
+      $.ajax(
+        '/rest/course_build',
+        {
+          success: function(data, textStatus, jqXHR) {
+            if (jqXHR.status === 200) {
+              self.set('formBuildInfo', data);
+            }
+            else {
+              throw new Error('Unable to fetch course build information.');
+            }
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            throw new Error('Unable to fetch course build information.');
+          }
+        }
+      );
+    },
+
+    title: null,
+    description: null,
+    courseName: null,
+    resources: [],
+    selectedBundle: null,
+    selectedPlugins: [],
+    host: 'localhost',
+    user: null,
+    pass: null,
+    // Environment type. We do want to ultimately support multiple environments,
+    // but right now, Ubuntu is the only option. Hide this from the user.
+    envType: 'ubuntu',
+
+    bundlesList: function() {
+      var self = this;
+      return this.get('formBuildInfo').bundles.map(function(bundle) {
+        bundle.selected = self.get('selectedBundle') !== null && (self.get('selectedBundle') === bundle.key);
+        return Ember.Object.create(bundle);
+      });
+    }.property('selectedBundle'),
+
+    pluginsList: function() {
+      var self = this;
+      return this.get('formBuildInfo').plugins.map(function(plugin) {
+        plugin.selected = self.get('selectedPlugins') !== null && (self.get('selectedPlugins').someProperty('key', plugin.key));
+        return Ember.Object.create(plugin);
+      });
+    }.property('selectedPlugins'),
+
+    titleErrors: [],
+    courseNameErrors: [],
+
+    titleValid: function() {
+      this.set('titleErrors', []);
+      if (this.get('title') === null) {
+        return true;
+      }
+      if (this.get('title').length === 0) {
+        this.get('titleErrors').push('The course title is required.');
+        return false;
+      }
+      return true;
+    }.property('title'),
+
+    courseNameValid: function() {
+      this.set('courseNameErrors', []);
+      if (this.get('courseName') === null) {
+        return true;
+      }
+      if (this.get('courseName').length === 0) {
+        this.get('courseNameErrors').push('The course short name is required.');
+      }
+      // Course short names are limited to 11 characters because
+      // of MySQL's 16 character user name limit. When we create
+      // the mysql user it will be course_name + '_UNIX_UID' where
+      // UNIX_UID is a four digit number (i.e. 1001).
+      if (this.get('courseName').length > 11) {
+        this.get('courseNameErrors').push('Course short names cannot be more than 11 characters long.');
+      }
+      // Ensure that the course name contains only letters and underscores.
+      if (!this.get('courseName').match(/^\w+$/)) {
+        this.get('courseNameErrors').push('Course short names can only contain letters, numbers, and underscores.');
+      }
+      if (this.get('courseNameErrors').length > 0) {
+        return false;
+      }
+      return true;
+    }.property('courseName'),
+
+    // Helper property to disable submit functionality if the form is invalid.
+    formInvalid: function() {
       if (!this.get('titleValid') || !this.get('courseNameValid')) {
         return true;
       }
-
       return false;
     }.property(
       'titleValid',
       'courseNameValid'
     ),
 
-    /**
-     * Title field and helper properties.
-     */
-    title: null,
-    titleValid: true,
-    titleErrors: [],
     css_class_title: function() {
       return 'field' + (this.get('titleValid') ? '' : ' invalid clearfix');
     }.property('titleValid'),
-    validateTitle: function() {
-      this.set('titleValid', true);
-      this.set('titleErrors', []);
-
-      if (this.get('title') === null || this.get('title').length === 0) {
-        this.set('titleValid', false);
-        this.get('titleErrors').push('The course title is required.');
-        return;
-      }
-    }.observes('title'),
-
-    /**
-     * Description.
-     */
-    description: null,
-
-    /**
-     * Course name field and helper properties.
-     */
-    courseName: null,
-    courseNameValid: true,
-    courseNameErrors: [],
     css_class_short_name: function() {
       return 'field' + (this.get('courseNameValid') ? '' : ' invalid clearfix');
-    }.property('courseNameValid'),
-    validateShortName: function() {
-      this.set('courseNameValid', true);
-      this.set('courseNameErrors', []);
+    }.property('courseNameValid')
 
-      // Bail if the field is empty...
-      if (this.get('courseName') === null || this.get('courseName').length === 0) {
-        this.set('courseNameValid', false);
-        this.get('courseNameErrors').push('The course short name is required.');
-        return;
-      }
+  });
 
-      // Course short names are limited to 11 characters because
-      // of MySQL's 16 character user name limit. When we create
-      // the mysql user it will be course_name + '_UNIX_UID' where
-      // UNIX_UID is a four digit number (i.e. 1001).
-      if (this.get('courseName').length > 11) {
-        this.set('courseNameValid', false);
-        this.get('courseNameErrors').push('Course short names cannot be more than 11 characters long.');
-      }
-
-      // Ensure that the course name contains only letters and underscores.
-      if (!this.get('courseName').match(/^\w+$/)) {
-        this.set('courseNameValid', false);
-        this.get('courseNameErrors').push('Course short names can only contain letters, numbers, and underscores.');
-      }
-    }.observes('courseName'),
-
-    /**
-     * Course type.
-     */
-    courseType: null,
-
-    /**
-     * Environment type. We do want to ultimately support multiple environments,
-     * but right now, Ubuntu is the only option. Hide this from the user.
-     */
-    envType: 'ubuntu',
-
-    /**
-     * Plugins.
-     */
-    plugins: [],
-
-    /**
-     * Bundles.
-     */
-    bundles: [],
-
-    /**
-     * Repository.
-     */
-    repo: 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
-
-    /**
-     * Host.
-     */
-    host: 'localhost',
-
-    /**
-     * User.
-     */
-    user: null,
-
-    /**
-     * Pass.
-     */
-    pass: null,
-
+  /**
+   * Controller.
+   */
+  app.CoursesAddController = Ember.ObjectController.extend({
     /**
      * Confirms the form is valid and if so submits, creating a new course.
      */
@@ -161,46 +166,37 @@ define([
     },
 
     toggleBundle: function(bundle) {
-      var self = this;
-      self.get('bundles').find(function(item, index, enumerable) {
-        if (item.get('bundleClass') == bundle.get('bundleClass')) {
-          if (!item.get('enabled')) {
-            item.set('enabled', true);
-            $.map(item.get('plugins'), function(plugin, pluginClass) {
-              self.togglePlugin(plugin, false);
-            });
-          }
-          else {
-            item.set('enabled', false);
-            $.map(item.get('plugins'), function(plugin, pluginClass) {
-              self.togglePlugin(plugin);
-            });
-          }
-          return true;
-        }
-        return false;
-      });
+      if (this.get('selectedBundle') === bundle.get('key')) {
+        this.set('selectedBundle', null);
+        this.set('selectedPlugins', []);
+      }
+      else {
+        this.set('selectedBundle', bundle.get('key'));
+        this.set('selectedPlugins', bundle.get('plugins'));
+      }
     },
 
-    togglePlugin: function(plugin, remove) {
-      if (typeof remove === 'undefined') {
-        remove = true;
+    togglePlugin: function(plugin) {
+      var selected = this.get('selectedPlugins').findProperty('key', plugin.get('key'));
+      if (selected) {
+        // The clicked plugin is selected, so unselect.
+        this.set('selectedPlugins', this.get('selectedPlugins').filter(function(item, index, enumerable) {
+          if (item.key !== plugin.get('key')) {
+            return true;
+          }
+        }));
       }
-      this.get('plugins').find(function(item, index, enumerable) {
-        if (item.get('pluginClass') == plugin.get('pluginClass')) {
-          if (remove) {
-            item.set('enabled', !item.get('enabled'));
-          }
-          else if (!remove && !item.get('enabled')) {
-            item.set('enabled', true);
-          }
-          return true;
-        }
-        return false;
-      });
+      else {
+        var newSelection = this.get('selectedPlugins').toArray();
+        newSelection.push({ key: plugin.get('key')});
+        this.set('selectedPlugins', newSelection);
+      }
     }
   });
 
+  /**
+   * View.
+   */
   app.CoursesAddView = Ember.View.extend({
     templateName: 'course-form',
 

@@ -52,6 +52,24 @@
       }
     }
   }
+
+  #course-form-add-plugins {
+    #bundles-list {
+      li {
+        &.bundle.selected {
+          color: red;
+        }
+      }
+    }
+    #plugins-list {
+      li {
+        &.plugin.selected {
+          color: red;
+        }
+      }
+    }
+  }
+
   .course-tools {
     padding-bottom: 2em;
     button {

@@ -5,8 +5,6 @@ use TrainingWheels\Plugin\PluginBase;
 
 class Cloud9IDE extends PluginBase {
 
-  const name = 'IDE';
-
   public function getProvisionSteps() {
     return __DIR__ . '/provision/cloud9ide.yml';
   }

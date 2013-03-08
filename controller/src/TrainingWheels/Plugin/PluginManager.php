@@ -26,12 +26,11 @@ class PluginManager {
     foreach($this->plugins as $plugin_key => $plugin) {
       // Get the plugin provision variables.
       $plugin->validateVarsConfig();
-      $plugin_name = $plugin->getName();
       $plugin_vars = $plugin->getPluginVars();
       if ($plugin_vars) {
-        $plugins_json[$plugin_key] = array(
-          'name' => $plugin_name,
-          'vars' => $plugin_vars
+        $plugins_json[] = array(
+          'key' => $plugin_key,
+          'vars' => $plugin_vars,
         );
       }
 
