@@ -1,11 +1,11 @@
 <div id="course-form">
   {{#if formBuildInfo}}
     <ul id="course-form-nav" class="clearfix">
-      <li id="course-form-nav-info" class="course-form-nav-item active">Course Info</li>
-      <li id="course-form-nav-add-plugins" class="course-form-nav-item">Add Plug-ins</li>
-      <li id="course-form-nav-config-plugins" class="course-form-nav-item">Configure Plug-ins</li>
-      <li id="course-form-nav-add-resources" class="course-form-nav-item">Add Resources</li>
-      <li id="course-form-nav-connection" class="course-form-nav-item last">Connection</li>
+      <li id="course-form-nav-info" class="course-form-nav-item active" data-nav-step="info">Course Info</li>
+      <li id="course-form-nav-add-plugins" class="course-form-nav-item" data-nav-step="add-plugins">Add Plug-ins</li>
+      <li id="course-form-nav-config-plugins" class="course-form-nav-item" data-nav-step="config-plugins">Configure Plug-ins</li>
+      <li id="course-form-nav-add-resources" class="course-form-nav-item" data-nav-step="add-resources">Add Resources</li>
+      <li id="course-form-nav-connection" class="course-form-nav-item last" data-nav-step="connection">Connection</li>
     </ul>
     <form class="clearfix">
       <div id="course-form-info" class="course-section active">
@@ -76,8 +76,15 @@
         </div>
       </div>
 
-      <div id="course-form-resources" class="course-section">
-        <div id="course-form-resources-title" class="course-form-title">Add Resources</div>
+      <div id="course-form-add-resources" class="course-section">
+        <div id="course-form-add-resources-title" class="course-form-title">Add Resources</div>
+        <div id="configure-resources">
+          {{#each resource in selectedResources}}
+            {{#with resource}}
+              {{view App.ResourceConfigureView}}
+            {{/with}}
+          {{/each}}
+        </div>
         <div class="course-tools clearfix">
           <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Configure Plug-ins</button>
           <button class="next" type="submit" value="Next" {{action "courseFormNext" target="view"}}>Connection &raquo;</button>

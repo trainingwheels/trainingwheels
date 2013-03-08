@@ -41,6 +41,11 @@ define([
                 bundle.selected = false;
                 return Ember.Object.create(bundle);
               }));
+
+              self.set('resources', data.resources.map(function(resource) {
+                resource.selected = false;
+                return Ember.Object.create(resource);
+              }));
             }
             else {
               throw new Error('Unable to fetch course build information.');
@@ -70,6 +75,10 @@ define([
     selectedPlugins: function() {
       return this.get('plugins').filterProperty('selected', true);
     }.property('plugins.@each.selected'),
+
+    selectedResources: function() {
+      return this.get('resources').filterProperty('selected', true);
+    }.property('resources.@each.selected'),
 
     // Validation methods.
     titleErrors: [],
@@ -166,15 +175,31 @@ define([
           item.set('selected', false);
         }
       });
+      // Unselect all resources.
+      this.get('resources').forEach(function(item, index, enumerable) {
+        item.set('selected', false);
+      });
       // Toggle the clicked bundle's state.
       bundle.set('selected', !bundle.get('selected'));
 
-      // If a bundle is selected, then select all the plugins that must
+      // If a bundle is selected, then select all the plugins and resources that must
       // be included too.
       if (bundle.get('selected') === true) {
         var bundlePlugins = bundle.get('plugins');
         this.get('plugins').forEach(function(item, index, enumerable) {
           item.set('selected', bundlePlugins.someProperty('key', item.get('key')));
+        });
+
+        var bundleResources = bundle.get('resources');
+        this.get('resources').forEach(function(item, index, enumerable) {
+          res = bundleResources.findProperty('type', item.get('key'));
+          if (res) {
+            item.set('selected', true);
+            item.set('title', res.title);
+          }
+          else {
+            item.set('selected', false);
+          }
         });
       }
     },
@@ -191,29 +216,40 @@ define([
     templateName: 'plugin-configure'
   });
 
+  app.ResourceConfigureView = Ember.View.extend({
+    templateName: 'resource-configure'
+  });
+
   app.CoursesAddView = Ember.View.extend({
     templateName: 'course-form',
 
-    courseFormNext: function() {
+    click: function(event) {
+      $el = $(event.target);
+      // Click events on the top navigation steps are handled here.
+      if ($el.hasClass('course-form-nav-item')) {
+        this.courseFormStepSelect($el.attr('data-nav-step'));
+      }
+    },
+
+    courseFormSelect: function($nextSection, $nextNav) {
       var $activeSection = $('.course-section.active');
-      var $nextSection = $activeSection.next();
       var $activeNav = $('.course-form-nav-item.active');
-      var $nextNav = $activeNav.next();
       $activeSection.removeClass('active');
       $nextSection.addClass('active');
       $activeNav.removeClass('active');
       $nextNav.addClass('active');
     },
 
+    courseFormStepSelect: function(step) {
+      this.courseFormSelect($('#course-form-' + step), $('#course-form-nav-' + step));
+    },
+
+    courseFormNext: function() {
+      this.courseFormSelect($('.course-section.active').next(), $('.course-form-nav-item.active').next());
+    },
+
     courseFormPrevious: function() {
-      var $activeSection = $('.course-section.active');
-      var $nextSection = $activeSection.prev();
-      var $activeNav = $('.course-form-nav-item.active');
-      var $nextNav = $activeNav.prev();
-      $activeSection.removeClass('active');
-      $nextSection.addClass('active');
-      $activeNav.removeClass('active');
-      $nextNav.addClass('active');
+      this.courseFormSelect($('.course-section.active').prev(), $('.course-form-nav-item.active').prev());
     }
   });
 });

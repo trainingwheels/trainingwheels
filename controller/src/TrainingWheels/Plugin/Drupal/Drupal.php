@@ -22,11 +22,17 @@ class Drupal extends PluginBase {
           array('key' => 'Drupal'),
         ),
         'resources' => array(
-          'drupal_files' => array(
+          array(
+            'key' => 'drupal_files',
             'title' => 'Drupal Code',
+            'plugin' => 'GitFiles',
+            'type' => 'GitFilesResource',
           ),
-          'drupal_db' => array(
+          array(
+            'key' => 'drupal_db',
             'title' => 'Drupal Database',
+            'plugin' => 'MySQL',
+            'type' => 'MySQLDatabaseResource',
           ),
         ),
       ),
@@ -38,11 +44,17 @@ class Drupal extends PluginBase {
           array('key' => 'MySQL'),
         ),
         'resources' => array(
-          'drupal_files' => array(
-            'title' => 'Old Code',
+          array(
+            'key' => 'drupal_files',
+            'title' => 'Drupal 6 Code',
+            'plugin' => 'GitFiles',
+            'type' => 'GitFilesResource',
           ),
-          'drupal_db' => array(
-            'title' => 'Old Database',
+          array(
+            'key' => 'drupal_db',
+            'title' => 'Drupal 6 Database',
+            'plugin' => 'MySQL',
+            'type' => 'MySQLDatabaseResource',
           ),
         ),
       ),

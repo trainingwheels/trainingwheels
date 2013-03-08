@@ -40,8 +40,10 @@ class PluginManager {
         foreach ($resource_classes as $res_key => $resource_class) {
           $res_vars = $resource_class::getResourceVars();
           if ($res_vars) {
-            $resources_json[$res_key] = array(
-              'vars' => $res_vars
+            $resources_json[] = array(
+              'key' => $res_key,
+              'plugin' => $plugin_key,
+              'vars' => $res_vars,
             );
           }
         }

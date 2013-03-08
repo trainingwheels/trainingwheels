@@ -31,7 +31,8 @@ class MySQLDatabaseResource extends Resource {
    */
   public static function getResourceVars() {
     return array(
-      'dump_path' => array(
+      array(
+        'key' => 'dump_path',
         'val' => 'database.sql.gz',
         'help' => 'The database dump filename relative to the user\'s course directory',
       ),
