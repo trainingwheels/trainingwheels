@@ -30,13 +30,6 @@ abstract class PluginBase {
   }
 
   /**
-   * Return a human readable name for this plugin.
-   */
-  public function getName() {
-    return $this::name;
-  }
-
-  /**
    * Return the short type of this plugin, e.g. 'MySQL'
    */
   public function getType() {
