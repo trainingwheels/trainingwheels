@@ -47,32 +47,5 @@ define(['ember', 'jquery'], function(Ember, $) {
     return def.promise();
   };
 
-  app.loadBuild = function() {
-    var def = $.Deferred();
-    // Fetch and permanantly store the plugins definitions for
-    // easy form building.
-    $.ajax(
-      '/rest/course_build',
-      {
-        success: function(data, textStatus, jqXHR) {
-          if (jqXHR.status === 200) {
-            Ember.set(app, 'courseBuild', Ember.Object.create(data));
-            def.resolve();
-          }
-          else {
-            def.reject();
-            throw new Error('Unable to fetch course build information.');
-          }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-          def.reject();
-          throw new Error('Unable to fetch course build information.');
-        }
-      }
-    );
-
-    return def.promise();
-  };
-
   return app;
 });

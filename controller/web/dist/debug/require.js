@@ -45655,33 +45655,6 @@ define('app',['ember', 'jquery'], function(Ember, $) {
     return def.promise();
   };
 
-  app.loadBuild = function() {
-    var def = $.Deferred();
-    // Fetch and permanantly store the plugins definitions for
-    // easy form building.
-    $.ajax(
-      '/rest/course_build',
-      {
-        success: function(data, textStatus, jqXHR) {
-          if (jqXHR.status === 200) {
-            Ember.set(app, 'courseBuild', Ember.Object.create(data));
-            def.resolve();
-          }
-          else {
-            def.reject();
-            throw new Error('Unable to fetch course build information.');
-          }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-          def.reject();
-          throw new Error('Unable to fetch course build information.');
-        }
-      }
-    );
-
-    return def.promise();
-  };
-
   return app;
 });
 
@@ -46788,33 +46761,6 @@ require([
         app.coursesAddModel.resetFormBuildInfo();
       }
       return app.coursesAddModel;
-    },
-
-    setupController: function(controller, model) {
-      this._super.apply(arguments);
-
-      // var map = function() {
-      //   controller.set('plugins', $.map(app.courseBuild.plugins, function(plugin, pluginClass) {
-      //     plugin.pluginClass = pluginClass;
-      //     plugin.enabled = false;
-      //     return Ember.Object.create(plugin);
-      //   }));
-      //   controller.set('bundles', $.map(app.courseBuild.bundles, function(bundle, bundleClass) {
-      //     bundle.bundleClass = bundleClass;
-      //     bundle.enabled = false;
-      //     return Ember.Object.create(bundle);
-      //   }));
-      // };
-
-      // // If we don't already have a course build, fetch it and fill
-      // // out the controller as soon as we get it.
-      // if (typeof app.courseBuild === 'undefined') {
-      //   var promise = app.loadBuild();
-      //   $.when(promise).then(map);
-      // }
-      // else {
-      //   map();
-      // }
     }
   });
 

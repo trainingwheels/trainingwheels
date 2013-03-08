@@ -76,33 +76,6 @@ require([
         app.coursesAddModel.resetFormBuildInfo();
       }
       return app.coursesAddModel;
-    },
-
-    setupController: function(controller, model) {
-      this._super.apply(arguments);
-
-      // var map = function() {
-      //   controller.set('plugins', $.map(app.courseBuild.plugins, function(plugin, pluginClass) {
-      //     plugin.pluginClass = pluginClass;
-      //     plugin.enabled = false;
-      //     return Ember.Object.create(plugin);
-      //   }));
-      //   controller.set('bundles', $.map(app.courseBuild.bundles, function(bundle, bundleClass) {
-      //     bundle.bundleClass = bundleClass;
-      //     bundle.enabled = false;
-      //     return Ember.Object.create(bundle);
-      //   }));
-      // };
-
-      // // If we don't already have a course build, fetch it and fill
-      // // out the controller as soon as we get it.
-      // if (typeof app.courseBuild === 'undefined') {
-      //   var promise = app.loadBuild();
-      //   $.when(promise).then(map);
-      // }
-      // else {
-      //   map();
-      // }
     }
   });
 

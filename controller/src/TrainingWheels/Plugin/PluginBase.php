@@ -5,8 +5,6 @@ use Exception;
 
 abstract class PluginBase {
 
-  const name = 'Plugin';
-
   protected $location;
   protected $vars;
 
