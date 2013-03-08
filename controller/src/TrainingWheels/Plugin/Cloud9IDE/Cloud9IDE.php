@@ -11,13 +11,16 @@ class Cloud9IDE extends PluginBase {
 
   public function getPluginVars() {
     return array(
-      'path' => array(
+      array(
+        'key' => 'path',
         'val' => '/var/local/cloud9',
       ),
-      'version' => array(
+      array(
+        'key' => 'version',
         'val' => 'master',
       ),
-      'repo' => array(
+      array(
+        'key' => 'repo',
         'val' => 'https://github.com/trainingwheels/cloud9-build.git',
       )
     );

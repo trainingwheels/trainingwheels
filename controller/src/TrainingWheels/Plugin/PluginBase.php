@@ -55,7 +55,8 @@ abstract class PluginBase {
     $type = $this->getType();
 
     if ($vars) {
-      foreach($vars as $key => $var) {
+      foreach($vars as $var) {
+        $key = $var['key'];
         $default_value = isset($var['val']) ? $var['val'] : NULL;
         $data_value = isset($data[$key]) ? $data[$key] : NULL;
 
@@ -81,9 +82,9 @@ abstract class PluginBase {
     $type = $this->getType();
 
     if ($vars) {
-      foreach($vars as $var_name => $settings) {
+      foreach($vars as $settings) {
         foreach ($settings as $key => $value) {
-          if (!in_array($key, array('val', 'help', 'hint'))) {
+          if (!in_array($key, array('key', 'val', 'help', 'hint'))) {
             throw new Exception("The plugin \"$type\" has a variable with unrecognized key \"$key\"");
           }
         }

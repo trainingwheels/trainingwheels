@@ -51,10 +51,12 @@ class Drupal extends PluginBase {
 
   public function getPluginVars() {
     return array(
-      'settings_path' => array(
+      array(
+        'key' => 'settings_path',
         'val' => 'sites/default/settings.php',
       ),
-      'files_path' => array(
+      array(
+        'key' => 'files_path',
         'val' => 'sites/default/files',
       )
     );

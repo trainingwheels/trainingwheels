@@ -11,40 +11,52 @@ class PHP extends PluginBase {
 
   public function getPluginVars() {
     return array(
-      'php_max_execution_time' => array(
+      array(
+        'key' => 'php_max_execution_time',
         'val' => '90',
       ),
-      'php_display_errors' => array(
+      array(
+        'key' => 'php_display_errors',
         'val' => 'On',
       ),
-      'php_display_startup_errors' => array(
+      array(
+        'key' => 'php_display_startup_errors',
         'val' => 'On',
       ),
-      'php_html_errors' => array(
+      array(
+        'key' => 'php_html_errors',
         'val' => 'On',
       ),
-      'php_post_max_size' => array(
+      array(
+        'key' => 'php_post_max_size',
         'val' => '32M',
       ),
-      'php_upload_max_filesize' => array(
+      array(
+        'key' => 'php_upload_max_filesize',
         'val' => '32M',
       ),
-      'php_date_timezone' => array(
+      array(
+        'key' => 'php_date_timezone',
         'val' => 'America/Chicago',
       ),
-      'php_short_open_tag' => array(
+      array(
+        'key' => 'php_short_open_tag',
         'val' => 'Off',
       ),
-      'apc_rfc1867' => array(
+      array(
+        'key' => 'apc_rfc1867',
         'val' => '1',
       ),
-      'apc_shm_size' => array(
+      array(
+        'key' => 'apc_shm_size',
         'val' => '96M',
       ),
-      'apc_shm_segments' => array(
+      array(
+        'key' => 'apc_shm_segments',
         'val' => '1',
       ),
-      'apc_num_files_hint' => array(
+      array(
+        'key' => 'apc_num_files_hint',
         'val' => '0',
       ),
     );

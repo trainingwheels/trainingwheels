@@ -11,7 +11,8 @@ class Core extends PluginBase {
 
   public function getPluginVars() {
     return array(
-      'twskel' => array(
+      array(
+        'key' => 'twskel',
         'val' => '/etc/trainingwheels/skel/skel_user',
       ),
     );

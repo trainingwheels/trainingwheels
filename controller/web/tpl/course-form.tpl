@@ -14,14 +14,14 @@
         <div class="course-fields">
           <div {{bindAttr class="css_class_title"}}>
             Title
-            {{view Ember.TextField placeholder="Course title" size="30" viewName="titleTextField" valueBinding="title"}}
+            {{view Ember.TextField placeholder="Course title" size="30" valueBinding="title"}}
             <ul id="title-errors" class="errors">
               {{#each error in titleErrors}}
               <li class="error">{{error}}</li>
               {{/each}}
             </ul>
           </div>
-          <div class="field"><span>Description</span> {{view Ember.TextArea placeholder="Describe course" rows="5" cols="30" viewName="descriptionTextField" valueBinding="description"}}</div>
+          <div class="field"><span>Description</span> {{view Ember.TextArea placeholder="Describe course" rows="5" cols="30" valueBinding="description"}}</div>
           <div {{bindAttr class="css_class_short_name"}}>
             Short name
             {{view Ember.TextField required="required" placeholder="Contains only letters and underscores" size="30" valueBinding="courseName"}}
@@ -42,7 +42,7 @@
         <div id="plugin-bundles">
           <h3>Bundles</h3>
           <ul id="bundles-list">
-            {{#each bundle in bundlesList}}
+            {{#each bundle in bundles}}
              <li {{bindAttr class="bundle.selected:selected :bundle"}} {{action "toggleBundle" bundle}}>{{bundle.title}}</li>
             {{/each}}
           </ul>
@@ -50,7 +50,7 @@
         <div id="plugin-plugins">
           <h3>Plugins</h3>
           <ul id="plugins-list">
-            {{#each plugin in pluginsList}}
+            {{#each plugin in plugins}}
              <li {{bindAttr class="plugin.selected:selected :plugin"}} {{action "togglePlugin" plugin}}>{{plugin.key}}</li>
             {{/each}}
           </ul>
@@ -63,6 +63,13 @@
 
       <div id="course-form-config-plugins" class="course-section">
         <div id="course-form-config-plugins-title" class="course-form-title">Configure Plug-ins</div>
+        <div id="configure-plugins">
+          {{#each plugin in selectedPlugins}}
+            {{#with plugin}}
+              {{view App.PluginConfigureView}}
+            {{/with}}
+          {{/each}}
+        </div>
         <div class="course-tools clearfix">
           <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Add Plug-ins</button>
           <button class="next" type="submit" value="Next" {{action "courseFormNext" target="view"}}>Add Resources &raquo;</button>

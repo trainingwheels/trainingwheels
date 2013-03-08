@@ -11,16 +11,20 @@ class VSFTPd extends PluginBase {
 
   public function getPluginVars() {
     return array(
-      'vsftpd_anonymous_enable' => array(
+      array(
+        'key' => 'vsftpd_anonymous_enable',
         'val' => 'NO',
       ),
-      'vsftpd_local_enable' => array(
+      array(
+        'key' => 'vsftpd_local_enable',
         'val' => 'YES',
       ),
-      'vsftpd_write_enable' => array(
+      array(
+        'key' => 'vsftpd_write_enable',
         'val' => 'YES',
       ),
-      'vsftpd_local_umask' => array(
+      array(
+        'key' => 'vsftpd_local_umask',
         'val' => '002',
       ),
     );

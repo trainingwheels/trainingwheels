@@ -10,7 +10,7 @@ define([
 ], function(Ember, DS, $, alertify, app) {
 
   /**
-   * Model.
+   * Models.
    */
   app.CoursesAddModel = Ember.Object.extend({
 
@@ -21,14 +21,26 @@ define([
     resetFormBuildInfo: function() {
       var self = this;
       self.set('formBuildInfo', false);
-      self.set('selectedBundle', null);
-      self.set('selectedPlugins', []),
       $.ajax(
         '/rest/course_build',
         {
           success: function(data, textStatus, jqXHR) {
             if (jqXHR.status === 200) {
               self.set('formBuildInfo', data);
+
+              self.set('plugins', data.plugins.map(function(plugin) {
+                plugin.selected = false;
+                plugin.vars = plugin.vars.map(function(variable) {
+                  variable.input = variable.val;
+                  return Ember.Object.create(variable);
+                });
+                return Ember.Object.create(plugin);
+              }));
+
+              self.set('bundles', data.bundles.map(function(bundle) {
+                bundle.selected = false;
+                return Ember.Object.create(bundle);
+              }));
             }
             else {
               throw new Error('Unable to fetch course build information.');
@@ -45,8 +57,8 @@ define([
     description: null,
     courseName: null,
     resources: [],
-    selectedBundle: null,
-    selectedPlugins: [],
+    bundles: [],
+    plugins: [],
     host: 'localhost',
     user: null,
     pass: null,
@@ -54,9 +66,13 @@ define([
     // but right now, Ubuntu is the only option. Hide this from the user.
     envType: 'ubuntu',
 
-    titleErrors: [],
-    courseNameErrors: [],
+    // Helpers.
+    selectedPlugins: function() {
+      return this.get('plugins').filterProperty('selected', true);
+    }.property('plugins.@each.selected'),
 
+    // Validation methods.
+    titleErrors: [],
     titleValid: function() {
       this.set('titleErrors', []);
       if (this.get('title') === null) {
@@ -69,6 +85,7 @@ define([
       return true;
     }.property('title'),
 
+    courseNameErrors: [],
     courseNameValid: function() {
       this.set('courseNameErrors', []);
       if (this.get('courseName') === null) {
@@ -111,21 +128,14 @@ define([
     css_class_short_name: function() {
       return 'field' + (this.get('courseNameValid') ? '' : ' invalid clearfix');
     }.property('courseNameValid')
-
   });
 
   /**
-   * Controller.
+   * Controllers.
    */
   app.CoursesAddController = Ember.ObjectController.extend({
-    /**
-     * Confirms the form is valid and if so submits, creating a new course.
-     */
     saveCourse: function(view) {
-      // Prevent saving the course if the form is invalid.
-      this.validateTitle();
-      this.validateShortName();
-      if (this.get('form_is_invalid')) {
+      if (this.get('formInvalid')) {
         alertify.error('The course form contains invalid data. Double check your settings.');
         return;
       }
@@ -149,54 +159,38 @@ define([
       this.transitionToRoute('courses');
     },
 
-    bundlesList: function() {
-      var self = this;
-      return this.get('formBuildInfo').bundles.map(function(bundle) {
-        bundle.selected = self.get('selectedBundle') !== null && (self.get('selectedBundle') === bundle.key);
-        return Ember.Object.create(bundle);
-      });
-    }.property('selectedBundle'),
-
-    pluginsList: function() {
-      var self = this;
-      return this.get('formBuildInfo').plugins.map(function(plugin) {
-        plugin.selected = self.get('selectedPlugins') !== null && (self.get('selectedPlugins').someProperty('key', plugin.key));
-        return Ember.Object.create(plugin);
-      });
-    }.property('selectedPlugins'),
-
     toggleBundle: function(bundle) {
-      if (this.get('selectedBundle') === bundle.get('key')) {
-        this.set('selectedBundle', null);
-        this.set('selectedPlugins', []);
-      }
-      else {
-        this.set('selectedBundle', bundle.get('key'));
-        this.set('selectedPlugins', bundle.get('plugins'));
+      // Unselect all other bundles.
+      this.get('bundles').forEach(function(item, index, enumerable) {
+        if (item.get('key') !== bundle.get('key')) {
+          item.set('selected', false);
+        }
+      });
+      // Toggle the clicked bundle's state.
+      bundle.set('selected', !bundle.get('selected'));
+
+      // If a bundle is selected, then select all the plugins that must
+      // be included too.
+      if (bundle.get('selected') === true) {
+        var bundlePlugins = bundle.get('plugins');
+        this.get('plugins').forEach(function(item, index, enumerable) {
+          item.set('selected', bundlePlugins.someProperty('key', item.get('key')));
+        });
       }
     },
 
     togglePlugin: function(plugin) {
-      var selected = this.get('selectedPlugins').findProperty('key', plugin.get('key'));
-      if (selected) {
-        // The clicked plugin is selected, so unselect.
-        this.set('selectedPlugins', this.get('selectedPlugins').filter(function(item, index, enumerable) {
-          if (item.key !== plugin.get('key')) {
-            return true;
-          }
-        }));
-      }
-      else {
-        var newSelection = this.get('selectedPlugins').toArray();
-        newSelection.push({ key: plugin.get('key')});
-        this.set('selectedPlugins', newSelection);
-      }
+      plugin.set('selected', !plugin.get('selected'));
     }
   });
 
   /**
-   * View.
+   * Views.
    */
+  app.PluginConfigureView = Ember.View.extend({
+    templateName: 'plugin-configure'
+  });
+
   app.CoursesAddView = Ember.View.extend({
     templateName: 'course-form',
 

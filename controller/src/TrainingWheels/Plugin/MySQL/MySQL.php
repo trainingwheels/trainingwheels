@@ -11,16 +11,20 @@ class MySQL extends PluginBase {
 
   public function getPluginVars() {
     return array(
-      'mysql_root_password' => array(
+      array(
+        'key' => 'mysql_root_password',
         'val' => NULL,
       ),
-      'mysql_max_allowed_packet' => array(
+      array(
+        'key' => 'mysql_max_allowed_packet',
         'val' => '128M',
       ),
-      'mysql_character_set_server' => array(
+      array(
+        'key' => 'mysql_character_set_server',
         'val' => 'utf8',
       ),
-      'mysql_collation_server' => array(
+      array(
+        'key' => 'mysql_collation_server',
         'val' => 'utf8_general_ci',
       ),
     );
