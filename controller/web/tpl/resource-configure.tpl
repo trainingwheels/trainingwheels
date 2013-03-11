@@ -1,5 +1,6 @@
 <div class="resource-options">
-  <div class="resource-name">{{title}}</div>
+  <span>Title : </span>
+  <div class="resource-name">{{view Ember.TextField valueBinding="title"}}</div>
   {{#each var in vars}}
     <div class="resource-var">
       <div class="resource-field">

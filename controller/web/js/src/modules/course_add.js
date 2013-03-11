@@ -42,8 +42,7 @@ define([
                 return Ember.Object.create(bundle);
               }));
 
-              self.set('resources', data.resources.map(function(resource) {
-                resource.selected = false;
+              self.set('allResources', data.resources.map(function(resource) {
                 return Ember.Object.create(resource);
               }));
             }
@@ -58,15 +57,22 @@ define([
       );
     },
 
+    // Title, description and course name are all basic data.
     title: null,
     description: null,
     courseName: null,
+    // All Resources that are available to be selected.
+    allResources: [],
+    // The array of selected resources, there may be more than one of a particular type.
     resources: [],
+    // Only one bundle may be chosen at a time.
     bundles: [],
+    // Plugins can either be selected or not, one cannot add multiple instances of a plugin.
     plugins: [],
+    // More basic data.
     host: 'localhost',
     user: null,
-    pass: null,
+    port: null,
     // Environment type. We do want to ultimately support multiple environments,
     // but right now, Ubuntu is the only option. Hide this from the user.
     envType: 'ubuntu',
@@ -75,10 +81,6 @@ define([
     selectedPlugins: function() {
       return this.get('plugins').filterProperty('selected', true);
     }.property('plugins.@each.selected'),
-
-    selectedResources: function() {
-      return this.get('resources').filterProperty('selected', true);
-    }.property('resources.@each.selected'),
 
     // Validation methods.
     titleErrors: [],
@@ -143,6 +145,9 @@ define([
    * Controllers.
    */
   app.CoursesAddController = Ember.ObjectController.extend({
+    // Helper property for adding a resource.
+    resourceToAdd: null,
+
     saveCourse: function(view) {
       if (this.get('formInvalid')) {
         alertify.error('The course form contains invalid data. Double check your settings.');
@@ -176,9 +181,7 @@ define([
         }
       });
       // Unselect all resources.
-      this.get('resources').forEach(function(item, index, enumerable) {
-        item.set('selected', false);
-      });
+      this.set('resources', []);
       // Toggle the clicked bundle's state.
       bundle.set('selected', !bundle.get('selected'));
 
@@ -190,22 +193,30 @@ define([
           item.set('selected', bundlePlugins.someProperty('key', item.get('key')));
         });
 
+        // All resources that are required by the bundle are added to the current
+        // resources selection and default values set.
         var bundleResources = bundle.get('resources');
-        this.get('resources').forEach(function(item, index, enumerable) {
-          res = bundleResources.findProperty('type', item.get('key'));
-          if (res) {
-            item.set('selected', true);
-            item.set('title', res.title);
-          }
-          else {
-            item.set('selected', false);
-          }
+        var self = this;
+        bundleResources.forEach(function(item, index, enumerable) {
+          var resObj = Ember.Object.create(self.get('allResources').findProperty('key', item.type));
+          self.get('resources').pushObject(resObj);
+          resObj.set('title', item.title);
         });
       }
     },
 
     togglePlugin: function(plugin) {
       plugin.set('selected', !plugin.get('selected'));
+    },
+
+    addResource: function() {
+      if (this.get('resourceToAdd') === null) {
+        alertify.error('Please select a resource to add.');
+      }
+      var newRes = this.get('allResources').findProperty('key', this.get('resourceToAdd').get('key'));
+      var resObj = Ember.Object.create(newRes);
+      resObj.set('title', 'New resource');
+      this.get('resources').pushObject(resObj);
     }
   });
 

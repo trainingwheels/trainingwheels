@@ -79,11 +79,21 @@
       <div id="course-form-add-resources" class="course-section">
         <div id="course-form-add-resources-title" class="course-form-title">Add Resources</div>
         <div id="configure-resources">
-          {{#each resource in selectedResources}}
+          {{#each resource in resources}}
             {{#with resource}}
               {{view App.ResourceConfigureView}}
             {{/with}}
           {{/each}}
+        </div>
+        <div id="addmore-resources">
+          {{view Ember.Select
+            contentBinding="content.allResources"
+            optionLabelPath="content.key"
+            optionValuePath="content.key"
+            prompt="Add resource:"
+            selectionBinding="resourceToAdd"
+          }}
+          <button class="yellow-btn ss-icon ss-symbolicons-block"{{action "addResource"}}>adddatabase</button>
         </div>
         <div class="course-tools clearfix">
           <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Configure Plug-ins</button>
@@ -93,9 +103,23 @@
 
       <div id="course-form-connection" class="course-section">
         <div id="course-form-connection-title" class="course-form-title">Connection</div>
+        <div id="connection">
+          <div class="field">
+            Host name
+            {{view Ember.TextField required="required" size="30" valueBinding="host"}}
+          </div>
+          <div class="field">
+            User name
+            {{view Ember.TextField required="required" size="30" valueBinding="user"}}
+          </div>
+          <div class="field">
+            Port number
+            {{view Ember.TextField required="required" size="30" valueBinding="port"}}
+          </div>
+        </div>
         <div class="course-tools">
           <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Add Resources</button>
-          <button class="submit" type="submit" value="Save" {{bindAttr disabled="formInvalid"}} {{action "saveCourse" view}}>Create course</button>
+          <button class="submit" type="submit" value="Save" {{bindAttr disabled="formInvalid"}} {{action "saveCourse"}}>Create course</button>
         </div>
       </div>
 
