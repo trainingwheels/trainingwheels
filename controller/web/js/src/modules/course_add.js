@@ -21,40 +21,87 @@ define([
     resetFormBuildInfo: function() {
       var self = this;
       self.set('formBuildInfo', false);
-      $.ajax(
-        '/rest/course_build',
-        {
-          success: function(data, textStatus, jqXHR) {
-            if (jqXHR.status === 200) {
-              self.set('formBuildInfo', data);
+      var request = $.ajax('/rest/course_build');
 
-              self.set('plugins', data.plugins.map(function(plugin) {
-                plugin.selected = false;
-                plugin.vars = plugin.vars.map(function(variable) {
-                  variable.input = variable.val;
-                  return Ember.Object.create(variable);
-                });
-                return Ember.Object.create(plugin);
-              }));
+      request.done(function(data, textStatus, jqXHR) {
+        if (jqXHR.status === 200) {
+          self.set('formBuildInfo', data);
 
-              self.set('bundles', data.bundles.map(function(bundle) {
-                bundle.selected = false;
-                return Ember.Object.create(bundle);
-              }));
+          self.set('plugins', data.plugins.map(function(plugin) {
+            plugin.selected = false;
+            plugin.vars = plugin.vars.map(function(variable) {
+              variable.input = variable.val;
+              return Ember.Object.create(variable);
+            });
+            return Ember.Object.create(plugin);
+          }));
 
-              self.set('allResources', data.resources.map(function(resource) {
-                return Ember.Object.create(resource);
-              }));
-            }
-            else {
-              throw new Error('Unable to fetch course build information.');
-            }
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-            throw new Error('Unable to fetch course build information.');
-          }
+          self.set('bundles', data.bundles.map(function(bundle) {
+            bundle.selected = false;
+            return Ember.Object.create(bundle);
+          }));
+
+          self.set('allResources', data.resources.map(function(resource) {
+            return Ember.Object.create(resource);
+          }));
         }
-      );
+        else {
+          throw new Error('Unable to fetch course build information.');
+        }
+      });
+
+      request.fail(function(jqXHR, textStatus, errorThrown) {
+        throw new Error('Unable to fetch course build information.');
+      });
+    },
+
+    // Commit the new course to the backend using a POST.
+    commitCourse: function() {
+      var newCourse = {
+        title: this.get('title'),
+        description: this.get('description'),
+        course_name: this.get('courseName'),
+        env_type: this.get('envType'),
+        host: this.get('host'),
+        user: this.get('user'),
+        port: this.get('port'),
+        plugins: {},
+        resources: {}
+      };
+
+      this.get('selectedPlugins').forEach(function(item) {
+        var pluginConfig = {};
+        item.get('vars').forEach(function(item) {
+          if (item.get('input') !== item.get('val')) {
+            pluginConfig[item.get('key')] = item.get('input');
+          }
+        });
+        newCourse.plugins[item.get('key')] = pluginConfig;
+      });
+
+      this.get('resources').forEach(function(item) {
+        var resourceConfig = {
+          title: item.get('title'),
+          type: item.get('type'),
+          plugin: item.get('plugin')
+        };
+        item.get('vars').forEach(function(item) {
+          if (item.get('input') !== item.get('val')) {
+            resourceConfig[item.get('key')] = item.get('input');
+          }
+        });
+        newCourse.resources[item.get('key')] = resourceConfig;
+      });
+
+      $.ajax({
+        type: 'POST',
+        url: '/rest/courses',
+        data: JSON.stringify({
+          course: newCourse
+        }),
+        contentType : 'application/json',
+        dataType: 'json'
+      });
     },
 
     // Title, description and course name are all basic data.
@@ -72,7 +119,7 @@ define([
     // More basic data.
     host: 'localhost',
     user: null,
-    port: null,
+    port: 22,
     // Environment type. We do want to ultimately support multiple environments,
     // but right now, Ubuntu is the only option. Hide this from the user.
     envType: 'ubuntu',
@@ -81,6 +128,18 @@ define([
     selectedPlugins: function() {
       return this.get('plugins').filterProperty('selected', true);
     }.property('plugins.@each.selected'),
+
+    pushResource: function(resObj, options) {
+      this.get('resources').pushObject(resObj);
+      resObj.set('title', options.title);
+      resObj.set('key', options.key);
+
+      // Turn the vars into Ember Objects so we can bind them.
+      resObj.set('vars', resObj.get('vars').map(function(var_item) {
+        var_item.input = var_item.val;
+        return Ember.Object.create(var_item);
+      }));
+    },
 
     // Validation methods.
     titleErrors: [],
@@ -122,16 +181,24 @@ define([
       return true;
     }.property('courseName'),
 
+    pluginsValid: function() {
+      return this.get('selectedPlugins').length > 0;
+    }.property('selectedPlugins'),
+
+    resourcesValid: function() {
+      return this.get('resources').length > 0;
+    }.property('resources'),
+
     // Helper property to disable submit functionality if the form is invalid.
     formInvalid: function() {
-      if (!this.get('titleValid') || !this.get('courseNameValid')) {
+      if (!this.get('titleValid') ||
+          !this.get('courseNameValid') ||
+          !this.get('resourcesValid') ||
+          !this.get('pluginsValid')) {
         return true;
       }
       return false;
-    }.property(
-      'titleValid',
-      'courseNameValid'
-    ),
+    }.property('titleValid', 'courseNameValid', 'resourcesValid', 'pluginsValid'),
 
     css_class_title: function() {
       return 'field' + (this.get('titleValid') ? '' : ' invalid clearfix');
@@ -148,25 +215,8 @@ define([
     // Helper property for adding a resource.
     resourceToAdd: null,
 
-    saveCourse: function(view) {
-      if (this.get('formInvalid')) {
-        alertify.error('The course form contains invalid data. Double check your settings.');
-        return;
-      }
-      var newCourse = {
-        title: this.get('title'),
-        description: this.get('description'),
-        course_name: this.get('courseName'),
-        course_type: this.get('courseType'),
-        env_type: this.get('envType'),
-        repo: this.get('repo'),
-        host: this.get('host'),
-        user: this.get('user'),
-        pass: this.get('pass')
-      };
-      var model = app.CourseSummary.createRecord(newCourse);
-      model.store.commit();
-      this.transitionToRoute('courses');
+    saveCourse: function() {
+      this.content.commitCourse();
     },
 
     cancelCourseAdd: function() {
@@ -175,7 +225,7 @@ define([
 
     toggleBundle: function(bundle) {
       // Unselect all other bundles.
-      this.get('bundles').forEach(function(item, index, enumerable) {
+      this.get('bundles').forEach(function(item) {
         if (item.get('key') !== bundle.get('key')) {
           item.set('selected', false);
         }
@@ -189,7 +239,7 @@ define([
       // be included too.
       if (bundle.get('selected') === true) {
         var bundlePlugins = bundle.get('plugins');
-        this.get('plugins').forEach(function(item, index, enumerable) {
+        this.get('plugins').forEach(function(item) {
           item.set('selected', bundlePlugins.someProperty('key', item.get('key')));
         });
 
@@ -197,10 +247,9 @@ define([
         // resources selection and default values set.
         var bundleResources = bundle.get('resources');
         var self = this;
-        bundleResources.forEach(function(item, index, enumerable) {
-          var resObj = Ember.Object.create(self.get('allResources').findProperty('key', item.type));
-          self.get('resources').pushObject(resObj);
-          resObj.set('title', item.title);
+        bundleResources.forEach(function(item) {
+          var newRes = Ember.Object.create(self.get('allResources').findProperty('type', item.type));
+          self.content.pushResource(newRes, {title: item.title, key: item.key});
         });
       }
     },
@@ -209,14 +258,12 @@ define([
       plugin.set('selected', !plugin.get('selected'));
     },
 
-    addResource: function() {
+    addSelectedResource: function() {
       if (this.get('resourceToAdd') === null) {
-        alertify.error('Please select a resource to add.');
+        alertify.error('Please select a resource type to add.');
       }
-      var newRes = this.get('allResources').findProperty('key', this.get('resourceToAdd').get('key'));
-      var resObj = Ember.Object.create(newRes);
-      resObj.set('title', 'New resource');
-      this.get('resources').pushObject(resObj);
+      var newRes = Ember.Object.create(this.get('allResources').findProperty('type', this.get('resourceToAdd').get('type')));
+      this.content.pushResource(newRes, {title: 'New resource', key: 'new_resource'});
     }
   });
 

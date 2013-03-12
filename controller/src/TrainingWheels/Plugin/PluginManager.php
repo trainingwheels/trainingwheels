@@ -41,7 +41,7 @@ class PluginManager {
           $res_vars = $resource_class::getResourceVars();
           if ($res_vars) {
             $resources_json[] = array(
-              'key' => $res_key,
+              'type' => $res_key,
               'plugin' => $plugin_key,
               'vars' => $res_vars,
             );

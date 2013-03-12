@@ -19,6 +19,7 @@ class Drupal extends PluginBase {
           array('key' => 'ApacheHTTPD'),
           array('key' => 'GitFiles'),
           array('key' => 'PHP'),
+          array('key' => 'Core'),
           array('key' => 'Drupal'),
         ),
         'resources' => array(
@@ -42,6 +43,7 @@ class Drupal extends PluginBase {
         'title' => 'Drupal 6',
         'plugins' => array(
           array('key' => 'MySQL'),
+          array('key' => 'Core'),
         ),
         'resources' => array(
           array(

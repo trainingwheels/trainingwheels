@@ -11,21 +11,12 @@ define([
 
   app.CourseSummary = DS.Model.extend({
     course_name: DS.attr('string'),
-    course_type: DS.attr('string'),
     description: DS.attr('string'),
     env_type: DS.attr('string'),
-    repo: DS.attr('string'),
     title: DS.attr('string'),
-    uri: DS.attr('string'),
     host: DS.attr('string'),
     user: DS.attr('string'),
-    pass: DS.attr('string'),
-    didCreate: function() {
-      alertify.success('Course "' + this.get('title') + '" created.');
-    },
-    becameError: function() {
-      alertify.error('There was an error creating course "' + this.get('title') + '".');
-    }
+    port: DS.attr('string')
   });
 
   app.Course = app.CourseSummary.extend({
@@ -97,7 +88,7 @@ define([
             return true;
           }
         })
-        .map(function(item, index, enumerable) {
+        .map(function(item) {
           return item.get('user_name');
         });
 

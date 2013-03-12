@@ -131,14 +131,15 @@ class RESTControllerProvider implements ControllerProviderInterface {
     /**
      * Create a course.
      */
-    $controllers->post('/course_summaries', function (Request $request) use ($app) {
-      $newCourse = $request->request->get('course_summary');
+    $controllers->post('/courses', function (Request $request) use ($app) {
+      $newCourse = $request->request->get('course');
       $savedCourse = $app['tw.course_factory']->save($newCourse);
 
-      $return = new stdClass;
-      $return->course_summary = $savedCourse;
+      //$return = new stdClass;
+      //$return->course_summary = $savedCourse;
+      //$return->data = $request->request->get('course');
 
-      return $app->json($return, HTTP_CREATED);
+      return $app->json($savedCourse, HTTP_CREATED);
     });
 
     /**

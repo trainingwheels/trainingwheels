@@ -1,11 +1,11 @@
 <div class="resource-options">
-  <span>Title : </span>
-  <div class="resource-name">{{view Ember.TextField valueBinding="title"}}</div>
+  <div class="resource-title"><span>Title: </span>{{view Ember.TextField valueBinding="title"}}</div>
+  <div class="resource-key"><span>Key: </span>{{view Ember.TextField valueBinding="key"}}</div>
   {{#each var in vars}}
     <div class="resource-var">
       <div class="resource-field">
         <span>{{var.key}} : </span>
-        {{view Ember.TextField valueBinding="var.input"}}
+        {{view Ember.TextField placeholderBinding="var.hint" valueBinding="var.input"}}
       </div>
       <div class="resource-help">
         {{var.help}}

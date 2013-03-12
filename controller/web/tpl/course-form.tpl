@@ -88,12 +88,12 @@
         <div id="addmore-resources">
           {{view Ember.Select
             contentBinding="content.allResources"
-            optionLabelPath="content.key"
-            optionValuePath="content.key"
+            optionLabelPath="content.type"
+            optionValuePath="content.type"
             prompt="Add resource:"
             selectionBinding="resourceToAdd"
           }}
-          <button class="yellow-btn ss-icon ss-symbolicons-block"{{action "addResource"}}>adddatabase</button>
+          <button class="yellow-btn ss-icon ss-symbolicons-block"{{action "addSelectedResource"}}>adddatabase</button>
         </div>
         <div class="course-tools clearfix">
           <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Configure Plug-ins</button>
