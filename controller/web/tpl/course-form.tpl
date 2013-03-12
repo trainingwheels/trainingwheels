@@ -14,21 +14,25 @@
         <div class="course-fields">
           <div {{bindAttr class="css_class_title"}}>
             Title
-            {{view Ember.TextField placeholder="Course title" size="30" valueBinding="title"}}
+            {{view Ember.TextField id="course-title-textfield" placeholder="Course title" size="30" valueBinding="title"}}
             <ul id="title-errors" class="errors">
-              {{#each error in titleErrors}}
-              <li class="error">{{error}}</li>
-              {{/each}}
+              {{#unless hideTitleErrors}}
+                {{#each error in titleErrors}}
+                <li class="error">{{error}}</li>
+                {{/each}}
+              {{/unless}}
             </ul>
           </div>
           <div class="field"><span>Description</span> {{view Ember.TextArea placeholder="Describe course" rows="5" cols="30" valueBinding="description"}}</div>
           <div {{bindAttr class="css_class_short_name"}}>
             Short name
-            {{view Ember.TextField required="required" placeholder="Contains only letters and underscores" size="30" valueBinding="courseName"}}
+            {{view Ember.TextField id="course-name-textfield" placeholder="Contains only letters and underscores" size="30" valueBinding="courseName"}}
             <ul id="short-name-errors" class="errors">
-              {{#each error in courseNameErrors}}
-              <li class="error">{{error}}</li>
-              {{/each}}
+              {{#unless hideCourseNameErrors}}
+                {{#each error in courseNameErrors}}
+                  <li class="error">{{error}}</li>
+                {{/each}}
+              {{/unless}}
             </ul>
           </div>
         </div>

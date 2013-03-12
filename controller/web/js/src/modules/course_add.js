@@ -105,9 +105,9 @@ define([
     },
 
     // Title, description and course name are all basic data.
-    title: null,
-    description: null,
-    courseName: null,
+    title: '',
+    description: '',
+    courseName: '',
     // All Resources that are available to be selected.
     allResources: [],
     // The array of selected resources, there may be more than one of a particular type.
@@ -118,7 +118,7 @@ define([
     plugins: [],
     // More basic data.
     host: 'localhost',
-    user: null,
+    user: '',
     port: 22,
     // Environment type. We do want to ultimately support multiple environments,
     // but right now, Ubuntu is the only option. Hide this from the user.
@@ -130,7 +130,9 @@ define([
     }.property('plugins.@each.selected'),
 
     pushResource: function(resObj, options) {
-      this.get('resources').pushObject(resObj);
+      var newResources = this.get('resources');
+      newResources.pushObject(resObj);
+      this.set('resources', newResources);
       resObj.set('title', options.title);
       resObj.set('key', options.key);
 
@@ -145,9 +147,6 @@ define([
     titleErrors: [],
     titleValid: function() {
       this.set('titleErrors', []);
-      if (this.get('title') === null) {
-        return true;
-      }
       if (this.get('title').length === 0) {
         this.get('titleErrors').push('The course title is required.');
         return false;
@@ -158,9 +157,6 @@ define([
     courseNameErrors: [],
     courseNameValid: function() {
       this.set('courseNameErrors', []);
-      if (this.get('courseName') === null) {
-        return true;
-      }
       if (this.get('courseName').length === 0) {
         this.get('courseNameErrors').push('The course short name is required.');
       }
@@ -198,14 +194,7 @@ define([
         return true;
       }
       return false;
-    }.property('titleValid', 'courseNameValid', 'resourcesValid', 'pluginsValid'),
-
-    css_class_title: function() {
-      return 'field' + (this.get('titleValid') ? '' : ' invalid clearfix');
-    }.property('titleValid'),
-    css_class_short_name: function() {
-      return 'field' + (this.get('courseNameValid') ? '' : ' invalid clearfix');
-    }.property('courseNameValid')
+    }.property('titleValid', 'courseNameValid', 'resourcesValid', 'pluginsValid')
   });
 
   /**
@@ -264,7 +253,23 @@ define([
       }
       var newRes = Ember.Object.create(this.get('allResources').findProperty('type', this.get('resourceToAdd').get('type')));
       this.content.pushResource(newRes, {title: 'New resource', key: 'new_resource'});
-    }
+    },
+
+    // This is a tricky bit of interaction. When the user first opens the form, we
+    // don't want to show them glaring errors because they haven't input anything yet.
+    // So we hide the error condition until the user has at least input a character
+    // into the textfield, at which point we reveal any problems. See the 'input' event
+    // handler on CoursesAddView. This way the validation computed properties gives us a
+    // reliable true/false, so that we can use this to prevent the user from submitting
+    // until they complete all required fields.
+    hideCourseNameErrors: true,
+    hideTitleErrors: true,
+    css_class_title: function() {
+      return 'field' + (this.get('titleValid') || this.get('hideTitleErrors') ? '' : ' invalid clearfix');
+    }.property('titleValid'),
+    css_class_short_name: function() {
+      return 'field' + (this.get('courseNameValid') || this.get('hideCourseNameErrors') ? '' : ' invalid clearfix');
+    }.property('courseNameValid')
   });
 
   /**
@@ -286,6 +291,18 @@ define([
       // Click events on the top navigation steps are handled here.
       if ($el.hasClass('course-form-nav-item')) {
         this.courseFormStepSelect($el.attr('data-nav-step'));
+      }
+    },
+
+    input: function(event) {
+      $elid = $(event.target).attr('id');
+      switch ($elid) {
+        case 'course-title-textfield':
+          this.controller.set('hideTitleErrors', false);
+          break;
+        case 'course-name-textfield':
+          this.controller.set('hideCourseNameErrors', false);
+          break;
       }
     },
 
