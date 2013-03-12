@@ -13,6 +13,8 @@ define([
    * Models.
    */
   app.CoursesAddModel = Ember.Object.extend({
+    // Helper property to relay status of save back to the controller.
+    status: null,
 
     // Load the form build information from the backend. This contains
     // information about the bundles / plugins, as well as help text and
@@ -55,8 +57,9 @@ define([
       });
     },
 
-    // Commit the new course to the backend using a POST.
+    // Commit the new course to the backend.
     commitCourse: function() {
+      var self = this;
       var newCourse = {
         title: this.get('title'),
         description: this.get('description'),
@@ -93,7 +96,7 @@ define([
         newCourse.resources[item.get('key')] = resourceConfig;
       });
 
-      $.ajax({
+      var request = $.ajax({
         type: 'POST',
         url: '/rest/courses',
         data: JSON.stringify({
@@ -101,6 +104,19 @@ define([
         }),
         contentType : 'application/json',
         dataType: 'json'
+      });
+
+      request.done(function(data, textStatus, jqXHR) {
+        if (jqXHR.status === 201) {
+          self.set('status', 'saveSuccess');
+        }
+        else {
+          self.set('status', 'saveFailed');
+        }
+      });
+
+      request.fail(function(data, textStatus, jqXHR) {
+        self.set('status', 'saveFailed');
       });
     },
 
@@ -208,6 +224,18 @@ define([
       this.content.commitCourse();
     },
 
+    afterSave: function() {
+      switch (this.get('status')) {
+        case 'saveSuccess':
+          alertify.success('Course "' + this.get('title') + '" created.');
+          this.transitionToRoute('courses');
+          break;
+        case 'saveFailed':
+          alertify.error('There was an error creating course "' + this.get('title') + '".');
+          break;
+      }
+    }.observes('status'),
+
     cancelCourseAdd: function() {
       this.transitionToRoute('courses');
     },
@@ -259,7 +287,7 @@ define([
     // don't want to show them glaring errors because they haven't input anything yet.
     // So we hide the error condition until the user has at least input a character
     // into the textfield, at which point we reveal any problems. See the 'input' event
-    // handler on CoursesAddView. This way the validation computed properties gives us a
+    // handler on CoursesAddView. This way the validation computed properties give us a
     // reliable true/false, so that we can use this to prevent the user from submitting
     // until they complete all required fields.
     hideCourseNameErrors: true,

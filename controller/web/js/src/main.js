@@ -71,12 +71,8 @@ require([
     },
 
     model: function() {
-      // Only while debugging, otherwise rather return a new one every time,
-      // for garbage collection purposes.
-      if (typeof app.coursesAddModel === 'undefined') {
-        app.coursesAddModel = app.CoursesAddModel.create();
-        app.coursesAddModel.resetFormBuildInfo();
-      }
+      app.coursesAddModel = app.CoursesAddModel.create();
+      app.coursesAddModel.resetFormBuildInfo();
       return app.coursesAddModel;
     }
   });
