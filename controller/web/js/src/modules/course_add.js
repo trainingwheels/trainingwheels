@@ -314,6 +314,9 @@ define([
   app.CoursesAddView = Ember.View.extend({
     templateName: 'course-form',
 
+    // The handlebars action helper does not accept static text arguments, nor
+    // does it send the event object. Using 'click' is the best practice for this
+    // kind of interaction.
     click: function(event) {
       $el = $(event.target);
       // Click events on the top navigation steps are handled here.
@@ -322,6 +325,8 @@ define([
       }
     },
 
+    // Once a user has entered text into an input field, we begin showing any
+    // validation errors on the field.
     input: function(event) {
       $elid = $(event.target).attr('id');
       switch ($elid) {
