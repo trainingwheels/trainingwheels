@@ -13,6 +13,31 @@
   <link href="/css/logs.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-  {{ logs|raw }}
+  <table id="logs-main">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Source</th>
+        <th>Message</th>
+        <th>Params</th>
+        <th>Commands</th>
+        <th>Result</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in logs %}
+        <tr class="log-row log-layer-{{entry.layer}} log-level-{{entry.level_name}}">
+          <td class="log-item log-datetime">{{entry.datetime}}</td>
+          <td class="log-item log-source">{{entry.source}}</td>
+          <td class="log-item log-message log-layer-{{entry.layer}}">{{entry.message}}</td>
+          <td class="log-item log-params">{{entry.params}}</td>
+          <td class="log-item log-commands">{{entry.commands|raw}}</td>
+          <td class="log-item log-result">{{entry.result}}</td>
+          <td class="log-item log-time">{{entry.time}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </body>
 </html>

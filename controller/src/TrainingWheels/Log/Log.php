@@ -29,14 +29,13 @@ class Log {
     // Main log is where Silex is sending it's information to. We have access to that as well
     // as creating our own MongoDB log entries.
     $this->main = $main;
+    $this->data = $data;
 
     // Add secondary Mongo log streams.
     $actions_log = new Logger('actions');
     $actions_handler = new MongoDBHandler($data->getConnection(), 'trainingwheels', 'logs_actions');
     $actions_log->pushHandler($actions_handler);
     $this->actions = $actions_log;
-
-    $this->data = $data;
 
     self::$instance = $this;
   }
@@ -54,45 +53,29 @@ class Log {
   public function renderHTML($stream) {
     // Sort by microtime.
     $log_entries = $this->data->findAll('logs_' . $stream, '_id');
-    $output = '<table id="logs-main">';
+    $processed = array();
 
-    $output .= '<thead><tr>';
-    $output .= '<th>Timestamp</th>';
-    $output .= '<th>Source</th>';
-    $output .= '<th>Message</th>';
-    $output .= '<th>Params</th>';
-    $output .= '<th>Commands</th>';
-    $output .= '<th>Result</th>';
-    $output .= '<th>Time</th>';
-    $output .= '</tr></thead>';
-    $output .= '<tbody>';
-
-    foreach ($log_entries as $key => $value) {
-      $source = isset($value->context['source']) ? $value->context['source'] : '';
-      $result = isset($value->context['result']) ? $value->context['result'] : '';
-      $time = isset($value->context['time']) ? round($value->context['time'], 4) : '';
-      $params = isset($value->context['params']) ? $value->context['params'] : '';
-
+    foreach ($log_entries as $value) {
       $commands = '';
       if (isset($value->context['commands'])) {
         $commands = implode('<br />&gt; ', $value->context['commands']);
         $commands = '&gt; ' . $commands;
       }
 
-      $output .= '<tr class="log-row log-layer-' . $value->context['layer'] . ' log-level-' . strtolower($value->level_name) . '">';
-      $output .= '<td class="log-item log-datetime">' . $value->datetime . '</td>';
-      $output .= '<td class="log-item log-source">' . $source . '</td>';
-      $output .= '<td class="log-item log-message log-layer-' . $value->context['layer'] .  '">' . $value->message . '</td>';
-      $output .= '<td class="log-item log-params">' . $params . '</td>';
-      $output .= '<td class="log-item log-commands">' . $commands . '</td>';
-      $output .= '<td class="log-item log-result">' . $result . '</td>';
-      $output .= '<td class="log-item log-time">' . $time . '</td>';
-      $output .= '</tr>';
+      $processed[] = array(
+        'source' => isset($value->context['source']) ? $value->context['source'] : '',
+        'result' => isset($value->context['result']) ? $value->context['result'] : '',
+        'time' => isset($value->context['time']) ? round($value->context['time'], 4) : '',
+        'params' => isset($value->context['params']) ? $value->context['params'] : '',
+        'commands' => $commands,
+        'layer' => $value->context['layer'],
+        'datetime' => $value->datetime,
+        'level_name' => strtolower($value->level_name),
+        'message' => $value->message,
+      );
     }
 
-    $output .= '</tbody></table>';
-
-    return $output;
+    return $processed;
   }
 
   /**
