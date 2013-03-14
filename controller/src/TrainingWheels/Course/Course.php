@@ -110,9 +110,6 @@ class Course extends Observable {
    */
   public function usersGet($users = '*') {
     $users = $this->userNormalizeParam($users);
-    if (!$users) {
-      throw new Exception("No users found");
-    }
     $this->log('usersGet()', 'users=' . implode(',', $users));
     $output = array();
     if (!empty($users)) {

@@ -121,7 +121,6 @@ abstract class ServerConn {
     );
     Log::log($message, L_DEBUG, 'actions', $context);
 
-    $time = $end_time - $start_time;
     return $result;
   }
 }

@@ -26,7 +26,8 @@ class MongoCLI extends Command {
     Log::log('MongoCLI', L_INFO, 'actions', array('layer' => 'user', 'source' => 'CLI'));
 
     $url_parts = parse_url($this->config['connections']['mongo']);
-    $cmd = 'mongo -u ' . $url_parts['user'] . ' -p ' . $url_parts['pass'] . ' ' . ltrim($url_parts['path'], '/');
+    $port = isset($url_parts['port']) ? $url_parts['port'] : 27017;
+    $cmd = 'mongo -u ' . $url_parts['user'] . ' -p ' . $url_parts['pass'] . ' --port ' . $port . ' ' . ltrim($url_parts['path'], '/');
 
     // This code courtesy of drush_shell_proc_open().
     $process = proc_open($cmd, array(0 => STDIN, 1 => STDOUT, 2 => STDERR), $pipes);
