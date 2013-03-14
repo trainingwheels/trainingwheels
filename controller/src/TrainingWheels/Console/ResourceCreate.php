@@ -32,7 +32,7 @@ class ResourceCreate extends Command {
     $course_id = $input->getArgument('course_id');
     $user_names = $input->getArgument('user_names');
     $res_pretty = empty($resources) ? 'all' : $resources;
-    $params = "course_id=$course_id user_names=$user_names resources=" . $res_pretty;
+    $params = "course_id=$course_id user_names=$user_names resources=$res_pretty";
 
     Log::log('ResourceCreate', L_INFO, 'actions', array('layer' => 'user', 'source' => 'CLI', 'params' => $params));
 
