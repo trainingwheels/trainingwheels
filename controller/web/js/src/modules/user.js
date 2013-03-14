@@ -61,34 +61,61 @@ define([
       setTimeout(function () { $('#selected-password').selectText(); }, 50);
     },
 
-    /**
-     * Helper function to reload user data from the server.
-     */
-    reloadUser: function(callback, errorCallback) {
-      var models = [];
-      models.push(this.get('model'));
-      models.push(this.controllerFor('course').get('model'));
+    reloadModels: [],
+    reloadModelsError: null,
+    reloadUser: function() {
+      var self = this;
+      this.set('reloadModels', []);
+      this.set('reloadModelsError', null);
+      this.reloadModels.pushObject(this.get('model'));
+      this.reloadModels.pushObject(this.controllerFor('course').get('model'));
 
-      var promise = app.reloadModels(models);
-      $.when(promise).then(callback, errorCallback);
+      reloadModels.forEach(function(model) {
+        model.on('didReload', function() {
+          self.reloadModels.removeObject(model);
+        });
+        model.on('becameError', function() {
+          self.set('reloadModelsError', 'Error: the user could not be reloaded.');
+        });
+        model.reload();
+      });
     },
+    userIsReloading: function() {
+      return this.get('reloadModels').length > 0 && this.get('reloadModelsError') === null;
+    }.property('reloadModels.@each', 'reloadModelsError'),
 
-    syncUser: function(user_name, callback) {
+    syncJobRunning: false,
+    syncJobError: null,
+    syncUser: function() {
+      var self = this;
+      this.set('syncJobRunning', true);
+      this.set('syncJobError', null);
+
       var job = app.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),
         type: 'resource',
         action: 'resourceSync',
         params: JSON.stringify({
           source_user: 'instructor',
-          target_users: [ user_name ]
+          target_users: [ this.get('user_name') ]
         })
       });
       job.store.commit();
+
       job.on('didCreate', function(record) {
-        app.JobComplete(job, callback);
+        self.set('syncJobRunning', false);
+        self.reloadUser();
+
+        // Artificially defer the delete so Ember can
+        // finish updating the model before we remove it.
+        setTimeout(function() {
+          job.deleteRecord();
+          job.store.commit();
+        }, 1);
       });
       job.on('becameError', function(record) {
-        app.JobError(callback);
+        self.set('syncJobRunning', false);
+        self.set('syncJobError', 'The job could not be executed.');
       });
     },
 
