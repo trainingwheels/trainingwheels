@@ -24,7 +24,7 @@ class KeyCreate extends Command {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    Log::log('CLI command: KeyCreate', L_INFO);
+    Log::log('KeyCreate', L_INFO, 'actions', array('layer' => 'user', 'source' => 'CLI'));
 
     $gen = new KeyManager($this->config['base_path']);
     $output->writeln('');

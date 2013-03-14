@@ -39,7 +39,7 @@ Console application
 Working with Mongo
 ------------------
 
-To access database CLI, use `mongo -utrainingwheels -ptrainingwheelsApp trainingwheels` on the command line.
+To access database CLI, use `tw mongo:cli` or `tw m:c` on the command line.
 
 Some command examples:
 

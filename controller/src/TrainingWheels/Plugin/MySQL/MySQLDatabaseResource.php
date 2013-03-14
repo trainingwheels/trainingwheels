@@ -73,6 +73,7 @@ class MySQLDatabaseResource extends Resource {
    * Create the database.
    */
   public function create() {
+    parent::create();
     if ($this->getExists()) {
       throw new Exception("Attempting to create a MySQLDatabaseResource that already exists.");
     }
@@ -90,6 +91,7 @@ class MySQLDatabaseResource extends Resource {
    * Delete the database.
    */
   public function delete() {
+    parent::delete();
     if (!$this->getExists()) {
       throw new Exception("Attempting to delete a MySQLDatabaseResource that does not exist.");
     }
@@ -192,6 +194,7 @@ class MySQLDatabaseResource extends Resource {
    * Sync to a target.
    */
   public function syncTo(MySQLDatabaseResource $target) {
+    parent::syncTo();
     // Create a backup.
     if ($target->getExists()) {
       $target->dumpTo('tmp');
