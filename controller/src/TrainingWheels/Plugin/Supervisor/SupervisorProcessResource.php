@@ -36,6 +36,7 @@ abstract class SupervisorProcessResource extends Resource {
    * Stop the process, remove the config.
    */
   public function delete() {
+    parent::delete();
     if (!$this->getExists()) {
       throw new Exception("Attempting to delete a SupervisorProcessResource that does not exist.");
     }
@@ -50,6 +51,8 @@ abstract class SupervisorProcessResource extends Resource {
    * Start the process.
    */
   public function create() {
+    parent::create();
+
     // Make the conf file.
     $this->env->fileCreate("\"[program:$this->program]\ncommand=$this->command\ndirectory=$this->directory\nuser=$this->user_name\nautostart=true\nautorestart=true\n\"", $this->conf_path, 'root');
 
@@ -63,6 +66,7 @@ abstract class SupervisorProcessResource extends Resource {
    * Sync to a target. There's nothing to sync, just create the target's process.
    */
   public function syncTo($target) {
+    parent::syncTo();
     if (!$target->getExists()) {
       $target->create();
     }

@@ -2,6 +2,7 @@
 
 namespace TrainingWheels\Plugin\Drupal;
 use TrainingWheels\Plugin\PluginBase;
+use TrainingWheels\Log\Log;
 
 class Drupal extends PluginBase {
 
@@ -53,6 +54,7 @@ class Drupal extends PluginBase {
      * only one call will suffice for both.
      */
     $course->addObserver('afterUserResourcesSync', function($data) use ($settings_path) {
+      Log::log('Patching settings.php', L_INFO, 'actions', array('layer' => 'app', 'source' => 'DrupalPlugin'));
       $course_name = $data['course']->course_name;
       $target_name = $data['target']->getName();
 
@@ -70,6 +72,7 @@ class Drupal extends PluginBase {
      * Grant the group all access to files, which allows Apache to write.
      */
     $course->addObserver('afterUserResourcesCreate', function($data) use ($settings_path, $files_path) {
+      Log::log('Allow apache to write files', L_INFO, 'actions', array('layer' => 'app', 'source' => 'DrupalPlugin'));
       $db = $data['user']->resourceGet('drupal_db');
       $gitfiles = $data['user']->resourceGet('drupal_files');
 

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Exception;
+use stdClass;
 
 class CourseProvision extends Command {
   private $jobFactory;
@@ -26,9 +27,7 @@ class CourseProvision extends Command {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    Log::log('CLI command: CourseProvision', L_INFO);
-
-    $job = new \stdClass;
+    $job = new stdClass;
     $job->type = 'course';
     $job->course_id = $input->getArgument('course_id');
     $job->action = 'courseProvision';
@@ -42,6 +41,7 @@ class CourseProvision extends Command {
       $this->jobFactory->remove($job->get('id'));
       throw $e;
     }
+    Log::log('CourseProvision', L_INFO, 'actions', array('layer' => 'user', 'source' => 'CLI', 'params' => 'course_id=' . $job->get('course_id')));
     $output->writeln('<info>Course provisioned.</info>');
   }
 }

@@ -1,0 +1,45 @@
+table#logs-main {
+  border-width: 1px;
+  border-spacing: 0px;
+  border-color: black;
+  border-style: solid;
+
+  border-collapse:separate;
+  border-spacing:0px 2px;
+}
+
+thead > tr {
+  background-color: #AEC5DF;
+}
+
+th {
+  text-align: left;
+}
+
+td.log-item {
+  padding: 3px;
+}
+
+td.log-datetime, td.log-source, td.log-message {
+  white-space: nowrap;
+}
+
+tr.log-layer-user {
+  background-color: #F88956;
+}
+
+tr.log-layer-app.log-level-debug {
+  background-color: #EEEBCA;
+}
+
+tr.log-layer-app.log-level-info {
+  background-color: #D4CD8A;
+}
+
+tr.log-layer-env {
+  background-color: #D4DEBD;
+}
+
+tr.log-level-warning {
+  background-color: #E87B80;
+}
