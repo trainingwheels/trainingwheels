@@ -26,10 +26,12 @@ class UserRetrieve extends Command {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    Log::log('CLI command: UserRetrieve', L_INFO);
-    $course = $this->courseFactory->get($input->getArgument('course_id'));
+    $course_id = $input->getArgument('course_id');
     $user_names = $input->getArgument('user_names');
 
+    Log::log('UserRetrieve', L_INFO, 'actions', array('layer' => 'user', 'source' => 'CLI', 'params' => 'course_id=' . $course_id . ' users=' . $user_names));
+
+    $course = $this->courseFactory->get($course_id);
     if ($user_names != 'all') {
       $user_names = explode(',', $user_names);
     }

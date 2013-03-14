@@ -48,10 +48,7 @@ class SSHServerConn extends ServerConn {
 
   protected function exec($command) {
     if ($this->ssh_conn) {
-      Log::log('SSHServerConn::exec: ' . "\n" . $command, L_DEBUG);
       $result = trim($this->ssh_conn->exec($command));
-      Log::log('SSHServerConn::resp: ' . $result, L_DEBUG);
-      Log::log('=====================================================================', L_DEBUG);
       return $result;
     }
     else {
