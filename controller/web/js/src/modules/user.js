@@ -61,6 +61,8 @@ define([
       setTimeout(function () { $('#selected-password').selectText(); }, 50);
     },
 
+    // Reloading a user may be done by a 'refresh' task or when the user has
+    // it's resources sync'd from the instructor.
     reloadModels: [],
     reloadModelsError: null,
     reloadUser: function() {
@@ -76,6 +78,7 @@ define([
         });
         model.on('becameError', function() {
           self.set('reloadModelsError', 'Error: the user could not be reloaded.');
+          this.set('reloadModels', []);
         });
         model.reload();
       });
@@ -118,6 +121,13 @@ define([
         self.set('syncJobError', 'The job could not be executed.');
       });
     },
+    userIsSyncing: function() {
+      return this.get('syncJobRunning') || this.get('userIsReloading');
+    }.property('syncJobRunning', 'userIsReloading'),
+
+    css_class_syncing: function() {
+      return 'sync-wrapper' + (this.get('userIsSyncing') ? ' syncing' : '');
+    }.property('userIsSyncing'),
 
     collapseUser: function() {
       var courseController = this.controllerFor('course');
@@ -128,38 +138,16 @@ define([
 
   app.UserView = Ember.View.extend({
     templateName: 'user',
-    syncing: false,
 
-    css_class_syncing: function() {
-      return 'sync-wrapper' + (this.get('syncing') ? ' syncing' : '');
-    }.property('syncing'),
-
-    syncUser: function(user_name) {
+    syncUser: function() {
       var self = this;
       alertify.confirm(app.globalStrings.confirmSync, function syncConfirmed(e) {
         if (e) {
-          self.set('syncing', true);
-
-          self.controller.syncUser(user_name, function userSynced(err) {
-            if (!err) {
-              self.controller.reloadUser(
-                function userReloaded() {
-                  self.set('syncing', false);
-                  alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
-                },
-                function reloadError() {
-                  self.set('syncing', false);
-                  alertify.error("There was a problem syncing resources to '" + user_name + "'.");
-                }
-              );
-            }
-            else {
-              self.set('syncing', false);
-              alertify.error(err);
-            }
-          });
+          self.controller.syncUser();
         }
       });
+      alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
+      alertify.error("There was a problem syncing resources to '" + user_name + "'.");
     }
   });
 });

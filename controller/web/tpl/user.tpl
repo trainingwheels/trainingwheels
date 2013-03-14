@@ -12,7 +12,7 @@
   <div class="user-tools">
     <a href="#" {{action "copyPassword" user.password}}>copy password</a>
     {{#if user.is_student }}
-    <button {{action "syncUser" user.user_name target="view"}}>
+    <button {{action "syncUser" target="view"}}>
       <div {{bindAttr class="view.css_class_syncing"}}>
         <span class="ss-sync"></span>
       </div>
