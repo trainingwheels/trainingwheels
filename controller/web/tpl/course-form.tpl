@@ -24,7 +24,7 @@
             </ul>
           </div>
           <div class="field"><span>Description</span> {{view Ember.TextArea placeholder="Describe course" rows="5" cols="30" valueBinding="description"}}</div>
-          <div {{bindAttr class="css_class_short_name"}}>
+          <div {{bindAttr class="css_class_course_name"}}>
             Short name
             {{view Ember.TextField id="course-name-textfield" placeholder="Contains only letters and underscores" size="30" valueBinding="courseName"}}
             <ul id="short-name-errors" class="errors">

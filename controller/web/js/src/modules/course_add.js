@@ -195,11 +195,11 @@ define([
 
     pluginsValid: function() {
       return this.get('selectedPlugins').length > 0;
-    }.property('selectedPlugins'),
+    }.property('selectedPlugins.@each'),
 
     resourcesValid: function() {
       return this.get('resources').length > 0;
-    }.property('resources'),
+    }.property('resources.@each'),
 
     // Helper property to disable submit functionality if the form is invalid.
     formInvalid: function() {
@@ -294,10 +294,15 @@ define([
     hideTitleErrors: true,
     css_class_title: function() {
       return 'field' + (this.get('titleValid') || this.get('hideTitleErrors') ? '' : ' invalid clearfix');
-    }.property('titleValid'),
-    css_class_short_name: function() {
+    }.property('titleValid', 'hideTitleErrors'),
+    css_class_course_name: function() {
       return 'field' + (this.get('courseNameValid') || this.get('hideCourseNameErrors') ? '' : ' invalid clearfix');
-    }.property('courseNameValid')
+    }.property('courseNameValid', 'hideCourseNameErrors'),
+
+    resetValidation: function() {
+      this.set('hideCourseNameErrors', true);
+      this.set('hideTitleErrors', true);
+    }
   });
 
   /**
@@ -331,10 +336,10 @@ define([
       $elid = $(event.target).attr('id');
       switch ($elid) {
         case 'course-title-textfield':
-          this.controller.set('hideTitleErrors', false);
+          this.set('controller.hideTitleErrors', false);
           break;
         case 'course-name-textfield':
-          this.controller.set('hideCourseNameErrors', false);
+          this.set('controller.hideCourseNameErrors', false);
           break;
       }
     },
