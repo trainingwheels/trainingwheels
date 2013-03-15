@@ -25,6 +25,17 @@ abstract class PluginBase {
       throw new Exception("The plugin type \"$type\" does not provide resources");
     }
     $class = $classes[$type];
+
+    // Validate that the data is correct for this resource.
+    $vars_config = $class::getResourceVars();
+    foreach ($vars_config as $var) {
+      $required = isset($var['required']) ? $var['required'] : FALSE;
+      $key = $var['key'];
+      if ($var['default'] === NULL && $required && !isset($data[$key])) {
+        throw new Exception("The resource \"$title\" of type \"$type\" requires a value be set for variable \"$key\" but none was found");
+      }
+    }
+
     $obj = new $class($env, $title, $user_name, $course_name, $res_id, $data);
     return $obj;
   }
