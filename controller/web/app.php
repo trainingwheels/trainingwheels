@@ -31,7 +31,6 @@ catch (Exception $e) {
   print $e->getMessage();
   exit(1);
 }
-Log::log('Initialized web application', L_INFO);
 
 /**
  * Session provider.
@@ -85,6 +84,19 @@ $app->get('/', function () use ($app, $tplGet) {
 });
 
 /**
+ * Debug log viewer
+ */
+$app->get('/logs', function () use ($app, $tplGet) {
+  if ($app['debug'] !== TRUE) {
+    return $app->json('Debug mode is disabled', 401);
+  }
+  $vars = array(
+    'logs' => $app['tw.log']->renderHTML('actions'),
+  );
+  return $app['twig']->render('logs.twig', $vars);
+});
+
+/**
  * Login page for the application.
  */
 $app->match('/login', function (Request $request) use ($app) {
@@ -124,23 +136,36 @@ $app->match('/login', function (Request $request) use ($app) {
 });
 
 /**
+ * Logout.
+ */
+$app->match('/logout', function(Request $request) use ($app) {
+  $app['session']->invalidate();
+  return $app->redirect('/login');
+});
+
+/**
  * Bail on non-authenticated requests.
  */
 $app->before(function (Request $request) use ($app) {
+  Log::log($request->getMethod(), L_INFO, 'actions', array('layer' => 'user', 'source' => 'Web', 'params' => $request->getPathInfo()));
+
   // Developers can set authentication bypass for REST testing.
   if (isset($app['tw.config']['bypass_auth']) && $app['tw.config']['bypass_auth'] === TRUE) {
     return;
   }
-  if ($request->getPathInfo() !== '/login' && $app['session']->get('user') === NULL) {
-    // For the front page, redirect to the login page.
-    if ($request->getPathInfo() == '/') {
-      return $app->redirect('/login');
+
+  if ($app['session']->get('user') === NULL) {
+    $path = $request->getPathInfo();
+
+    // Anonymous requests to REST backend get 401.
+    if (strpos($path, '/rest/') === 0) {
+      return $app->json('Unauthorized', 401);
     }
 
-    // Otherwise 401.
-    $response = new Response();
-    $response->setStatusCode(401, 'Please sign in.');
-    return $response;
+    // For user facing pages, redirect to the login page.
+    if ($path !== '/login') {
+      return $app->redirect('/login');
+    }
   }
 });
 

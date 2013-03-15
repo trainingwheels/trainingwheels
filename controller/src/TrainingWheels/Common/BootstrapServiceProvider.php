@@ -15,6 +15,7 @@ use TrainingWheels\Log\Log;
 use TrainingWheels\Store\DataStore;
 use Igorw\Silex\ConfigServiceProvider;
 use Exception;
+use MongoClient;
 
 /**
  * Bootstrap loads the essential Training Wheels components and injects them
@@ -73,12 +74,9 @@ class BootstrapServiceProvider implements ServiceProviderInterface {
       $app['tw.config']['base_path'] = '/var/trainingwheels';
     }
 
-    // We then use the same Monolog instance on the Training Wheels Log object,
-    // so that our application logs all end up in the same place.
-    $app['tw.log'] = new Log($app['monolog']);
-
     // Training Wheels objects.
     $app['tw.datastore'] = new DataStore($app['tw.config']['connections']['mongo']);
+    $app['tw.log'] = new Log($app['monolog'], $app['tw.datastore']);
     $app['tw.course_factory'] = new CourseFactory($app['tw.datastore'], $app['tw.config']);
     $app['tw.job_factory'] = new JobFactory($app['tw.datastore'], $app['tw.course_factory'], $app['tw.config']);
   }

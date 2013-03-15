@@ -3,6 +3,7 @@
 namespace TrainingWheels\Resource;
 use TrainingWheels\Common\CachedObject;
 use TrainingWheels\Environment\Environment;
+use TrainingWheels\Log\Log;
 
 abstract class Resource extends CachedObject {
 
@@ -24,8 +25,6 @@ abstract class Resource extends CachedObject {
   // Whether it exists yet.
   protected $exists;
 
-  abstract public function create();
-  abstract public function delete();
   abstract public function getExists();
 
   /**
@@ -43,6 +42,34 @@ abstract class Resource extends CachedObject {
   }
 
   /**
+   * Helper to log messages from this class.
+   */
+  private function log($message, $level = L_INFO) {
+    Log::log($message, $level, 'actions', array('layer' => 'app', 'source' => $this->getType(), 'params' => $this->res_id));
+  }
+
+  /**
+   * Create resource.
+   */
+  public function create() {
+    $this->log('create()');
+  }
+
+  /**
+   * Delete resource.
+   */
+  public function delete() {
+    $this->log('delete()');
+  }
+
+  /**
+   * Sync resource to a target.
+   */
+  public function syncTo() {
+    $this->log('syncTo()');
+  }
+
+  /**
    * Return the short type of this plugin, e.g. 'MySQL'
    */
   public function getType() {
@@ -54,6 +81,7 @@ abstract class Resource extends CachedObject {
    * Get the information about the state of this resource.
    */
   public function get() {
+    $this->log('get()');
     $info = array(
       'type' => $this->getType(),
       'exists' => $this->getExists(),

@@ -1,6 +1,7 @@
 <?php
 
 namespace TrainingWheels\Common;
+use TrainingWheels\Log\Log;
 use Closure;
 
 class Observable {
@@ -9,6 +10,7 @@ class Observable {
   protected function fireEvent($eventName, array $data = NULL) {
     if (isset($this->observers[$eventName])) {
       foreach ($this->observers[$eventName] as $observer) {
+        Log::log('Calling observer', L_INFO, 'actions', array('layer' => 'app', 'source' => 'Observable', 'params' => "eventName=$eventName"));
         $observer($data);
       }
     }

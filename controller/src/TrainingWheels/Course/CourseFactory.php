@@ -6,20 +6,31 @@ use TrainingWheels\Conn\LocalServerConn;
 use TrainingWheels\Conn\SSHServerConn;
 use TrainingWheels\Conn\KeyManager;
 use TrainingWheels\Environment\Environment;
+use TrainingWheels\Log\Log;
 use Exception;
 
 class CourseFactory extends Factory {
 
   /**
+   * Helper function to format log entries eminating from this class.
+   */
+  private function log($message, $params, $level = L_DEBUG) {
+    Log::log($message, $level, 'actions', array('layer' => 'app', 'source' => 'CourseFactory', 'params' => $params));
+  }
+
+  /**
    * Create Course object given a course id.
    */
   public function get($course_id) {
+    $this->log('Building course object', $course_id, L_INFO);
+
     $params = $this->data->find('course', array('id' => (int)$course_id));
 
     if ($params) {
       // Create a Connection object.
       if ($params['host'] == 'localhost') {
         $conn = new LocalServerConn(TRUE);
+        $this->log('Connection success', 'localhost');
       }
       else {
         $key_manager = new KeyManager($this->config['base_path']);
@@ -30,6 +41,7 @@ class CourseFactory extends Factory {
         if (!$conn->connect()) {
           throw new Exception("Unable to connect/login to server " . $params['host'] . " on port " . $params['port'] . " as user " . $params['user']);
         }
+        $this->log('Connection success', $params['host']);
       }
 
       // Create a Course object.
@@ -52,6 +64,7 @@ class CourseFactory extends Factory {
       if ($course->env_type != 'ubuntu') {
         throw new Exception("Only 'ubuntu' environments are supported right now");
       }
+      $this->log('Building environment', $course->env_type);
 
       // Build the Plugins associated with this course.
       if (!isset($params['plugins'])) {
@@ -88,6 +101,8 @@ class CourseFactory extends Factory {
       $plugin->mixinEnvironment($course->env, $course->env_type);
 
       $plugin->registerCourseObservers($course);
+
+      $this->log('Building plugin', $key);
     }
     $course->setPlugins($plugins);
   }

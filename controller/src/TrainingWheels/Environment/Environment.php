@@ -62,12 +62,20 @@ class Environment {
         $command = 'ansible-playbook ' . $ansible_args . ' ' . $vars . ' ' . $play;
         $output = array();
         $return = FALSE;
-
-        Log::log('=====================================================================', L_DEBUG);
-        Log::log("$type::configure:exec: $command", L_DEBUG);
+        $start_time = microtime(TRUE);
         exec($command, $output, $return);
-        $output_nice = implode("\n", $output);
-        Log::log("$type::configure:resp: $output_nice", L_DEBUG);
+        $end_time = microtime(TRUE);
+
+        $vars_string = $plugin->formatVarsString();
+        $args_array = $vars_string == '' ? array() : explode(' ', $vars_string);
+        $context = array(
+          'layer' => 'env',
+          'source' => $type,
+          'commands' => array_merge(array('ansible-playbook', $ansible_args), $args_array),
+          'result' => implode('<br />', $output),
+          'time' => $end_time - $start_time,
+        );
+        Log::log('Provision', L_DEBUG, 'actions', $context);
 
         if ($return != 0) {
           throw new Exception("Unable to run configuration for plugin \"$type\": \n$output_nice");
@@ -94,7 +102,9 @@ class Environment {
       if ($this->debug) {
         $refl = new ReflectionFunction($func);
         $namespace = $refl->getNamespaceName();
-        $full_name = $namespace . '::' . $method;
+        $plugin_name_pieces = explode('\\', $namespace);
+        $plugin_name = $plugin_name_pieces[2];
+        $full_name = $plugin_name . '::' . $method;
         if ($refl->getNumberOfRequiredParameters() > count($args)) {
           throw new Exception("Too few parameters passed to \"$full_name\"");
         }
@@ -108,7 +118,8 @@ class Environment {
             }
           }
         }
-        Log::log($full_name, L_DEBUG);
+
+        Log::log('Call env function', L_DEBUG, 'actions', array('layer' => 'app', 'source' => 'Environment', 'params' => $full_name));
       }
 
       return call_user_func_array($func, $args);

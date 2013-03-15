@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Training Wheels Controller</title>
+  <meta name="description" content="Training Wheels is an application for managing training environments.">
+  <meta name="author" content="Four Kitchens">
+  <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
+  <link rel="apple-touch-icon" sizes="72x72" href="touch-icon-ipad.png" />
+  <link rel="apple-touch-icon" sizes="114x114" href="touch-icon-iphone-retina.png" />
+  <link rel="apple-touch-icon" sizes="144x144" href="touch-icon-ipad-retina.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link href="/css/logs.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+  <table id="logs-main">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Source</th>
+        <th>Message</th>
+        <th>Params</th>
+        <th>Commands</th>
+        <th>Result</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in logs %}
+        <tr class="log-row log-layer-{{entry.layer}} log-level-{{entry.level_name}}">
+          <td class="log-item log-datetime">{{entry.datetime}}</td>
+          <td class="log-item log-source">{{entry.source}}</td>
+          <td class="log-item log-message log-layer-{{entry.layer}}">{{entry.message}}</td>
+          <td class="log-item log-params">{{entry.params}}</td>
+          <td class="log-item log-commands">{{entry.commands|raw}}</td>
+          <td class="log-item log-result">{{entry.result}}</td>
+          <td class="log-item log-time">{{entry.time}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

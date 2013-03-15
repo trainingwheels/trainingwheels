@@ -34,6 +34,7 @@ class Cloud9IDEResource extends SupervisorProcessResource {
    * Start the process.
    */
   public function create() {
+    parent::create();
     if ($this->getExists()) {
       throw new Exception("Attempting to create a Cloud9IDEResource that is already running.");
     }

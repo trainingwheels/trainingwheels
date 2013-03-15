@@ -1,6 +1,7 @@
 <?php
 
 namespace TrainingWheels\Plugin\Core;
+use Exception;
 
 class CoreLinuxEnv {
 
