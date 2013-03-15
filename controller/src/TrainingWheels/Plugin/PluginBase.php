@@ -27,13 +27,23 @@ abstract class PluginBase {
     $class = $classes[$type];
 
     // Validate that the config is correct for this resource.
-    $vars_config = $class::getResourceVars();
-    foreach ($vars_config as $var) {
-      $required = isset($var['required']) ? $var['required'] : FALSE;
+    $default_vars = $class::getResourceVars();
+    foreach ($default_vars as $var) {
       $key = $var['key'];
-      if ($var['default'] === NULL && $required && !isset($config[$key])) {
+
+      // A value in the database overrides the default.
+      if (isset($config[$key])) {
+        continue;
+      }
+
+      // We don't have anything in the database for this var, check whether this is a mistake.
+      $required = isset($var['required']) ? $var['required'] : FALSE;
+      if ($var['default'] === NULL && $required) {
         throw new Exception("The resource \"$title\" of type \"$type\" requires a value be set for variable \"$key\" but none was found");
       }
+
+      // Else we're ok to use the default value.
+      $config[$key] = $var['default'];
     }
 
     $obj = new $class($env, $data, $title, $user_name, $course_name, $res_id, $config);
@@ -61,12 +71,12 @@ abstract class PluginBase {
    * override the default config the plugin provides.
    */
   public function set($data) {
-    $this->validateVarsConfig();
-    $vars = $this->getPluginVars();
+    $this->validateDefaultVarsConfig();
+    $defaults = $this->getPluginVars();
     $type = $this->getType();
 
-    if (!empty($vars)) {
-      foreach($vars as $var) {
+    if (!empty($defaults)) {
+      foreach($defaults as $var) {
         $key = $var['key'];
         $default_value = isset($var['default']) ? $var['default'] : NULL;
         $data_value = isset($data[$key]) ? $data[$key] : NULL;
@@ -86,9 +96,9 @@ abstract class PluginBase {
   }
 
   /**
-   * Validate the plugin's variable config is correctly structured.
+   * Validate the plugin's default variable config is correctly structured.
    */
-  public function validateVarsConfig() {
+  public function validateDefaultVarsConfig() {
     $vars = $this->getPluginVars();
     $type = $this->getType();
 

@@ -25,7 +25,7 @@ class PluginManager {
     $bundles_json = array();
     foreach($this->plugins as $plugin_key => $plugin) {
       // Get the plugin provision variables.
-      $plugin->validateVarsConfig();
+      $plugin->validateDefaultVarsConfig();
       $plugin_vars = $plugin->getPluginVars();
       $plugins_json[] = array(
         'key' => $plugin_key,
