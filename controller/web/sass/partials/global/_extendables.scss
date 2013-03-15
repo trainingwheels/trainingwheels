@@ -38,6 +38,16 @@
     padding-top: 10px;
   }
 
+  .required,
+  &.required {
+    textarea,
+    input:not([type=submit]):not([type=file]) {
+      border-color: $red;
+      background: $whiteRed;
+      box-shadow: none;
+    }
+  }
+
   &.invalid {
     color: $red;
 

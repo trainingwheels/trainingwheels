@@ -125,6 +125,7 @@
       .plugin-vars {
         .plugin-var {
           @extend #tw-form-field;
+
           .plugin-help {
             color: $Gray;
             margin-top: 0.5em;
@@ -148,6 +149,7 @@
       .resource-vars {
         .resource-var {
           @extend #tw-form-field;
+
           .resource-help {
             color: $Gray;
             margin-top: 0.5em;

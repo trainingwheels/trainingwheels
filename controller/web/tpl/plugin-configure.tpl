@@ -3,7 +3,7 @@
   <div class="plugin-vars">
     {{#each var in vars}}
       <div class="plugin-var">
-        <div class="plugin-field">
+        <div {{bindAttr class="var.css_class"}}>
           <span>{{var.key}} : </span>
           {{view Ember.TextField valueBinding="var.input"}}
         </div>

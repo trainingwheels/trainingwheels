@@ -5,7 +5,7 @@
   <div class="resource-vars">
     {{#each var in vars}}
       <div class="resource-var">
-        <div class="resource-field">
+        <div {{bindAttr class="var.css_class"}}>
           <span>{{var.key}} : </span>
           {{view Ember.TextField placeholderBinding="var.hint" valueBinding="var.input"}}
         </div>

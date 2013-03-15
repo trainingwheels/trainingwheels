@@ -12,6 +12,17 @@ define([
   /**
    * Models.
    */
+  app.CoursesConfigModel = Ember.Object.extend({
+    type: 'plugin',
+    css_class: function() {
+      var required = this.get('required');
+      if ((typeof required === 'undefined' || required === true) && !this.get('input')) {
+        return this.get('type') + '-field required';
+      }
+      return this.get('type') + '-field';
+    }.property('input', 'default', 'required')
+  });
+
   app.CoursesAddModel = Ember.Object.extend({
     // Helper property to relay status of save back to the controller.
     status: null,
@@ -33,7 +44,7 @@ define([
             plugin.selected = false;
             plugin.vars = plugin.vars.map(function(variable) {
               variable.input = variable['default'];
-              return Ember.Object.create(variable);
+              return app.CoursesConfigModel.create(variable);
             });
             return Ember.Object.create(plugin);
           }));
@@ -159,7 +170,8 @@ define([
       // Turn the vars into Ember Objects so we can bind them.
       resObj.set('vars', resObj.get('vars').map(function(var_item) {
         var_item.input = var_item['default'];
-        return Ember.Object.create(var_item);
+        var_item.type = 'resource';
+        return app.CoursesConfigModel.create(var_item);
       }));
     },
 

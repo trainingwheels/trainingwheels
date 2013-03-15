@@ -47,6 +47,29 @@ img, video {
   display: inline-block;
   padding-top: 10px;
 }
+#tw-form-field .required textarea, #course-form .course-section .course-fields .field .required textarea, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .required textarea, #course-form #configure-resources .resource-options .resource-title .required textarea,
+#course-form #configure-resources .resource-options .resource-key .required textarea, #course-form #configure-resources .resource-options .resource-vars .resource-var .required textarea, #course-form #connection .field .required textarea, #login-form #form div .required textarea,
+#tw-form-field .required input:not([type=submit]):not([type=file]),
+#course-form .course-section .course-fields .field .required input:not([type=submit]):not([type=file]),
+#course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .required input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .resource-title .required input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .resource-key .required input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .resource-vars .resource-var .required input:not([type=submit]):not([type=file]),
+#course-form #connection .field .required input:not([type=submit]):not([type=file]),
+#login-form #form div .required input:not([type=submit]):not([type=file]), #tw-form-field.required textarea, #course-form .course-section .course-fields .required.field textarea, #course-form #configure-plugins .plugin-options .plugin-vars .required.plugin-var textarea, #course-form #configure-resources .resource-options .required.resource-title textarea,
+#course-form #configure-resources .resource-options .required.resource-key textarea, #course-form #configure-resources .resource-options .resource-vars .required.resource-var textarea, #course-form #connection .required.field textarea, #login-form #form div.required textarea,
+#tw-form-field.required input:not([type=submit]):not([type=file]),
+#course-form .course-section .course-fields .required.field input:not([type=submit]):not([type=file]),
+#course-form #configure-plugins .plugin-options .plugin-vars .required.plugin-var input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .required.resource-title input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .required.resource-key input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .resource-vars .required.resource-var input:not([type=submit]):not([type=file]),
+#course-form #connection .required.field input:not([type=submit]):not([type=file]),
+#login-form #form div.required input:not([type=submit]):not([type=file]) {
+  border-color: #a30006;
+  background: #fef5f1;
+  box-shadow: none;
+}
 #tw-form-field.invalid, #course-form .course-section .course-fields .invalid.field, #course-form #configure-plugins .plugin-options .plugin-vars .invalid.plugin-var, #course-form #configure-resources .resource-options .invalid.resource-title,
 #course-form #configure-resources .resource-options .invalid.resource-key, #course-form #configure-resources .resource-options .resource-vars .invalid.resource-var, #course-form #connection .invalid.field, #login-form #form div.invalid {
   color: #a30006;
@@ -1500,6 +1523,29 @@ html, body {
     vertical-align: top;
     display: inline-block;
     padding-top: 10px;
+  }
+  #tw-form-field .required textarea, #course-form .course-section .course-fields .field .required textarea, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .required textarea, #course-form #configure-resources .resource-options .resource-title .required textarea,
+  #course-form #configure-resources .resource-options .resource-key .required textarea, #course-form #configure-resources .resource-options .resource-vars .resource-var .required textarea, #course-form #connection .field .required textarea, #login-form #form div .required textarea,
+  #tw-form-field .required input:not([type=submit]):not([type=file]),
+  #course-form .course-section .course-fields .field .required input:not([type=submit]):not([type=file]),
+  #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .required input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .resource-title .required input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .resource-key .required input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .resource-vars .resource-var .required input:not([type=submit]):not([type=file]),
+  #course-form #connection .field .required input:not([type=submit]):not([type=file]),
+  #login-form #form div .required input:not([type=submit]):not([type=file]), #tw-form-field.required textarea, #course-form .course-section .course-fields .required.field textarea, #course-form #configure-plugins .plugin-options .plugin-vars .required.plugin-var textarea, #course-form #configure-resources .resource-options .required.resource-title textarea,
+  #course-form #configure-resources .resource-options .required.resource-key textarea, #course-form #configure-resources .resource-options .resource-vars .required.resource-var textarea, #course-form #connection .required.field textarea, #login-form #form div.required textarea,
+  #tw-form-field.required input:not([type=submit]):not([type=file]),
+  #course-form .course-section .course-fields .required.field input:not([type=submit]):not([type=file]),
+  #course-form #configure-plugins .plugin-options .plugin-vars .required.plugin-var input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .required.resource-title input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .required.resource-key input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .resource-vars .required.resource-var input:not([type=submit]):not([type=file]),
+  #course-form #connection .required.field input:not([type=submit]):not([type=file]),
+  #login-form #form div.required input:not([type=submit]):not([type=file]) {
+    border-color: #a30006;
+    background: #fef5f1;
+    box-shadow: none;
   }
   #tw-form-field.invalid, #course-form .course-section .course-fields .invalid.field, #course-form #configure-plugins .plugin-options .plugin-vars .invalid.plugin-var, #course-form #configure-resources .resource-options .invalid.resource-title,
   #course-form #configure-resources .resource-options .invalid.resource-key, #course-form #configure-resources .resource-options .resource-vars .invalid.resource-var, #course-form #connection .invalid.field, #login-form #form div.invalid {
