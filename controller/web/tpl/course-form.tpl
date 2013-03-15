@@ -91,7 +91,7 @@
         </div>
         <div id="addmore-resources">
           {{view Ember.Select
-            contentBinding="content.allResources"
+            contentBinding="content.availableResources"
             optionLabelPath="content.type"
             optionValuePath="content.type"
             prompt="Add resource:"

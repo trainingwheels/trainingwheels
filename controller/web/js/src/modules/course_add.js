@@ -139,7 +139,7 @@ define([
     title: '',
     description: '',
     courseName: '',
-    // All Resources that are available to be selected.
+    // All Resources that are available in the system.
     allResources: [],
     // The array of selected resources, there may be more than one of a particular type.
     resources: [],
@@ -174,6 +174,15 @@ define([
         return app.CoursesConfigModel.create(var_item);
       }));
     },
+
+    // Only allow the user to select a resource if the appropriate
+    // plugin is selected, too.
+    availableResources: function() {
+      var self = this;
+      return this.get('allResources').filter(function(res) {
+        return self.get('selectedPlugins').someProperty('key', res.get('plugin'));
+      });
+    }.property('plugins.@each.selected'),
 
     // Validation methods.
     titleErrors: [],
@@ -290,6 +299,22 @@ define([
 
     togglePlugin: function(plugin) {
       plugin.set('selected', !plugin.get('selected'));
+
+      // If we are deselecting, remove any resources that need this plugin,
+      // and deselect any bundles that require it.
+      if (plugin.get('selected') === false) {
+        this.set('resources', this.get('resources').filter(function(res) {
+          return res.get('plugin') !== plugin.get('key');
+        }));
+
+        this.get('bundles').forEach(function(bundle) {
+          if (bundle.get('selected')) {
+            if (bundle.get('plugins').someProperty('key', plugin.get('key'))) {
+              bundle.set('selected', false);
+            }
+          }
+        });
+      }
     },
 
     addSelectedResource: function() {

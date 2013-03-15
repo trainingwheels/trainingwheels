@@ -65,7 +65,7 @@ abstract class PluginBase {
     $vars = $this->getPluginVars();
     $type = $this->getType();
 
-    if ($vars) {
+    if (!empty($vars)) {
       foreach($vars as $var) {
         $key = $var['key'];
         $default_value = isset($var['default']) ? $var['default'] : NULL;
@@ -92,7 +92,7 @@ abstract class PluginBase {
     $vars = $this->getPluginVars();
     $type = $this->getType();
 
-    if ($vars) {
+    if (!empty($vars)) {
       foreach($vars as $settings) {
         foreach ($settings as $key => $value) {
           if (!in_array($key, array('key', 'default', 'help', 'hint', 'required'))) {
@@ -126,7 +126,7 @@ abstract class PluginBase {
    * Variable config. Override in subclass if you provide variables.
    */
   public function getPluginVars() {
-    return FALSE;
+    return array();
   }
 
   /**
