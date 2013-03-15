@@ -13,19 +13,19 @@ class MySQL extends PluginBase {
     return array(
       array(
         'key' => 'mysql_root_password',
-        'val' => NULL,
+        'default' => NULL,
       ),
       array(
         'key' => 'mysql_max_allowed_packet',
-        'val' => '128M',
+        'default' => '128M',
       ),
       array(
         'key' => 'mysql_character_set_server',
-        'val' => 'utf8',
+        'default' => 'utf8',
       ),
       array(
         'key' => 'mysql_collation_server',
-        'val' => 'utf8_general_ci',
+        'default' => 'utf8_general_ci',
       ),
     );
   }

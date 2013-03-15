@@ -18,6 +18,7 @@
       border-right: none;
       font-size: $base-font-size * 0.75;
       font-weight: bold;
+      cursor: pointer;
 
       &.last {
         border-right: 1px solid $black;
@@ -55,16 +56,46 @@
 
   #course-form-add-plugins {
     #bundles-list {
+      @extend .clearfix;
+      list-style: none;
       li {
+        @include button-make($lightGray);
+        @include span-columns(4);
+        cursor: pointer;
+
         &.bundle.selected {
-          color: red;
+          @include button-make($yellow);
+        }
+
+        // 9n, wut? Well, turns out ember is inserting script
+        // tags between the list elements so nth-child doesn't
+        // work as expected. There are two script tags for every
+        // list element, so three tags total for each list,
+        // ∴ 3n * 3 = 9n.
+        &:nth-child(9n) {
+          @include span-columns(4 omega);
         }
       }
     }
     #plugins-list {
+      @extend .clearfix;
+      list-style: none;
       li {
+        @include button-make($lightGray);
+        @include span-columns(4);
+        cursor: pointer;
+
         &.plugin.selected {
-          color: red;
+          @include button-make($yellow);
+        }
+
+        // 9n, wut? Well, turns out ember is inserting script
+        // tags between the list elements so nth-child doesn't
+        // work as expected. There are two script tags for every
+        // list element, so three tags total for each list,
+        // ∴ 3n * 3 = 9n.
+        &:nth-child(9n) {
+          @include span-columns(4 omega);
         }
       }
     }
@@ -81,6 +112,63 @@
       &.next {
         float: right;
       }
+    }
+  }
+
+  // Plugin configure.
+  #configure-plugins {
+    .empty-plugins {
+      margin-bottom: 1em;
+    }
+    .plugin-name {
+      border-bottom: 1px solid $Gray;
+      padding-bottom: 0.5em;
+    }
+    .plugin-options {
+      .plugin-vars {
+        .plugin-var {
+          @extend #tw-form-field;
+
+          .plugin-help {
+            color: $Gray;
+            margin-top: 0.5em;
+          }
+        }
+      }
+    }
+  }
+
+  // Resource configure.
+  #configure-resources {
+    .empty-resources {
+      margin-bottom: 1em;
+    }
+    .resource-type {
+      border-bottom: 1px solid $Gray;
+      padding-bottom: 0.5em;
+    }
+    .resource-options {
+      .resource-title,
+      .resource-key {
+        @extend #tw-form-field;
+      }
+      .resource-vars {
+        .resource-var {
+          @extend #tw-form-field;
+
+          .resource-help {
+            color: $Gray;
+            margin-top: 0.5em;
+          }
+        }
+      }
+    }
+  }
+
+  // Connection configure.
+  #connection {
+    .field {
+      @extend #tw-form-field;
     }
   }
 }

@@ -103,4 +103,4 @@ Get a course:
 
 Get the course build information:
 
-    curl http://training.wheels:8000/rest/course_build -i && echo ''; echo ''
+    curl http://training.wheels:8000/rest/course_build | python -mjson.tool

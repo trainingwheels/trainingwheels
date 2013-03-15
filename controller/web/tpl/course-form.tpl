@@ -68,11 +68,19 @@
       <div id="course-form-config-plugins" class="course-section">
         <div id="course-form-config-plugins-title" class="course-form-title">Configure Plug-ins</div>
         <div id="configure-plugins">
-          {{#each plugin in selectedPlugins}}
-            {{#with plugin}}
-              {{view App.PluginConfigureView}}
-            {{/with}}
-          {{/each}}
+          {{#if selectedPlugins}}
+            {{#each plugin in selectedPlugins}}
+              {{#with plugin}}
+                {{view App.PluginConfigureView}}
+              {{/with}}
+            {{/each}}
+          {{else}}
+            <div class="empty-plugins">
+              You have not added any plugins to your course yet!
+              Go back to the add plug-ins step and select some plugins
+              so you can configure your course.
+            </div>
+          {{/if}}
         </div>
         <div class="course-tools clearfix">
           <button class="previous" type="submit" value="Next" {{action "courseFormPrevious" target="view"}}>&laquo; Add Plug-ins</button>
@@ -83,15 +91,23 @@
       <div id="course-form-add-resources" class="course-section">
         <div id="course-form-add-resources-title" class="course-form-title">Add Resources</div>
         <div id="configure-resources">
-          {{#each resource in resources}}
-            {{#with resource}}
-              {{view App.ResourceConfigureView}}
-            {{/with}}
-          {{/each}}
+          {{#if resources}}
+            {{#each resource in resources}}
+              {{#with resource}}
+                {{view App.ResourceConfigureView}}
+              {{/with}}
+            {{/each}}
+          {{else}}
+            <div class="empty-resources">
+              You have not added any resources to your course yet!
+              Select a resource from the dropdown below and click the
+              add button.
+            </div>
+          {{/if}}
         </div>
         <div id="addmore-resources">
           {{view Ember.Select
-            contentBinding="content.allResources"
+            contentBinding="content.availableResources"
             optionLabelPath="content.type"
             optionValuePath="content.type"
             prompt="Add resource:"

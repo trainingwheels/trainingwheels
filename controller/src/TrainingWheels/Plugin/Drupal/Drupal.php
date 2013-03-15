@@ -68,11 +68,11 @@ class Drupal extends PluginBase {
     return array(
       array(
         'key' => 'settings_path',
-        'val' => 'sites/default/settings.php',
+        'default' => 'sites/default/settings.php',
       ),
       array(
         'key' => 'files_path',
-        'val' => 'sites/default/files',
+        'default' => 'sites/default/files',
       )
     );
   }

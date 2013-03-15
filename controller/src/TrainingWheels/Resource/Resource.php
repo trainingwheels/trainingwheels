@@ -4,6 +4,7 @@ namespace TrainingWheels\Resource;
 use TrainingWheels\Common\CachedObject;
 use TrainingWheels\Environment\Environment;
 use TrainingWheels\Log\Log;
+use TrainingWheels\Store\DataStore;
 
 abstract class Resource extends CachedObject {
 
@@ -25,19 +26,20 @@ abstract class Resource extends CachedObject {
   // Whether it exists yet.
   protected $exists;
 
-  abstract public function getExists();
+  // The type of resource.
+  private $type;
 
   /**
    * Constructor.
    */
-  public function __construct(Environment $env, $title, $user_name, $course_name, $res_id) {
+  public function __construct(Environment $env, DataStore $data, $title, $user_name, $course_name, $res_id) {
     $this->env = $env;
     $this->title = $title;
     $this->user_name = $user_name;
     $this->course_name = $course_name;
     $this->res_id = $res_id;
 
-    parent::__construct();
+    parent::__construct($data);
     $this->cachePropertiesAdd(array('exists'));
   }
 
@@ -46,6 +48,14 @@ abstract class Resource extends CachedObject {
    */
   private function log($message, $level = L_INFO) {
     Log::log($message, $level, 'actions', array('layer' => 'app', 'source' => $this->getType(), 'params' => $this->res_id));
+  }
+
+  /**
+   * Set whether this resource exists.
+   */
+  public function setExists($exists) {
+    $this->log('setExists()', L_DEBUG);
+    $this->exists = $exists;
   }
 
   /**
@@ -73,8 +83,11 @@ abstract class Resource extends CachedObject {
    * Return the short type of this plugin, e.g. 'MySQL'
    */
   public function getType() {
-    $pieces = explode('\\', get_class($this));
-    return $pieces[count($pieces)-1];
+    if (!isset($this->type)) {
+      $pieces = explode('\\', get_class($this));
+      $this->type = $pieces[count($pieces)-1];
+    }
+    return $this->type;
   }
 
   /**

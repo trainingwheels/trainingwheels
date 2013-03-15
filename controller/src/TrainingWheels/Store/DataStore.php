@@ -86,9 +86,3 @@ class DataStore {
     return $this->db->$collection->remove($criteria, $options);
   }
 }
-
-
-
-
-
-

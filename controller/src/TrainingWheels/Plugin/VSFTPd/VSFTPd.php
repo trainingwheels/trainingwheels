@@ -13,19 +13,19 @@ class VSFTPd extends PluginBase {
     return array(
       array(
         'key' => 'vsftpd_anonymous_enable',
-        'val' => 'NO',
+        'default' => 'NO',
       ),
       array(
         'key' => 'vsftpd_local_enable',
-        'val' => 'YES',
+        'default' => 'YES',
       ),
       array(
         'key' => 'vsftpd_write_enable',
-        'val' => 'YES',
+        'default' => 'YES',
       ),
       array(
         'key' => 'vsftpd_local_umask',
-        'val' => '002',
+        'default' => '002',
       ),
     );
   }

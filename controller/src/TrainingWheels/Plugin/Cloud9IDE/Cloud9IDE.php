@@ -13,15 +13,15 @@ class Cloud9IDE extends PluginBase {
     return array(
       array(
         'key' => 'path',
-        'val' => '/var/local/cloud9',
+        'default' => '/var/local/cloud9',
       ),
       array(
         'key' => 'version',
-        'val' => 'master',
+        'default' => 'master',
       ),
       array(
         'key' => 'repo',
-        'val' => 'https://github.com/trainingwheels/cloud9-build.git',
+        'default' => 'https://github.com/trainingwheels/cloud9-build.git',
       )
     );
   }

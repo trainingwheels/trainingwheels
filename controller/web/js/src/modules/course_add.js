@@ -12,6 +12,17 @@ define([
   /**
    * Models.
    */
+  app.CoursesConfigModel = Ember.Object.extend({
+    type: 'plugin',
+    css_class: function() {
+      var required = this.get('required');
+      if ((typeof required === 'undefined' || required === true) && !this.get('input')) {
+        return this.get('type') + '-field required';
+      }
+      return this.get('type') + '-field';
+    }.property('input', 'default', 'required')
+  });
+
   app.CoursesAddModel = Ember.Object.extend({
     // Helper property to relay status of save back to the controller.
     status: null,
@@ -32,8 +43,8 @@ define([
           self.set('plugins', data.plugins.map(function(plugin) {
             plugin.selected = false;
             plugin.vars = plugin.vars.map(function(variable) {
-              variable.input = variable.val;
-              return Ember.Object.create(variable);
+              variable.input = variable['default'];
+              return app.CoursesConfigModel.create(variable);
             });
             return Ember.Object.create(plugin);
           }));
@@ -75,7 +86,7 @@ define([
       this.get('selectedPlugins').forEach(function(item) {
         var pluginConfig = {};
         item.get('vars').forEach(function(item) {
-          if (item.get('input') !== item.get('val')) {
+          if (item.get('input') !== item.get('default')) {
             pluginConfig[item.get('key')] = item.get('input');
           }
         });
@@ -89,7 +100,7 @@ define([
           plugin: item.get('plugin')
         };
         item.get('vars').forEach(function(item) {
-          if (item.get('input') !== item.get('val')) {
+          if (item.get('input') !== item.get('default')) {
             resourceConfig[item.get('key')] = item.get('input');
           }
         });
@@ -108,6 +119,7 @@ define([
 
       request.done(function(data, textStatus, jqXHR) {
         if (jqXHR.status === 201) {
+          self.set('course_id', data.id);
           self.set('status', 'saveSuccess');
         }
         else {
@@ -120,11 +132,14 @@ define([
       });
     },
 
+    // Course ID used for proper redirect.
+    course_id: undefined,
+
     // Title, description and course name are all basic data.
     title: '',
     description: '',
     courseName: '',
-    // All Resources that are available to be selected.
+    // All Resources that are available in the system.
     allResources: [],
     // The array of selected resources, there may be more than one of a particular type.
     resources: [],
@@ -154,10 +169,20 @@ define([
 
       // Turn the vars into Ember Objects so we can bind them.
       resObj.set('vars', resObj.get('vars').map(function(var_item) {
-        var_item.input = var_item.val;
-        return Ember.Object.create(var_item);
+        var_item.input = var_item['default'];
+        var_item.type = 'resource';
+        return app.CoursesConfigModel.create(var_item);
       }));
     },
+
+    // Only allow the user to select a resource if the appropriate
+    // plugin is selected, too.
+    availableResources: function() {
+      var self = this;
+      return this.get('allResources').filter(function(res) {
+        return self.get('selectedPlugins').someProperty('key', res.get('plugin'));
+      });
+    }.property('plugins.@each.selected'),
 
     // Validation methods.
     titleErrors: [],
@@ -228,7 +253,8 @@ define([
       switch (this.get('status')) {
         case 'saveSuccess':
           alertify.success('Course "' + this.get('title') + '" created.');
-          this.transitionToRoute('courses');
+          var course = app.Course.find(this.get('course_id'));
+          this.transitionToRoute('course', course);
           break;
         case 'saveFailed':
           alertify.error('There was an error creating course "' + this.get('title') + '".');
@@ -273,6 +299,22 @@ define([
 
     togglePlugin: function(plugin) {
       plugin.set('selected', !plugin.get('selected'));
+
+      // If we are deselecting, remove any resources that need this plugin,
+      // and deselect any bundles that require it.
+      if (plugin.get('selected') === false) {
+        this.set('resources', this.get('resources').filter(function(res) {
+          return res.get('plugin') !== plugin.get('key');
+        }));
+
+        this.get('bundles').forEach(function(bundle) {
+          if (bundle.get('selected')) {
+            if (bundle.get('plugins').someProperty('key', plugin.get('key'))) {
+              bundle.set('selected', false);
+            }
+          }
+        });
+      }
     },
 
     addSelectedResource: function() {
