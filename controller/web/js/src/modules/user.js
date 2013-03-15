@@ -43,9 +43,59 @@ define([
     templateName: 'user-summary'
   });
 
+  app.UserState = Ember.StateManager.extend({
+    enableLogging: true,
+    controller: null,
+    initialState: 'root.loaded',
+    states: {
+      root: Ember.State.create({
+        loaded: Ember.State.create({
+          enter: function(manager) {
+            manager.get('controller').set('syncing', false);
+          }
+        }),
+        sync: Ember.State.create({
+          syncing: Ember.State.create({
+            enter: function(manager) {
+              manager.get('controller').set('syncing', true);
+            }
+          }),
+          reloading: Ember.State.create({
+            didReload: Ember.State.create({
+              enter: function(manager) {
+                alertify.success("Successfully synced resources from 'instructor' to '" + manager.get('controller.user_name') + "'.");
+                manager.get('controller').set('syncing', false);
+                manager.transitionTo('root.loaded');
+              }
+            }),
+            becameError: Ember.State.create({
+              enter: function(manager) {
+                alertify.error('The sync job was successful, but the reload failed.');
+                manager.get('controller').set('syncing', false);
+              }
+            })
+          }),
+          becameError: Ember.State.create({
+            enter: function(manager) {
+              alertify.error('The sync job was unsuccessful');
+              manager.get('controller').set('syncing', false);
+            }
+          })
+        }),
+        reloading: Ember.State.create({
+          didReload: Ember.State.create(),
+          becameError: Ember.State.create()
+        })
+      })
+    }
+  }),
+
   app.UserController = Ember.ObjectController.extend({
     user_logged_in_class: 'user-logged-in',
     resources: [],
+    // An instance of App.UserState, set by the router.
+    stateManager: null,
+    syncing: false,
 
     bindResources: function(user_id) {
       var resources = app.Resource.filter(function (data) {
@@ -64,35 +114,33 @@ define([
     // Reloading a user may be done by a 'refresh' task or when the user has
     // it's resources sync'd from the instructor.
     reloadModels: [],
-    reloadModelsError: null,
+    reloadModelsError: false,
     reloadUser: function() {
       var self = this;
+      this.stateManager.transitionTo('reloading');
       this.set('reloadModels', []);
-      this.set('reloadModelsError', null);
+      this.set('reloadModelsError', false);
       this.reloadModels.pushObject(this.get('model'));
       this.reloadModels.pushObject(this.controllerFor('course').get('model'));
 
-      reloadModels.forEach(function(model) {
+      this.reloadModels.forEach(function(model) {
         model.on('didReload', function() {
           self.reloadModels.removeObject(model);
+          if (self.get('reloadModels').length === 0 && self.get('reloadModelsError') === false) {
+            self.get('stateManager').transitionTo('didReload');
+          }
         });
         model.on('becameError', function() {
-          self.set('reloadModelsError', 'Error: the user could not be reloaded.');
-          this.set('reloadModels', []);
+          self.set('reloadModelsError', true);
+          self.get('stateManager').transitionTo('becameError');
         });
         model.reload();
       });
     },
-    userIsReloading: function() {
-      return this.get('reloadModels').length > 0 && this.get('reloadModelsError') === null;
-    }.property('reloadModels.@each', 'reloadModelsError'),
 
-    syncJobRunning: false,
-    syncJobError: null,
     syncUser: function() {
       var self = this;
-      this.set('syncJobRunning', true);
-      this.set('syncJobError', null);
+      this.get('stateManager').transitionTo('root.sync.syncing');
 
       var job = app.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),
@@ -104,9 +152,7 @@ define([
         })
       });
       job.store.commit();
-
       job.on('didCreate', function(record) {
-        self.set('syncJobRunning', false);
         self.reloadUser();
 
         // Artificially defer the delete so Ember can
@@ -117,17 +163,9 @@ define([
         }, 1);
       });
       job.on('becameError', function(record) {
-        self.set('syncJobRunning', false);
-        self.set('syncJobError', 'The job could not be executed.');
+        self.get('stateManager').transitionTo('becameError');
       });
     },
-    userIsSyncing: function() {
-      return this.get('syncJobRunning') || this.get('userIsReloading');
-    }.property('syncJobRunning', 'userIsReloading'),
-
-    css_class_syncing: function() {
-      return 'sync-wrapper' + (this.get('userIsSyncing') ? ' syncing' : '');
-    }.property('userIsSyncing'),
 
     collapseUser: function() {
       var courseController = this.controllerFor('course');
@@ -139,15 +177,17 @@ define([
   app.UserView = Ember.View.extend({
     templateName: 'user',
 
+    css_class_syncing: function() {
+      return 'sync-wrapper' + (this.get('controller.syncing') ? ' syncing' : '');
+    }.property('controller.syncing'),
+
     syncUser: function() {
       var self = this;
       alertify.confirm(app.globalStrings.confirmSync, function syncConfirmed(e) {
         if (e) {
-          self.controller.syncUser();
+          self.get('controller').syncUser();
         }
       });
-      alertify.success("Successfully synced resources from 'instructor' to '" + user_name + "'.");
-      alertify.error("There was a problem syncing resources to '" + user_name + "'.");
     }
   });
 });

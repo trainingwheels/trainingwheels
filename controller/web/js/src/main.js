@@ -92,6 +92,7 @@ require([
       var userController = this.controllerFor('user');
       userController.set('content', app.User.find(model.id));
       userController.bindResources(model.id);
+      userController.set('stateManager', app.UserState.create({controller: userController}));
 
       var courseController = this.controllerFor('course');
       courseController.selectUser(model.id);
