@@ -15,11 +15,19 @@ define([
   app.CoursesConfigModel = Ember.Object.extend({
     type: 'plugin',
     css_class: function() {
+      var classes = this.get('type') + '-field';
       var required = this.get('required');
-      if ((typeof required === 'undefined' || required === true) && !this.get('input')) {
-        return this.get('type') + '-field required';
+      var input = this.get('input');
+
+      if ((typeof required === 'undefined' || required === true) && !input) {
+        classes += ' required';
       }
-      return this.get('type') + '-field';
+
+      if (input && input.length > 20) {
+        classes += ' flexi';
+      }
+
+      return classes;
     }.property('input', 'default', 'required')
   });
 

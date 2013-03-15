@@ -129,6 +129,10 @@
         .plugin-var {
           @extend #tw-form-field;
 
+          .flexi {
+            @extend #flexi-form-field;
+          }
+
           .plugin-help {
             color: $Gray;
             margin-top: 0.5em;
@@ -155,6 +159,10 @@
       .resource-vars {
         .resource-var {
           @extend #tw-form-field;
+
+          .flexi {
+            @extend #flexi-form-field;
+          }
 
           .resource-help {
             color: $Gray;

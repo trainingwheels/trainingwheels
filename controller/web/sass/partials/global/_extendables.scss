@@ -69,3 +69,16 @@
   }
 }
 
+#flexi-form-field {
+  textarea,
+  input:not([type=submit]):not([type=file]) {
+    min-width: 228px;
+    @include transition(all .4s ease-in-out);
+
+    &:focus {
+      width: 100%;
+    }
+  }
+}
+
+

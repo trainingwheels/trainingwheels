@@ -88,6 +88,23 @@ img, video {
   text-align: left;
 }
 
+#flexi-form-field textarea, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi textarea, #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi textarea,
+#flexi-form-field input:not([type=submit]):not([type=file]),
+#course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .resource-vars .resource-var .flexi input:not([type=submit]):not([type=file]) {
+  min-width: 228px;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+#flexi-form-field textarea:focus, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi textarea:focus, #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi textarea:focus,
+#flexi-form-field input:not([type=submit]):not([type=file]):focus,
+#course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi input:not([type=submit]):not([type=file]):focus,
+#course-form #configure-resources .resource-options .resource-vars .resource-var .flexi input:not([type=submit]):not([type=file]):focus {
+  width: 100%;
+}
+
 body {
   margin: 0;
   font-family: helvetica, arial, sans-serif;
@@ -1569,6 +1586,23 @@ html, body {
     float: right;
     margin-top: 1em;
     text-align: left;
+  }
+
+  #flexi-form-field textarea, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi textarea, #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi textarea,
+  #flexi-form-field input:not([type=submit]):not([type=file]),
+  #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi input:not([type=submit]):not([type=file]) {
+    min-width: 228px;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  #flexi-form-field textarea:focus, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi textarea:focus, #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi textarea:focus,
+  #flexi-form-field input:not([type=submit]):not([type=file]):focus,
+  #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi input:not([type=submit]):not([type=file]):focus,
+  #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi input:not([type=submit]):not([type=file]):focus {
+    width: 100%;
   }
 
   body {
