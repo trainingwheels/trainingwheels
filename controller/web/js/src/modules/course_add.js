@@ -232,7 +232,8 @@ define([
       switch (this.get('status')) {
         case 'saveSuccess':
           alertify.success('Course "' + this.get('title') + '" created.');
-          this.transitionToRoute('courses/' + this.get('course_id'));
+          var course = app.Course.find(this.get('course_id'));
+          this.transitionToRoute('course', course);
           break;
         case 'saveFailed':
           alertify.error('There was an error creating course "' + this.get('title') + '".');
