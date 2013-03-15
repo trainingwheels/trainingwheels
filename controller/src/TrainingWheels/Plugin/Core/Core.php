@@ -13,7 +13,7 @@ class Core extends PluginBase {
     return array(
       array(
         'key' => 'twskel',
-        'val' => '/etc/trainingwheels/skel/skel_user',
+        'default' => '/etc/trainingwheels/skel/skel_user',
       ),
     );
   }

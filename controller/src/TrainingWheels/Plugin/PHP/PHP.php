@@ -13,51 +13,51 @@ class PHP extends PluginBase {
     return array(
       array(
         'key' => 'php_max_execution_time',
-        'val' => '90',
+        'default' => '90',
       ),
       array(
         'key' => 'php_display_errors',
-        'val' => 'On',
+        'default' => 'On',
       ),
       array(
         'key' => 'php_display_startup_errors',
-        'val' => 'On',
+        'default' => 'On',
       ),
       array(
         'key' => 'php_html_errors',
-        'val' => 'On',
+        'default' => 'On',
       ),
       array(
         'key' => 'php_post_max_size',
-        'val' => '32M',
+        'default' => '32M',
       ),
       array(
         'key' => 'php_upload_max_filesize',
-        'val' => '32M',
+        'default' => '32M',
       ),
       array(
         'key' => 'php_date_timezone',
-        'val' => 'America/Chicago',
+        'default' => 'America/Chicago',
       ),
       array(
         'key' => 'php_short_open_tag',
-        'val' => 'Off',
+        'default' => 'Off',
       ),
       array(
         'key' => 'apc_rfc1867',
-        'val' => '1',
+        'default' => '1',
       ),
       array(
         'key' => 'apc_shm_size',
-        'val' => '96M',
+        'default' => '96M',
       ),
       array(
         'key' => 'apc_shm_segments',
-        'val' => '1',
+        'default' => '1',
       ),
       array(
         'key' => 'apc_num_files_hint',
-        'val' => '0',
+        'default' => '0',
       ),
     );
   }

@@ -57,7 +57,7 @@ abstract class PluginBase {
     if ($vars) {
       foreach($vars as $var) {
         $key = $var['key'];
-        $default_value = isset($var['val']) ? $var['val'] : NULL;
+        $default_value = isset($var['default']) ? $var['default'] : NULL;
         $data_value = isset($data[$key]) ? $data[$key] : NULL;
 
         if ($data_value === NULL && $default_value === NULL) {
@@ -84,7 +84,7 @@ abstract class PluginBase {
     if ($vars) {
       foreach($vars as $settings) {
         foreach ($settings as $key => $value) {
-          if (!in_array($key, array('key', 'val', 'help', 'hint'))) {
+          if (!in_array($key, array('key', 'default', 'help', 'hint', 'required'))) {
             throw new Exception("The plugin \"$type\" has a variable with unrecognized key \"$key\"");
           }
         }

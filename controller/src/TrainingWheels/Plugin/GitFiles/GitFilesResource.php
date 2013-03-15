@@ -38,17 +38,17 @@ class GitFilesResource extends Resource {
     return array(
       array(
         'key' => 'default_branch',
-        'val' => 'master',
+        'default' => 'master',
         'help' => 'The branch that will be automatically checked out when the repository is cloned.',
       ),
       array(
         'key' => 'subdir',
-        'val' => '',
+        'default' => '',
         'help' => 'The subdirectory into which the clone is created, leaving this blank will result in home/user/course being the clone directory',
       ),
       array(
         'key' => 'repo_url',
-        'val' => NULL,
+        'default' => NULL,
         'help' => 'The Github URL to clone',
         'hint' => 'https://github.com/fourkitchens/trainingwheels-drupal-files-example.git',
       ),
