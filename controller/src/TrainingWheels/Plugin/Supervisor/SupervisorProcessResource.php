@@ -3,6 +3,7 @@
 namespace TrainingWheels\Plugin\Supervisor;
 use TrainingWheels\Resource\Resource;
 use TrainingWheels\Environment\Environment;
+use TrainingWheels\Store\DataStore;
 use Exception;
 
 abstract class SupervisorProcessResource extends Resource {
@@ -15,8 +16,8 @@ abstract class SupervisorProcessResource extends Resource {
   /**
    * Constructor.
    */
-  public function __construct(Environment $env, $title, $user_name, $course_name, $res_id, $data) {
-    parent::__construct($env, $title, $user_name, $course_name, $res_id);
+  public function __construct(Environment $env, DataStore $data, $title, $user_name, $course_name, $res_id, $config) {
+    parent::__construct($env, $data, $title, $user_name, $course_name, $res_id);
     $this->program = $res_id;
     $this->conf_path = "/etc/supervisor/conf.d/$this->program.conf";
   }
@@ -25,9 +26,8 @@ abstract class SupervisorProcessResource extends Resource {
    * Is the process already running?
    */
   public function getExists() {
-    if (!$this->exists) {
+    if (!isset($this->exists)) {
       $this->exists = $this->env->supervisorProgramIsRunning($this->program);
-      $this->cacheSave();
     }
     return $this->exists;
   }
@@ -44,7 +44,6 @@ abstract class SupervisorProcessResource extends Resource {
     $this->env->fileDelete($this->conf_path);
     $this->env->supervisorUpdateConfig();
     $this->exists = FALSE;
-    $this->cacheSave();
   }
 
   /**
@@ -60,6 +59,7 @@ abstract class SupervisorProcessResource extends Resource {
     // defined with autostart=true above, it will start as soon as the config
     // is read in.
     $this->env->supervisorUpdateConfig();
+    $this->exists = TRUE;
   }
 
   /**
@@ -70,5 +70,12 @@ abstract class SupervisorProcessResource extends Resource {
     if (!$target->getExists()) {
       $target->create();
     }
+  }
+
+  /**
+   * Get info.
+   */
+  public function get() {
+    return parent::get();
   }
 }

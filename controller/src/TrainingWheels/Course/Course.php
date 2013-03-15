@@ -4,6 +4,7 @@ namespace TrainingWheels\Course;
 use TrainingWheels\Log\Log;
 use TrainingWheels\Common\Observable;
 use TrainingWheels\User\User;
+use TrainingWheels\Store\DataStore;
 use Exception;
 
 class Course extends Observable {
@@ -21,6 +22,13 @@ class Course extends Observable {
 
   // Resource config.
   protected $resource_config;
+
+  // Reference to the DataStore.
+  protected $data;
+
+  public function __construct(DataStore $data) {
+    $this->data = $data;
+  }
 
   public function setPlugins(array $plugins) {
     $this->plugins = $plugins;
@@ -50,8 +58,8 @@ class Course extends Observable {
    */
   protected function userFactory($user_name) {
     $user_id = $this->course_id . '-' . $user_name;
-    $user_obj = new User($this->env, $user_name, $user_id);
-    Log::log('Building user', L_DEBUG, 'actions', array('layer' => 'app', 'source' => 'UserFactory', 'params' => 'user_id=' . $user_id));
+    $user_obj = new User($this->env, $this->data, $user_name, $user_id);
+    $this->log('Building user', $user_id, 'UserFactory', L_DEBUG);
 
     // Each user object must receive resource objects too. These are created
     // based on the course's resources config.
@@ -63,8 +71,8 @@ class Course extends Observable {
       }
       $plugin = $this->plugins[$res['plugin']];
 
-      $user_res[$key] = $plugin->resourceFactory($res['type'], $this->env, $res['title'], $user_name, $this->course_name, $user_res_id, $res);
-      Log::log('Building resource', L_DEBUG, 'actions', array('layer' => 'app', 'source' => 'UserFactory', 'params' => 'res_id=' . $user_res_id));
+      $user_res[$key] = $plugin->resourceFactory($res['type'], $this->env, $this->data, $res['title'], $user_name, $this->course_name, $user_res_id, $res);
+      $this->log('Building resource', $user_res_id, 'UserFactory', L_DEBUG);
     }
     $user_obj->resources = $user_res;
 

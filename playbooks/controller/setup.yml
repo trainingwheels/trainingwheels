@@ -154,6 +154,9 @@
     - name: MongoDB | .mongodb.cnf for admin user
       action: template src=templates/root-mongodb-cnf.j2 dest=${user_home.stdout}/.mongodb.cnf
 
+    - name: MongoDB | Add indexes
+      action: command mongo -u trainingwheels -p $mongo_app_password trainingwheels $twdir/playbooks/controller/files/mongo-indexes.js
+
     - name: MongoDB | Install the PECL MongoDB extension
       action: command pecl install mongo creates=/usr/lib/php5/20090626/mongo.so
 
