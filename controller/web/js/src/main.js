@@ -74,6 +74,11 @@ require([
       app.coursesAddModel = app.CoursesAddModel.create();
       app.coursesAddModel.resetFormBuildInfo();
       return app.coursesAddModel;
+    },
+
+    setupController: function(controller, model) {
+      this._super.apply(arguments);
+      controller.resetValidation();
     }
   });
 
