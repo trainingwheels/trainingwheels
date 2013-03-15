@@ -32,7 +32,7 @@ define([
           self.set('plugins', data.plugins.map(function(plugin) {
             plugin.selected = false;
             plugin.vars = plugin.vars.map(function(variable) {
-              variable.input = variable.val;
+              variable.input = variable['default'];
               return Ember.Object.create(variable);
             });
             return Ember.Object.create(plugin);
@@ -75,7 +75,7 @@ define([
       this.get('selectedPlugins').forEach(function(item) {
         var pluginConfig = {};
         item.get('vars').forEach(function(item) {
-          if (item.get('input') !== item.get('val')) {
+          if (item.get('input') !== item.get('default')) {
             pluginConfig[item.get('key')] = item.get('input');
           }
         });
@@ -89,7 +89,7 @@ define([
           plugin: item.get('plugin')
         };
         item.get('vars').forEach(function(item) {
-          if (item.get('input') !== item.get('val')) {
+          if (item.get('input') !== item.get('default')) {
             resourceConfig[item.get('key')] = item.get('input');
           }
         });
@@ -158,7 +158,7 @@ define([
 
       // Turn the vars into Ember Objects so we can bind them.
       resObj.set('vars', resObj.get('vars').map(function(var_item) {
-        var_item.input = var_item.val;
+        var_item.input = var_item['default'];
         return Ember.Object.create(var_item);
       }));
     },
