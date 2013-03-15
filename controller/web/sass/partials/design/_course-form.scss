@@ -117,6 +117,9 @@
 
   // Plugin configure.
   #configure-plugins {
+    .empty-plugins {
+      margin-bottom: 1em;
+    }
     .plugin-name {
       border-bottom: 1px solid $Gray;
       padding-bottom: 0.5em;
@@ -137,6 +140,9 @@
 
   // Resource configure.
   #configure-resources {
+    .empty-resources {
+      margin-bottom: 1em;
+    }
     .resource-type {
       border-bottom: 1px solid $Gray;
       padding-bottom: 0.5em;

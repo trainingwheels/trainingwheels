@@ -1124,6 +1124,9 @@ html, body {
 #course-form .course-tools button.next {
   float: right;
 }
+#course-form #configure-plugins .empty-plugins {
+  margin-bottom: 1em;
+}
 #course-form #configure-plugins .plugin-name {
   border-bottom: 1px solid #85817d;
   padding-bottom: 0.5em;
@@ -1131,6 +1134,9 @@ html, body {
 #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .plugin-help {
   color: #85817d;
   margin-top: 0.5em;
+}
+#course-form #configure-resources .empty-resources {
+  margin-bottom: 1em;
 }
 #course-form #configure-resources .resource-type {
   border-bottom: 1px solid #85817d;
