@@ -279,7 +279,7 @@ define([
       if (this.get('resourceToAdd') === null) {
         alertify.error('Please select a resource type to add.');
       }
-      var newRes = Ember.Object.create(this.get('allResources').findProperty('type', this.get('resourceToAdd').get('type')));
+      var newRes = Ember.Object.create(this.get('allResources').findProperty('type', this.get('resourceToAdd.type')));
       this.content.pushResource(newRes, {title: 'New resource', key: 'new_resource'});
     },
 
