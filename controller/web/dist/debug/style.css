@@ -16,11 +16,11 @@ img, video {
   src: url('../../fonts/bebas-neue/BebasNeue-webfont.woff') format('woff'), url('../../fonts/bebas-neue/BebasNeue-webfont.ttf') format('truetype'), url('../../fonts/bebas-neue/BebasNeue-webfont.eot') format('embedded-opentype'), url('../../fonts/bebas-neue/BebasNeue-webfont.svg') format('svg');
 }
 
-.clearfix:before, .clearfix:after {
+.clearfix:before, #course-form #course-form-add-plugins #bundles-list:before, #course-form #course-form-add-plugins #plugins-list:before, .clearfix:after, #course-form #course-form-add-plugins #bundles-list:after, #course-form #course-form-add-plugins #plugins-list:after {
   display: table;
   content: "";
 }
-.clearfix:after {
+.clearfix:after, #course-form #course-form-add-plugins #bundles-list:after, #course-form #course-form-add-plugins #plugins-list:after {
   clear: both;
 }
 
@@ -817,11 +817,271 @@ html, body {
   font-weight: 600;
   font-size: 32px;
 }
+#course-form #course-form-add-plugins #bundles-list {
+  list-style: none;
+}
+#course-form #course-form-add-plugins #bundles-list li {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #bfbfbf;
+  background-color: #f2f2f2;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
+  background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  cursor: pointer;
+}
+#course-form #course-form-add-plugins #bundles-list li:first-child {
+  *margin-left: 0;
+}
+#course-form #course-form-add-plugins #bundles-list li:hover, #course-form #course-form-add-plugins #bundles-list li.hover, #course-form #course-form-add-plugins #bundles-list li:focus, #course-form #course-form-add-plugins #bundles-list li.focus {
+  text-decoration: none;
+  background-color: #d8d8d8;
+  *background-color: #d8d8d8;
+  outline: 0;
+}
+#course-form #course-form-add-plugins #bundles-list li:active, #course-form #course-form-add-plugins #bundles-list li.active {
+  background-color: #d8d8d8;
+  *background-color: #cccccc;
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cccccc;
+  border-bottom: 1px solid #b2b2b2;
+}
+#course-form #course-form-add-plugins #bundles-list li[disabled="disabled"] {
+  color: #7f7676;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(#e6e6e6));
+  background: -moz-linear-gradient(top, white, #e6e6e6);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#e6e6e6');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+}
 #course-form #course-form-add-plugins #bundles-list li.bundle.selected {
-  color: red;
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #b8ac1c;
+  background-color: #e5da55;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#ded029));
+  background: -moz-linear-gradient(top, #efe24b, #ded029);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
+  -webkit-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  -moz-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  box-shadow: inset 0 1px 0 0 #f6f2c4;
+}
+#course-form #course-form-add-plugins #bundles-list li.bundle.selected:first-child {
+  *margin-left: 0;
+}
+#course-form #course-form-add-plugins #bundles-list li.bundle.selected:hover, #course-form #course-form-add-plugins #bundles-list li.bundle.selected.hover, #course-form #course-form-add-plugins #bundles-list li.bundle.selected:focus, #course-form #course-form-add-plugins #bundles-list li.bundle.selected.focus {
+  text-decoration: none;
+  background-color: #ded029;
+  *background-color: #ded029;
+  outline: 0;
+}
+#course-form #course-form-add-plugins #bundles-list li.bundle.selected:active, #course-form #course-form-add-plugins #bundles-list li.bundle.selected.active {
+  background-color: #ded029;
+  *background-color: #cec120;
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cec120;
+  border-bottom: 1px solid #a29719;
+}
+#course-form #course-form-add-plugins #bundles-list li.bundle.selected[disabled="disabled"] {
+  color: #7f7676;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(#f8f5d3));
+  background: -moz-linear-gradient(top, white, #f8f5d3);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#f8f5d3');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+}
+#course-form #course-form-add-plugins #bundles-list li:nth-child(9n) {
+  width: 32.20339%;
+  float: right;
+  margin-right: 0;
+  #margin-left: -1em;
+  display: inline;
+}
+#course-form #course-form-add-plugins #plugins-list {
+  list-style: none;
+}
+#course-form #course-form-add-plugins #plugins-list li {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #bfbfbf;
+  background-color: #f2f2f2;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
+  background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  cursor: pointer;
+}
+#course-form #course-form-add-plugins #plugins-list li:first-child {
+  *margin-left: 0;
+}
+#course-form #course-form-add-plugins #plugins-list li:hover, #course-form #course-form-add-plugins #plugins-list li.hover, #course-form #course-form-add-plugins #plugins-list li:focus, #course-form #course-form-add-plugins #plugins-list li.focus {
+  text-decoration: none;
+  background-color: #d8d8d8;
+  *background-color: #d8d8d8;
+  outline: 0;
+}
+#course-form #course-form-add-plugins #plugins-list li:active, #course-form #course-form-add-plugins #plugins-list li.active {
+  background-color: #d8d8d8;
+  *background-color: #cccccc;
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cccccc;
+  border-bottom: 1px solid #b2b2b2;
+}
+#course-form #course-form-add-plugins #plugins-list li[disabled="disabled"] {
+  color: #7f7676;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(#e6e6e6));
+  background: -moz-linear-gradient(top, white, #e6e6e6);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#e6e6e6');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
 }
 #course-form #course-form-add-plugins #plugins-list li.plugin.selected {
-  color: red;
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #b8ac1c;
+  background-color: #e5da55;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#ded029));
+  background: -moz-linear-gradient(top, #efe24b, #ded029);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
+  -webkit-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  -moz-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  box-shadow: inset 0 1px 0 0 #f6f2c4;
+}
+#course-form #course-form-add-plugins #plugins-list li.plugin.selected:first-child {
+  *margin-left: 0;
+}
+#course-form #course-form-add-plugins #plugins-list li.plugin.selected:hover, #course-form #course-form-add-plugins #plugins-list li.plugin.selected.hover, #course-form #course-form-add-plugins #plugins-list li.plugin.selected:focus, #course-form #course-form-add-plugins #plugins-list li.plugin.selected.focus {
+  text-decoration: none;
+  background-color: #ded029;
+  *background-color: #ded029;
+  outline: 0;
+}
+#course-form #course-form-add-plugins #plugins-list li.plugin.selected:active, #course-form #course-form-add-plugins #plugins-list li.plugin.selected.active {
+  background-color: #ded029;
+  *background-color: #cec120;
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cec120;
+  border-bottom: 1px solid #a29719;
+}
+#course-form #course-form-add-plugins #plugins-list li.plugin.selected[disabled="disabled"] {
+  color: #7f7676;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(#f8f5d3));
+  background: -moz-linear-gradient(top, white, #f8f5d3);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#f8f5d3');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+}
+#course-form #course-form-add-plugins #plugins-list li:nth-child(9n) {
+  width: 32.20339%;
+  float: right;
+  margin-right: 0;
+  #margin-left: -1em;
+  display: inline;
 }
 #course-form .course-tools {
   padding-bottom: 2em;
@@ -1188,11 +1448,11 @@ html, body {
     src: url('../../fonts/bebas-neue/BebasNeue-webfont.woff') format('woff'), url('../../fonts/bebas-neue/BebasNeue-webfont.ttf') format('truetype'), url('../../fonts/bebas-neue/BebasNeue-webfont.eot') format('embedded-opentype'), url('../../fonts/bebas-neue/BebasNeue-webfont.svg') format('svg');
 }
 
-  .clearfix:before, .clearfix:after {
+  .clearfix:before, #course-form #course-form-add-plugins #bundles-list:before, #course-form #course-form-add-plugins #plugins-list:before, .clearfix:after, #course-form #course-form-add-plugins #bundles-list:after, #course-form #course-form-add-plugins #plugins-list:after {
     display: table;
     content: "";
   }
-  .clearfix:after {
+  .clearfix:after, #course-form #course-form-add-plugins #bundles-list:after, #course-form #course-form-add-plugins #plugins-list:after {
     clear: both;
   }
 

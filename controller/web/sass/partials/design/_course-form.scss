@@ -55,16 +55,46 @@
 
   #course-form-add-plugins {
     #bundles-list {
+      @extend .clearfix;
+      list-style: none;
       li {
+        @include button-make($lightGray);
+        @include span-columns(4);
+        cursor: pointer;
+
         &.bundle.selected {
-          color: red;
+          @include button-make($yellow);
+        }
+
+        // 9n, wut? Well, turns out ember is inserting script
+        // tags between the list elements so nth-child doesn't
+        // work as expected. There are two script tags for every
+        // list element, so three tags total for each list,
+        // ∴ 3n * 3 = 9n.
+        &:nth-child(9n) {
+          @include span-columns(4 omega);
         }
       }
     }
     #plugins-list {
+      @extend .clearfix;
+      list-style: none;
       li {
+        @include button-make($lightGray);
+        @include span-columns(4);
+        cursor: pointer;
+
         &.plugin.selected {
-          color: red;
+          @include button-make($yellow);
+        }
+
+        // 9n, wut? Well, turns out ember is inserting script
+        // tags between the list elements so nth-child doesn't
+        // work as expected. There are two script tags for every
+        // list element, so three tags total for each list,
+        // ∴ 3n * 3 = 9n.
+        &:nth-child(9n) {
+          @include span-columns(4 omega);
         }
       }
     }
