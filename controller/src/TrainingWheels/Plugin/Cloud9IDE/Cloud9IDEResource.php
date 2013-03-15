@@ -4,6 +4,7 @@ namespace TrainingWheels\Plugin\Cloud9IDE;
 use TrainingWheels\Resource\Resource;
 use TrainingWheels\Plugin\Supervisor\SupervisorProcessResource;
 use TrainingWheels\Environment\Environment;
+use TrainingWheels\Store\DataStore;
 use Exception;
 
 class Cloud9IDEResource extends SupervisorProcessResource {
@@ -11,8 +12,9 @@ class Cloud9IDEResource extends SupervisorProcessResource {
   /**
    * Constructor.
    */
-  public function __construct(Environment $env, $title, $user_name, $course_name, $res_id, $data) {
-    parent::__construct($env, $title, $user_name, $course_name, $res_id, $data);
+  public function __construct(Environment $env, DataStore $data, $title, $user_name, $course_name, $res_id, $config) {
+    parent::__construct($env, $data, $title, $user_name, $course_name, $res_id, $config);
+    $this->cacheBuild($res_id);
   }
 
   /**
@@ -34,7 +36,6 @@ class Cloud9IDEResource extends SupervisorProcessResource {
    * Start the process.
    */
   public function create() {
-    parent::create();
     if ($this->getExists()) {
       throw new Exception("Attempting to create a Cloud9IDEResource that is already running.");
     }
