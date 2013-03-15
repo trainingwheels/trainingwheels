@@ -45624,7 +45624,7 @@ define('app',['ember', 'jquery'], function(Ember, $) {
    * Helper function to reload an array of models.
    *
    * @param {array} models
-   *   An array of modesl to be reloaded.
+   *   An array of models to be reloaded.
    * @return {object} a jQuery promise object.
    */
   app.reloadModels = function(models) {
@@ -46447,7 +46447,14 @@ define('modules/course',[
     userController: {},
 
     refreshCourse: function() {
-      alertify.success('Refreshing the course');
+      var self = this;
+      self.set('isLoaded', false);
+      var models = [ self.get('model') ];
+      var promise = app.reloadModels(models);
+      $.when(promise).then(function() {
+        self.set('isLoaded', true);
+        alertify.success('Course refreshed.');
+      });
     },
 
     addUser: function() {

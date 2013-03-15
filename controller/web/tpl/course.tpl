@@ -2,8 +2,9 @@
   {{#if isLoaded}}
     <div id="course-info">
       <h1><a href="#" {{action "returnToCourse"}}>{{title}}</a></h1>
+      <button class="refresh-button ss-refresh" {{action "refreshCourse"}}></button>
       <!-- Not yet implemented  -->
-      <!--<button class="refresh-button ss-refresh"></button>
+      <!--
       <a class="course-lock">
         <div class="ss-lock"></div>
         <div class="course-lock-text">Course in session</div>
