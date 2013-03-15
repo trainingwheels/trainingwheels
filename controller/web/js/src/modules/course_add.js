@@ -108,6 +108,7 @@ define([
 
       request.done(function(data, textStatus, jqXHR) {
         if (jqXHR.status === 201) {
+          self.set('course_id', data.id);
           self.set('status', 'saveSuccess');
         }
         else {
@@ -119,6 +120,9 @@ define([
         self.set('status', 'saveFailed');
       });
     },
+
+    // Course ID used for proper redirect.
+    course_id: undefined,
 
     // Title, description and course name are all basic data.
     title: '',
@@ -228,7 +232,7 @@ define([
       switch (this.get('status')) {
         case 'saveSuccess':
           alertify.success('Course "' + this.get('title') + '" created.');
-          this.transitionToRoute('courses');
+          this.transitionToRoute('courses/' + this.get('course_id'));
           break;
         case 'saveFailed':
           alertify.error('There was an error creating course "' + this.get('title') + '".');
