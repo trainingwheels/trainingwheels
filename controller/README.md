@@ -19,16 +19,25 @@ TODO
 Building Ember.js and Ember Data
 --------------------------------
 
-Prepare your Ubuntu 12.04 system:
+Ember needs Ruby to build. The Training Wheels Vagrant virtual machine already has 2 versions of Ruby on it - one that comes prepackaged with the virtual image in /opt, and one that is installed through apt for Compass and Aurora, the standard Ubuntu packages. However, we need the latest for Ember, so we use rvm, which installs the latest Ruby for just your user in `~/.rvm`:
 
-    aptitude install ruby1.9.1 ruby1.9.1-dev
-    gem install rake
+    curl -#L https://get.rvm.io | bash -s stable --ruby
+
+Make sure running `ruby -v` give you the latest stable (2.0.0 right now). You will need to add the following line in `.bash_profile` to get your bash settings back after rvm has installed:
+
+    source ~/.profile
+
+Install Bundler:
+
     gem install bundler
 
-Checkout the repositories, then do the following in the root of each:
+You can checkout the repositories, or move an Ember.js checkout into the shared Training Wheels folder, or make another shared folder definition in VagrantFile, then do the following:
 
-    bundle install
-    bundle exec rake dist
+    bundle
+
+To run tests, run `rackup`, then visit: http://training.wheels:9292/?package=PACKAGE_NAME. Replace PACKAGE_NAME with the name of the package you want to run. For example:
+
+Checkout the README.md for Ember.js for reference.
 
 Console application
 -------------------
