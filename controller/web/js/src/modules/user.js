@@ -50,33 +50,31 @@ define([
     states: {
       root: Ember.State.create({
         loaded: Ember.State.create({
-          enter: function(manager) {
+          setup: function(manager) {
             manager.get('controller').set('syncing', false);
           }
         }),
         sync: Ember.State.create({
-          syncing: Ember.State.create({
-            enter: function(manager) {
-              manager.get('controller').set('syncing', true);
-            }
-          }),
+          setup: function(manager) {
+            manager.get('controller').set('syncing', true);
+          },
           reloading: Ember.State.create({
             didReload: Ember.State.create({
-              enter: function(manager) {
+              setup: function(manager) {
                 alertify.success("Successfully synced resources from 'instructor' to '" + manager.get('controller.user_name') + "'.");
                 manager.get('controller').set('syncing', false);
                 manager.transitionTo('root.loaded');
               }
             }),
             becameError: Ember.State.create({
-              enter: function(manager) {
+              setup: function(manager) {
                 alertify.error('The sync job was successful, but the reload failed.');
                 manager.get('controller').set('syncing', false);
               }
             })
           }),
           becameError: Ember.State.create({
-            enter: function(manager) {
+            setup: function(manager) {
               alertify.error('The sync job was unsuccessful');
               manager.get('controller').set('syncing', false);
             }
@@ -140,7 +138,7 @@ define([
 
     syncUser: function() {
       var self = this;
-      this.get('stateManager').transitionTo('root.sync.syncing');
+      this.get('stateManager').transitionTo('root.sync');
 
       var job = app.Job.createRecord({
         course_id: this.controllerFor('course').get('course_id'),

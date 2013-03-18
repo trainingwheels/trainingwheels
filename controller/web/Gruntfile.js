@@ -106,7 +106,7 @@ module.exports = function(grunt) {
         optimize: 'none',
 
         paths: {
-          handlebars: '../vendor/handlebars/handlebars-1.0.rc.1'
+          handlebars: '../vendor/handlebars/handlebars'
         }
       },
       dev: {

@@ -12,7 +12,7 @@ require.config({
     jquery: '../libs/jquery/jquery-1.8.3',
     ember: '../libs/ember/ember',
     'ember-data': '../libs/ember-data/ember-data',
-    handlebars: '../libs/handlebars/handlebars-1.0.rc.1',
+    handlebars: '../libs/handlebars/handlebars',
     alertify: '../vendor/alertify/alertify',
     jquery_plugins: './jquery_plugins'
   },
