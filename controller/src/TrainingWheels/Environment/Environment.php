@@ -78,6 +78,7 @@ class Environment {
         Log::log('Provision', L_DEBUG, 'actions', $context);
 
         if ($return != 0) {
+          $output_nice = implode("\n", $output);
           throw new Exception("Unable to run configuration for plugin \"$type\": \n$output_nice");
         }
       }
