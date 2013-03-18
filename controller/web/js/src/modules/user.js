@@ -121,12 +121,13 @@ define([
       this.reloadModels.pushObject(this.get('model'));
       this.reloadModels.pushObject(this.controllerFor('course').get('model'));
 
+      var count = this.reloadModels.length;
       this.reloadModels.forEach(function(model) {
         model.on('didReload', function() {
-          self.reloadModels.removeObject(model);
-          if (self.get('reloadModels').length === 0 && self.get('reloadModelsError') === false) {
+          if (count === 1 && self.get('reloadModelsError') === false) {
             self.get('stateManager').transitionTo('didReload');
           }
+          count = count - 1;
         });
         model.on('becameError', function() {
           self.set('reloadModelsError', true);
