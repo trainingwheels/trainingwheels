@@ -42,7 +42,6 @@
       action: apt pkg=$item state=installed
       with_items:
         - nodejs
-        - npm
 
     - name: Node.js | Install Grunt CLI
       action: command npm install -g grunt-cli creates=/usr/bin/grunt
