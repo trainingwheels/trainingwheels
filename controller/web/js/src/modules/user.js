@@ -88,7 +88,8 @@ define([
     }
   }),
 
-  app.UserController = Ember.ObjectController.extend({
+  app.CourseUserController = Ember.ObjectController.extend({
+    needs: 'course',
     user_logged_in_class: 'user-logged-in',
     resources: [],
     // An instance of App.UserState, set by the router.
@@ -96,6 +97,7 @@ define([
     syncing: false,
 
     bindResources: function(user_id) {
+      var self = this;
       var resources = app.Resource.filter(function (data) {
         if (data.get('user_id') == user_id) {
           return true;
@@ -119,7 +121,7 @@ define([
       this.set('reloadModels', []);
       this.set('reloadModelsError', false);
       this.reloadModels.pushObject(this.get('model'));
-      this.reloadModels.pushObject(this.controllerFor('course').get('model'));
+      this.reloadModels.pushObject(this.get('controllers.course.content'));
 
       var count = this.reloadModels.length;
       this.reloadModels.forEach(function(model) {
@@ -142,7 +144,7 @@ define([
       this.get('stateManager').transitionTo('root.sync');
 
       var job = app.Job.createRecord({
-        course_id: this.controllerFor('course').get('course_id'),
+        course_id: this.get('controllers.course.course_id'),
         type: 'resource',
         action: 'resourceSync',
         params: JSON.stringify({
@@ -167,13 +169,12 @@ define([
     },
 
     collapseUser: function() {
-      var courseController = this.controllerFor('course');
-      courseController.resetUsers();
+      this.get('controllers.course').resetUsers();
       this.transitionToRoute('course');
     }
   });
 
-  app.UserView = Ember.View.extend({
+  app.CourseUserView = Ember.View.extend({
     templateName: 'user',
 
     css_class_syncing: function() {

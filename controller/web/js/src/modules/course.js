@@ -29,6 +29,7 @@ define([
   });
 
   app.CourseController = Ember.ObjectController.extend({
+    needs: 'courseUser',
     course_id: 0,
     allUserSummaries: [],
     userSummariesAbove: [],
@@ -37,7 +38,6 @@ define([
     instructor: [],
     instructorSummary: [],
     instructorSelected: [],
-    userController: {},
 
     refreshCourse: function() {
       alertify.success('Refreshing the course');
@@ -94,7 +94,7 @@ define([
 
       // Create the sync job.
       var job = app.Job.createRecord({
-        course_id: this.controllerFor('course').get('course_id'),
+        course_id: this.get('course_id'),
         type: 'resource',
         action: 'resourceSync',
         params: JSON.stringify({

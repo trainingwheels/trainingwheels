@@ -20,7 +20,7 @@
       <div class="user-selected">
         {{#each user in controller.instructorSelected}}
           {{#with user}}
-            {{view "App.UserView" controllerBinding="controller.userController"}}
+            {{view "App.CourseUserView" controllerBinding="controller.controllers.courseUser"}}
           {{/with}}
         {{/each}}
       </div>
@@ -52,7 +52,7 @@
         <div class="user-selected">
           {{#each user in controller.userSelected}}
             {{#with user}}
-              {{view "App.UserView" controllerBinding="controller.userController"}}
+              {{view "App.CourseUserView" controllerBinding="controller.controllers.courseUser"}}
             {{/with}}
           {{/each}}
         </div>

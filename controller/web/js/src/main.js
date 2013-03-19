@@ -95,15 +95,13 @@ require([
 
   app.CourseUserRoute = Ember.Route.extend({
     setupController: function(controller, model) {
-      var userController = this.controllerFor('user');
-      userController.set('content', app.User.find(model.id));
-      userController.bindResources(model.id);
-      userController.set('stateManager', app.UserState.create({controller: userController}));
+      // Once again, we can't use the 'model' hook because of the difference
+      // between summaries and actual user objects. See description in app.CourseRoute.
+      controller.set('content', app.User.find(model.id));
+      controller.bindResources(model.id);
+      controller.set('stateManager', app.UserState.create({controller: controller}));
 
-      var courseController = this.controllerFor('course');
-      courseController.selectUser(model.id);
-
-      courseController.set('userController', userController);
+      controller.get('controllers.course').selectUser(model.id);
     }
   });
 });
