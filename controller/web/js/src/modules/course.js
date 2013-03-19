@@ -149,7 +149,7 @@ define([
     resetUsers: function() {
       var course_id = this.get('course_id');
       var users = app.UserSummary.filter(function (data) {
-        if (data.get('course_id') == course_id && data.get('user_name') != 'instructor') {
+        if (data.get('course_id') == course_id && data.get('is_student')) {
           return true;
         }
       });
@@ -159,7 +159,7 @@ define([
       this.set('userSelected', []);
 
       var instructor = app.UserSummary.filter(function (data) {
-        if (data.get('user_name') == 'instructor' && data.get('course_id') == course_id) {
+        if (data.get('course_id') == course_id && !data.get('is_student')) {
           return true;
         }
       });

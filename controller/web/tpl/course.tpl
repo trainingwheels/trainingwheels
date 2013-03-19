@@ -11,14 +11,14 @@
     </div>
 
     <div id="course-instructor">
-      {{#each user in controller.instructorSummary}}
+      {{#each user in instructorSummary}}
         {{#with user}}
           {{view "App.UserSummaryView"}}
         {{/with}}
       {{/each}}
 
       <div class="user-selected">
-        {{#each user in controller.instructorSelected}}
+        {{#each user in instructorSelected}}
           {{#with user}}
             {{view "App.CourseUserView" controllerBinding="controller.controllers.courseUser"}}
           {{/with}}
@@ -43,21 +43,21 @@
       </div>
       <div id="course-users-list">
 
-        {{#each user in controller.userSummariesAbove}}
+        {{#each user in userSummariesAbove}}
           {{#with user}}
             {{view "App.UserSummaryView"}}
           {{/with}}
         {{/each}}
 
         <div class="user-selected">
-          {{#each user in controller.userSelected}}
+          {{#each user in userSelected}}
             {{#with user}}
               {{view "App.CourseUserView" controllerBinding="controller.controllers.courseUser"}}
             {{/with}}
           {{/each}}
         </div>
 
-        {{#each user in controller.userSummariesBelow}}
+        {{#each user in userSummariesBelow}}
           {{#with user}}
             {{view "App.UserSummaryView"}}
           {{/with}}
