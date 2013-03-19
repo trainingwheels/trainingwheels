@@ -77,14 +77,16 @@ require([
     },
 
     setupController: function(controller, model) {
-      this._super.apply(arguments);
       controller.resetValidation();
     }
   });
 
   app.CourseRoute = Ember.Route.extend({
     setupController: function(controller, model) {
-      this._super.apply(arguments);
+      // We don't use the 'model' hook because that hook is only called when
+      // navigating directly to the URL. In the case of navigating from /courses
+      // to /courses/1, the linkTo should provide the model, however that model
+      // is a CourseSummary, not a Course.
       controller.set('content', app.Course.find(model.id));
       controller.set('course_id', model.id);
       controller.resetUsers();
@@ -93,7 +95,6 @@ require([
 
   app.CourseUserRoute = Ember.Route.extend({
     setupController: function(controller, model) {
-      this._super.apply(arguments);
       var userController = this.controllerFor('user');
       userController.set('content', app.User.find(model.id));
       userController.bindResources(model.id);
