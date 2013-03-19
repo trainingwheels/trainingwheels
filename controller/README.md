@@ -35,6 +35,10 @@ You can checkout the repositories, or move an Ember.js checkout into the shared 
 
     bundle
 
+To build the .js, run:
+
+    bundle exec rake dist
+
 To run tests, run `rackup`, then visit: http://training.wheels:9292/?package=PACKAGE_NAME. Replace PACKAGE_NAME with the name of the package you want to run. For example:
 
 Checkout the README.md for Ember.js for reference.
