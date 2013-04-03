@@ -1159,6 +1159,18 @@ html, body {
   border-bottom: 1px solid #85817d;
   padding-bottom: 0.5em;
 }
+#course-form #configure-resources .resource-type .type-wrapper {
+  display: inline-block;
+  margin: 0.5em 0;
+}
+#course-form #configure-resources .resource-type .resource-remove {
+  float: right;
+}
+#course-form #configure-resources .resource-type .resource-remove .ss-delete {
+  font-size: 16px;
+  text-align: center;
+  vertical-align: middle;
+}
 #course-form #configure-resources .resource-options .resource-vars .resource-var .resource-help {
   color: #85817d;
   margin-top: 0.5em;

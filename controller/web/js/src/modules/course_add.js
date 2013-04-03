@@ -333,6 +333,12 @@ define([
       this.content.pushResource(newRes, {title: 'New resource', key: 'new_resource'});
     },
 
+    removeResource: function(resource) {
+      this.set('resources', this.get('resources').filter(function(item) {
+        return item !== resource;
+      }));
+    },
+
     // This is a tricky bit of interaction. When the user first opens the form, we
     // don't want to show them glaring errors because they haven't input anything yet.
     // So we hide the error condition until the user has at least input a character
