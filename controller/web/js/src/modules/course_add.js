@@ -174,6 +174,7 @@ define([
       this.set('resources', newResources);
       resObj.set('title', options.title);
       resObj.set('key', options.key);
+      resObj.set('required', options.required || false);
 
       // Turn the vars into Ember Objects so we can bind them.
       resObj.set('vars', resObj.get('vars').map(function(var_item) {
@@ -300,7 +301,8 @@ define([
         var self = this;
         bundleResources.forEach(function(item) {
           var newRes = Ember.Object.create(self.get('allResources').findProperty('type', item.type));
-          self.content.pushResource(newRes, {title: item.title, key: item.key});
+          newRes.set('required', true);
+          self.content.pushResource(newRes, {title: item.title, key: item.key, required: true});
         });
       }
     },

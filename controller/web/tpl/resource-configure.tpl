@@ -1,11 +1,13 @@
 <div class="resource-options">
   <h4 class="resource-type">
     <span class="type-wrapper">{{ type }}</span>
-    <button class="resource-remove" {{action "removeResource" resource}}>
-      <div class="sync-wrapper">
-        <span class="ss-delete"></span>
-      </div>
-    </button>
+    {{#unless required }}
+      <button class="resource-remove" {{action "removeResource" resource}}>
+        <div class="sync-wrapper">
+          <span class="ss-delete"></span>
+        </div>
+      </button>
+    {{/unless}}
   </h4>
   <div class="resource-title"><span>Title: </span>{{view Ember.TextField valueBinding="title"}}</div>
   <div class="resource-key"><span>Key: </span>{{view Ember.TextField valueBinding="key"}}</div>
