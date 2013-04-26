@@ -166,6 +166,9 @@ define([
       this.set('instructor', instructor);
       this.set('instructorSummary', instructor);
       this.set('instructorSelected', []);
+
+      var instructorSummary = this.controllerFor('userSummary');
+      instructorSummary.set('content', instructor);
     },
 
     // This collapses all the displayed users and returns to /courses/x

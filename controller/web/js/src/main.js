@@ -94,6 +94,7 @@ require([
   app.CourseUserRoute = Ember.Route.extend({
     setupController: function(controller, model) {
       this._super.apply(arguments);
+
       var userController = this.controllerFor('user');
       userController.set('content', app.User.find(model.id));
       userController.bindResources(model.id);
