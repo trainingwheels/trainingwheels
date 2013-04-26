@@ -25,6 +25,42 @@ define([
     css_class_resource_overview_status: function() {
       return 'resource-status ss-folder ' + this.get('resource_status');
     }.property('resource_status'),
+    didLoad: function() {
+      if (this.get('user_name') === 'instructor' && this.get('resource_status') !== 'resource-ready') {
+        var self = this;
+        alertify.confirm(
+          "The instructor's resources have not been created yet. Would you like to create them now?",
+          function createInstructorResources(e) {
+            if (!e) {
+              return;
+            }
+            self.get('course').set('isLoaded', false);
+            var job = app.Job.createRecord({
+              course_id: self.get('course_id'),
+              type: 'resource',
+              action: 'resourceCreate',
+              params: JSON.stringify({
+                user_names: [ self.get('user_name') ],
+                resources: []
+              })
+            });
+            job.store.commit();
+            job.on('didCreate', function(record) {
+              var models = [ self.get('course') ];
+              var promise = app.reloadModels(models);
+              $.when(promise).then(function() {
+                self.get('course').set('isLoaded', true);
+                alertify.success('Instructor resources created.');
+              });
+            });
+            job.on('becameError', function(record) {
+              self.get('course').set('isLoaded', true);
+              alertify.error("There was an error creating the instructor's resources.");
+            });
+          }
+        );
+      }
+    },
     didCreate: function() {
       alertify.success('User "' + this.get('user_name') + '" created.');
     },
