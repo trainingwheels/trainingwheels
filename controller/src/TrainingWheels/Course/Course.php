@@ -110,15 +110,18 @@ class Course extends Observable {
    */
   public function usersGet($users = '*') {
     $users = $this->userNormalizeParam($users);
-    $this->log('usersGet()', 'users=' . implode(',', $users));
     $output = array();
     if (!empty($users)) {
+      $this->log('usersGet()', 'users=' . implode(',', $users));
       foreach ($users as $user_name) {
         $user = $this->userGet($user_name, FALSE);
         if ($user) {
           $output[$user_name] = $user;
         }
       }
+    }
+    else {
+      $this->log('usersGet()', 'no users');
     }
     return $output;
   }
