@@ -88,7 +88,7 @@ class Drupal extends PluginBase {
         $settings = '\\' . "\$databases['default']['default']['database'] = '" . $db->getDBName() . "';\n";
         $settings .= '\\' . "\$databases['default']['default']['username'] = '" . $db->getUserName() . "';\n";
         $settings .= '\\' . "\$databases['default']['default']['password'] = '" . $db->getPasswd() . "';\n";
-        $data['course']->env->fileAppendText("/twhome/$user_name/$course_name/sites/default/settings.php", $settings);
+        $data['course']->env->fileAppendText("/twhome/$user_name/$course_name/$settings_path", $settings);
       }
     });
   }
