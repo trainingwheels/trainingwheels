@@ -1,18 +1,22 @@
 #!/usr/bin/env ruby
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
-Vagrant::Config.run do |config|
+Vagrant.configure("2") do |config|
   config.vm.define :trainingwheels do |tw_config|
     tw_config.vm.box         = "precise64"
     tw_config.vm.box_url     = "http://files.vagrantup.com/precise64.box"
-    tw_config.vm.host_name   = "training.wheels"
+    tw_config.vm.hostname   = "training.wheels"
 
-    tw_config.vm.customize ["modifyvm", :id, "--memory", "512"]
-    tw_config.vm.customize ["modifyvm", :id, "--cpus", "1"]
+    tw_config.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--memory", "512"]
+        vb.customize ["modifyvm", :id, "--cpus", "1"]
+    end
 
     # Shared folders through NFS. This is supported in Mac and Linux. Windows may have
     # issues, see Vagrant site for documentation.
-    config.vm.network :hostonly, "10.1.0.2"
-    config.vm.share_folder("twdir", "/var/trainingwheels", "../", :nfs => true)
+    tw_config.vm.network :private_network, ip: "10.1.0.2"
+    tw_config.vm.synced_folder "../", "/var/trainingwheels", :nfs => true
 
     # We specify a fixed IP address above, so don't use port forwarding, rather make
     # an entry into your /etc/hosts for the actual IP address.

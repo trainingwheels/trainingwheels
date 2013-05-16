@@ -1,7 +1,7 @@
 Setup Vagrant Dev Environment
 -----------------------------
 
-1. Download and install [Vagrant](http://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/) as per the Vagrant "Getting started" page.
+1. Download and install [Vagrant](http://www.vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/) as per the Vagrant "Getting started" page. You need the latest Vagrant Version 1.2.2+.
 2. Run `vagrant up`
 3. Add to your /etc/hosts, to get started:
 
@@ -59,7 +59,7 @@ Make a new .vagrant if necessary. Looks like:
 Why not use the Vagrant Ansible plugin?
 ---------------------------------------
 
-The problem is the setup of Ansible on the host Mac OSX machine. It's not straightforward as it requires Python modules be built. It's far simpler on Linux, but we must support OSX. Secondly, we need Ansible installed on the guest machine running the controller, so we may as well do it as the first step.
+We should do this, now that Ansible is supported as a provisioner.
 
 Shared folders
 --------------
