@@ -85,7 +85,7 @@ class NodejsResource extends Resource {
     $port_num = $this->genPortNum();
 
     // The server config.
-    $file = "\"module.exports = {\n  port: " . $port_num . ",\n  feed: 'http://localhost:3001'\n};\n\"";
+    $file = "\"module.exports = {\n  port: " . $port_num . ",\n  feed: 'http://localhost:$port_num'\n};\n\"";
     $this->env->fileCreate($file, "/twhome/$user_name/config.json", $user_name);
 
     // Useful file in the home directory, name is the port number.
