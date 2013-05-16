@@ -112,8 +112,13 @@ class CoreLinuxEnv {
     $env->fileExists = function($file_path) use ($conn) {
       $commands = array(
         "test -f $file_path",
+        "echo 'true'"
       );
-      return $conn->exec_success($commands);
+      $result = $conn->exec_get($commands);
+      if ($result == 'true') {
+        return TRUE;
+      }
+      return FALSE;
     };
 
     /**

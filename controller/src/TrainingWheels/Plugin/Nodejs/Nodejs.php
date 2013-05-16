@@ -8,4 +8,10 @@ class Nodejs extends PluginBase {
   public function getProvisionSteps() {
     return __DIR__ . '/provision/nodejs.yml';
   }
+
+  public function getResourceClasses() {
+    return array(
+      'NodejsResource' => '\\TrainingWheels\\Plugin\\Nodejs\\NodejsResource',
+    );
+  }
 }

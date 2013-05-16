@@ -17,7 +17,7 @@ abstract class CachedObject {
    * Helper to log messages from this class.
    */
   private function log($message, $params, $level = L_DEBUG) {
-    Log::log($message, $level, 'actions', array('layer' => 'app', 'source' => 'CachedObject', 'params' => $params));
+    //Log::log($message, $level, 'actions', array('layer' => 'app', 'source' => 'CachedObject', 'params' => $params));
   }
 
   /**
