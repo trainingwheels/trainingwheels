@@ -11,6 +11,8 @@ class NodejsResource extends Resource {
   protected $hostname;
   protected $fullpath;
   protected $course_name;
+  protected $serverJsPath;
+  protected $clientJsPath;
 
   /**
    * Constructor.
@@ -20,6 +22,8 @@ class NodejsResource extends Resource {
 
     $this->hostname = $config['hostname'];
     $this->fullpath = "/twhome/$user_name/$course_name";
+    $this->clientJsPath = $this->fullpath . "/client/app/training-config.js";
+    $this->serverJsPath = "/twhome/$user_name/config.js";
     $this->course_name = $course_name;
 
     $this->cacheBuild($res_id);
@@ -44,14 +48,14 @@ class NodejsResource extends Resource {
     $info = parent::get();
     if ($info['exists']) {
       $info['attribs'][0]['key'] = 'port';
-      $info['attribs'][0]['title'] = 'Port num';
-      $info['attribs'][0]['value'] = $this->genPortNum();
-      $info['attribs'][1]['key'] = 'configjson';
-      $info['attribs'][1]['title'] = 'config.json';
-      $info['attribs'][1]['value'] = $this->env->fileGetContents("/twhome/$this->user_name/config.json");
-      $info['attribs'][2]['key'] = 'client_configjson';
-      $info['attribs'][2]['title'] = 'training-config.json';
-      $info['attribs'][2]['value'] = $this->env->fileGetContents("/twhome/$this->user_name/$this->course_name/client/app/training-config.js");
+      $info['attribs'][0]['title'] = 'Port number';
+      $info['attribs'][0]['value'] = $this->env->fileGetContents("/twhome/$this->user_name/port-" . $this->genPortNum());
+      $info['attribs'][1]['key'] = 'serverconfig';
+      $info['attribs'][1]['title'] = '/config.js';
+      $info['attribs'][1]['value'] = $this->env->fileGetContents($this->serverJsPath);
+      $info['attribs'][2]['key'] = 'clientconfig';
+      $info['attribs'][2]['title'] = '/client/app/training-config.js';
+      $info['attribs'][2]['value'] = $this->env->fileGetContents($this->clientJsPath);
     }
     return $info;
   }
@@ -65,31 +69,32 @@ class NodejsResource extends Resource {
   }
 
   /**
-   * Drop the node.js client config file.
+   * Drop the config files.
    */
-  protected function nodejsClientConfigAdd() {
+  protected function nodejsConfigAdd() {
     $user_name = $this->user_name;
     $hostname = $this->hostname;
     $port_num = $this->genPortNum();
 
     // The client config.
-    $contents = "\"define({\n  url: 'http://$user_name.$this->course_name.$hostname:$port_num'\n});\n\"";
-    $this->env->fileCreate($contents, "/twhome/$user_name/$this->course_name/client/app/training-config.js");
-  }
-
-  /**
-   * Drop the node.js config files for the user home dir, mostly the port number is dynamic.
-   */
-  protected function nodejsConfigAdd() {
-    $user_name = $this->user_name;
-    $port_num = $this->genPortNum();
-
+    $clientfile = <<<EOJS
+"define({
+  url: 'http://$user_name.$this->course_name.$hostname:$port_num'
+});"
+EOJS;
     // The server config.
-    $file = "\"module.exports = {\n  port: " . $port_num . ",\n  feed: 'http://localhost:$port_num'\n};\n\"";
-    $this->env->fileCreate($file, "/twhome/$user_name/config.json", $user_name);
+    $serverfile = <<<EOJS
+"module.exports = {
+  port: $port_num,
+  pollInterval: 10000,
+  drupalNodesUrl: 'http://$user_name.$this->course_name.$hostname/exercises/drupal/rest/node.json'
+};"
+EOJS;
+    $this->env->fileCreate($clientfile, $this->clientJsPath, $user_name);
+    $this->env->fileCreate($serverfile, $this->serverJsPath, $user_name);
 
     // Useful file in the home directory, name is the port number.
-    $this->env->fileCreate("\"$port_num\"", "/twhome/$user_name/port-$port_num", $user_name);
+    $this->env->fileCreate("\"$port_num\"", "/twhome/$this->user_name/port-$port_num", $user_name);
   }
 
   /**
@@ -114,8 +119,8 @@ class NodejsResource extends Resource {
     $port_num = $this->genPortNum();
     $files = array(
       "/twhome/$this->user_name/port-$port_num",
-      "/twhome/$this->user_name/config.json",
-      "/twhome/$this->user_name/$this->course_name/client/app/training-config.js"
+      $this->clientJsPath,
+      $this->serverJsPath
     );
     foreach ($files as $file) {
       if ($this->env->fileExists($file)) {
@@ -130,12 +135,8 @@ class NodejsResource extends Resource {
    */
   public function create() {
     parent::create();
-    if ($this->getExists()) {
-      throw new Exception("Attempting to create a NodejsResource that already exists.");
-    }
     $this->exists = TRUE;
     $this->nodejsConfigAdd();
-    $this->nodejsClientConfigAdd();
   }
 
   /**
@@ -143,8 +144,6 @@ class NodejsResource extends Resource {
    */
   public function syncTo(NodejsResource $target) {
     parent::syncTo();
-    if (!$target->getExists()) {
-      $target->create();
-    }
+    $target->create();
   }
 }
