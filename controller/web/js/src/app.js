@@ -16,7 +16,7 @@ define(['ember', 'jquery'], function(Ember, $) {
    * Helper function to reload an array of models.
    *
    * @param {array} models
-   *   An array of modesl to be reloaded.
+   *   An array of models to be reloaded.
    * @return {object} a jQuery promise object.
    */
   app.reloadModels = function(models) {
@@ -46,25 +46,6 @@ define(['ember', 'jquery'], function(Ember, $) {
 
     return def.promise();
   };
-
-  // Fetch and permanantly store the plugins definitions for
-  // easy form building.
-  $.ajax(
-    '/rest/course_build',
-    {
-      success: function(data, textStatus, jqXHR) {
-        if (jqXHR.status === 200) {
-          app.courseBuild = data;
-        }
-        else {
-          throw new Error('Unable to fetch course build information.');
-        }
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        throw new Error('Unable to fetch course build information.');
-      }
-    }
-  );
 
   return app;
 });

@@ -16,11 +16,11 @@ img, video {
   src: url('../../fonts/bebas-neue/BebasNeue-webfont.woff') format('woff'), url('../../fonts/bebas-neue/BebasNeue-webfont.ttf') format('truetype'), url('../../fonts/bebas-neue/BebasNeue-webfont.eot') format('embedded-opentype'), url('../../fonts/bebas-neue/BebasNeue-webfont.svg') format('svg');
 }
 
-.clearfix:before, .clearfix:after {
+.clearfix:before, #course-form #course-form-add-plugins #bundles-list:before, #course-form #course-form-add-plugins #plugins-list:before, .clearfix:after, #course-form #course-form-add-plugins #bundles-list:after, #course-form #course-form-add-plugins #plugins-list:after {
   display: table;
   content: "";
 }
-.clearfix:after {
+.clearfix:after, #course-form #course-form-add-plugins #bundles-list:after, #course-form #course-form-add-plugins #plugins-list:after {
   clear: both;
 }
 
@@ -34,30 +34,75 @@ img, video {
   margin: 2em inherit;
 }
 
-#tw-form-field, #course-form #course-fields .field, #login-form #form div {
+#tw-form-field, #course-form .course-section .course-fields .field, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var, #course-form #configure-resources .resource-options .resource-title,
+#course-form #configure-resources .resource-options .resource-key, #course-form #configure-resources .resource-options .resource-vars .resource-var, #course-form #connection .field, #login-form #form div {
   margin-bottom: 11px;
   text-align: right;
   font-size: 18px;
   font-family: "Open Sans", sans-serif;
 }
-#tw-form-field span, #course-form #course-fields .field span, #login-form #form div span {
+#tw-form-field span, #course-form .course-section .course-fields .field span, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var span, #course-form #configure-resources .resource-options .resource-title span,
+#course-form #configure-resources .resource-options .resource-key span, #course-form #configure-resources .resource-options .resource-vars .resource-var span, #course-form #connection .field span, #login-form #form div span {
   vertical-align: top;
   display: inline-block;
   padding-top: 10px;
 }
-#tw-form-field.invalid, #course-form #course-fields .invalid.field, #login-form #form div.invalid {
-  color: #a30006;
-}
-#tw-form-field.invalid input, #course-form #course-fields .invalid.field input, #login-form #form div.invalid input {
+#tw-form-field .required textarea, #course-form .course-section .course-fields .field .required textarea, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .required textarea, #course-form #configure-resources .resource-options .resource-title .required textarea,
+#course-form #configure-resources .resource-options .resource-key .required textarea, #course-form #configure-resources .resource-options .resource-vars .resource-var .required textarea, #course-form #connection .field .required textarea, #login-form #form div .required textarea,
+#tw-form-field .required input:not([type=submit]):not([type=file]),
+#course-form .course-section .course-fields .field .required input:not([type=submit]):not([type=file]),
+#course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .required input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .resource-title .required input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .resource-key .required input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .resource-vars .resource-var .required input:not([type=submit]):not([type=file]),
+#course-form #connection .field .required input:not([type=submit]):not([type=file]),
+#login-form #form div .required input:not([type=submit]):not([type=file]), #tw-form-field.required textarea, #course-form .course-section .course-fields .required.field textarea, #course-form #configure-plugins .plugin-options .plugin-vars .required.plugin-var textarea, #course-form #configure-resources .resource-options .required.resource-title textarea,
+#course-form #configure-resources .resource-options .required.resource-key textarea, #course-form #configure-resources .resource-options .resource-vars .required.resource-var textarea, #course-form #connection .required.field textarea, #login-form #form div.required textarea,
+#tw-form-field.required input:not([type=submit]):not([type=file]),
+#course-form .course-section .course-fields .required.field input:not([type=submit]):not([type=file]),
+#course-form #configure-plugins .plugin-options .plugin-vars .required.plugin-var input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .required.resource-title input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .required.resource-key input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .resource-vars .required.resource-var input:not([type=submit]):not([type=file]),
+#course-form #connection .required.field input:not([type=submit]):not([type=file]),
+#login-form #form div.required input:not([type=submit]):not([type=file]) {
   border-color: #a30006;
   background: #fef5f1;
   box-shadow: none;
 }
-#tw-form-field.invalid .errors, #course-form #course-fields .invalid.field .errors, #login-form #form div.invalid .errors {
+#tw-form-field.invalid, #course-form .course-section .course-fields .invalid.field, #course-form #configure-plugins .plugin-options .plugin-vars .invalid.plugin-var, #course-form #configure-resources .resource-options .invalid.resource-title,
+#course-form #configure-resources .resource-options .invalid.resource-key, #course-form #configure-resources .resource-options .resource-vars .invalid.resource-var, #course-form #connection .invalid.field, #login-form #form div.invalid {
+  color: #a30006;
+}
+#tw-form-field.invalid input, #course-form .course-section .course-fields .invalid.field input, #course-form #configure-plugins .plugin-options .plugin-vars .invalid.plugin-var input, #course-form #configure-resources .resource-options .invalid.resource-title input,
+#course-form #configure-resources .resource-options .invalid.resource-key input, #course-form #configure-resources .resource-options .resource-vars .invalid.resource-var input, #course-form #connection .invalid.field input, #login-form #form div.invalid input {
+  border-color: #a30006;
+  background: #fef5f1;
+  box-shadow: none;
+}
+#tw-form-field.invalid .errors, #course-form .course-section .course-fields .invalid.field .errors, #course-form #configure-plugins .plugin-options .plugin-vars .invalid.plugin-var .errors, #course-form #configure-resources .resource-options .invalid.resource-title .errors,
+#course-form #configure-resources .resource-options .invalid.resource-key .errors, #course-form #configure-resources .resource-options .resource-vars .invalid.resource-var .errors, #course-form #connection .invalid.field .errors, #login-form #form div.invalid .errors {
   max-width: 328px;
   float: right;
   margin-top: 1em;
   text-align: left;
+}
+
+#flexi-form-field textarea, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi textarea, #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi textarea,
+#flexi-form-field input:not([type=submit]):not([type=file]),
+#course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi input:not([type=submit]):not([type=file]),
+#course-form #configure-resources .resource-options .resource-vars .resource-var .flexi input:not([type=submit]):not([type=file]) {
+  min-width: 228px;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+#flexi-form-field textarea:focus, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi textarea:focus, #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi textarea:focus,
+#flexi-form-field input:not([type=submit]):not([type=file]):focus,
+#course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi input:not([type=submit]):not([type=file]):focus,
+#course-form #configure-resources .resource-options .resource-vars .resource-var .flexi input:not([type=submit]):not([type=file]):focus {
+  width: 100%;
 }
 
 body {
@@ -784,18 +829,351 @@ html, body {
   background: #e5da55;
 }
 
-#course-form #course-form-title {
+#course-form #course-form-nav {
+  list-style: none;
+}
+#course-form #course-form-nav .course-form-nav-item {
+  float: left;
+  padding: 0.5em;
+  border: 1px solid black;
+  border-right: none;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+#course-form #course-form-nav .course-form-nav-item.last {
+  border-right: 1px solid black;
+}
+#course-form #course-form-nav .course-form-nav-item.active {
+  background-color: #e5da55;
+}
+#course-form .course-section {
+  width: 100%;
+  float: left;
+  margin-right: -100%;
+  display: none;
+}
+#course-form .course-section.active {
+  display: block;
+}
+#course-form .course-section .course-form-title {
   padding-bottom: 25px;
   padding-left: 25px;
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   font-size: 32px;
 }
-#course-form #course-tools {
+#course-form #course-form-add-plugins #bundles-list {
+  list-style: none;
+}
+#course-form #course-form-add-plugins #bundles-list li {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #bfbfbf;
+  background-color: #f2f2f2;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
+  background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  cursor: pointer;
+}
+#course-form #course-form-add-plugins #bundles-list li:first-child {
+  *margin-left: 0;
+}
+#course-form #course-form-add-plugins #bundles-list li:hover, #course-form #course-form-add-plugins #bundles-list li.hover, #course-form #course-form-add-plugins #bundles-list li:focus, #course-form #course-form-add-plugins #bundles-list li.focus {
+  text-decoration: none;
+  background-color: #d8d8d8;
+  *background-color: #d8d8d8;
+  outline: 0;
+}
+#course-form #course-form-add-plugins #bundles-list li:active, #course-form #course-form-add-plugins #bundles-list li.active {
+  background-color: #d8d8d8;
+  *background-color: #cccccc;
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cccccc;
+  border-bottom: 1px solid #b2b2b2;
+}
+#course-form #course-form-add-plugins #bundles-list li[disabled="disabled"] {
+  color: #7f7676;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(#e6e6e6));
+  background: -moz-linear-gradient(top, white, #e6e6e6);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#e6e6e6');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+}
+#course-form #course-form-add-plugins #bundles-list li.bundle.selected {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #b8ac1c;
+  background-color: #e5da55;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#ded029));
+  background: -moz-linear-gradient(top, #efe24b, #ded029);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
+  -webkit-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  -moz-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  box-shadow: inset 0 1px 0 0 #f6f2c4;
+}
+#course-form #course-form-add-plugins #bundles-list li.bundle.selected:first-child {
+  *margin-left: 0;
+}
+#course-form #course-form-add-plugins #bundles-list li.bundle.selected:hover, #course-form #course-form-add-plugins #bundles-list li.bundle.selected.hover, #course-form #course-form-add-plugins #bundles-list li.bundle.selected:focus, #course-form #course-form-add-plugins #bundles-list li.bundle.selected.focus {
+  text-decoration: none;
+  background-color: #ded029;
+  *background-color: #ded029;
+  outline: 0;
+}
+#course-form #course-form-add-plugins #bundles-list li.bundle.selected:active, #course-form #course-form-add-plugins #bundles-list li.bundle.selected.active {
+  background-color: #ded029;
+  *background-color: #cec120;
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cec120;
+  border-bottom: 1px solid #a29719;
+}
+#course-form #course-form-add-plugins #bundles-list li.bundle.selected[disabled="disabled"] {
+  color: #7f7676;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(#f8f5d3));
+  background: -moz-linear-gradient(top, white, #f8f5d3);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#f8f5d3');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+}
+#course-form #course-form-add-plugins #bundles-list li:nth-child(9n) {
+  width: 32.20339%;
+  float: right;
+  margin-right: 0;
+  #margin-left: -1em;
+  display: inline;
+}
+#course-form #course-form-add-plugins #plugins-list {
+  list-style: none;
+}
+#course-form #course-form-add-plugins #plugins-list li {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #bfbfbf;
+  background-color: #f2f2f2;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f3f1f1), to(#d8d8d8));
+  background: -moz-linear-gradient(top, #f3f1f1, #d8d8d8);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3f1f1', endColorstr='#d8d8d8');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  cursor: pointer;
+}
+#course-form #course-form-add-plugins #plugins-list li:first-child {
+  *margin-left: 0;
+}
+#course-form #course-form-add-plugins #plugins-list li:hover, #course-form #course-form-add-plugins #plugins-list li.hover, #course-form #course-form-add-plugins #plugins-list li:focus, #course-form #course-form-add-plugins #plugins-list li.focus {
+  text-decoration: none;
+  background-color: #d8d8d8;
+  *background-color: #d8d8d8;
+  outline: 0;
+}
+#course-form #course-form-add-plugins #plugins-list li:active, #course-form #course-form-add-plugins #plugins-list li.active {
+  background-color: #d8d8d8;
+  *background-color: #cccccc;
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cccccc;
+  border-bottom: 1px solid #b2b2b2;
+}
+#course-form #course-form-add-plugins #plugins-list li[disabled="disabled"] {
+  color: #7f7676;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(#e6e6e6));
+  background: -moz-linear-gradient(top, white, #e6e6e6);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#e6e6e6');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+}
+#course-form #course-form-add-plugins #plugins-list li.plugin.selected {
+  display: inline-block;
+  margin-bottom: .5em;
+  *display: inline;
+  *zoom: 1;
+  padding: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  line-height: 22px;
+  *line-height: 20px;
+  color: #4a4545;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #b8ac1c;
+  background-color: #e5da55;
+  *border: 0;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  *margin-left: .3em;
+  background: -webkit-gradient(linear, left top, left bottom, from(#efe24b), to(#ded029));
+  background: -moz-linear-gradient(top, #efe24b, #ded029);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe24b', endColorstr='#ded029');
+  -webkit-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  -moz-box-shadow: inset 0 1px 0 0 #f6f2c4;
+  box-shadow: inset 0 1px 0 0 #f6f2c4;
+}
+#course-form #course-form-add-plugins #plugins-list li.plugin.selected:first-child {
+  *margin-left: 0;
+}
+#course-form #course-form-add-plugins #plugins-list li.plugin.selected:hover, #course-form #course-form-add-plugins #plugins-list li.plugin.selected.hover, #course-form #course-form-add-plugins #plugins-list li.plugin.selected:focus, #course-form #course-form-add-plugins #plugins-list li.plugin.selected.focus {
+  text-decoration: none;
+  background-color: #ded029;
+  *background-color: #ded029;
+  outline: 0;
+}
+#course-form #course-form-add-plugins #plugins-list li.plugin.selected:active, #course-form #course-form-add-plugins #plugins-list li.plugin.selected.active {
+  background-color: #ded029;
+  *background-color: #cec120;
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #cec120;
+  border-bottom: 1px solid #a29719;
+}
+#course-form #course-form-add-plugins #plugins-list li.plugin.selected[disabled="disabled"] {
+  color: #7f7676;
+  background: -webkit-gradient(linear, left top, left bottom, from(white), to(#f8f5d3));
+  background: -moz-linear-gradient(top, white, #f8f5d3);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='white', endColorstr='#f8f5d3');
+  -webkit-box-shadow: inset 0 1px 0 0 white;
+  -moz-box-shadow: inset 0 1px 0 0 white;
+  box-shadow: inset 0 1px 0 0 white;
+}
+#course-form #course-form-add-plugins #plugins-list li:nth-child(9n) {
+  width: 32.20339%;
+  float: right;
+  margin-right: 0;
+  #margin-left: -1em;
+  display: inline;
+}
+#course-form .course-tools {
   padding-bottom: 2em;
 }
-#course-form #course-tools button {
+#course-form .course-tools button {
   margin-bottom: 11px;
+}
+#course-form .course-tools button.previous {
+  float: left;
+}
+#course-form .course-tools button.next {
+  float: right;
+}
+#course-form #configure-plugins .empty-plugins {
+  margin-bottom: 1em;
+}
+#course-form #configure-plugins .plugin-name {
+  border-bottom: 1px solid #85817d;
+  padding-bottom: 0.5em;
+}
+#course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .plugin-help {
+  color: #85817d;
+  margin-top: 0.5em;
+}
+#course-form #configure-resources .empty-resources {
+  margin-bottom: 1em;
+}
+#course-form #configure-resources .resource-type {
+  border-bottom: 1px solid #85817d;
+  padding-bottom: 0.5em;
+}
+#course-form #configure-resources .resource-type .type-wrapper {
+  display: inline-block;
+  margin: 0.5em 0;
+}
+#course-form #configure-resources .resource-type .resource-remove {
+  float: right;
+}
+#course-form #configure-resources .resource-type .resource-remove .ss-delete {
+  font-size: 16px;
+  text-align: center;
+  vertical-align: middle;
+}
+#course-form #configure-resources .resource-options .resource-vars .resource-var .resource-help {
+  color: #85817d;
+  margin-top: 0.5em;
 }
 
 #course-view {
@@ -1150,11 +1528,11 @@ html, body {
     src: url('../../fonts/bebas-neue/BebasNeue-webfont.woff') format('woff'), url('../../fonts/bebas-neue/BebasNeue-webfont.ttf') format('truetype'), url('../../fonts/bebas-neue/BebasNeue-webfont.eot') format('embedded-opentype'), url('../../fonts/bebas-neue/BebasNeue-webfont.svg') format('svg');
 }
 
-  .clearfix:before, .clearfix:after {
+  .clearfix:before, #course-form #course-form-add-plugins #bundles-list:before, #course-form #course-form-add-plugins #plugins-list:before, .clearfix:after, #course-form #course-form-add-plugins #bundles-list:after, #course-form #course-form-add-plugins #plugins-list:after {
     display: table;
     content: "";
   }
-  .clearfix:after {
+  .clearfix:after, #course-form #course-form-add-plugins #bundles-list:after, #course-form #course-form-add-plugins #plugins-list:after {
     clear: both;
   }
 
@@ -1168,30 +1546,75 @@ html, body {
     margin: 2em inherit;
   }
 
-  #tw-form-field, #course-form #course-fields .field, #login-form #form div {
+  #tw-form-field, #course-form .course-section .course-fields .field, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var, #course-form #configure-resources .resource-options .resource-title,
+  #course-form #configure-resources .resource-options .resource-key, #course-form #configure-resources .resource-options .resource-vars .resource-var, #course-form #connection .field, #login-form #form div {
     margin-bottom: 11px;
     text-align: right;
     font-size: 18px;
     font-family: "Open Sans", sans-serif;
   }
-  #tw-form-field span, #course-form #course-fields .field span, #login-form #form div span {
+  #tw-form-field span, #course-form .course-section .course-fields .field span, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var span, #course-form #configure-resources .resource-options .resource-title span,
+  #course-form #configure-resources .resource-options .resource-key span, #course-form #configure-resources .resource-options .resource-vars .resource-var span, #course-form #connection .field span, #login-form #form div span {
     vertical-align: top;
     display: inline-block;
     padding-top: 10px;
   }
-  #tw-form-field.invalid, #course-form #course-fields .invalid.field, #login-form #form div.invalid {
-    color: #a30006;
-  }
-  #tw-form-field.invalid input, #course-form #course-fields .invalid.field input, #login-form #form div.invalid input {
+  #tw-form-field .required textarea, #course-form .course-section .course-fields .field .required textarea, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .required textarea, #course-form #configure-resources .resource-options .resource-title .required textarea,
+  #course-form #configure-resources .resource-options .resource-key .required textarea, #course-form #configure-resources .resource-options .resource-vars .resource-var .required textarea, #course-form #connection .field .required textarea, #login-form #form div .required textarea,
+  #tw-form-field .required input:not([type=submit]):not([type=file]),
+  #course-form .course-section .course-fields .field .required input:not([type=submit]):not([type=file]),
+  #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .required input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .resource-title .required input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .resource-key .required input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .resource-vars .resource-var .required input:not([type=submit]):not([type=file]),
+  #course-form #connection .field .required input:not([type=submit]):not([type=file]),
+  #login-form #form div .required input:not([type=submit]):not([type=file]), #tw-form-field.required textarea, #course-form .course-section .course-fields .required.field textarea, #course-form #configure-plugins .plugin-options .plugin-vars .required.plugin-var textarea, #course-form #configure-resources .resource-options .required.resource-title textarea,
+  #course-form #configure-resources .resource-options .required.resource-key textarea, #course-form #configure-resources .resource-options .resource-vars .required.resource-var textarea, #course-form #connection .required.field textarea, #login-form #form div.required textarea,
+  #tw-form-field.required input:not([type=submit]):not([type=file]),
+  #course-form .course-section .course-fields .required.field input:not([type=submit]):not([type=file]),
+  #course-form #configure-plugins .plugin-options .plugin-vars .required.plugin-var input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .required.resource-title input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .required.resource-key input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .resource-vars .required.resource-var input:not([type=submit]):not([type=file]),
+  #course-form #connection .required.field input:not([type=submit]):not([type=file]),
+  #login-form #form div.required input:not([type=submit]):not([type=file]) {
     border-color: #a30006;
     background: #fef5f1;
     box-shadow: none;
   }
-  #tw-form-field.invalid .errors, #course-form #course-fields .invalid.field .errors, #login-form #form div.invalid .errors {
+  #tw-form-field.invalid, #course-form .course-section .course-fields .invalid.field, #course-form #configure-plugins .plugin-options .plugin-vars .invalid.plugin-var, #course-form #configure-resources .resource-options .invalid.resource-title,
+  #course-form #configure-resources .resource-options .invalid.resource-key, #course-form #configure-resources .resource-options .resource-vars .invalid.resource-var, #course-form #connection .invalid.field, #login-form #form div.invalid {
+    color: #a30006;
+  }
+  #tw-form-field.invalid input, #course-form .course-section .course-fields .invalid.field input, #course-form #configure-plugins .plugin-options .plugin-vars .invalid.plugin-var input, #course-form #configure-resources .resource-options .invalid.resource-title input,
+  #course-form #configure-resources .resource-options .invalid.resource-key input, #course-form #configure-resources .resource-options .resource-vars .invalid.resource-var input, #course-form #connection .invalid.field input, #login-form #form div.invalid input {
+    border-color: #a30006;
+    background: #fef5f1;
+    box-shadow: none;
+  }
+  #tw-form-field.invalid .errors, #course-form .course-section .course-fields .invalid.field .errors, #course-form #configure-plugins .plugin-options .plugin-vars .invalid.plugin-var .errors, #course-form #configure-resources .resource-options .invalid.resource-title .errors,
+  #course-form #configure-resources .resource-options .invalid.resource-key .errors, #course-form #configure-resources .resource-options .resource-vars .invalid.resource-var .errors, #course-form #connection .invalid.field .errors, #login-form #form div.invalid .errors {
     max-width: 328px;
     float: right;
     margin-top: 1em;
     text-align: left;
+  }
+
+  #flexi-form-field textarea, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi textarea, #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi textarea,
+  #flexi-form-field input:not([type=submit]):not([type=file]),
+  #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi input:not([type=submit]):not([type=file]),
+  #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi input:not([type=submit]):not([type=file]) {
+    min-width: 228px;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  #flexi-form-field textarea:focus, #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi textarea:focus, #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi textarea:focus,
+  #flexi-form-field input:not([type=submit]):not([type=file]):focus,
+  #course-form #configure-plugins .plugin-options .plugin-vars .plugin-var .flexi input:not([type=submit]):not([type=file]):focus,
+  #course-form #configure-resources .resource-options .resource-vars .resource-var .flexi input:not([type=submit]):not([type=file]):focus {
+    width: 100%;
   }
 
   body {

@@ -38,6 +38,16 @@
     padding-top: 10px;
   }
 
+  .required,
+  &.required {
+    textarea,
+    input:not([type=submit]):not([type=file]) {
+      border-color: $red;
+      background: $whiteRed;
+      box-shadow: none;
+    }
+  }
+
   &.invalid {
     color: $red;
 
@@ -58,4 +68,17 @@
     }
   }
 }
+
+#flexi-form-field {
+  textarea,
+  input:not([type=submit]):not([type=file]) {
+    min-width: 228px;
+    @include transition(all .4s ease-in-out);
+
+    &:focus {
+      width: 100%;
+    }
+  }
+}
+
 

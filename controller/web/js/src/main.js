@@ -10,7 +10,8 @@ require([
   'modules/job',
   'modules/resource',
   'modules/user',
-  'modules/course'
+  'modules/course',
+  'modules/course_add'
 ], function(Ember, DS, $, Handlebars, app) {
   ////
   // Ember Data Store.
@@ -67,6 +68,17 @@ require([
       // this is saved. Workaround is to make sure that the CourseSummaries
       // are loaded here.
       app.CourseSummary.find();
+    },
+
+    model: function() {
+      app.coursesAddModel = app.CoursesAddModel.create();
+      app.coursesAddModel.resetFormBuildInfo();
+      return app.coursesAddModel;
+    },
+
+    setupController: function(controller, model) {
+      this._super.apply(arguments);
+      controller.resetValidation();
     }
   });
 
@@ -82,6 +94,7 @@ require([
   app.CourseUserRoute = Ember.Route.extend({
     setupController: function(controller, model) {
       this._super.apply(arguments);
+
       var userController = this.controllerFor('user');
       userController.set('content', app.User.find(model.id));
       userController.bindResources(model.id);

@@ -118,11 +118,6 @@ class CourseFactory extends Factory {
    * Save a course.
    */
   public function save($course) {
-    $params = $this->data->find('course', array('id' => 1));
-    // This is just temporary until we have better course creation tools.
-    $course['plugins'] = $params['plugins'];
-    $course['resources'] = $params['resources'];
-    $course['resources']['drupal_files']['subdir'] = $course['course_name'];
     return $this->data->insert('course', $course);
   }
 }

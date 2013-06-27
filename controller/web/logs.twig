@@ -33,7 +33,7 @@
           <td class="log-item log-message log-layer-{{entry.layer}}">{{entry.message}}</td>
           <td class="log-item log-params">{{entry.params}}</td>
           <td class="log-item log-commands">{{entry.commands|raw}}</td>
-          <td class="log-item log-result">{{entry.result}}</td>
+          <td class="log-item log-result">{{entry.result|raw}}</td>
           <td class="log-item log-time">{{entry.time}}</td>
         </tr>
       {% endfor %}

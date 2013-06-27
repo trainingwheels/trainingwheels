@@ -12,21 +12,52 @@ class Drupal extends PluginBase {
 
   public function getBundles() {
     return array(
-      'drupal7' => array(
+      array(
+        'key' => 'drupal7',
         'title' => 'Drupal 7',
         'plugins' => array(
-          'MySQL' => array(),
-          'ApacheHTTPD' => array(),
-          'GitFiles' => array(),
-          'PHP' => array(),
-          'Drupal' => array(),
+          array('key' => 'MySQL'),
+          array('key' => 'ApacheHTTPD'),
+          array('key' => 'GitFiles'),
+          array('key' => 'PHP'),
+          array('key' => 'Core'),
+          array('key' => 'Drupal'),
         ),
         'resources' => array(
-          'drupal_files' => array(
+          array(
+            'key' => 'drupal_files',
             'title' => 'Drupal Code',
+            'plugin' => 'GitFiles',
+            'type' => 'GitFilesResource',
           ),
-          'drupal_db' => array(
+          array(
+            'key' => 'drupal_db',
             'title' => 'Drupal Database',
+            'plugin' => 'MySQL',
+            'type' => 'MySQLDatabaseResource',
+          ),
+        ),
+      ),
+      // TODO: Fix / remove this, it's just for testing right now.
+      array(
+        'key' => 'drupal6',
+        'title' => 'Drupal 6',
+        'plugins' => array(
+          array('key' => 'MySQL'),
+          array('key' => 'Core'),
+        ),
+        'resources' => array(
+          array(
+            'key' => 'drupal_files',
+            'title' => 'Drupal 6 Code',
+            'plugin' => 'GitFiles',
+            'type' => 'GitFilesResource',
+          ),
+          array(
+            'key' => 'drupal_db',
+            'title' => 'Drupal 6 Database',
+            'plugin' => 'MySQL',
+            'type' => 'MySQLDatabaseResource',
           ),
         ),
       ),
@@ -35,11 +66,13 @@ class Drupal extends PluginBase {
 
   public function getPluginVars() {
     return array(
-      'settings_path' => array(
-        'val' => 'sites/default/settings.php',
+      array(
+        'key' => 'settings_path',
+        'default' => 'sites/default/settings.php',
       ),
-      'files_path' => array(
-        'val' => 'sites/default/files',
+      array(
+        'key' => 'files_path',
+        'default' => 'sites/default/files',
       )
     );
   }

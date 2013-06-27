@@ -16,6 +16,10 @@ define([
     logged_in: DS.attr('boolean'),
     course_id: DS.attr('number'),
     resource_status: DS.attr('string'),
+
+    needs_resource_creation: function() {
+      return this.get('user_name') === 'instructor' && this.get('resource_status') !== 'resource-ready';
+    },
     is_student: function() {
       return this.get('user_name') !== 'instructor';
     }.property('user_name'),
@@ -37,7 +41,44 @@ define([
     resources: DS.hasMany('App.Resource')
   });
 
-  app.UserSummaryController = Ember.ObjectController.extend();
+  app.UserSummaryController = Ember.ObjectController.extend({
+    promptResourceCreate: function() {
+      var self = this;
+      alertify.confirm(
+        "The instructor's resources have not been created yet. Would you like to create them now?",
+        function createInstructorResources(e) {
+          if (!e) {
+            return;
+          }
+          self.createResources();
+        }
+      );
+    }.observes('needs_resource_creation'),
+
+    createResources: function() {
+      var course = this.controllerFor('course');
+      var job = app.Job.createRecord({
+        course_id: course.get('course_id'),
+        type: 'resource',
+        action: 'resourceCreate',
+        params: JSON.stringify({
+          user_names: [ this.get('user_name') || 'instructor' ],
+          resources: []
+        })
+      });
+      job.store.commit();
+      job.on('didCreate', function(record) {
+        var models = [ course.get('model') ];
+        var promise = app.reloadModels(models);
+        $.when(promise).then(function() {
+          alertify.success('Instructor resources created.');
+        });
+      });
+      job.on('becameError', function(record) {
+        alertify.error("There was an error creating the instructor's resources.");
+      });
+    }
+  });
 
   app.UserSummaryView = Ember.View.extend({
     templateName: 'user-summary'

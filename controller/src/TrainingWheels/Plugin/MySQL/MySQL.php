@@ -11,17 +11,21 @@ class MySQL extends PluginBase {
 
   public function getPluginVars() {
     return array(
-      'mysql_root_password' => array(
-        'val' => NULL,
+      array(
+        'key' => 'mysql_root_password',
+        'default' => NULL,
       ),
-      'mysql_max_allowed_packet' => array(
-        'val' => '128M',
+      array(
+        'key' => 'mysql_max_allowed_packet',
+        'default' => '128M',
       ),
-      'mysql_character_set_server' => array(
-        'val' => 'utf8',
+      array(
+        'key' => 'mysql_character_set_server',
+        'default' => 'utf8',
       ),
-      'mysql_collation_server' => array(
-        'val' => 'utf8_general_ci',
+      array(
+        'key' => 'mysql_collation_server',
+        'default' => 'utf8_general_ci',
       ),
     );
   }

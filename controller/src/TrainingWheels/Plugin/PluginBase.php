@@ -25,6 +25,27 @@ abstract class PluginBase {
       throw new Exception("The plugin type \"$plugin_type\" does not provide resources");
     }
     $class = $classes[$type];
+
+    // Validate that the config is correct for this resource.
+    $default_vars = $class::getResourceVars();
+    foreach ($default_vars as $var) {
+      $key = $var['key'];
+
+      // A value in the database overrides the default.
+      if (isset($config[$key])) {
+        continue;
+      }
+
+      // We don't have anything in the database for this var, check whether this is a mistake.
+      $required = isset($var['required']) ? $var['required'] : FALSE;
+      if ($var['default'] === NULL && $required) {
+        throw new Exception("The resource \"$title\" of type \"$type\" requires a value be set for variable \"$key\" but none was found");
+      }
+
+      // Else we're ok to use the default value.
+      $config[$key] = $var['default'];
+    }
+
     $obj = new $class($env, $data, $title, $user_name, $course_name, $res_id, $config);
     return $obj;
   }
@@ -50,13 +71,14 @@ abstract class PluginBase {
    * override the default config the plugin provides.
    */
   public function set($data) {
-    $this->validateVarsConfig();
-    $vars = $this->getPluginVars();
+    $this->validateDefaultVarsConfig();
+    $defaults = $this->getPluginVars();
     $type = $this->getType();
 
-    if ($vars) {
-      foreach($vars as $key => $var) {
-        $default_value = isset($var['val']) ? $var['val'] : NULL;
+    if (!empty($defaults)) {
+      foreach($defaults as $var) {
+        $key = $var['key'];
+        $default_value = isset($var['default']) ? $var['default'] : NULL;
         $data_value = isset($data[$key]) ? $data[$key] : NULL;
 
         if ($data_value === NULL && $default_value === NULL) {
@@ -74,16 +96,16 @@ abstract class PluginBase {
   }
 
   /**
-   * Validate the plugin's variable config is correctly structured.
+   * Validate the plugin's default variable config is correctly structured.
    */
-  public function validateVarsConfig() {
+  public function validateDefaultVarsConfig() {
     $vars = $this->getPluginVars();
     $type = $this->getType();
 
-    if ($vars) {
-      foreach($vars as $var_name => $settings) {
+    if (!empty($vars)) {
+      foreach($vars as $settings) {
         foreach ($settings as $key => $value) {
-          if (!in_array($key, array('val', 'help', 'hint'))) {
+          if (!in_array($key, array('key', 'default', 'help', 'hint', 'required'))) {
             throw new Exception("The plugin \"$type\" has a variable with unrecognized key \"$key\"");
           }
         }
@@ -114,7 +136,7 @@ abstract class PluginBase {
    * Variable config. Override in subclass if you provide variables.
    */
   public function getPluginVars() {
-    return FALSE;
+    return array();
   }
 
   /**
