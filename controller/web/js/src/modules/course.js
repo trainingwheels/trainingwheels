@@ -192,7 +192,14 @@ define([
     userController: {},
 
     refreshCourse: function() {
-      alertify.success('Refreshing the course');
+      var self = this;
+      self.set('isLoaded', false);
+      var models = [ self.get('model') ];
+      var promise = app.reloadModels(models);
+      $.when(promise).then(function() {
+        self.set('isLoaded', true);
+        alertify.success('Course refreshed.');
+      });
     },
 
     addUser: function() {

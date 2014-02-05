@@ -16,7 +16,7 @@ define(['ember', 'jquery'], function(Ember, $) {
    * Helper function to reload an array of models.
    *
    * @param {array} models
-   *   An array of modesl to be reloaded.
+   *   An array of models to be reloaded.
    * @return {object} a jQuery promise object.
    */
   app.reloadModels = function(models) {
